@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="description" content="ЮртаНеЖди — заказывай еду заранее из любимых заведений. Забирай без очереди или выбирай доставку. Работает в Telegram и MAX." />
+  <meta name="theme-color" content="#fbfaf8" />
+  <title>ЮртаНеЖди — Не жди. Закажи.</title>
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="ЮртаНеЖди — Не жди. Закажи." />
+  <meta property="og:description" content="Заказывай еду заранее, забирай без очереди или выбирай доставку. В Telegram и MAX." />
+  <meta property="og:type" content="website" />
+
+  <!-- Шрифты -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Стили (модульно: токены → база → раскладка → компоненты → секции) -->
+  <link rel="stylesheet" href="assets/css/tokens.css" />
+  <link rel="stylesheet" href="assets/css/base.css?v=bg-calm-4" />
+  <link rel="stylesheet" href="assets/css/layout.css" />
+  <link rel="stylesheet" href="assets/css/components.css?v=story-3" />
+  <link rel="stylesheet" href="assets/css/hero-demo.css?v=fidelity-6" />
+  <link rel="stylesheet" href="assets/css/sections.css?v=story-6" />
+</head>
+<body id="top">
+
+  <!-- Фоновая атмосфера: fire-mesh aurora (декоративно) -->
+  <div class="bg-aurora" aria-hidden="true">
+    <span class="bg-aurora__grain"></span>
+  </div>
+
+  <!-- Общий SVG-градиент огня (используется огненной линией и логотипами) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="fl" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#ff9a3d" /><stop offset="1" stop-color="#e8410a" />
+      </linearGradient>
+      <linearGradient id="fireGrad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#ff9a3d" /><stop offset=".5" stop-color="#ff5a1f" /><stop offset="1" stop-color="#e8410a" />
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <a class="skip-link" href="#story">К основному содержанию</a>
+
+  <!-- ================= HEADER ================= -->
+  <header class="header" id="header">
+    <div class="container header__inner">
+      <a href="#top" class="brand" aria-label="ЮртаНеЖди на главную">
+        <svg class="flame" viewBox="0 0 32 32" aria-hidden="true"><path fill="url(#fl)" d="M16 1s3 5 3 9c0 2-1 3-1 3s4-2 4-6c3 3 5 7 5 11a11 11 0 1 1-22 0c0-5 4-8 4-11 0 2 1 3 2 3 2 0 2-3 2-5 0-2-1-4-1-4z"/></svg>
+        Юрта<b>НеЖди</b>
+      </a>
+      <nav class="nav" aria-label="Основная навигация">
+        <a href="#story">Как это работает</a>
+      </nav>
+      <div class="header__cta">
+        <a href="#final" class="btn btn--ghost">Заведениям</a>
+        <a href="#final" class="btn btn--fire">Открыть сервис
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+      <button class="burger" id="burger" aria-label="Открыть меню"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <!-- Мобильное меню -->
+  <nav class="mmenu" id="mmenu" aria-label="Мобильная навигация">
+    <a href="#story">Как это работает</a>
+    <a href="#final" class="btn btn--fire btn--lg">Открыть сервис</a>
+  </nav>
+
+  <main>
+  <!-- ================= STORY: единственный телефон, sticky от Hero до Директора ================= -->
+  <section class="story" id="story">
+    <div class="story__track" id="storyTrack">
+      <div class="story__stage" id="storyStage">
+
+        <div class="story__copy" id="storyCopy">
+          <div class="story__act-panel is-active" data-act="hero">
+            <span class="eyebrow story__kicker">Mini App для Telegram и MAX</span>
+            <h1 class="story__headline story__headline--hero">
+              <span class="line"><span>НеЖди.</span></span>
+              <span class="line"><span>Закажи.</span></span>
+              <span class="line"><span class="grad-text">Оплати.</span></span>
+              <span class="line"><span class="grad-text">Забери.</span></span>
+            </h1>
+            <div class="story__actions">
+              <a href="#final" class="btn btn--fire btn--lg">Подключить заведение
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+              <a href="#story" class="btn btn--ghost btn--lg">Смотреть демо</a>
+            </div>
+          </div>
+
+          <div class="story__act-panel" data-act="how">
+            <span class="eyebrow story__kicker" id="storyHowKicker">Шаг 1 / 4</span>
+            <h2 class="story__headline story__headline--sm" id="storyHowHeadline">Открыл Telegram / MAX</h2>
+          </div>
+
+          <div class="story__act-panel" data-act="checkout">
+            <h2 class="story__headline story__headline--sm">Оплата сохранённой картой</h2>
+            <span class="story__chip">580 ₽ · Онлайн</span>
+          </div>
+
+          <div class="story__act-panel" data-act="cash">
+            <h2 class="story__headline story__headline--sm">Заказ сразу у кассира</h2>
+          </div>
+
+          <div class="story__act-panel" data-act="kitchen">
+            <h2 class="story__headline story__headline--sm">Повар получает заказ</h2>
+            <span class="story__chip" id="storyKitchenChip">Новый заказ</span>
+          </div>
+
+          <div class="story__act-panel" data-act="director">
+            <h2 class="story__headline story__headline--sm">Директор видит всё в моменте</h2>
+          </div>
+        </div>
+
+        <div class="story__phone-col">
+        <div class="story__aura" aria-hidden="true">
+          <span data-aura-role="guest" class="is-active"></span>
+          <span data-aura-role="cash"></span>
+          <span data-aura-role="cook"></span>
+          <span data-aura-role="director"></span>
+        </div>
+        <div class="phone-wrap">
+          <div class="hero-demo" id="heroDemo" data-role="guest">
+            <div class="hero-phone" id="heroPhone" aria-label="Интерактивная демонстрация ЮртаНеЖди">
+              <div class="hero-phone__hardware" aria-hidden="true">
+                <span class="hero-phone__button hero-phone__button--action"></span>
+                <span class="hero-phone__button hero-phone__button--volume-up"></span>
+                <span class="hero-phone__button hero-phone__button--volume-down"></span>
+                <span class="hero-phone__button hero-phone__button--power"></span>
+              </div>
+
+              <div class="hero-phone__display yj-demo" id="heroPhoneDisplay">
+                <div class="hero-phone__statusbar" aria-hidden="true"><span>9:41</span><span>⌁ ▰</span></div>
+                <div class="hero-phone__island" aria-hidden="true"></div>
+
+                <section class="yj-demo-screen yj-demo-client is-active" data-role-screen="guest" aria-hidden="false">
+                  <header class="yj-client-topbar">
+                    <span class="yj-client-logo" aria-hidden="true">🔥</span>
+                    <span class="yj-client-brand"><small>Еда рядом с вами</small><strong>ЮртаНеЖди</strong></span>
+                    <span class="yj-client-bell" aria-hidden="true">⌁</span>
+                  </header>
+
+                  <div class="yj-guest-stage">
+                    <div class="yj-guest-scene is-active" data-guest-scene="venue">
+                      <div class="yj-client-eyebrow">Заведения рядом</div>
+                      <h3>Куда сегодня?</h3>
+                      <button class="yj-venue-card" type="button" data-demo-advance="menu">
+                        <span class="yj-venue-photo">
+                          <img src="assets/img/generated/venue-shawarma-counter.png" alt="" width="320" height="240" />
+                          <span>Открыто</span>
+                        </span>
+                        <span class="yj-venue-copy">
+                          <strong>Шашлычная №1</strong>
+                          <small>Мангал · Волгоград</small>
+                          <span><b>15 мин</b><i>Самовывоз</i></span>
+                        </span>
+                        <span class="yj-venue-arrow" aria-hidden="true">›</span>
+                      </button>
+                      <div class="yj-nearby-row" aria-hidden="true">
+                        <span>🥙 <b>King Food</b></span>
+                        <span>☕ <b>Тёплый кофе</b></span>
+                      </div>
+                    </div>
+
+                    <div class="yj-guest-scene" data-guest-scene="menu" aria-hidden="true">
+                      <div class="yj-menu-head">
+                        <span><small>Шашлычная №1</small><strong>Меню</strong></span>
+                        <span class="yj-open-chip">Открыто</span>
+                      </div>
+                      <div class="yj-menu-cats" aria-label="Категории меню">
+                        <span class="is-active" data-cat="all">Все</span><span data-cat="shawarma">🌯 Шаурма</span><span data-cat="grill">🔥 Мангал</span>
+                      </div>
+                      <article class="yj-food-card" data-food-card>
+                        <img data-food-img src="assets/img/generated/dish-shawarma.png" alt="Шаурма Классическая" width="220" height="220" />
+                        <div class="yj-food-copy">
+                          <strong data-food-name>Шаурма Классическая</strong>
+                          <small data-food-desc>Курица, овощи, фирменный соус</small>
+                          <b><span data-food-price>500</span> <i>₽</i></b>
+                        </div>
+                        <button type="button" aria-label="Добавить блюдо" data-demo-advance="checkout">+</button>
+                      </article>
+                      <article class="yj-food-card yj-food-card--small" aria-hidden="true">
+                        <span class="yj-food-emoji">🥤</span>
+                        <div class="yj-food-copy"><strong>Лимонад</strong><small>Холодный · 0,5 л</small><b>80 <i>₽</i></b></div>
+                        <span class="yj-food-plus">+</span>
+                      </article>
+                      <button class="yj-cart-bar" type="button" data-demo-advance="checkout">
+                        <span>Корзина · 2 позиции</span><strong>580 ₽</strong>
+                      </button>
+                    </div>
+
+                    <div class="yj-guest-scene" data-guest-scene="checkout" aria-hidden="true">
+                      <div class="yj-checkout-head"><span class="yj-back" aria-hidden="true">‹</span><strong>Оформление заказа</strong></div>
+                      <div class="yj-checkout-label">Способ получения</div>
+                      <div class="yj-methods">
+                        <span class="is-active"><i>✓</i><b>Самовывоз</b><small>К 19:20</small></span>
+                        <span><i></i><b>К столику</b><small>В заведении</small></span>
+                      </div>
+                      <div class="yj-checkout-order">
+                        <div><span>Шаурма Классическая ×1</span><b>500 ₽</b></div>
+                        <div><span>Лимонад ×1</span><b>80 ₽</b></div>
+                      </div>
+                      <div class="yj-payment-row"><span aria-hidden="true">⚡</span><span><b>Онлайн-оплата</b><small>Сохранённым способом</small></span><i>✓</i></div>
+                      <div class="yj-checkout-total"><span>Итого</span><strong>580 ₽</strong></div>
+                      <button class="yj-primary-action" type="button" data-demo-advance="success">Оформить заказ</button>
+                    </div>
+
+                    <div class="yj-guest-scene yj-guest-success" data-guest-scene="success" aria-hidden="true">
+                      <div class="yj-success-check" aria-hidden="true"><span>✓</span></div>
+                      <small>Готово</small>
+                      <h3>Заказ №120<br />оформлен</h3>
+                      <p>Касса уже получила заказ</p>
+                      <div class="yj-order-status">
+                        <span class="is-done"><i>✓</i><b>Заказ создан</b></span>
+                        <em></em>
+                        <span><i>2</i><b>Готовим</b></span>
+                        <em></em>
+                        <span><i>3</i><b>Готов</b></span>
+                      </div>
+                      <div class="yj-success-meta"><span>Самовывоз · к 19:20</span><strong>580 ₽</strong></div>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="yj-demo-screen yj-demo-cashier" data-role-screen="cash" aria-hidden="true">
+                  <header class="yj-staff-topbar">
+                    <span class="yj-staff-logo" aria-hidden="true">🧾</span>
+                    <span class="yj-staff-title"><strong>Касса</strong><small>Марина · <b class="yj-cash-new-count">1 новый</b></small></span>
+                    <span class="yj-staff-alert" aria-hidden="true">1</span>
+                  </header>
+                  <nav class="yj-staff-tabs" aria-label="Фильтры заказов">
+                    <span>Все</span><span class="is-active">Новые</span><span>В работе</span><span>К выдаче</span>
+                  </nav>
+                  <div class="yj-staff-scroll">
+                    <article class="yj-order-card yj-order-card--new" data-cash-card>
+                      <div class="yj-order-head"><strong>№ 120</strong><span class="yj-status yj-status--new" data-cash-status>Новый</span></div>
+                      <small class="yj-created">Создан только что</small>
+                      <div class="yj-order-meta"><span>🏪 Самовывоз</span><b>⏰ К 19:20</b></div>
+                      <div class="yj-cash-items">
+                        <div><span>Шаурма Классическая <b>×1</b></span><strong>500 ₽</strong></div>
+                        <small>+ Фирменный соус</small>
+                        <div><span>Лимонад <b>×1</b></span><strong>80 ₽</strong></div>
+                      </div>
+                      <div class="yj-order-total"><span>Оплачено онлайн</span><strong>580 ₽</strong></div>
+                      <button class="yj-staff-action" type="button" data-cash-action>✓ Принять заказ</button>
+                      <div class="yj-progress-strip" data-cash-progress hidden><span>⏳ Ждём кухню</span><b>00:00</b></div>
+                    </article>
+                  </div>
+                </section>
+
+                <section class="yj-demo-screen yj-demo-kitchen" data-role-screen="cook" aria-hidden="true">
+                  <header class="yj-staff-topbar">
+                    <span class="yj-staff-logo yj-staff-logo--cook" aria-hidden="true">👨‍🍳</span>
+                    <span class="yj-staff-title"><strong>Кухня</strong><small>Алексей · <b data-cook-count>1 в работе</b></small></span>
+                    <span class="yj-staff-alert" aria-hidden="true">1</span>
+                  </header>
+                  <div class="yj-kitchen-label"><span>Очередь кухни</span><b>По времени</b></div>
+                  <div class="yj-staff-scroll">
+                    <article class="yj-order-card yj-order-card--new" data-cook-card>
+                      <div class="yj-order-head"><strong>№ 120</strong><span class="yj-status yj-status--new" data-cook-status>Новый заказ</span></div>
+                      <small class="yj-created">Создан в 19:02</small>
+                      <div class="yj-kitchen-items">
+                        <div><span>Шаурма Классическая</span><b>×1</b></div>
+                        <small>+ Фирменный соус</small>
+                        <small>💬 Без лука</small>
+                        <div><span>Лимонад</span><b>×1</b></div>
+                      </div>
+                      <div class="yj-progress-strip yj-progress-strip--cook" data-cook-progress hidden><span>🔥 Готовится</span><b>00:00</b></div>
+                      <button class="yj-staff-action" type="button" data-cook-action>🔥 Начать готовить</button>
+                    </article>
+                    <div class="yj-ready-toast" data-ready-toast role="status"><span>✓</span><strong>Заказ готов</strong><small>Передан кассиру</small></div>
+                  </div>
+                </section>
+
+                <section class="yj-demo-screen yj-demo-director" data-role-screen="director" aria-hidden="true">
+                  <header class="yj-staff-topbar">
+                    <span class="yj-staff-logo yj-staff-logo--director" aria-hidden="true">📊</span>
+                    <span class="yj-staff-title"><strong>Директор</strong><small>Иван Петрович · Центр</small></span>
+                    <span class="yj-director-avatar" aria-hidden="true">ИП</span>
+                  </header>
+                  <div class="yj-director-scroll">
+                    <div class="yj-revenue-card" data-director-revenue-card>
+                      <small>Выручка сегодня</small>
+                      <strong data-director-revenue>18 420 ₽</strong>
+                      <svg class="yj-revenue-chart" viewBox="0 0 100 34" preserveAspectRatio="none" aria-hidden="true">
+                        <path class="yj-revenue-chart__area" d="M0,29 L14,25 L28,26 L42,19 L56,21 L70,11 L84,13 L100,4 L100,34 L0,34 Z"></path>
+                        <path class="yj-revenue-chart__line" pathLength="100" d="M0,29 L14,25 L28,26 L42,19 L56,21 L70,11 L84,13 L100,4"></path>
+                      </svg>
+                      <span data-director-growth><i>●</i> Смена открыта</span>
+                    </div>
+                    <nav class="yj-director-tabbar" role="tablist" aria-label="Разделы директора">
+                      <button type="button" class="is-active" role="tab" aria-selected="true" data-director-tab="overview">Обзор</button>
+                      <button type="button" role="tab" aria-selected="false" data-director-tab="products">Товары</button>
+                      <button type="button" role="tab" aria-selected="false" data-director-tab="staff">Люди</button>
+                      <button type="button" role="tab" aria-selected="false" data-director-tab="venues">Точки</button>
+                    </nav>
+                    <div class="yj-director-panels">
+                      <div class="yj-director-metrics is-active" data-director-panel="overview">
+                        <span><i>🧾</i><strong data-director-orders>24</strong><small>Заказов</small></span>
+                        <span><i>💳</i><strong data-director-average>767 ₽</strong><small>Средний чек</small></span>
+                        <span><i>🔥</i><strong data-director-tasks>3</strong><small>Активных задач</small></span>
+                        <span><i>🚫</i><strong>1</strong><small>Отменён</small></span>
+                      </div>
+                      <div class="yj-director-list" data-director-panel="products">
+                        <div><span>🌯 Шаурма Классическая</span><b>×12</b></div>
+                        <div><span>🍚 Плов с бараниной</span><b>×8</b></div>
+                        <div><span>🥤 Лимонад</span><b>×15</b></div>
+                      </div>
+                      <div class="yj-director-list" data-director-panel="staff">
+                        <div><span>Марина · Касса</span><b class="is-on">На смене</b></div>
+                        <div><span>Алексей · Кухня</span><b class="is-on">На смене</b></div>
+                        <div><span>Иван Петрович · Директор</span><b>Сейчас здесь</b></div>
+                      </div>
+                      <div class="yj-director-list" data-director-panel="venues">
+                        <div><span>Шашлычная №1</span><b>12 340 ₽</b></div>
+                        <div><span>Тёплый кофе</span><b>4 120 ₽</b></div>
+                        <div><span>King Food</span><b>1 960 ₽</b></div>
+                      </div>
+                    </div>
+                    <div class="yj-director-update" data-director-update>
+                      <span>✓</span><span><strong>Заказ №120 завершён</strong><small>Показатели обновлены</small></span><b>+580 ₽</b>
+                    </div>
+                  </div>
+                </section>
+
+                <div class="yj-demo-live" aria-hidden="true">
+                  <span></span> LIVE
+                </div>
+              </div>
+
+              <span class="hero-phone__shine" aria-hidden="true"></span>
+            </div>
+
+            <div class="hero-demo__controls">
+              <p class="hero-demo__caption" id="heroDemoCaption" aria-live="polite">Гость выбирает заведение</p>
+              <div class="hero-role-switch" role="group" aria-label="Режимы демонстрации системы">
+                <button class="is-active" type="button" aria-pressed="true" data-demo-role="guest">Гость</button>
+                <button type="button" aria-pressed="false" data-demo-role="cash">Касса</button>
+                <button type="button" aria-pressed="false" data-demo-role="cook">Кухня</button>
+                <button type="button" aria-pressed="false" data-demo-role="director">Директор</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="story__dots" id="storyDots" aria-hidden="true">
+          <span data-dot="0" class="is-active"></span>
+          <span data-dot="1"></span>
+          <span data-dot="2"></span>
+          <span data-dot="3"></span>
+          <span data-dot="4"></span>
+          <span data-dot="5"></span>
+        </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ФИНАЛЬНЫЙ CTA ================= -->
+  <section class="final" id="final">
+    <div class="container">
+      <div class="final__panel" data-reveal>
+        <h2>Еда уже<br><span class="grad-text">ждёт тебя</span></h2>
+        <p class="lead">Открой ЮртаНеЖди и оформи первый заказ. Сканируй, заказывай, забирай — без очередей.</p>
+        <div class="final__row">
+          <div class="qr-box" data-qr aria-label="QR-код для заказа">
+            <!-- QR-ПЛЕЙСХОЛДЕР: замени на реальный QR-код сервиса -->
+            <svg viewBox="0 0 100 100" shape-rendering="crispEdges"><rect width="100" height="100" fill="#fff"/><g fill="#171310"><path d="M8 8h24v24H8zM14 14v12h12V14z"/><path d="M17 17h6v6h-6z"/><path d="M68 8h24v24H68zM74 14v12h12V14z"/><path d="M77 17h6v6h-6z"/><path d="M8 68h24v24H8zM14 74v12h12V74z"/><path d="M17 77h6v6h-6z"/><path d="M40 8h6v6h-6zM52 8h6v12h-6zM40 20h12v6H40zM60 14h8v6h-8zM40 32h6v6h-6zM52 26h6v6h-6zM64 32h6v6h-6zM76 40h6v6h-6zM88 44h4v6h-4zM40 44h6v6h-6zM50 40h6v6h-6zM60 44h12v6H60zM8 40h12v6H8zM24 40h8v12h-8zM8 52h6v6H8zM18 52h6v6h-6zM32 52h6v6h-6zM44 52h6v6h-6zM56 52h6v12h-6zM68 52h6v6h-6zM80 52h12v6H80zM40 62h6v6h-6zM50 62h6v6h-6zM68 62h6v12h-6zM82 62h6v6h-6zM40 74h6v6h-6zM50 74h12v6H50zM40 84h6v8h-6zM54 84h6v8h-6zM66 84h6v6h-6zM78 78h6v6h-6zM86 84h6v8h-6zM78 88h6v4h-6z"/></g></svg>
+          </div>
+          <div class="final__actions">
+            <a href="#" class="btn btn--tg btn--lg">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.8 16.6 9.6 20c.4 0 .6-.2.8-.4l1.9-1.8 4 2.9c.7.4 1.3.2 1.5-.7l2.7-12.6c.2-1-.4-1.4-1-1.2L3.3 9.9c-1 .4-1 1-.2 1.2l4.3 1.3 9.9-6.2c.5-.3.9-.1.5.2z"/></svg>
+              Открыть в Telegram
+            </a>
+            <a href="#" class="btn btn--max btn--lg">
+              <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="9" opacity=".25"/><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Zm0 4.2 2.8 4.8L12 16.8 9.2 12 12 7.2Z"/></svg>
+              Открыть в MAX
+            </a>
+          </div>
+        </div>
+        <div class="final__status"><span class="ck">✓</span> Готово к выдаче</div>
+      </div>
+    </div>
+  </section>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <a href="#top" class="brand"><svg class="flame" viewBox="0 0 32 32" aria-hidden="true"><path fill="url(#fl)" d="M16 1s3 5 3 9c0 2-1 3-1 3s4-2 4-6c3 3 5 7 5 11a11 11 0 1 1-22 0c0-5 4-8 4-11 0 2 1 3 2 3 2 0 2-3 2-5 0-2-1-4-1-4z"/></svg>Юрта<b>НеЖди</b></a>
+          <p>Еда из любимых заведений без очередей. Закажи по пути — забери готовым. Работает в Telegram и MAX.</p>
+          <div class="footer__soc">
+            <a href="#" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.8 16.6 9.6 20c.4 0 .6-.2.8-.4l1.9-1.8 4 2.9c.7.4 1.3.2 1.5-.7l2.7-12.6c.2-1-.4-1.4-1-1.2L3.3 9.9c-1 .4-1 1-.2 1.2l4.3 1.3 9.9-6.2c.5-.3.9-.1.5.2z"/></svg></a>
+            <a href="#" aria-label="MAX"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="9" opacity=".3"/><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Zm0 4.2 2.8 4.8L12 16.8 9.2 12 12 7.2Z"/></svg></a>
+          </div>
+        </div>
+        <div class="footer__col"><h5>Сервис</h5><a href="#story">Как это работает</a><a href="#final">Открыть сервис</a></div>
+        <div class="footer__col"><h5>Партнёрам</h5><a href="#final">Заведениям</a><a href="#">Стать курьером</a><a href="#">Сотрудничество</a></div>
+        <div class="footer__col"><h5>Поддержка</h5><a href="#">Помощь</a><a href="#">Пользовательское соглашение</a><a href="#">Политика конфиденциальности</a></div>
+      </div>
+      <div class="footer__bottom">
+        <span>© 2026 ЮртаНеЖди — еда без ожидания</span>
+        <span>Не жди. Закажи.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Мобильная фикс-кнопка -->
+  <div class="mobile-cta" id="mobileCta">
+    <a href="#final" class="btn btn--fire btn--lg">🔥 Заказать сейчас</a>
+  </div>
+
+  <script src="assets/js/hero-demo.js?v=story-3" defer></script>
+  <script src="assets/js/main.js?v=story-3" defer></script>
+</body>
+</html>

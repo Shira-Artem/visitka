@@ -1,0 +1,63 @@
+/* ============================================================
+   components.css — переиспользуемые UI-компоненты
+   Кнопки · QR · смартфон-мокап (корпус/hardware, экраны — hero-demo.css)
+   ============================================================ */
+
+/* ---- Кнопки ---- */
+.btn{display:inline-flex;align-items:center;gap:11px;justify-content:center;padding:16px 28px;border-radius:100px;font-weight:800;font-size:15.5px;transition:transform .3s var(--ease),box-shadow .3s var(--ease),background .3s;white-space:nowrap;position:relative;overflow:hidden}
+.btn svg{width:20px;height:20px;flex-shrink:0}
+.btn--lg{padding:19px 34px;font-size:17px}
+.btn--fire{background:linear-gradient(135deg,var(--fire) 0%,var(--fire-deep) 100%);color:#fff;box-shadow:var(--sh-fire)}
+.btn--fire:hover{transform:translateY(-3px);box-shadow:0 34px 74px -20px rgba(255,90,31,.6)}
+.btn--fire::after{content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);transform:skewX(-20deg);transition:left .6s var(--ease)}
+.btn--fire:hover::after{left:130%}
+.btn--ghost{background:var(--surface);color:var(--ink);border:1px solid var(--border-strong);box-shadow:var(--sh-sm)}
+.btn--ghost:hover{transform:translateY(-3px);border-color:var(--fire);color:var(--fire-deep)}
+.btn--tg{background:var(--tg);color:#fff;box-shadow:0 18px 44px -18px rgba(34,158,217,.55)}
+.btn--tg:hover{transform:translateY(-3px);box-shadow:0 28px 60px -18px rgba(34,158,217,.7)}
+.btn--max{background:var(--max);color:#fff;box-shadow:0 18px 44px -18px rgba(111,92,255,.55)}
+.btn--max:hover{transform:translateY(-3px);box-shadow:0 28px 60px -18px rgba(111,92,255,.7)}
+
+/* ---- QR-код ---- */
+.qr-box{width:118px;height:118px;flex-shrink:0;border-radius:18px;background:var(--surface);padding:11px;position:relative;box-shadow:var(--sh-md);border:1px solid var(--border)}
+.qr-box::before{content:"";position:absolute;inset:-4px;border-radius:22px;border:2px solid var(--fire);animation:qrPulse 2.4s var(--ease) infinite;pointer-events:none}
+.qr-box svg{width:100%;height:100%}
+@keyframes qrPulse{0%{opacity:.85;inset:-4px}70%{opacity:0;inset:-14px}100%{opacity:0;inset:-14px}}
+
+/* ---- Смартфон-мокап: корпус, hardware, слой экрана ----
+   Роли/экраны (yj-demo-*) стилизуются отдельно в hero-demo.css, которое грузится
+   позже и переопределяет часть свойств ниже — здесь остаются только базовые
+   геометрия/позиционирование, которые hero-demo.css не переобъявляет. ---- */
+.phone-wrap{position:relative;display:flex;justify-content:flex-end;align-items:center;min-height:640px;padding:0;perspective:2400px;isolation:isolate;overflow:visible}
+/* Нейтральный "стеклянный" подсвет корпуса — приглушён, чтобы цвет задавала
+   роль-реактивная .story__aura (sections.css) позади, а не фиксированный блик тут. */
+.phone-wrap::before{content:"";position:absolute;left:50%;top:48%;width:min(600px,100%);height:min(610px,105%);transform:translate(-50%,-48%);background:radial-gradient(ellipse at 48% 46%,rgba(255,255,255,.4) 0 20%,rgba(255,255,255,.2) 34%,transparent 68%);filter:blur(28px);opacity:.5;z-index:0;pointer-events:none}
+.phone-wrap::after{content:"";position:absolute;left:56%;bottom:16%;width:min(440px,78%);height:100px;transform:translateX(-44%);background:linear-gradient(90deg,transparent,rgba(255,255,255,.16),rgba(255,255,255,.12),transparent);filter:blur(22px);opacity:.4;z-index:1;pointer-events:none}
+.hero-demo{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;width:min(100%,500px);transform:translateX(clamp(10px,3.2vw,58px))}
+.hero-phone{width:clamp(420px,37vw,480px);max-width:100%;position:relative;z-index:3;transform:translate3d(0,0,0) rotateX(1deg) rotateY(-2.4deg);transform-style:preserve-3d;will-change:transform;animation:heroPhoneIntro .75s var(--ease) .16s both}
+@keyframes heroPhoneIntro{from{opacity:0;transform:translateY(16px) rotateX(1deg) rotateY(-2.4deg)}to{opacity:1;transform:translateY(0) rotateX(1deg) rotateY(-2.4deg)}}
+
+/* Демонстрация ролей: корпус остаётся одним, меняется только содержимое экрана.
+   Геометрия слоя экрана — базовая позиция/размер/скос; opacity/transform-показ
+   переопределяет hero-demo.css (.yj-demo), а не is-showing-screen (не используется). */
+.hero-phone__display{position:absolute;left:28%;top:9.15%;width:41%;height:80.35%;overflow:hidden;border-radius:10% 10% 9% 10% / 4% 4% 3.4% 3.6%;background:#fffdfb;z-index:3;opacity:0;transform:translateY(2.2%) translateZ(12px) scale(.986) skewY(-.7deg);transform-origin:50% 50%;transition:opacity .24s var(--ease),transform .28s var(--ease);pointer-events:none;container-type:inline-size}
+.hero-phone__statusbar{position:absolute;top:3.8cqw;left:7cqw;right:7cqw;display:flex;justify-content:space-between;font-size:4.9cqw;font-weight:900;color:#211b17;z-index:3}
+.hero-phone__island{position:absolute;top:4cqw;left:50%;width:26cqw;height:8.8cqw;transform:translateX(-50%);border-radius:100px;background:#16120f;z-index:3}
+
+.hero-demo__controls{display:flex;flex-direction:column;align-items:center;gap:8px;width:min(100%,390px);margin-top:clamp(-68px,-5vw,-40px);position:relative;z-index:6}
+.hero-demo__caption{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+.hero-demo__caption::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--fire);box-shadow:0 0 10px rgba(255,90,31,.5)}
+.hero-role-switch{display:flex;align-items:center;gap:3px;max-width:100%;padding:4px;border:1px solid rgba(221,211,198,.82);border-radius:100px;background:rgba(255,255,255,.78);box-shadow:0 12px 28px -18px rgba(70,45,24,.28);backdrop-filter:blur(12px)}
+.hero-role-switch button{min-height:34px;padding:0 13px;border-radius:100px;color:var(--ink-3);font-size:11.5px;font-weight:900;line-height:1;white-space:nowrap;transition:background .3s var(--ease),color .3s var(--ease),box-shadow .3s var(--ease),transform .3s var(--ease)}
+.hero-role-switch button:hover{color:var(--fire-deep)}
+.hero-role-switch button.is-active{background:var(--fire-deep);color:#fff;box-shadow:0 8px 18px -12px rgba(232,65,10,.72)}
+.hero-role-switch button:active{transform:scale(.96)}
+
+.hero-demo[data-instant] .hero-phone__display{transition:none!important}
+
+@media (prefers-reduced-motion:reduce){
+  .hero-phone{transform:none!important;will-change:auto}
+  .hero-phone::after{display:none}
+  .phone-wrap::before,.phone-wrap::after{opacity:.55}
+  .hero-phone__display{transition:none}
+}

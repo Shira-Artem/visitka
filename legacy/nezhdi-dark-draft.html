@@ -1,0 +1,987 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="description" content="ЮртаНеЖди — заказывай еду заранее из любимых заведений. Забирай без очереди или выбирай доставку. Работает в Telegram и MAX." />
+<meta name="theme-color" content="#0a0705" />
+<title>ЮртаНеЖди — Не жди. Закажи.</title>
+<style>
+/* ============================================================
+   ЮртаНеЖди — премиальный food-tech лендинг
+   Тёмный премиум · огненно-оранжевый акцент · молочный текст
+   ============================================================ */
+
+/* ---- Токены ---- */
+:root{
+  --bg:#0a0705;
+  --bg-2:#120c08;
+  --graphite:#171310;
+  --choco:#1c130d;
+  --surface:rgba(255,255,255,.04);
+  --surface-2:rgba(255,255,255,.06);
+  --border:rgba(255,255,255,.09);
+  --border-strong:rgba(255,255,255,.16);
+
+  --fire:#ff5a1f;
+  --fire-2:#ff8a3d;
+  --fire-deep:#e8410a;
+  --ember:#ffb347;
+
+  --milk:#f6efe6;
+  --milk-dim:#c9bfb2;
+  --milk-mute:#8c8177;
+
+  --lime:#b6ff3a;
+  --lime-deep:#8fdb15;
+
+  --r-lg:32px;
+  --r-md:22px;
+  --r-sm:14px;
+
+  --shadow-fire:0 30px 90px -30px rgba(255,90,31,.55);
+  --shadow-deep:0 40px 120px -40px rgba(0,0,0,.9);
+
+  --ease:cubic-bezier(.22,1,.36,1);
+  --maxw:1200px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg);
+  color:var(--milk);
+  font-family:'Manrope','Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  line-height:1.5;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  position:relative;
+}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+:focus-visible{outline:2px solid var(--fire);outline-offset:3px;border-radius:4px}
+
+/* ---- Фоновая атмосфера ---- */
+body::before{
+  content:"";position:fixed;inset:0;z-index:-2;
+  background:
+    radial-gradient(60% 40% at 78% 8%, rgba(255,90,31,.16), transparent 60%),
+    radial-gradient(50% 45% at 12% 30%, rgba(232,65,10,.10), transparent 60%),
+    radial-gradient(70% 50% at 50% 110%, rgba(255,138,61,.08), transparent 60%),
+    linear-gradient(180deg,#0a0705 0%,#0d0806 40%,#0a0705 100%);
+}
+body::after{ /* лёгкое зерно */
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.035;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/></filter><rect width='140' height='140' filter='url(%23n)'/></svg>");
+}
+
+/* ---- Огненная линия через весь сайт ---- */
+.fireline{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:visible}
+.fireline svg{width:100%;height:100%}
+.fireline path{
+  fill:none;stroke:url(#fireGrad);stroke-width:2.5;stroke-linecap:round;
+  filter:drop-shadow(0 0 8px rgba(255,90,31,.7));
+}
+
+.container{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 24px;position:relative;z-index:2}
+.section{padding:110px 0;position:relative}
+
+/* ---- Типографика ---- */
+.eyebrow{
+  display:inline-flex;align-items:center;gap:9px;
+  font-size:12.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--fire-2);
+  padding:8px 15px;border-radius:100px;
+  background:rgba(255,90,31,.09);border:1px solid rgba(255,90,31,.22);
+}
+.eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--fire);box-shadow:0 0 10px var(--fire);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
+
+h1,h2,h3{line-height:1.02;letter-spacing:-.02em;font-weight:900}
+.h-display{font-size:clamp(52px,9vw,116px);text-transform:uppercase}
+.section-title{font-size:clamp(34px,5.2vw,64px);text-transform:uppercase;letter-spacing:-.025em}
+.lead{color:var(--milk-dim);font-size:clamp(16px,1.5vw,20px);line-height:1.55;font-weight:500}
+.fire-text{color:var(--fire);position:relative}
+.grad-text{background:linear-gradient(100deg,var(--fire) 0%,var(--fire-2) 55%,var(--ember) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* ---- Кнопки ---- */
+.btn{
+  display:inline-flex;align-items:center;gap:11px;justify-content:center;
+  padding:16px 28px;border-radius:100px;font-weight:800;font-size:15.5px;letter-spacing:.01em;
+  transition:transform .3s var(--ease),box-shadow .3s var(--ease),background .3s;
+  white-space:nowrap;position:relative;overflow:hidden;
+}
+.btn svg,.btn .ic{width:20px;height:20px;flex-shrink:0}
+.btn--fire{background:linear-gradient(135deg,var(--fire) 0%,var(--fire-deep) 100%);color:#fff;box-shadow:var(--shadow-fire)}
+.btn--fire:hover{transform:translateY(-3px);box-shadow:0 40px 90px -25px rgba(255,90,31,.75)}
+.btn--fire::after{content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg);transition:left .6s var(--ease)}
+.btn--fire:hover::after{left:130%}
+.btn--ghost{background:var(--surface-2);color:var(--milk);border:1px solid var(--border-strong);backdrop-filter:blur(8px)}
+.btn--ghost:hover{transform:translateY(-3px);background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.3)}
+.btn--tg{background:#229ED9;color:#fff;box-shadow:0 20px 50px -20px rgba(34,158,217,.6)}
+.btn--tg:hover{transform:translateY(-3px);box-shadow:0 30px 70px -20px rgba(34,158,217,.75)}
+.btn--max{background:#6f5cff;color:#fff;box-shadow:0 20px 50px -20px rgba(111,92,255,.6)}
+.btn--max:hover{transform:translateY(-3px);box-shadow:0 30px 70px -20px rgba(111,92,255,.75)}
+.btn--lg{padding:19px 34px;font-size:17px}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.header{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  transition:background .4s,backdrop-filter .4s,border-color .4s,padding .4s;
+  border-bottom:1px solid transparent;padding:18px 0;
+}
+.header.scrolled{background:rgba(10,7,5,.72);backdrop-filter:blur(18px) saturate(1.4);border-color:var(--border);padding:12px 0}
+.header__inner{display:flex;align-items:center;justify-content:space-between;gap:24px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:900;font-size:20px;letter-spacing:-.02em}
+.brand .flame{width:34px;height:34px;flex-shrink:0;filter:drop-shadow(0 4px 14px rgba(255,90,31,.6))}
+.brand b{color:var(--fire)}
+.nav{display:flex;align-items:center;gap:34px}
+.nav a{font-size:15px;font-weight:600;color:var(--milk-dim);transition:color .25s;position:relative}
+.nav a::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:2px;background:var(--fire);transition:width .3s var(--ease);border-radius:2px}
+.nav a:hover{color:var(--milk)}
+.nav a:hover::after{width:100%}
+.header__cta{display:flex;align-items:center;gap:12px}
+.burger{display:none;flex-direction:column;gap:5px;padding:8px}
+.burger span{width:24px;height:2px;background:var(--milk);border-radius:2px;transition:.3s}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{position:relative;padding:150px 0 90px;min-height:100vh;display:flex;align-items:center}
+.hero__grid{display:grid;grid-template-columns:1.05fr .95fr;gap:50px;align-items:center;width:100%}
+.hero__badge{margin-bottom:26px}
+.hero__title{margin-bottom:24px}
+.hero__title .line{display:block;overflow:hidden}
+.hero__title .line span{display:block;transform:translateY(105%);animation:lineUp .9s var(--ease) forwards}
+.hero__title .line:nth-child(2) span{animation-delay:.14s}
+@keyframes lineUp{to{transform:translateY(0)}}
+.hero__sub{max-width:490px;margin-bottom:34px;opacity:0;animation:fadeIn .8s var(--ease) .5s forwards}
+.hero__actions{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:30px;opacity:0;animation:fadeIn .8s var(--ease) .65s forwards}
+.hero__qr{display:flex;align-items:center;gap:18px;opacity:0;animation:fadeIn .8s var(--ease) .8s forwards}
+@keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
+.qr-box{
+  width:118px;height:118px;flex-shrink:0;border-radius:18px;background:#fff;padding:11px;position:relative;
+  box-shadow:0 20px 50px -20px rgba(0,0,0,.7);
+}
+.qr-box::before{ /* пульс-контур */
+  content:"";position:absolute;inset:-4px;border-radius:22px;border:2px solid var(--fire);
+  animation:qrPulse 2.4s var(--ease) infinite;pointer-events:none;
+}
+@keyframes qrPulse{0%{opacity:.9;inset:-4px}70%{opacity:0;inset:-14px}100%{opacity:0;inset:-14px}}
+.qr-box svg{width:100%;height:100%}
+.qr-cap{font-weight:800;font-size:14px;line-height:1.35;text-transform:uppercase;letter-spacing:.04em}
+.qr-cap small{display:block;color:var(--milk-mute);font-size:12px;font-weight:600;text-transform:none;letter-spacing:0;margin-top:3px}
+
+.hero__stats{display:flex;gap:36px;margin-top:44px;flex-wrap:wrap;opacity:0;animation:fadeIn .8s var(--ease) .95s forwards}
+.stat b{display:block;font-size:30px;font-weight:900;letter-spacing:-.03em}
+.stat span{font-size:13px;color:var(--milk-mute);font-weight:600}
+
+/* Телефон-мокап */
+.phone-wrap{position:relative;display:flex;justify-content:center;perspective:1600px}
+.phone{
+  width:300px;position:relative;z-index:3;
+  animation:phoneRise 1.2s var(--ease) .3s both;
+  will-change:transform;
+}
+@keyframes phoneRise{from{transform:translateY(90px) rotateY(14deg) rotateX(6deg);opacity:0}to{transform:translateY(0) rotateY(-8deg) rotateX(3deg);opacity:1}}
+.phone__frame{
+  border-radius:44px;padding:12px;background:linear-gradient(150deg,#2a2320,#0d0a08);
+  box-shadow:var(--shadow-deep),0 0 0 1.5px rgba(255,255,255,.08),inset 0 0 0 1px rgba(255,255,255,.04);
+  position:relative;
+}
+.phone__notch{position:absolute;top:20px;left:50%;transform:translateX(-50%);width:96px;height:26px;background:#050403;border-radius:0 0 16px 16px;z-index:5}
+.phone__screen{
+  border-radius:34px;overflow:hidden;background:#0d0906;position:relative;
+  aspect-ratio:300/620;
+}
+.scr{position:absolute;inset:0;padding:44px 15px 15px;display:flex;flex-direction:column;background:#0d0906}
+.scr__top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.scr__brand{display:flex;align-items:center;gap:7px;font-weight:800;font-size:14px}
+.scr__brand .fl{width:18px;height:18px}
+.scr__dot{width:8px;height:8px;border-radius:50%;background:var(--lime);box-shadow:0 0 8px var(--lime)}
+.tabs{display:flex;gap:7px;margin-bottom:13px;overflow:hidden}
+.tab{font-size:11px;font-weight:700;padding:6px 12px;border-radius:100px;background:var(--surface);color:var(--milk-dim);white-space:nowrap}
+.tab.on{background:var(--fire);color:#fff}
+.dish{display:flex;align-items:center;gap:11px;padding:9px;border-radius:14px;background:var(--surface);margin-bottom:9px;border:1px solid var(--border)}
+.dish__img{width:46px;height:46px;border-radius:11px;flex-shrink:0;background-size:cover;background-position:center}
+.dish__t{flex:1;min-width:0}
+.dish__t b{font-size:12.5px;font-weight:800;display:block}
+.dish__t span{font-size:10.5px;color:var(--milk-mute)}
+.dish__add{width:26px;height:26px;border-radius:9px;background:var(--fire);color:#fff;font-size:17px;font-weight:700;display:grid;place-items:center;flex-shrink:0}
+.status-card{margin-top:auto;border-radius:18px;padding:15px;text-align:center;background:linear-gradient(160deg,rgba(182,255,58,.14),rgba(182,255,58,.04));border:1px solid rgba(182,255,58,.35)}
+.status-card .ring{width:46px;height:46px;margin:0 auto 8px;border-radius:50%;border:2.5px solid var(--lime);display:grid;place-items:center;box-shadow:0 0 22px rgba(182,255,58,.4);color:var(--lime);font-size:22px;animation:pulse 1.8s infinite}
+.status-card b{display:block;font-size:17px;font-weight:900;color:var(--lime);text-transform:uppercase;letter-spacing:.02em}
+.status-card span{font-size:11px;color:var(--milk-dim)}
+.status-card .grab{margin-top:11px;background:var(--fire);color:#fff;border-radius:12px;padding:10px;font-weight:800;font-size:13px}
+
+/* Плавающие карточки у телефона */
+.float{position:absolute;z-index:4;background:rgba(20,15,11,.86);backdrop-filter:blur(14px);border:1px solid var(--border-strong);border-radius:18px;padding:13px 15px;box-shadow:var(--shadow-deep);animation:floaty 5s ease-in-out infinite}
+.float--order{top:6%;left:-6%;width:190px;animation-delay:.2s}
+.float--status{bottom:14%;right:-8%;width:200px;animation-delay:1.2s}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.float .row{display:flex;align-items:center;justify-content:space-between;font-size:12px;margin-bottom:6px}
+.float .row:last-child{margin-bottom:0}
+.float .lbl{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--milk-mute);font-weight:800;margin-bottom:6px}
+.float b{font-weight:800}
+.chip{font-size:10px;font-weight:800;padding:3px 9px;border-radius:100px}
+.chip--new{background:rgba(255,90,31,.18);color:var(--fire-2)}
+.chip--cook{background:rgba(255,179,71,.18);color:var(--ember)}
+.chip--ready{background:rgba(182,255,58,.16);color:var(--lime)}
+
+/* ============================================================
+   Универсальные reveal
+   ============================================================ */
+[data-reveal]{opacity:0;transform:translateY(38px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+[data-reveal].in{opacity:1;transform:none}
+[data-reveal-delay="1"]{transition-delay:.09s}
+[data-reveal-delay="2"]{transition-delay:.18s}
+[data-reveal-delay="3"]{transition-delay:.27s}
+[data-reveal-delay="4"]{transition-delay:.36s}
+
+.sec-head{max-width:760px;margin-bottom:56px}
+.sec-head .eyebrow{margin-bottom:20px}
+.sec-head p{margin-top:18px}
+
+/* ============================================================
+   КАК ЭТО РАБОТАЕТ — 3 шага
+   ============================================================ */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;position:relative}
+.step{
+  background:linear-gradient(165deg,var(--surface-2),transparent);
+  border:1px solid var(--border);border-radius:var(--r-lg);padding:38px 30px;position:relative;overflow:hidden;
+  transition:transform .4s var(--ease),border-color .4s;
+}
+.step:hover{transform:translateY(-8px);border-color:rgba(255,90,31,.35)}
+.step__num{font-size:64px;font-weight:900;line-height:1;color:transparent;-webkit-text-stroke:1.5px rgba(255,90,31,.5);margin-bottom:22px;letter-spacing:-.04em}
+.step h3{font-size:24px;text-transform:uppercase;margin-bottom:12px;letter-spacing:-.01em}
+.step p{color:var(--milk-dim);font-size:15px}
+.step__glow{position:absolute;top:-40px;right:-40px;width:130px;height:130px;border-radius:50%;background:radial-gradient(circle,rgba(255,90,31,.3),transparent 70%);opacity:0;transition:opacity .4s}
+.step:hover .step__glow{opacity:1}
+.step__ico{width:52px;height:52px;border-radius:15px;background:rgba(255,90,31,.12);border:1px solid rgba(255,90,31,.25);display:grid;place-items:center;margin-bottom:22px;color:var(--fire-2)}
+.step__ico svg{width:26px;height:26px}
+
+/* ============================================================
+   СПОСОБЫ ПОЛУЧЕНИЯ
+   ============================================================ */
+.ways{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.way{
+  border-radius:var(--r-lg);padding:34px;position:relative;overflow:hidden;min-height:340px;
+  background:linear-gradient(170deg,var(--graphite),#0c0806);border:1px solid var(--border);
+  transition:transform .45s var(--ease),border-color .45s;display:flex;flex-direction:column;
+}
+.way:hover{transform:translateY(-10px);border-color:rgba(255,90,31,.4)}
+.way__label{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--fire-2);margin-bottom:14px}
+.way h3{font-size:27px;text-transform:uppercase;margin-bottom:12px}
+.way p{color:var(--milk-dim);font-size:15px;margin-bottom:auto}
+.way__anim{height:130px;margin-top:24px;border-radius:var(--r-md);background:rgba(0,0,0,.35);border:1px solid var(--border);position:relative;overflow:hidden;display:grid;place-items:center}
+
+/* мини-аним: пакет */
+.bag{width:60px;height:66px;position:relative}
+.bag__body{position:absolute;bottom:0;width:60px;height:52px;background:linear-gradient(160deg,var(--fire),var(--fire-deep));border-radius:6px 6px 8px 8px}
+.bag__handle{position:absolute;top:0;left:12px;width:36px;height:26px;border:3px solid var(--ember);border-bottom:none;border-radius:20px 20px 0 0}
+.bag__check{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);color:#fff;font-size:22px}
+.way:hover .bag{animation:bagPop .6s var(--ease)}
+@keyframes bagPop{0%{transform:scale(1)}40%{transform:scale(1.12) rotate(-4deg)}100%{transform:scale(1)}}
+
+/* мини-аним: номер столика */
+.table-num{width:74px;height:80px;border-radius:12px;background:linear-gradient(160deg,#2a201a,#140d09);border:1px solid var(--border-strong);display:grid;place-items:center;position:relative;box-shadow:0 12px 30px -10px rgba(0,0,0,.7)}
+.table-num b{font-size:38px;font-weight:900;color:var(--ember)}
+.table-num::before{content:"СТОЛ";position:absolute;top:8px;font-size:9px;letter-spacing:.2em;color:var(--milk-mute);font-weight:800}
+.way:hover .table-num{animation:floaty 2s ease-in-out infinite}
+
+/* мини-аним: курьер по карте */
+.map-mini{position:absolute;inset:0;background:
+  radial-gradient(circle at 20% 30%,rgba(255,90,31,.08),transparent 40%),
+  repeating-linear-gradient(0deg,transparent 0 22px,rgba(255,255,255,.03) 22px 23px),
+  repeating-linear-gradient(90deg,transparent 0 22px,rgba(255,255,255,.03) 22px 23px)}
+.map-route{position:absolute;top:0;left:0;width:100%;height:100%}
+.map-route path{fill:none;stroke:var(--fire);stroke-width:2.5;stroke-dasharray:6 6;filter:drop-shadow(0 0 5px var(--fire))}
+.courier{position:absolute;font-size:22px;offset-path:path("M 30 100 Q 90 30 160 70 T 260 40");offset-distance:0;animation:ride 3s linear infinite}
+@keyframes ride{to{offset-distance:100%}}
+.pin{position:absolute;right:16px;top:20px;font-size:20px;animation:pulse 1.6s infinite}
+
+/* ============================================================
+   ЗАВЕДЕНИЯ — лента
+   ============================================================ */
+.venues-track{display:flex;gap:22px;overflow-x:auto;padding:8px 24px 30px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.venues-track::-webkit-scrollbar{display:none}
+.venue{
+  flex:0 0 320px;scroll-snap-align:start;border-radius:var(--r-lg);overflow:hidden;
+  background:var(--graphite);border:1px solid var(--border);transition:transform .4s var(--ease),border-color .4s;
+}
+.venue:hover{transform:translateY(-8px);border-color:rgba(255,90,31,.4)}
+.venue__img{height:170px;position:relative;background-size:cover;background-position:center;display:flex;align-items:flex-end;padding:14px}
+.venue__img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,rgba(10,7,5,.85))}
+.venue__logo{position:relative;z-index:2;width:44px;height:44px;border-radius:12px;background:rgba(10,7,5,.7);backdrop-filter:blur(8px);border:1px solid var(--border-strong);display:grid;place-items:center;font-size:22px}
+.venue__body{padding:18px 20px 22px}
+.venue__body h3{font-size:20px;margin-bottom:4px}
+.venue__cui{font-size:13px;color:var(--milk-mute);font-weight:600;margin-bottom:14px}
+.venue__meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.tagx{font-size:11px;font-weight:700;padding:5px 11px;border-radius:100px;background:var(--surface);color:var(--milk-dim);border:1px solid var(--border)}
+.tagx.time{color:var(--ember)}
+.venue__open{width:100%;padding:12px;border-radius:12px;background:var(--surface-2);border:1px solid var(--border-strong);font-weight:800;font-size:14px;transition:.3s;display:flex;align-items:center;justify-content:center;gap:8px}
+.venue__open:hover{background:var(--fire);border-color:var(--fire);color:#fff}
+.venues-hint{display:flex;align-items:center;gap:10px;color:var(--milk-mute);font-size:13px;font-weight:600;margin-top:6px;padding-left:24px}
+
+/* ============================================================
+   ПРИЛОЖЕНИЕ — переключение экранов
+   ============================================================ */
+.app-showcase{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.app-steps-list{display:flex;flex-direction:column;gap:8px}
+.app-step{padding:22px 24px;border-radius:var(--r-md);border:1px solid transparent;transition:.4s var(--ease);cursor:pointer;position:relative}
+.app-step.on{background:var(--surface-2);border-color:var(--border-strong)}
+.app-step__t{display:flex;align-items:center;gap:14px}
+.app-step__n{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-weight:900;font-size:14px;background:var(--surface);color:var(--milk-mute);transition:.4s;flex-shrink:0}
+.app-step.on .app-step__n{background:var(--fire);color:#fff}
+.app-step h3{font-size:19px;font-weight:800}
+.app-step p{color:var(--milk-dim);font-size:14px;margin-top:8px;max-height:0;overflow:hidden;opacity:0;transition:.4s var(--ease);padding-left:48px}
+.app-step.on p{max-height:80px;opacity:1;margin-top:10px}
+.app-phone-stage{display:flex;justify-content:center;position:sticky;top:100px}
+
+/* Экраны приложения */
+.app-scr{position:absolute;inset:0;padding:44px 15px 15px;background:#0d0906;opacity:0;transform:translateY(20px) scale(.98);transition:.5s var(--ease);pointer-events:none;display:flex;flex-direction:column}
+.app-scr.on{opacity:1;transform:none}
+.mini-title{font-weight:800;font-size:14px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.pay-row{display:flex;justify-content:space-between;font-size:12px;padding:9px 0;border-bottom:1px solid var(--border);color:var(--milk-dim)}
+.pay-total{display:flex;justify-content:space-between;font-size:16px;font-weight:900;margin-top:12px}
+.pay-btn{margin-top:auto;background:var(--fire);color:#fff;padding:13px;border-radius:14px;text-align:center;font-weight:800;font-size:14px}
+.track-step{display:flex;gap:12px;align-items:flex-start;margin-bottom:18px;position:relative}
+.track-step__dot{width:20px;height:20px;border-radius:50%;flex-shrink:0;border:2px solid var(--border-strong);display:grid;place-items:center;font-size:11px;z-index:2}
+.track-step.done .track-step__dot{background:var(--lime);border-color:var(--lime);color:#0a0705}
+.track-step.now .track-step__dot{border-color:var(--fire);color:var(--fire);animation:pulse 1.5s infinite}
+.track-step:not(:last-child)::before{content:"";position:absolute;left:9px;top:20px;width:2px;height:calc(100% + 4px);background:var(--border)}
+.track-step.done::before{background:var(--lime)}
+.track-step b{font-size:13px;font-weight:800;display:block}
+.track-step span{font-size:11px;color:var(--milk-mute)}
+
+/* ============================================================
+   ПРЕИМУЩЕСТВА
+   ============================================================ */
+.benefits{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:56px}
+.benefit{padding:26px 22px;border-radius:var(--r-md);background:var(--surface);border:1px solid var(--border);transition:.4s var(--ease)}
+.benefit:hover{transform:translateY(-6px);background:var(--surface-2);border-color:rgba(255,90,31,.3)}
+.benefit__ico{width:44px;height:44px;border-radius:12px;background:rgba(255,90,31,.12);color:var(--fire-2);display:grid;place-items:center;margin-bottom:16px}
+.benefit__ico svg{width:22px;height:22px}
+.benefit b{display:block;font-size:16px;font-weight:800;margin-bottom:6px}
+.benefit span{font-size:13.5px;color:var(--milk-dim)}
+
+/* Сравнение */
+.compare{display:grid;grid-template-columns:1fr auto 1fr;gap:24px;align-items:stretch}
+.compare__col{border-radius:var(--r-lg);padding:34px;border:1px solid var(--border)}
+.compare__col.old{background:rgba(255,255,255,.02)}
+.compare__col.new{background:linear-gradient(165deg,rgba(255,90,31,.14),rgba(255,90,31,.03));border-color:rgba(255,90,31,.35);position:relative}
+.compare__col h4{font-size:14px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:22px;font-weight:800}
+.compare__col.old h4{color:var(--milk-mute)}
+.compare__col.new h4{color:var(--fire-2)}
+.flow{display:flex;flex-direction:column;gap:12px}
+.flow__item{display:flex;align-items:center;gap:12px;font-weight:700;font-size:16px}
+.flow__item .n{width:28px;height:28px;border-radius:8px;background:var(--surface);display:grid;place-items:center;font-size:13px;flex-shrink:0;color:var(--milk-mute)}
+.compare__col.new .flow__item .n{background:var(--fire);color:#fff}
+.flow__item.wait{color:var(--milk-mute)}
+.flow__item.wait .n{animation:pulse 1.5s infinite}
+.compare__vs{display:grid;place-items:center;font-weight:900;font-size:20px;color:var(--milk-mute);align-self:center}
+.compare__col.new .badge-best{position:absolute;top:-13px;right:24px;background:var(--fire);color:#fff;font-size:11px;font-weight:900;padding:6px 14px;border-radius:100px;letter-spacing:.05em;text-transform:uppercase}
+
+/* ============================================================
+   ФИНАЛЬНЫЙ CTA
+   ============================================================ */
+.final{position:relative;padding:120px 0}
+.final__panel{
+  border-radius:40px;padding:70px 50px;text-align:center;position:relative;overflow:hidden;
+  background:linear-gradient(160deg,#1a1009,#0c0806);border:1px solid rgba(255,90,31,.25);
+  box-shadow:var(--shadow-deep);
+}
+.final__panel::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 80% at 50% 120%,rgba(255,90,31,.3),transparent 60%);pointer-events:none}
+.final__panel::after{content:"";position:absolute;top:-30%;left:-10%;width:60%;height:120%;background:radial-gradient(circle,rgba(255,138,61,.14),transparent 60%);animation:floaty 7s ease-in-out infinite;pointer-events:none}
+.final h2{font-size:clamp(40px,6vw,80px);text-transform:uppercase;margin-bottom:20px;position:relative}
+.final .lead{max-width:520px;margin:0 auto 40px;position:relative}
+.final__row{display:flex;flex-wrap:wrap;gap:40px;align-items:center;justify-content:center;position:relative}
+.final__actions{display:flex;flex-direction:column;gap:14px}
+.final .qr-box{width:150px;height:150px}
+.final__status{display:inline-flex;align-items:center;gap:10px;margin-top:34px;padding:12px 22px;border-radius:100px;background:rgba(182,255,58,.1);border:1px solid rgba(182,255,58,.4);font-weight:800;color:var(--lime);position:relative}
+.final__status .ck{width:22px;height:22px;border-radius:50%;background:var(--lime);color:#0a0705;display:grid;place-items:center;font-size:14px}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer{padding:70px 0 130px;border-top:1px solid var(--border);margin-top:40px}
+.footer__grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;margin-bottom:44px}
+.footer__brand p{color:var(--milk-mute);font-size:14px;margin:16px 0 20px;max-width:280px}
+.footer__soc{display:flex;gap:12px}
+.footer__soc a{width:42px;height:42px;border-radius:12px;background:var(--surface);border:1px solid var(--border);display:grid;place-items:center;transition:.3s}
+.footer__soc a:hover{background:var(--fire);border-color:var(--fire);transform:translateY(-3px)}
+.footer__soc svg{width:20px;height:20px}
+.footer__col h5{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--milk-mute);margin-bottom:16px;font-weight:800}
+.footer__col a{display:block;color:var(--milk-dim);font-size:14.5px;padding:6px 0;transition:color .25s}
+.footer__col a:hover{color:var(--fire-2)}
+.footer__bottom{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-top:26px;border-top:1px solid var(--border);color:var(--milk-mute);font-size:13px;flex-wrap:wrap}
+
+/* ============================================================
+   Мобильная фикс-кнопка
+   ============================================================ */
+.mobile-cta{
+  position:fixed;left:16px;right:16px;bottom:16px;z-index:90;display:none;
+  transform:translateY(140%);transition:transform .5s var(--ease);
+}
+.mobile-cta.show{transform:none}
+.mobile-cta .btn{width:100%;box-shadow:0 20px 50px -12px rgba(255,90,31,.6),0 8px 20px rgba(0,0,0,.5)}
+
+/* ============================================================
+   АДАПТИВ
+   ============================================================ */
+@media (max-width:980px){
+  .section{padding:80px 0}
+  .hero{padding:130px 0 70px;min-height:auto}
+  .hero__grid{grid-template-columns:1fr;gap:60px}
+  .phone-wrap{order:-1}
+  .steps,.ways,.benefits{grid-template-columns:1fr 1fr}
+  .app-showcase{grid-template-columns:1fr;gap:40px}
+  .app-phone-stage{position:relative;top:0;order:-1}
+  .compare{grid-template-columns:1fr}
+  .compare__vs{transform:rotate(90deg)}
+  .nav{display:none}
+  .header__cta .btn--ghost{display:none}
+  .burger{display:flex}
+  .footer__grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:620px){
+  .container{padding:0 18px}
+  .steps,.ways,.benefits{grid-template-columns:1fr}
+  .hero__stats{gap:24px}
+  .footer__grid{grid-template-columns:1fr 1fr;gap:28px}
+  .footer__brand{grid-column:1/-1}
+  .final__panel{padding:48px 24px}
+  .float{display:none}
+  .mobile-cta{display:block}
+  .header__cta .btn--fire{display:none}
+  .venue{flex-basis:280px}
+}
+
+/* Мобильное меню */
+.mmenu{position:fixed;inset:0;z-index:99;background:rgba(10,7,5,.97);backdrop-filter:blur(20px);display:flex;flex-direction:column;padding:100px 30px 40px;gap:8px;transform:translateY(-100%);transition:transform .5s var(--ease);visibility:hidden}
+.mmenu.open{transform:none;visibility:visible}
+.mmenu a{font-size:26px;font-weight:800;padding:16px 0;border-bottom:1px solid var(--border)}
+.mmenu .btn{margin-top:24px}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  [data-reveal]{opacity:1;transform:none}
+}
+</style>
+</head>
+<body id="top">
+
+<!-- ================= HEADER ================= -->
+<header class="header" id="header">
+  <div class="container header__inner">
+    <a href="#top" class="brand" aria-label="ЮртаНеЖди на главную">
+      <svg class="flame" viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="fl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffb347"/><stop offset="1" stop-color="#e8410a"/></linearGradient></defs><path fill="url(#fl)" d="M16 1s3 5 3 9c0 2-1 3-1 3s4-2 4-6c3 3 5 7 5 11a11 11 0 1 1-22 0c0-5 4-8 4-11 0 2 1 3 2 3 2 0 2-3 2-5 0-2-1-4-1-4 0 0 1 0 1 0z"/></svg>
+      Юрта<b>НеЖди</b>
+    </a>
+    <nav class="nav" aria-label="Основная навигация">
+      <a href="#how">Как работает</a>
+      <a href="#ways">Получение</a>
+      <a href="#venues">Заведения</a>
+      <a href="#app">Приложение</a>
+      <a href="#why">Преимущества</a>
+    </nav>
+    <div class="header__cta">
+      <a href="#final" class="btn btn--ghost btn--sm">Заведениям</a>
+      <a href="#final" class="btn btn--fire">Открыть сервис
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+    <button class="burger" id="burger" aria-label="Меню"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- Мобильное меню -->
+<div class="mmenu" id="mmenu">
+  <a href="#how">Как работает</a>
+  <a href="#ways">Получение</a>
+  <a href="#venues">Заведения</a>
+  <a href="#app">Приложение</a>
+  <a href="#why">Преимущества</a>
+  <a href="#final" class="btn btn--fire btn--lg">Открыть сервис</a>
+</div>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <!-- Огненная линия проходит через hero -->
+  <div class="fireline" aria-hidden="true">
+    <svg viewBox="0 0 1200 800" preserveAspectRatio="none">
+      <defs><linearGradient id="fireGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb347"/><stop offset=".5" stop-color="#ff5a1f"/><stop offset="1" stop-color="#e8410a"/></linearGradient></defs>
+      <path class="draw" d="M-50 620 C 250 560 220 300 480 320 S 780 520 1000 360 S 1300 120 1300 120"/>
+    </svg>
+  </div>
+  <div class="container">
+    <div class="hero__grid">
+      <div class="hero__col">
+        <span class="eyebrow hero__badge"><span class="dot"></span>Еда без ожидания · Telegram & MAX</span>
+        <h1 class="h-display hero__title">
+          <span class="line"><span>Не жди.</span></span>
+          <span class="line"><span class="grad-text">Закажи.</span></span>
+        </h1>
+        <p class="lead hero__sub">Заказывай еду заранее из любимых заведений, забирай без очереди или выбирай доставку. Оформи по пути — забери готовым.</p>
+        <div class="hero__actions">
+          <a href="#" class="btn btn--tg btn--lg">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.8 16.6 9.6 20c.4 0 .6-.2.8-.4l1.9-1.8 4 2.9c.7.4 1.3.2 1.5-.7l2.7-12.6c.2-1-.4-1.4-1-1.2L3.3 9.9c-1 .4-1 1-.2 1.2l4.3 1.3 9.9-6.2c.5-.3.9-.1.5.2z"/></svg>
+            Открыть в Telegram
+          </a>
+          <a href="#" class="btn btn--max btn--lg">
+            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="9" opacity=".25"/><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Zm0 4.2 2.8 4.8L12 16.8 9.2 12 12 7.2Z"/></svg>
+            Открыть в MAX
+          </a>
+        </div>
+        <div class="hero__qr">
+          <div class="qr-box" aria-label="QR-код для заказа">
+            <!-- QR: замени этот SVG на реальный QR-код сервиса -->
+            <svg viewBox="0 0 100 100" shape-rendering="crispEdges"><rect width="100" height="100" fill="#fff"/><g fill="#0a0705"><path d="M8 8h24v24H8zM14 14v12h12V14z"/><path d="M17 17h6v6h-6z"/><path d="M68 8h24v24H68zM74 14v12h12V14z"/><path d="M77 17h6v6h-6z"/><path d="M8 68h24v24H8zM14 74v12h12V74z"/><path d="M17 77h6v6h-6z"/><path d="M40 8h6v6h-6zM52 8h6v12h-6zM40 20h12v6H40zM60 14h8v6h-8zM40 32h6v6h-6zM52 26h6v6h-6zM64 32h6v6h-6zM76 40h6v6h-6zM88 44h4v6h-4zM40 44h6v6h-6zM50 40h6v6h-6zM60 44h12v6H60zM8 40h12v6H8zM24 40h8v12h-8zM8 52h6v6H8zM18 52h6v6h-6zM32 52h6v6h-6zM44 52h6v6h-6zM56 52h6v12h-6zM68 52h6v6h-6zM80 52h12v6H80zM40 62h6v6h-6zM50 62h6v6h-6zM68 62h6v12h-6zM82 62h6v6h-6zM40 74h6v6h-6zM50 74h12v6H50zM40 84h6v8h-6zM54 84h6v8h-6zM66 84h6v6h-6zM78 78h6v6h-6zM86 84h6v8h-6zM78 88h6v4h-6z"/></g></svg>
+          </div>
+          <div class="qr-cap">Сканируй и заказывай<small>Наведи камеру — откроется сервис</small></div>
+        </div>
+        <div class="hero__stats">
+          <div class="stat"><b>0</b><span>очередей у кассы</span></div>
+          <div class="stat"><b>2</b><span>способа получения</span></div>
+          <div class="stat"><b>2</b><span>платформы: TG + MAX</span></div>
+        </div>
+      </div>
+
+      <!-- Телефон -->
+      <div class="phone-wrap">
+        <div class="phone" id="heroPhone">
+          <div class="phone__frame">
+            <div class="phone__notch"></div>
+            <div class="phone__screen">
+              <div class="scr">
+                <div class="scr__top">
+                  <div class="scr__brand"><svg class="fl flame" viewBox="0 0 32 32" aria-hidden="true"><path fill="url(#fl)" d="M16 1s3 5 3 9c0 2-1 3-1 3s4-2 4-6c3 3 5 7 5 11a11 11 0 1 1-22 0c0-5 4-8 4-11 0 2 1 3 2 3 2 0 2-3 2-5 0-2-1-4-1-4z"/></svg>ЮртаНеЖди</div>
+                  <div class="scr__dot"></div>
+                </div>
+                <div class="tabs">
+                  <span class="tab on">Популярное</span><span class="tab">Сеты</span><span class="tab">Пицца</span><span class="tab">Напитки</span>
+                </div>
+                <div class="dish"><div class="dish__img" style="background:linear-gradient(135deg,#c9772f,#7a3d16)"></div><div class="dish__t"><b>Плов с бараниной</b><span>350 г · 20 мин</span></div><div class="dish__add">+</div></div>
+                <div class="dish"><div class="dish__img" style="background:linear-gradient(135deg,#d9a441,#8a5a1a)"></div><div class="dish__t"><b>Лагман</b><span>350 г · острый</span></div><div class="dish__add">+</div></div>
+                <div class="dish"><div class="dish__img" style="background:linear-gradient(135deg,#e0b04a,#a06a20)"></div><div class="dish__t"><b>Самса с мясом</b><span>2 шт · из тандыра</span></div><div class="dish__add">+</div></div>
+                <div class="status-card">
+                  <div class="ring">✓</div>
+                  <b id="heroStatus">Заказ готов</b>
+                  <span id="heroStatusSub">Можно забирать · #124</span>
+                  <div class="grab">Забрать заказ</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- плавающие карточки -->
+        <div class="float float--order">
+          <div class="lbl">Новый заказ</div>
+          <div class="row"><b style="font-size:20px">#124</b><span class="chip chip--new" id="floatChip">Принят</span></div>
+          <div class="row" style="color:var(--milk-dim)"><span>Плов, Лагман, Чай</span></div>
+        </div>
+        <div class="float float--status">
+          <div class="lbl">Статус заказа</div>
+          <div class="row"><span>#123 · Поке</span><span class="chip chip--ready">Выдан</span></div>
+          <div class="row"><span>#125 · Пицца</span><span class="chip chip--cook">Готовится</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= КАК ЭТО РАБОТАЕТ ================= -->
+<section class="section" id="how">
+  <div class="container">
+    <div class="sec-head" data-reveal>
+      <span class="eyebrow"><span class="dot"></span>Как это работает</span>
+      <h2 class="section-title">3 шага.<br><span class="grad-text">0 очередей.</span></h2>
+      <p class="lead">Весь путь заказа — от сканирования до получения — проходит по одной огненной линии. Ты только выбираешь, когда забрать.</p>
+    </div>
+    <div class="steps">
+      <div class="step" data-reveal data-reveal-delay="1">
+        <div class="step__glow"></div>
+        <div class="step__num">01</div>
+        <div class="step__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3M20 20v.01M17 20h.01M20 17h.01"/></svg></div>
+        <h3>Сканируй</h3>
+        <p>Наведи камеру на QR-код и открой сервис прямо в Telegram или MAX. Ничего скачивать не нужно.</p>
+      </div>
+      <div class="step" data-reveal data-reveal-delay="2">
+        <div class="step__glow"></div>
+        <div class="step__num">02</div>
+        <div class="step__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h2l2.4 12.3a2 2 0 0 0 2 1.7h7.7a2 2 0 0 0 2-1.6L21 8H6"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg></div>
+        <h3>Выбери</h3>
+        <p>Выбери заведение, любимые блюда и удобный способ получения — самовывоз, к столику или доставку.</p>
+      </div>
+      <div class="step" data-reveal data-reveal-delay="3">
+        <div class="step__glow"></div>
+        <div class="step__num">03</div>
+        <div class="step__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Забери</h3>
+        <p>Получи уведомление «Заказ готов» и забери его без очереди — либо дождись курьера у себя.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= СПОСОБЫ ПОЛУЧЕНИЯ ================= -->
+<section class="section" id="ways">
+  <div class="container">
+    <div class="sec-head" data-reveal>
+      <span class="eyebrow"><span class="dot"></span>Способы получения</span>
+      <h2 class="section-title">Забери так,<br>как удобно тебе</h2>
+    </div>
+    <div class="ways">
+      <div class="way" data-reveal data-reveal-delay="1">
+        <div class="way__label">01 · Самовывоз</div>
+        <h3>Забери сам</h3>
+        <p>Закажи по пути и забери готовый заказ без очереди. Мы сообщим, когда всё будет упаковано.</p>
+        <div class="way__anim">
+          <div class="bag"><div class="bag__handle"></div><div class="bag__body"></div><div class="bag__check">✓</div></div>
+        </div>
+      </div>
+      <div class="way" data-reveal data-reveal-delay="2">
+        <div class="way__label">02 · К столику</div>
+        <h3>За стол</h3>
+        <p>Сделай заказ со своего места — мы принесём всё готовым, когда будет готово. Никуда вставать не нужно.</p>
+        <div class="way__anim">
+          <div class="table-num"><b>7</b></div>
+        </div>
+      </div>
+      <div class="way" data-reveal data-reveal-delay="3">
+        <div class="way__label">03 · Доставка</div>
+        <h3>Привезём</h3>
+        <p>Выбери блюда из любимого заведения — курьер привезёт заказ по адресу. Отслеживай путь на карте.</p>
+        <div class="way__anim">
+          <div class="map-mini"></div>
+          <svg class="map-route" viewBox="0 0 290 130" preserveAspectRatio="none"><path d="M 30 100 Q 90 30 160 70 T 260 40"/></svg>
+          <div class="courier">🛵</div>
+          <div class="pin">📍</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ЗАВЕДЕНИЯ ================= -->
+<section class="section" id="venues" style="padding-left:0;padding-right:0">
+  <div class="container">
+    <div class="sec-head" data-reveal>
+      <span class="eyebrow"><span class="dot"></span>Каталог</span>
+      <h2 class="section-title">Любимые заведения<br>в одном месте</h2>
+      <p class="lead">От национальной кухни до кофе и пиццы — заказывай из десятков заведений города через один сервис.</p>
+    </div>
+  </div>
+  <div class="venues-track" id="venuesTrack" data-reveal>
+    <!-- Карточки. Замени фон .venue__img на реальные фото. -->
+    <article class="venue">
+      <div class="venue__img" style="background:linear-gradient(135deg,#8a4b1f,#3a1e0c)"><div class="venue__logo">🔥</div></div>
+      <div class="venue__body"><h3>Юрта</h3><div class="venue__cui">Национальная кухня</div><div class="venue__meta"><span class="tagx time">⏱ 15–20 мин</span><span class="tagx">Самовывоз</span><span class="tagx">Доставка</span></div><button class="venue__open">Открыть меню →</button></div>
+    </article>
+    <article class="venue">
+      <div class="venue__img" style="background:linear-gradient(135deg,#b5732a,#4a2a10)"><div class="venue__logo">🥙</div></div>
+      <div class="venue__body"><h3>Шаурмания</h3><div class="venue__cui">Fast food · Шаурма</div><div class="venue__meta"><span class="tagx time">⏱ 8–12 мин</span><span class="tagx">Самовывоз</span><span class="tagx">К столику</span></div><button class="venue__open">Открыть меню →</button></div>
+    </article>
+    <article class="venue">
+      <div class="venue__img" style="background:linear-gradient(135deg,#7a5230,#3a2413)"><div class="venue__logo">☕</div></div>
+      <div class="venue__body"><h3>Тёплый кофе</h3><div class="venue__cui">Кофейня · Десерты</div><div class="venue__meta"><span class="tagx time">⏱ 5–10 мин</span><span class="tagx">Самовывоз</span><span class="tagx">Доставка</span></div><button class="venue__open">Открыть меню →</button></div>
+    </article>
+    <article class="venue">
+      <div class="venue__img" style="background:linear-gradient(135deg,#a83e1f,#4a1a0c)"><div class="venue__logo">🍕</div></div>
+      <div class="venue__body"><h3>Пицца Пламя</h3><div class="venue__cui">Пиццерия · Италия</div><div class="venue__meta"><span class="tagx time">⏱ 18–25 мин</span><span class="tagx">Доставка</span><span class="tagx">Самовывоз</span></div><button class="venue__open">Открыть меню →</button></div>
+    </article>
+    <article class="venue">
+      <div class="venue__img" style="background:linear-gradient(135deg,#c08a3a,#5a3a15)"><div class="venue__logo">🥐</div></div>
+      <div class="venue__body"><h3>Тандыр&Хлеб</h3><div class="venue__cui">Пекарня · Выпечка</div><div class="venue__meta"><span class="tagx time">⏱ 10–15 мин</span><span class="tagx">Самовывоз</span><span class="tagx">К столику</span></div><button class="venue__open">Открыть меню →</button></div>
+    </article>
+  </div>
+  <div class="venues-hint">← Листай, чтобы увидеть все заведения →</div>
+</section>
+
+<!-- ================= ПРИЛОЖЕНИЕ ================= -->
+<section class="section" id="app">
+  <div class="container">
+    <div class="sec-head" data-reveal>
+      <span class="eyebrow"><span class="dot"></span>Приложение</span>
+      <h2 class="section-title">Весь заказ —<br>в пару касаний</h2>
+    </div>
+    <div class="app-showcase">
+      <div class="app-steps-list" id="appSteps">
+        <div class="app-step on" data-scr="0"><div class="app-step__t"><span class="app-step__n">1</span><h3>Выбери заведение</h3></div><p>Открой каталог, найди любимое место рядом и загляни в меню с фотографиями.</p></div>
+        <div class="app-step" data-scr="1"><div class="app-step__t"><span class="app-step__n">2</span><h3>Собери заказ</h3></div><p>Добавляй блюда, выбирай добавки и количество. Корзина считает всё сама.</p></div>
+        <div class="app-step" data-scr="2"><div class="app-step__t"><span class="app-step__n">3</span><h3>Оплати онлайн</h3></div><p>Плати прямо в приложении сохранённым способом — быстро и без наличных.</p></div>
+        <div class="app-step" data-scr="3"><div class="app-step__t"><span class="app-step__n">4</span><h3>Следи за статусом</h3></div><p>Смотри, как заказ готовится, и получи уведомление «Заказ готов».</p></div>
+      </div>
+      <div class="app-phone-stage">
+        <div class="phone" style="animation:none">
+          <div class="phone__frame">
+            <div class="phone__notch"></div>
+            <div class="phone__screen">
+              <!-- Экран 1 -->
+              <div class="app-scr on" data-scr="0">
+                <div class="mini-title">📍 Заведения рядом</div>
+                <div class="dish"><div class="dish__img" style="background:linear-gradient(135deg,#8a4b1f,#3a1e0c)"></div><div class="dish__t"><b>Юрта</b><span>Нац. кухня · 15 мин</span></div><div class="dish__add">→</div></div>
+                <div class="dish"><div class="dish__img" style="background:linear-gradient(135deg,#b5732a,#4a2a10)"></div><div class="dish__t"><b>Шаурмания</b><span>Fast food · 8 мин</span></div><div class="dish__add">→</div></div>
+                <div class="dish"><div class="dish__img" style="background:linear-gradient(135deg,#7a5230,#3a2413)"></div><div class="dish__t"><b>Тёплый кофе</b><span>Кофейня · 5 мин</span></div><div class="dish__add">→</div></div>
+                <div class="dish"><div class="dish__img" style="background:linear-gradient(135deg,#a83e1f,#4a1a0c)"></div><div class="dish__t"><b>Пицца Пламя</b><span>Пиццерия · 18 мин</span></div><div class="dish__add">→</div></div>
+              </div>
+              <!-- Экран 2 -->
+              <div class="app-scr" data-scr="1">
+                <div class="mini-title">🛒 Корзина</div>
+                <div class="dish"><div class="dish__img" style="background:linear-gradient(135deg,#c9772f,#7a3d16)"></div><div class="dish__t"><b>Плов с бараниной</b><span>×1 · +соус</span></div><div class="dish__add">+</div></div>
+                <div class="dish"><div class="dish__img" style="background:linear-gradient(135deg,#d9a441,#8a5a1a)"></div><div class="dish__t"><b>Лагман</b><span>×1 · острый</span></div><div class="dish__add">+</div></div>
+                <div class="dish"><div class="dish__img" style="background:linear-gradient(135deg,#8a6a3a,#4a3418)"></div><div class="dish__t"><b>Чай чёрный</b><span>×2</span></div><div class="dish__add">+</div></div>
+                <div style="margin-top:auto;padding-top:12px;border-top:1px solid var(--border)"><div class="pay-total"><span>Итого</span><span>4 позиции</span></div><div class="pay-btn">Перейти к оплате</div></div>
+              </div>
+              <!-- Экран 3 -->
+              <div class="app-scr" data-scr="2">
+                <div class="mini-title">💳 Оплата</div>
+                <div class="pay-row"><span>Плов с бараниной</span><span>✓</span></div>
+                <div class="pay-row"><span>Лагман</span><span>✓</span></div>
+                <div class="pay-row"><span>Чай ×2</span><span>✓</span></div>
+                <div class="pay-row"><span>Способ получения</span><span>Самовывоз</span></div>
+                <div style="margin-top:16px;padding:14px;border-radius:14px;background:var(--surface-2);border:1px solid var(--border-strong);display:flex;align-items:center;gap:12px"><span style="font-size:22px">💳</span><div><b style="font-size:13px">Карта •• 6411</b><br><span style="font-size:11px;color:var(--milk-mute)">Сохранённый способ</span></div></div>
+                <div class="pay-btn">Оплатить заказ</div>
+              </div>
+              <!-- Экран 4 -->
+              <div class="app-scr" data-scr="3">
+                <div class="mini-title">📦 Заказ #124</div>
+                <div style="margin-top:8px">
+                  <div class="track-step done"><span class="track-step__dot">✓</span><div><b>Заказ принят</b><span>12:30 · оплачен</span></div></div>
+                  <div class="track-step done"><span class="track-step__dot">✓</span><div><b>Готовится</b><span>повар взял в работу</span></div></div>
+                  <div class="track-step now"><span class="track-step__dot">●</span><div><b>Почти готов</b><span>~3 минуты</span></div></div>
+                  <div class="track-step"><span class="track-step__dot"></span><div><b>Готов к выдаче</b><span>заберите без очереди</span></div></div>
+                </div>
+                <div class="status-card" style="margin-top:16px"><b style="font-size:14px">Скоро будет готово 🔥</b><span>Мы пришлём уведомление</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ПРЕИМУЩЕСТВА ================= -->
+<section class="section" id="why">
+  <div class="container">
+    <div class="sec-head" data-reveal>
+      <span class="eyebrow"><span class="dot"></span>Почему ЮртаНеЖди</span>
+      <h2 class="section-title">Пока другие ждут —<br><span class="grad-text">твой заказ уже готов</span></h2>
+    </div>
+    <div class="benefits">
+      <div class="benefit" data-reveal data-reveal-delay="1"><div class="benefit__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round"/></svg></div><b>Без очереди</b><span>Оформи заранее и не стой у кассы.</span></div>
+      <div class="benefit" data-reveal data-reveal-delay="2"><div class="benefit__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg></div><b>Оплата в приложении</b><span>Плати онлайн сохранённой картой.</span></div>
+      <div class="benefit" data-reveal data-reveal-delay="3"><div class="benefit__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h13v10H3zM16 10h3l2 3v4h-5" stroke-linejoin="round"/><circle cx="7" cy="18" r="1.5"/><circle cx="18" cy="18" r="1.5"/></svg></div><b>Самовывоз и доставка</b><span>Выбирай удобный способ получения.</span></div>
+      <div class="benefit" data-reveal data-reveal-delay="4"><div class="benefit__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><rect x="13" y="13" width="7" height="7" rx="1"/></svg></div><b>Много заведений</b><span>Десятки мест в одном сервисе.</span></div>
+      <div class="benefit" data-reveal data-reveal-delay="1"><div class="benefit__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 3 7v6c0 5 4 8 9 9 5-1 9-4 9-9V7z"/><path d="M9 12l2 2 4-4" stroke-linecap="round"/></svg></div><b>Telegram и MAX</b><span>Работает на двух платформах.</span></div>
+      <div class="benefit" data-reveal data-reveal-delay="2"><div class="benefit__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v6h6M20 20v-6h-6"/><path d="M20 9a8 8 0 0 0-14-3M4 15a8 8 0 0 0 14 3" stroke-linecap="round"/></svg></div><b>Повтор заказа</b><span>Любимое — снова, в один тап.</span></div>
+      <div class="benefit" data-reveal data-reveal-delay="3"><div class="benefit__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 4 14h7l-2 8 9-12h-7z" stroke-linejoin="round"/></svg></div><b>Готово вовремя</b><span>Заказ подгадан к твоему приходу.</span></div>
+      <div class="benefit" data-reveal data-reveal-delay="4"><div class="benefit__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6" stroke-linecap="round"/></svg></div><b>Сохранённый профиль</b><span>Адрес и оплата — под рукой.</span></div>
+    </div>
+
+    <div class="compare" data-reveal>
+      <div class="compare__col old">
+        <h4>Обычный заказ</h4>
+        <div class="flow">
+          <div class="flow__item"><span class="n">1</span>Пришёл в заведение</div>
+          <div class="flow__item"><span class="n">2</span>Выбрал у кассы</div>
+          <div class="flow__item"><span class="n">3</span>Оплатил</div>
+          <div class="flow__item wait"><span class="n">⏳</span>Стоишь и ждёшь…</div>
+        </div>
+      </div>
+      <div class="compare__vs">VS</div>
+      <div class="compare__col new">
+        <span class="badge-best">Быстрее</span>
+        <h4>С ЮртаНеЖди</h4>
+        <div class="flow">
+          <div class="flow__item"><span class="n">1</span>Выбрал по пути</div>
+          <div class="flow__item"><span class="n">2</span>Оплатил в приложении</div>
+          <div class="flow__item"><span class="n">3</span>Пришёл и забрал</div>
+          <div class="flow__item"><span class="n" style="background:var(--lime);color:#0a0705">✓</span>Готово. Ноль ожидания</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ФИНАЛЬНЫЙ CTA ================= -->
+<section class="final" id="final">
+  <div class="container">
+    <div class="final__panel" data-reveal>
+      <h2>Еда уже<br><span class="grad-text">ждёт тебя</span></h2>
+      <p class="lead">Открой ЮртаНеЖди и оформи первый заказ. Сканируй, заказывай, забирай — без очередей.</p>
+      <div class="final__row">
+        <div class="qr-box" aria-label="QR-код для заказа">
+          <!-- QR: замени на реальный QR-код сервиса -->
+          <svg viewBox="0 0 100 100" shape-rendering="crispEdges"><rect width="100" height="100" fill="#fff"/><g fill="#0a0705"><path d="M8 8h24v24H8zM14 14v12h12V14z"/><path d="M17 17h6v6h-6z"/><path d="M68 8h24v24H68zM74 14v12h12V14z"/><path d="M77 17h6v6h-6z"/><path d="M8 68h24v24H8zM14 74v12h12V74z"/><path d="M17 77h6v6h-6z"/><path d="M40 8h6v6h-6zM52 8h6v12h-6zM40 20h12v6H40zM60 14h8v6h-8zM40 32h6v6h-6zM52 26h6v6h-6zM64 32h6v6h-6zM76 40h6v6h-6zM88 44h4v6h-4zM40 44h6v6h-6zM50 40h6v6h-6zM60 44h12v6H60zM8 40h12v6H8zM24 40h8v12h-8zM8 52h6v6H8zM18 52h6v6h-6zM32 52h6v6h-6zM44 52h6v6h-6zM56 52h6v12h-6zM68 52h6v6h-6zM80 52h12v6H80zM40 62h6v6h-6zM50 62h6v6h-6zM68 62h6v12h-6zM82 62h6v6h-6zM40 74h6v6h-6zM50 74h12v6H50zM40 84h6v8h-6zM54 84h6v8h-6zM66 84h6v6h-6zM78 78h6v6h-6zM86 84h6v8h-6zM78 88h6v4h-6z"/></g></svg>
+        </div>
+        <div class="final__actions">
+          <a href="#" class="btn btn--tg btn--lg">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.8 16.6 9.6 20c.4 0 .6-.2.8-.4l1.9-1.8 4 2.9c.7.4 1.3.2 1.5-.7l2.7-12.6c.2-1-.4-1.4-1-1.2L3.3 9.9c-1 .4-1 1-.2 1.2l4.3 1.3 9.9-6.2c.5-.3.9-.1.5.2z"/></svg>
+            Открыть в Telegram
+          </a>
+          <a href="#" class="btn btn--max btn--lg">
+            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="9" opacity=".25"/><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Zm0 4.2 2.8 4.8L12 16.8 9.2 12 12 7.2Z"/></svg>
+            Открыть в MAX
+          </a>
+        </div>
+      </div>
+      <div class="final__status"><span class="ck">✓</span> Готово к выдаче</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <a href="#top" class="brand"><svg class="flame" viewBox="0 0 32 32" aria-hidden="true"><path fill="url(#fl)" d="M16 1s3 5 3 9c0 2-1 3-1 3s4-2 4-6c3 3 5 7 5 11a11 11 0 1 1-22 0c0-5 4-8 4-11 0 2 1 3 2 3 2 0 2-3 2-5 0-2-1-4-1-4z"/></svg>Юрта<b>НеЖди</b></a>
+        <p>Еда из любимых заведений без очередей. Закажи по пути — забери готовым. Работает в Telegram и MAX.</p>
+        <div class="footer__soc">
+          <a href="#" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.8 16.6 9.6 20c.4 0 .6-.2.8-.4l1.9-1.8 4 2.9c.7.4 1.3.2 1.5-.7l2.7-12.6c.2-1-.4-1.4-1-1.2L3.3 9.9c-1 .4-1 1-.2 1.2l4.3 1.3 9.9-6.2c.5-.3.9-.1.5.2z"/></svg></a>
+          <a href="#" aria-label="MAX"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="9" opacity=".3"/><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Zm0 4.2 2.8 4.8L12 16.8 9.2 12 12 7.2Z"/></svg></a>
+        </div>
+      </div>
+      <div class="footer__col"><h5>Сервис</h5><a href="#venues">Каталог заведений</a><a href="#ways">Доставка</a><a href="#how">Как это работает</a><a href="#app">Приложение</a></div>
+      <div class="footer__col"><h5>Партнёрам</h5><a href="#final">Заведениям</a><a href="#">Стать курьером</a><a href="#">Сотрудничество</a></div>
+      <div class="footer__col"><h5>Поддержка</h5><a href="#">Помощь</a><a href="#">Пользовательское соглашение</a><a href="#">Политика конфиденциальности</a></div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 ЮртаНеЖди — еда без ожидания</span>
+      <span>Не жди. Закажи.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Мобильная фикс-кнопка -->
+<div class="mobile-cta" id="mobileCta">
+  <a href="#final" class="btn btn--fire btn--lg">🔥 Заказать сейчас</a>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Header scroll + мобильная кнопка */
+  var header = document.getElementById('header');
+  var mobileCta = document.getElementById('mobileCta');
+  function onScroll(){
+    var y = window.scrollY;
+    header.classList.toggle('scrolled', y > 20);
+    mobileCta.classList.toggle('show', y > 600);
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  /* Бургер-меню */
+  var burger = document.getElementById('burger');
+  var mmenu = document.getElementById('mmenu');
+  burger.addEventListener('click', function(){
+    mmenu.classList.toggle('open');
+    document.body.style.overflow = mmenu.classList.contains('open') ? 'hidden' : '';
+  });
+  mmenu.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){ mmenu.classList.remove('open'); document.body.style.overflow=''; });
+  });
+
+  /* Reveal при скролле */
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {threshold:.12, rootMargin:'0px 0px -8% 0px'});
+    document.querySelectorAll('[data-reveal]').forEach(function(el){ io.observe(el); });
+  } else {
+    document.querySelectorAll('[data-reveal]').forEach(function(el){ el.classList.add('in'); });
+  }
+
+  /* Цепочка статусов заказа в hero-телефоне */
+  if(!reduce){
+    var chain = [
+      {t:'Заказ принят', s:'Оплачен · #124', chip:'Принят', cls:'chip--new'},
+      {t:'Готовится',    s:'Повар взял в работу', chip:'Готовится', cls:'chip--cook'},
+      {t:'Заказ готов',  s:'Можно забирать · #124', chip:'Готов', cls:'chip--ready'}
+    ];
+    var i = 2;
+    var st = document.getElementById('heroStatus');
+    var sub = document.getElementById('heroStatusSub');
+    var fc = document.getElementById('floatChip');
+    setInterval(function(){
+      i = (i+1) % chain.length;
+      var c = chain[i];
+      st.style.opacity = 0; sub.style.opacity = 0;
+      setTimeout(function(){
+        st.textContent = c.t; sub.textContent = c.s;
+        st.style.transition='opacity .4s'; sub.style.transition='opacity .4s';
+        st.style.opacity = 1; sub.style.opacity = 1;
+        fc.textContent = c.chip; fc.className = 'chip ' + c.cls;
+      }, 300);
+    }, 2600);
+  }
+
+  /* Огненная линия — рисование по скроллу */
+  var draw = document.querySelector('.fireline .draw');
+  if(draw){
+    var len = draw.getTotalLength();
+    draw.style.strokeDasharray = len;
+    draw.style.strokeDashoffset = reduce ? 0 : len;
+    if(!reduce){
+      window.addEventListener('scroll', function(){
+        var p = Math.min(1, window.scrollY / (window.innerHeight*0.9));
+        draw.style.strokeDashoffset = len * (1 - p);
+      }, {passive:true});
+      requestAnimationFrame(function(){ draw.style.transition='stroke-dashoffset .3s linear'; });
+    }
+  }
+
+  /* Приложение: переключение экранов по клику и по скроллу */
+  var appSteps = Array.prototype.slice.call(document.querySelectorAll('.app-step'));
+  var appScrs = Array.prototype.slice.call(document.querySelectorAll('.app-scr'));
+  function setApp(n){
+    appSteps.forEach(function(s){ s.classList.toggle('on', +s.dataset.scr === n); });
+    appScrs.forEach(function(s){ s.classList.toggle('on', +s.dataset.scr === n); });
+  }
+  appSteps.forEach(function(s){ s.addEventListener('click', function(){ setApp(+s.dataset.scr); }); });
+
+  /* Автопереключение экранов приложения при нахождении секции в зоне видимости */
+  var appSection = document.getElementById('app');
+  var appIdx = 0, appTimer = null;
+  if('IntersectionObserver' in window && !reduce){
+    var appIo = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          if(!appTimer){ appTimer = setInterval(function(){ appIdx=(appIdx+1)%4; setApp(appIdx); }, 2800); }
+        } else {
+          clearInterval(appTimer); appTimer = null;
+        }
+      });
+    }, {threshold:.35});
+    appIo.observe(appSection);
+  }
+
+  /* Стоп клик — синхронизируем автоплей */
+  appSteps.forEach(function(s){ s.addEventListener('click', function(){ appIdx = +s.dataset.scr; }); });
+
+  /* Лёгкий parallax телефона от курсора (только desktop) */
+  var heroPhone = document.getElementById('heroPhone');
+  if(heroPhone && !reduce && window.matchMedia('(min-width:981px)').matches){
+    document.querySelector('.hero').addEventListener('mousemove', function(e){
+      var r = this.getBoundingClientRect();
+      var x = (e.clientX - r.left)/r.width - .5;
+      var y = (e.clientY - r.top)/r.height - .5;
+      heroPhone.style.transform = 'rotateY(' + (-8 + x*10) + 'deg) rotateX(' + (3 - y*8) + 'deg) translateY(' + (y*-6) + 'px)';
+    });
+    document.querySelector('.hero').addEventListener('mouseleave', function(){
+      heroPhone.style.transform = 'rotateY(-8deg) rotateX(3deg)';
+    });
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+/* ============================================================
+   layout.css — глобальный «хром»: шапка, навигация, футер,
+   мобильное меню, фикс-кнопка заказа
+   ============================================================ */
+
+/* ---- Header ---- */
+.header{position:fixed;top:0;left:0;right:0;z-index:100;transition:.4s;border-bottom:1px solid transparent;padding:18px 0}
+.header.scrolled{background:rgba(251,250,248,.78);backdrop-filter:blur(18px) saturate(1.3);border-color:var(--border);padding:12px 0;box-shadow:0 6px 24px -14px rgba(120,70,30,.14)}
+.header__inner{display:flex;align-items:center;justify-content:space-between;gap:24px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:900;font-size:20px;letter-spacing:-.02em}
+.brand .flame{width:34px;height:34px;flex-shrink:0;filter:drop-shadow(0 4px 12px rgba(255,90,31,.4))}
+.brand b{color:var(--fire-deep)}
+.nav{display:flex;align-items:center;gap:32px}
+.nav a{font-size:15px;font-weight:600;color:var(--ink-2);transition:color .25s;position:relative}
+.nav a::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:2px;background:var(--fire);transition:width .3s var(--ease);border-radius:2px}
+.nav a:hover{color:var(--ink)}
+.nav a:hover::after{width:100%}
+.header__cta{display:flex;align-items:center;gap:12px}
+.burger{display:none;flex-direction:column;gap:5px;padding:8px}
+.burger span{width:24px;height:2px;background:var(--ink);border-radius:2px;transition:.3s}
+
+/* ---- Мобильное меню ---- */
+.mmenu{position:fixed;inset:0;z-index:99;background:rgba(251,250,248,.98);backdrop-filter:blur(20px);display:flex;flex-direction:column;padding:100px 30px 40px;gap:8px;transform:translateY(-100%);transition:transform .5s var(--ease);visibility:hidden}
+.mmenu.open{transform:none;visibility:visible}
+.mmenu a{font-size:26px;font-weight:800;padding:16px 0;border-bottom:1px solid var(--border)}
+.mmenu .btn{margin-top:24px}
+
+/* ---- Footer ---- */
+.footer{padding:70px 0 130px;border-top:1px solid var(--border);margin-top:40px}
+.footer__grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;margin-bottom:44px}
+.footer__brand p{color:var(--ink-3);font-size:14px;margin:16px 0 20px;max-width:280px}
+.footer__soc{display:flex;gap:12px}
+.footer__soc a{width:42px;height:42px;border-radius:12px;background:var(--surface);border:1px solid var(--border);display:grid;place-items:center;transition:.3s;box-shadow:var(--sh-sm)}
+.footer__soc a:hover{background:var(--fire);border-color:var(--fire);color:#fff;transform:translateY(-3px)}
+.footer__soc svg{width:20px;height:20px}
+.footer__col h5{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:16px;font-weight:800}
+.footer__col a{display:block;color:var(--ink-2);font-size:14.5px;padding:6px 0;transition:color .25s}
+.footer__col a:hover{color:var(--fire-deep)}
+.footer__bottom{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-top:26px;border-top:1px solid var(--border);color:var(--ink-3);font-size:13px;flex-wrap:wrap}
+
+/* ---- Мобильная фикс-кнопка ---- */
+.mobile-cta{position:fixed;left:16px;right:16px;bottom:16px;z-index:90;display:none;transform:translateY(140%);transition:transform .5s var(--ease)}
+.mobile-cta.show{transform:none}
+.mobile-cta .btn{width:100%;box-shadow:var(--sh-fire),0 8px 20px rgba(0,0,0,.12)}
