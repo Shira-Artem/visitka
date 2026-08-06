@@ -32,6 +32,9 @@
   --tg:#229ed9;
   --max:#6f5cff;
 
+  /* Шрифты */
+  --font-display:'Unbounded','Manrope',sans-serif;
+
   /* Радиусы */
   --r-lg:30px;
   --r-md:20px;

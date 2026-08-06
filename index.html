@@ -15,20 +15,23 @@
   <!-- Шрифты -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&family=Unbounded:wght@700;800;900&display=swap" rel="stylesheet" />
 
   <!-- Стили (модульно: токены → база → раскладка → компоненты → секции) -->
-  <link rel="stylesheet" href="assets/css/tokens.css" />
-  <link rel="stylesheet" href="assets/css/base.css?v=bg-calm-4" />
+  <link rel="stylesheet" href="assets/css/tokens.css?v=premium-4" />
+  <link rel="stylesheet" href="assets/css/base.css?v=premium-4" />
   <link rel="stylesheet" href="assets/css/layout.css" />
   <link rel="stylesheet" href="assets/css/components.css?v=story-3" />
-  <link rel="stylesheet" href="assets/css/hero-demo.css?v=fidelity-6" />
-  <link rel="stylesheet" href="assets/css/sections.css?v=story-6" />
+  <link rel="stylesheet" href="assets/css/hero-demo.css?v=premium-4" />
+  <link rel="stylesheet" href="assets/css/sections.css?v=premium-4" />
 </head>
 <body id="top">
 
   <!-- Фоновая атмосфера: fire-mesh aurora (декоративно) -->
   <div class="bg-aurora" aria-hidden="true">
+    <span class="bg-aurora__blob bg-aurora__blob--a"></span>
+    <span class="bg-aurora__blob bg-aurora__blob--b"></span>
+    <span class="bg-aurora__blob bg-aurora__blob--c"></span>
     <span class="bg-aurora__grain"></span>
   </div>
 
@@ -78,6 +81,29 @@
     <div class="story__track" id="storyTrack">
       <div class="story__stage" id="storyStage">
 
+        <!-- Декоративные линии-потоки: от текста к телефону, с бегущими световыми импульсами -->
+        <svg class="story__flowlines" viewBox="0 0 1200 800" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="flowLineGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#ff5a1f" stop-opacity="0"/>
+              <stop offset=".5" stop-color="#ff5a1f" stop-opacity=".55"/>
+              <stop offset="1" stop-color="#ff5a1f" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <path id="flowPath1" class="story__flowline" d="M40,230 C300,190 470,320 780,350" />
+          <path id="flowPath2" class="story__flowline" d="M40,400 C290,440 500,370 780,430" />
+          <path id="flowPath3" class="story__flowline" d="M40,560 C270,520 480,590 780,500" />
+          <circle class="story__flowpulse" r="3.4">
+            <animateMotion dur="7s" repeatCount="indefinite"><mpath href="#flowPath1"/></animateMotion>
+          </circle>
+          <circle class="story__flowpulse" r="3.4">
+            <animateMotion dur="8.6s" begin="1.4s" repeatCount="indefinite"><mpath href="#flowPath2"/></animateMotion>
+          </circle>
+          <circle class="story__flowpulse" r="3.4">
+            <animateMotion dur="9.4s" begin="2.6s" repeatCount="indefinite"><mpath href="#flowPath3"/></animateMotion>
+          </circle>
+        </svg>
+
         <div class="story__copy" id="storyCopy">
           <div class="story__act-panel is-active" data-act="hero">
             <span class="eyebrow story__kicker">Mini App для Telegram и MAX</span>
@@ -115,7 +141,11 @@
           </div>
 
           <div class="story__act-panel" data-act="director">
-            <h2 class="story__headline story__headline--sm">Директор видит всё в моменте</h2>
+            <h2 class="story__headline story__headline--director">
+              <span class="line"><span>Директор видит <span class="story__accent">всё</span></span></span>
+              <span class="line"><span>в моменте</span></span>
+            </h2>
+            <p class="story__subline">Выручка, заказы и команда — в реальном времени</p>
           </div>
         </div>
 
@@ -174,25 +204,10 @@
                         <span><small>Шашлычная №1</small><strong>Меню</strong></span>
                         <span class="yj-open-chip">Открыто</span>
                       </div>
-                      <div class="yj-menu-cats" aria-label="Категории меню">
-                        <span class="is-active" data-cat="all">Все</span><span data-cat="shawarma">🌯 Шаурма</span><span data-cat="grill">🔥 Мангал</span>
-                      </div>
-                      <article class="yj-food-card" data-food-card>
-                        <img data-food-img src="assets/img/generated/dish-shawarma.png" alt="Шаурма Классическая" width="220" height="220" />
-                        <div class="yj-food-copy">
-                          <strong data-food-name>Шаурма Классическая</strong>
-                          <small data-food-desc>Курица, овощи, фирменный соус</small>
-                          <b><span data-food-price>500</span> <i>₽</i></b>
-                        </div>
-                        <button type="button" aria-label="Добавить блюдо" data-demo-advance="checkout">+</button>
-                      </article>
-                      <article class="yj-food-card yj-food-card--small" aria-hidden="true">
-                        <span class="yj-food-emoji">🥤</span>
-                        <div class="yj-food-copy"><strong>Лимонад</strong><small>Холодный · 0,5 л</small><b>80 <i>₽</i></b></div>
-                        <span class="yj-food-plus">+</span>
-                      </article>
+                      <div class="yj-menu-cats" data-menu-cats aria-label="Категории меню"></div>
+                      <div class="yj-menu-list" data-menu-list></div>
                       <button class="yj-cart-bar" type="button" data-demo-advance="checkout">
-                        <span>Корзина · 2 позиции</span><strong>580 ₽</strong>
+                        <span data-cart-label>Корзина · 2 позиции</span><strong data-cart-total>580 ₽</strong>
                       </button>
                     </div>
 
@@ -309,9 +324,9 @@
                         <span><i>🚫</i><strong>1</strong><small>Отменён</small></span>
                       </div>
                       <div class="yj-director-list" data-director-panel="products">
-                        <div><span>🌯 Шаурма Классическая</span><b>×12</b></div>
-                        <div><span>🍚 Плов с бараниной</span><b>×8</b></div>
-                        <div><span>🥤 Лимонад</span><b>×15</b></div>
+                        <div style="--pct:80%"><span>🌯 Шаурма Классическая</span><b>×12</b></div>
+                        <div style="--pct:53%"><span>🍚 Плов с бараниной</span><b>×8</b></div>
+                        <div style="--pct:100%"><span>🥤 Лимонад</span><b>×15</b></div>
                       </div>
                       <div class="yj-director-list" data-director-panel="staff">
                         <div><span>Марина · Касса</span><b class="is-on">На смене</b></div>
@@ -319,9 +334,9 @@
                         <div><span>Иван Петрович · Директор</span><b>Сейчас здесь</b></div>
                       </div>
                       <div class="yj-director-list" data-director-panel="venues">
-                        <div><span>Шашлычная №1</span><b>12 340 ₽</b></div>
-                        <div><span>Тёплый кофе</span><b>4 120 ₽</b></div>
-                        <div><span>King Food</span><b>1 960 ₽</b></div>
+                        <div style="--pct:100%"><span>Шашлычная №1</span><b>12 340 ₽</b></div>
+                        <div style="--pct:33%"><span>Тёплый кофе</span><b>4 120 ₽</b></div>
+                        <div style="--pct:16%"><span>King Food</span><b>1 960 ₽</b></div>
                       </div>
                     </div>
                     <div class="yj-director-update" data-director-update>
@@ -421,6 +436,6 @@
   </div>
 
   <script src="assets/js/hero-demo.js?v=story-3" defer></script>
-  <script src="assets/js/main.js?v=story-3" defer></script>
+  <script src="assets/js/main.js?v=premium-4" defer></script>
 </body>
 </html>

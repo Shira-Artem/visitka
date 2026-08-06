@@ -66,17 +66,34 @@
   var directorTabButtons = Array.prototype.slice.call(display.querySelectorAll('[data-director-tab]'));
   var directorPanels = Array.prototype.slice.call(display.querySelectorAll('[data-director-panel]'));
 
-  var catButtons = Array.prototype.slice.call(display.querySelectorAll('.yj-menu-cats [data-cat]'));
-  var foodCard = display.querySelector('[data-food-card]');
-  var foodImg = display.querySelector('[data-food-img]');
-  var foodName = display.querySelector('[data-food-name]');
-  var foodDesc = display.querySelector('[data-food-desc]');
-  var foodPrice = display.querySelector('[data-food-price]');
-  var FOOD_BY_CAT = {
-    all: { img: 'assets/img/generated/dish-shawarma.png', alt: 'Шаурма Классическая', name: 'Шаурма Классическая', desc: 'Курица, овощи, фирменный соус', price: '500' },
-    shawarma: { img: 'assets/img/generated/dish-shawarma.png', alt: 'Шаурма Классическая', name: 'Шаурма Классическая', desc: 'Курица, овощи, фирменный соус', price: '500' },
-    grill: { img: 'assets/img/generated/dish-plov-lamb.png', alt: 'Плов с бараниной', name: 'Плов с бараниной', desc: 'Рис, баранина, морковь, зира', price: '650' }
-  };
+  var menuCatsEl = display.querySelector('[data-menu-cats]');
+  var menuListEl = display.querySelector('[data-menu-list]');
+  var cartBarEl = display.querySelector('.yj-cart-bar');
+  var cartLabelEl = display.querySelector('[data-cart-label]');
+  var cartTotalEl = display.querySelector('[data-cart-total]');
+
+  var MENU_CATEGORIES = [
+    { id: 'all', label: 'Все' },
+    { id: 'shawarma', label: '🌯 Шаурма' },
+    { id: 'grill', label: '🔥 Мангал' },
+    { id: 'soups', label: '🍲 Супы' },
+    { id: 'bakery', label: '🥐 Выпечка' },
+    { id: 'drinks', label: '🥤 Напитки' }
+  ];
+
+  // Только позиции с реальным фото — эмодзи-заглушки на компактном экране
+  // телефона выглядят как недоделка, а не как настоящее меню.
+  var MENU_ITEMS = [
+    { id: 'shawarma-classic', cat: 'shawarma', name: 'Шаурма Классическая', desc: 'Курица, овощи, фирменный соус', price: 500, img: 'assets/img/generated/dish-shawarma.png' },
+    { id: 'grill-plov', cat: 'grill', name: 'Плов с бараниной', desc: 'Рис, баранина, морковь, зира', price: 480, img: 'assets/img/generated/dish-plov-lamb.png' },
+    { id: 'soup-lagman', cat: 'soups', name: 'Лагман', desc: 'Домашняя лапша, говядина, овощи', price: 340, img: 'assets/img/generated/dish-lagman.png' },
+    { id: 'bakery-samsa', cat: 'bakery', name: 'Самса тандырная', desc: 'Слоёное тесто, сочная начинка', price: 200, img: 'assets/img/generated/dish-samsa.png' },
+    { id: 'drink-tea', cat: 'drinks', name: 'Чёрный чай', desc: 'Крепкая заварка · чайник 400 мл', price: 120, img: 'assets/img/generated/dish-black-tea.png' }
+  ];
+
+  var DEFAULT_CART = { 'shawarma-classic': 1 };
+  var cart = {};
+  var currentMenuCat = 'all';
 
   function pop(el) {
     if (!el) return;
@@ -108,27 +125,113 @@
     caption.classList.add('is-changing');
   }
 
-  // Фильтр категорий меню: не показывает/прячет карточки, а подменяет содержимое
-  // единственной карточки-слота — так на компактном экране телефона никогда нет
-  // риска переполнения по высоте, при этом переключение выглядит по-настоящему живым.
-  function setFoodCategory(cat, instant) {
-    var food = FOOD_BY_CAT[cat] || FOOD_BY_CAT.all;
-    catButtons.forEach(function (btn) {
-      btn.classList.toggle('is-active', btn.getAttribute('data-cat') === cat);
-    });
-    if (!foodCard) return;
+  // Меню гостя: настоящий прокручиваемый список блюд, сгруппированный по
+  // категориям (структура данных — по образцу мини-аппа-эталона). Категории
+  // фильтруют список, а корзина считается по реальным позициям и сумме.
+  function cartEntries() {
+    return Object.keys(cart).filter(function (id) { return cart[id] > 0; });
+  }
 
-    function apply() {
-      if (foodImg) { foodImg.src = food.img; foodImg.alt = food.alt; }
-      if (foodName) { foodName.textContent = food.name; }
-      if (foodDesc) { foodDesc.textContent = food.desc; }
-      if (foodPrice) { foodPrice.textContent = food.price; }
-      foodCard.classList.remove('is-swapping');
+  function cartCount() {
+    return cartEntries().reduce(function (sum, id) { return sum + cart[id]; }, 0);
+  }
+
+  function cartTotal() {
+    return cartEntries().reduce(function (sum, id) {
+      var item = MENU_ITEMS.filter(function (candidate) { return candidate.id === id; })[0];
+      return sum + (item ? item.price * cart[id] : 0);
+    }, 0);
+  }
+
+  function positionsLabel(count) {
+    var mod10 = count % 10;
+    var mod100 = count % 100;
+    var word = 'позиций';
+    if (mod100 < 11 || mod100 > 14) {
+      if (mod10 === 1) word = 'позиция';
+      else if (mod10 >= 2 && mod10 <= 4) word = 'позиции';
+    }
+    return count + ' ' + word;
+  }
+
+  function updateCartBar(animate) {
+    if (!cartBarEl) return;
+    if (cartLabelEl) cartLabelEl.textContent = 'Корзина · ' + positionsLabel(cartCount());
+    if (cartTotalEl) cartTotalEl.textContent = formatter.format(cartTotal()) + ' ₽';
+    if (animate) pop(cartBarEl);
+  }
+
+  function renderMenuCats() {
+    if (!menuCatsEl) return;
+    menuCatsEl.innerHTML = MENU_CATEGORIES.map(function (category) {
+      return '<span class="' + (category.id === currentMenuCat ? 'is-active' : '') + '" data-cat="' + category.id + '">' + category.label + '</span>';
+    }).join('');
+  }
+
+  function renderMenuList() {
+    if (!menuListEl) return;
+    var items = MENU_ITEMS.filter(function (item) {
+      return currentMenuCat === 'all' || item.cat === currentMenuCat;
+    });
+
+    menuListEl.innerHTML = items.map(function (item) {
+      var qty = cart[item.id] || 0;
+      var art = item.img
+        ? '<img src="' + item.img + '" alt="' + item.name + '" width="120" height="120" loading="lazy" />'
+        : '<span class="yj-food-emoji">' + item.emoji + '</span>';
+      var badge = qty > 0 ? '<span class="yj-food-qty">' + qty + '</span>' : '';
+
+      return (
+        '<article class="yj-food-card" data-food-id="' + item.id + '">' +
+          art +
+          '<div class="yj-food-copy">' +
+            '<strong>' + item.name + '</strong>' +
+            '<small>' + item.desc + '</small>' +
+            '<b>' + item.price + ' <i>₽</i></b>' +
+          '</div>' +
+          '<button type="button" class="yj-food-add' + (qty > 0 ? ' is-added' : '') + '" aria-label="Добавить ' + item.name + '" data-add="' + item.id + '">' +
+            '<span>+</span>' + badge +
+          '</button>' +
+        '</article>'
+      );
+    }).join('');
+  }
+
+  function resetGuestMenu() {
+    cart = {};
+    Object.keys(DEFAULT_CART).forEach(function (id) { cart[id] = DEFAULT_CART[id]; });
+    currentMenuCat = 'all';
+    renderMenuCats();
+    renderMenuList();
+    updateCartBar(false);
+  }
+
+  function setMenuCategory(cat) {
+    if (cat === currentMenuCat || !menuListEl) return;
+    signalManualInteraction('guest');
+    currentMenuCat = cat;
+    renderMenuCats();
+
+    if (reduceMotion.matches) {
+      renderMenuList();
+      menuListEl.scrollTop = 0;
+      return;
     }
 
-    if (instant || reduceMotion.matches) { apply(); return; }
-    foodCard.classList.add('is-swapping');
-    window.setTimeout(apply, 180);
+    menuListEl.classList.add('is-swapping');
+    window.setTimeout(function () {
+      renderMenuList();
+      menuListEl.scrollTop = 0;
+      menuListEl.classList.remove('is-swapping');
+    }, 140);
+  }
+
+  function addToCart(id) {
+    signalManualInteraction('guest');
+    cart[id] = (cart[id] || 0) + 1;
+    renderMenuList();
+    updateCartBar(true);
+    pop(menuListEl && menuListEl.querySelector('[data-food-id="' + id + '"]'));
   }
 
   // Вкладки директора: переключают, какая из .yj-director-panels видна —
@@ -368,7 +471,7 @@
       resetCash();
       resetCook();
       resetDirector();
-      setFoodCategory('all', true);
+      resetGuestMenu();
       orderStatus = 'draft';
       setGuestScene('venue', Boolean(options.instant));
       queue(function () { setGuestScene('menu'); }, 1350);
@@ -421,7 +524,7 @@
       resetCash();
       resetCook();
       resetDirector();
-      setFoodCategory('all', true);
+      resetGuestMenu();
       var scene = subState || 'venue';
       orderStatus = (scene === 'success') ? 'new' : 'draft';
       setGuestScene(scene, true);
@@ -491,11 +594,21 @@
     scheduleNext('cash', 1900);
   }
 
-  catButtons.forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      setFoodCategory(btn.getAttribute('data-cat'));
+  if (menuCatsEl) {
+    menuCatsEl.addEventListener('click', function (event) {
+      var btn = event.target.closest('[data-cat]');
+      if (!btn) return;
+      setMenuCategory(btn.getAttribute('data-cat'));
     });
-  });
+  }
+
+  if (menuListEl) {
+    menuListEl.addEventListener('click', function (event) {
+      var addBtn = event.target.closest('[data-add]');
+      if (!addBtn) return;
+      addToCart(addBtn.getAttribute('data-add'));
+    });
+  }
 
   directorTabButtons.forEach(function (btn) {
     btn.addEventListener('click', function () {

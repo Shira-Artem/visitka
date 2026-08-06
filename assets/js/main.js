@@ -10,13 +10,83 @@
   /* ---- Шапка при скролле + мобильная фикс-кнопка ---- */
   var header = document.getElementById('header');
   var mobileCta = document.getElementById('mobileCta');
+  var finalSection = document.getElementById('final');
+  var finalInView = false;
+  if (finalSection && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { finalInView = e.isIntersecting; });
+      onScroll();
+    }, { rootMargin: '0px 0px -10% 0px' }).observe(finalSection);
+  }
   function onScroll() {
     var y = window.scrollY;
     header.classList.toggle('scrolled', y > 20);
-    mobileCta.classList.toggle('show', y > 600);
+    // Скрываем плавающую кнопку в блоке #final — там уже есть свои Telegram/MAX-кнопки,
+    // и фикс-кнопка иначе перекрывает их снизу.
+    mobileCta.classList.toggle('show', y > 600 && !finalInView);
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
+
+  /* ============================================================
+     Hero autoplay — пока пользователь не тронул скролл/демо сам,
+     телефон в hero-акте сам крутит гостевой сценарий по кругу
+     (venue → menu → checkout → success → venue…), чтобы механика
+     была видна сразу при заходе на сайт, без необходимости скроллить.
+     Останавливается насовсем при первом реальном уходе скролла из
+     hero-акта (см. drive()/setupMobile() ниже) или любом клике внутри
+     демо/по переключателю ролей — дальше решает либо скролл, либо
+     сам гость. Кнопки "Смотреть демо"/"Как это работает" (href="#story")
+     перезапускают показ с начала. ---- */
+  if (window.YJ_HERO_DEMO && !reduce) {
+    var HERO_AUTOPLAY_SEQ = [['venue', 1600], ['menu', 1700], ['checkout', 1700], ['success', 2300]];
+    var heroAutoplaySeqIndex = 0;
+    var heroAutoplayTimer = null;
+    var heroAutoplayActive = false;
+
+    var heroAutoplayStep = function () {
+      if (!heroAutoplayActive) return;
+      var entry = HERO_AUTOPLAY_SEQ[heroAutoplaySeqIndex];
+      window.YJ_HERO_DEMO.applyState('guest', entry[0]);
+      heroAutoplaySeqIndex = (heroAutoplaySeqIndex + 1) % HERO_AUTOPLAY_SEQ.length;
+      heroAutoplayTimer = window.setTimeout(heroAutoplayStep, entry[1]);
+    };
+
+    var startHeroAutoplay = function () {
+      if (heroAutoplayActive) return;
+      heroAutoplayActive = true;
+      heroAutoplaySeqIndex = 0;
+      heroAutoplayStep();
+    };
+
+    var stopHeroAutoplay = function () {
+      heroAutoplayActive = false;
+      if (heroAutoplayTimer) { window.clearTimeout(heroAutoplayTimer); heroAutoplayTimer = null; }
+    };
+
+    window.YJ_HERO_AUTOPLAY = { start: startHeroAutoplay, stop: stopHeroAutoplay };
+
+    window.addEventListener('yj:manual-role', stopHeroAutoplay);
+    var heroDemoEl = document.getElementById('heroDemo');
+    if (heroDemoEl) heroDemoEl.addEventListener('pointerdown', stopHeroAutoplay, { once: true });
+
+    // Клик может запустить smooth-scroll издалека — по пути скролл-контроллер
+    // проходит через промежуточные акты и тут же остановит автоплей (см. drive()
+    // ниже), поэтому перезапускаем и сразу, и повторно после того, как скролл
+    // реально осядет на hero-акте.
+    document.querySelectorAll('a[href="#story"]').forEach(function (link) {
+      link.addEventListener('click', function () {
+        startHeroAutoplay();
+        if ('onscrollend' in window) {
+          window.addEventListener('scrollend', startHeroAutoplay, { once: true });
+        } else {
+          window.setTimeout(startHeroAutoplay, 700);
+        }
+      });
+    });
+
+    startHeroAutoplay();
+  }
 
   /* ---- Бургер-меню ---- */
   var burger = document.getElementById('burger');
@@ -201,6 +271,7 @@
     // прыжковый скролл никогда не оставляет телефон на полпути.
     function drive(actIndex, subIndex) {
       var act = STORY_ACTS[actIndex];
+      if (act.id !== 'hero' && window.YJ_HERO_AUTOPLAY) window.YJ_HERO_AUTOPLAY.stop();
       var sub = act.states[subIndex];
       applyPanel(actIndex);
 
@@ -307,6 +378,7 @@
           entries.forEach(function (entry) {
             if (!entry.isIntersecting) return;
             var actId = entry.target.getAttribute('data-act');
+            if (actId !== 'hero' && window.YJ_HERO_AUTOPLAY) window.YJ_HERO_AUTOPLAY.stop();
             actPanels.forEach(function (p) { p.classList.toggle('is-active', p === entry.target); });
             applyAura(ACT_ROLE[actId]);
             window.YJ_HERO_DEMO.applyState(ACT_ROLE[actId], MOBILE_ACT_STATE[actId]);

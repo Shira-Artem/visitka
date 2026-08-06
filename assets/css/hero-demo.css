@@ -423,10 +423,16 @@
 
 #heroPhoneDisplay .yj-menu-cats{
   display:flex;
+  flex:0 0 auto;
   gap:1.6cqw;
   margin-bottom:3.1cqw;
-  overflow:hidden;
+  overflow-x:auto;
+  overflow-y:hidden;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
 }
+
+#heroPhoneDisplay .yj-menu-cats::-webkit-scrollbar{display:none}
 
 #heroPhoneDisplay .yj-menu-cats span{
   flex:0 0 auto;
@@ -450,49 +456,62 @@
   color:#fff;
 }
 
-/* Смена блюда по категории — короткий crossfade содержимого карточки */
-#heroPhoneDisplay .yj-food-card[data-food-card]{transition:none}
-#heroPhoneDisplay .yj-food-card[data-food-card] img,
-#heroPhoneDisplay .yj-food-card[data-food-card] .yj-food-copy{
-  transition:opacity 180ms var(--demo-ease-out);
+/* Прокручиваемый список блюд: сам скроллится внутри мокапа телефона,
+   шапка/категории/корзина остаются на местах. Смена категории — короткий
+   crossfade содержимого списка. */
+#heroPhoneDisplay .yj-menu-list{
+  display:flex;
+  flex-direction:column;
+  flex:1;
+  min-height:0;
+  gap:2.3cqw;
+  margin:0 -1.2cqw;
+  padding:0 1.2cqw 2cqw;
+  overflow-y:auto;
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+  transition:opacity 140ms var(--demo-ease-out);
 }
-#heroPhoneDisplay .yj-food-card[data-food-card].is-swapping img,
-#heroPhoneDisplay .yj-food-card[data-food-card].is-swapping .yj-food-copy{
-  opacity:0;
-}
+
+#heroPhoneDisplay .yj-menu-list::-webkit-scrollbar{display:none}
+
+#heroPhoneDisplay .yj-menu-list.is-swapping{opacity:0}
 
 #heroPhoneDisplay .yj-food-card{
   position:relative;
   display:grid;
-  grid-template-columns:24cqw minmax(0,1fr) 9cqw;
-  gap:2.8cqw;
+  flex:0 0 auto;
+  grid-template-columns:19cqw minmax(0,1fr) 9cqw;
+  gap:2.6cqw;
   align-items:center;
-  min-height:28cqw;
-  padding:2.4cqw;
+  min-height:22cqw;
+  padding:2.2cqw;
   border:1px solid rgba(255,255,255,.85);
-  border-radius:5cqw;
+  border-radius:4.6cqw;
   background:rgba(255,255,255,.93);
   box-shadow:0 3.5cqw 10cqw rgba(70,40,12,.075);
 }
 
 #heroPhoneDisplay .yj-food-card>img{
-  width:24cqw;
-  height:24cqw;
-  border-radius:3.7cqw;
+  width:19cqw;
+  height:19cqw;
+  border-radius:3.4cqw;
   object-fit:cover;
 }
 
 #heroPhoneDisplay .yj-food-copy{
   display:grid;
-  gap:1cqw;
+  gap:.9cqw;
   min-width:0;
 }
 
 #heroPhoneDisplay .yj-food-copy strong{
   display:-webkit-box;
   overflow:hidden;
-  font-size:4cqw;
-  line-height:1.12;
+  font-size:3.7cqw;
+  line-height:1.14;
   font-weight:950;
   letter-spacing:-.035em;
   -webkit-box-orient:vertical;
@@ -503,61 +522,74 @@
   display:-webkit-box;
   overflow:hidden;
   color:var(--demo-muted);
-  font-size:2.65cqw;
-  line-height:1.25;
+  font-size:2.5cqw;
+  line-height:1.22;
   font-weight:650;
   -webkit-box-orient:vertical;
   -webkit-line-clamp:2;
 }
 
 #heroPhoneDisplay .yj-food-copy>b{
-  margin-top:.5cqw;
-  font-size:4.3cqw;
+  margin-top:.4cqw;
+  font-size:4cqw;
   font-weight:950;
 }
 
 #heroPhoneDisplay .yj-food-copy b i{
   color:var(--demo-muted);
-  font-size:2.8cqw;
+  font-size:2.6cqw;
   font-style:normal;
 }
 
-#heroPhoneDisplay .yj-food-card>button,
-#heroPhoneDisplay .yj-food-plus{
+#heroPhoneDisplay .yj-food-card>button{
+  position:relative;
   display:grid;
   place-items:center;
-  width:8.8cqw;
-  height:8.8cqw;
+  width:8.4cqw;
+  height:8.4cqw;
   padding:0;
   border:0;
   border-radius:3cqw;
   background:var(--demo-accent);
   color:#fff;
   box-shadow:0 2.2cqw 5cqw rgba(205,92,20,.22);
-  font-size:5.7cqw;
+  font-size:5.4cqw;
   font-weight:900;
   line-height:1;
   cursor:pointer;
-  transition:transform 150ms var(--demo-ease-out);
+  transition:transform 150ms var(--demo-ease-out),background-color 180ms ease;
 }
 
 #heroPhoneDisplay .yj-food-card>button:active{transform:scale(.93)}
 
-#heroPhoneDisplay .yj-food-card--small{
-  grid-template-columns:18cqw minmax(0,1fr) 9cqw;
-  min-height:22cqw;
-  margin-top:2.5cqw;
-  opacity:.8;
+#heroPhoneDisplay .yj-food-card>button.is-added{background:var(--demo-accent-deep)}
+
+#heroPhoneDisplay .yj-food-qty{
+  position:absolute;
+  top:-1.6cqw;
+  right:-1.6cqw;
+  display:grid;
+  place-items:center;
+  min-width:4.6cqw;
+  height:4.6cqw;
+  padding:0 .8cqw;
+  border:1.5px solid #fff;
+  border-radius:100px;
+  background:var(--demo-text);
+  color:#fff;
+  font-size:2.4cqw;
+  font-weight:950;
+  line-height:1;
 }
 
 #heroPhoneDisplay .yj-food-emoji{
   display:grid;
   place-items:center;
-  width:18cqw;
-  height:18cqw;
-  border-radius:3.5cqw;
+  width:19cqw;
+  height:19cqw;
+  border-radius:3.4cqw;
   background:var(--demo-surface-2);
-  font-size:8cqw;
+  font-size:7.4cqw;
 }
 
 #heroPhoneDisplay .yj-cart-bar{
@@ -565,9 +597,10 @@
   align-items:center;
   justify-content:space-between;
   gap:3cqw;
+  flex:0 0 auto;
   width:100%;
   min-height:12cqw;
-  margin-top:auto;
+  margin-top:2.4cqw;
   padding:2.5cqw 3.5cqw;
   border:0;
   border-radius:4cqw;
@@ -581,6 +614,8 @@
 }
 
 #heroPhoneDisplay .yj-cart-bar:active{transform:scale(.98)}
+
+#heroPhoneDisplay .yj-cart-bar.is-pop{animation:yjPop 420ms var(--demo-ease-pop)}
 
 #heroPhoneDisplay .yj-cart-bar strong{
   font-size:4cqw;
@@ -1510,6 +1545,9 @@
 #heroPhoneDisplay .yj-director-list.is-active{display:flex}
 
 #heroPhoneDisplay .yj-director-list div{
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -1522,6 +1560,22 @@
   font-size:3.1cqw;
   font-weight:800;
   color:var(--demo-text);
+}
+
+#heroPhoneDisplay .yj-director-list div>*{position:relative;z-index:1}
+
+/* Товары/точки несут --pct (инлайн-стиль в разметке) — доля от максимума
+   в списке рисуется полосой-подложкой, панель читается как реальная аналитика,
+   а не просто список текста. */
+#heroPhoneDisplay .yj-director-list[data-director-panel="products"] div::before,
+#heroPhoneDisplay .yj-director-list[data-director-panel="venues"] div::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
+  width:var(--pct,0%);
+  background:linear-gradient(90deg,rgba(46,110,91,.14),rgba(67,148,119,.04));
+  border-right:1px solid rgba(46,110,91,.12);
 }
 
 #heroPhoneDisplay .yj-director-list b{
