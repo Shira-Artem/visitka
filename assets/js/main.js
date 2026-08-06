@@ -11,6 +11,7 @@
   var header = document.getElementById('header');
   var mobileCta = document.getElementById('mobileCta');
   var finalSection = document.getElementById('final');
+  var storySection = document.getElementById('story');
   var finalInView = false;
   if (finalSection && 'IntersectionObserver' in window) {
     new IntersectionObserver(function (entries) {
@@ -23,7 +24,8 @@
     header.classList.toggle('scrolled', y > 20);
     // Скрываем плавающую кнопку в блоке #final — там уже есть свои Telegram/MAX-кнопки,
     // и фикс-кнопка иначе перекрывает их снизу.
-    mobileCta.classList.toggle('show', y > 600 && !finalInView);
+    var storyInView = storySection && storySection.getBoundingClientRect().bottom > 0 && storySection.getBoundingClientRect().top < window.innerHeight;
+    mobileCta.classList.toggle('show', y > 600 && !finalInView && !storyInView);
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
@@ -119,15 +121,23 @@
   }
 
   /* ============================================================
-     Способы получения заказа (.way-card): собственный stagger-reveal
-     с прорисовкой иконок + spotlight/3D-tilt по курсору. Отдельно от
-     общего [data-reveal] выше — тут нужна своя хореография (--i
-     задержки на CSS-стороне, --rx/--ry/--mx/--my на pointermove),
-     смешивать с generic-observer нельзя: он бы сбросил transform
-     раньше, чем доиграет entrance-анимация карточки.
+     Способы получения заказа — закреплённая scroll-сцена (~300vh):
+     .ways__track держит общую высоту, .ways__stage — sticky (та же
+     архитектура, что у Story ниже). На каждом шаге прогресса
+     подсвечивается один способ (.is-active + мини-демо), остальные два
+     отходят назад в 3D (.is-receded). В финале сцена возвращает карточки
+     в нейтральное состояние и подставляет в h2/eyebrow фразу «Один сервис.
+     Любой способ получить заказ.». На мобильном/reduced-motion пин
+     отключается (см. sections.css) — карточки просто получают fade-up.
      ============================================================ */
+  var waysTrack = document.getElementById('waysTrack');
+  var waysStage = document.getElementById('waysStage');
   var wayCards = [].slice.call(document.querySelectorAll('[data-way-card]'));
+
   if (wayCards.length) {
+    // Fade-up при появлении в кадре — единственная анимация на мобильном
+    // потоке и мягкий вход перед тем, как на десктопе scroll-контроллер
+    // ниже возьмёт карточки под управление.
     if ('IntersectionObserver' in window) {
       var wayIo = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
@@ -141,29 +151,210 @@
     } else {
       wayCards.forEach(function (card) { card.classList.add('in-view'); });
     }
+  }
 
-    var fineHover = window.matchMedia('(hover: hover) and (pointer: fine)');
-    if (!reduce && fineHover.matches) {
-      wayCards.forEach(function (card) {
-        function onWayMove(e) {
-          var r = card.getBoundingClientRect();
-          var x = (e.clientX - r.left) / r.width;
-          var y = (e.clientY - r.top) / r.height;
-          card.style.setProperty('--mx', (x * 100).toFixed(1) + '%');
-          card.style.setProperty('--my', (y * 100).toFixed(1) + '%');
-          card.style.setProperty('--rx', ((0.5 - y) * 9).toFixed(2) + 'deg');
-          card.style.setProperty('--ry', ((x - 0.5) * 11).toFixed(2) + 'deg');
-        }
-        card.addEventListener('pointermove', function (e) {
-          card.classList.add('is-tracking');
-          onWayMove(e);
-        }, { passive: true });
-        card.addEventListener('pointerleave', function () {
-          card.classList.remove('is-tracking');
-          card.style.removeProperty('--rx');
-          card.style.removeProperty('--ry');
-        });
+  if (waysTrack && waysStage && wayCards.length) {
+    var WAYS_ACTS = [
+      { id: 'intro',    vh: 40 },
+      { id: 'pickup',   vh: 65 },
+      { id: 'delivery', vh: 65 },
+      { id: 'table',    vh: 65 },
+      { id: 'outro',    vh: 65 }
+    ];
+    var WAYS_ACTIVE_INDEX = { intro: -1, pickup: 0, delivery: 1, table: 2, outro: -1 };
+    var WAYS_HEAD_DEFAULT = {
+      eyebrow: 'Как получить заказ',
+      headline: 'Выбирай,<br><span class="grad-text">как удобно</span>',
+      lead: 'Один Mini App — три способа получить заказ. Гость выбирает сам, заведение ведёт все заказы в одной системе.'
+    };
+    var WAYS_HEAD_OUTRO = {
+      eyebrow: 'Один сервис',
+      headline: 'Любой способ<br><span class="grad-text">получить заказ</span>',
+      lead: ''
+    };
+
+    var waysTotalVh = WAYS_ACTS.reduce(function (sum, a) { return sum + a.vh; }, 0);
+    var waysBounds = (function () {
+      var acc = 0;
+      return WAYS_ACTS.map(function (act) {
+        var start = acc / waysTotalVh;
+        acc += act.vh;
+        return { start: start, end: acc / waysTotalVh };
       });
+    })();
+
+    // Своя копия hysteresis-хелпера (идея та же, что у Story controller ниже) —
+    // это две независимые scroll-сцены, тянуть общую зависимость между ними
+    // менее надёжно, чем продублировать 8 строк.
+    function waysPickIndex(rawFloat, lastIndex, count, margin) {
+      var rounded = Math.max(0, Math.min(count - 1, Math.round(rawFloat)));
+      if (rounded === lastIndex) return lastIndex;
+      var forward = rounded > lastIndex;
+      var threshold = lastIndex + (forward ? (1 - margin) : -(1 - margin));
+      var crossed = forward ? rawFloat >= threshold : rawFloat <= threshold;
+      return crossed ? rounded : lastIndex;
+    }
+
+    var wayBlobs = [].slice.call(document.querySelectorAll('[data-way-blob]'));
+    var waySteps = [].slice.call(document.querySelectorAll('[data-way-step]'));
+    var waysProgressEl = document.getElementById('waysProgress');
+    var waysEyebrowEl = document.getElementById('waysEyebrow');
+    var waysHeadlineEl = document.getElementById('waysHeadline');
+    var waysLeadEl = document.getElementById('waysLead');
+
+    function playWayDemo(card) {
+      var demo = card.querySelector('[data-way-demo]');
+      if (!demo) return;
+      demo.classList.remove('is-playing');
+      void demo.offsetWidth;
+      demo.classList.add('is-playing');
+    }
+    function stopWayDemo(card) {
+      var demo = card.querySelector('[data-way-demo]');
+      if (demo) demo.classList.remove('is-playing');
+    }
+
+    function applyWaysAct(actIndex) {
+      var act = WAYS_ACTS[actIndex];
+      var activeIndex = WAYS_ACTIVE_INDEX[act.id];
+      var isOutro = act.id === 'outro';
+
+      wayCards.forEach(function (card, i) {
+        var isActive = i === activeIndex;
+        card.classList.toggle('is-active', isActive);
+        card.classList.toggle('is-receded', activeIndex !== -1 && !isActive);
+        if (isActive) playWayDemo(card); else stopWayDemo(card);
+      });
+
+      wayBlobs.forEach(function (blob, i) {
+        blob.classList.toggle('is-active', i === activeIndex);
+      });
+
+      waySteps.forEach(function (step, i) {
+        step.classList.toggle('is-active', i === activeIndex);
+      });
+      if (waysProgressEl) {
+        var filled = isOutro ? 3 : Math.max(0, activeIndex + 1);
+        waysProgressEl.style.setProperty('--rail-progress', filled / 3);
+        waysProgressEl.classList.toggle('is-complete', isOutro);
+      }
+
+      if (waysEyebrowEl && waysHeadlineEl && waysLeadEl) {
+        var copy = isOutro ? WAYS_HEAD_OUTRO : WAYS_HEAD_DEFAULT;
+        waysEyebrowEl.textContent = copy.eyebrow;
+        waysHeadlineEl.innerHTML = copy.headline;
+        waysLeadEl.textContent = copy.lead;
+      }
+      waysStage.classList.toggle('is-outro', isOutro);
+      if (activeIndex === -1) {
+        waysStage.removeAttribute('data-way-mood');
+      } else {
+        waysStage.setAttribute('data-way-mood', String(activeIndex));
+      }
+    }
+
+    var waysDesktopMQ = window.matchMedia('(min-width:981px)');
+    var waysReduceMQ = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var waysTeardown = null;
+
+    function setupWaysDesktop() {
+      waysTrack.style.height = waysTotalVh + 'svh';
+      var lastActIndex = 0;
+      var ticking = false;
+
+      function computeProgress() {
+        var r = waysTrack.getBoundingClientRect();
+        var scrollable = r.height - window.innerHeight;
+        if (scrollable <= 0) return 0;
+        return Math.max(0, Math.min(1, -r.top / scrollable));
+      }
+
+      function tick() {
+        ticking = false;
+        var progress = computeProgress();
+        var rawAct = WAYS_ACTS.length - 1;
+        for (var i = 0; i < waysBounds.length; i++) {
+          if (progress < waysBounds[i].end || i === waysBounds.length - 1) {
+            var span = waysBounds[i].end - waysBounds[i].start;
+            rawAct = i + (span > 0 ? (progress - waysBounds[i].start) / span : 0);
+            break;
+          }
+        }
+        var actIndex = waysPickIndex(rawAct, lastActIndex, WAYS_ACTS.length, 0.1);
+        // Как у Story-контроллера выше: внутри средних актов держим границу
+        // точной (Math.floor), а не «ближайший акт по округлению» — иначе
+        // rawAct вида 3.6 (61.5% полосы «table») округляется в 4 (outro),
+        // и карточка сцены переключается на середине своей полосы, а не в конце.
+        if (rawAct >= 1 && rawAct < WAYS_ACTS.length - 1) {
+          actIndex = Math.floor(rawAct);
+        }
+        if (actIndex !== lastActIndex) {
+          lastActIndex = actIndex;
+          applyWaysAct(actIndex);
+        }
+      }
+
+      function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(tick);
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      applyWaysAct(0);
+      tick();
+
+      return function cleanup() {
+        window.removeEventListener('scroll', onScroll);
+        waysTrack.style.removeProperty('height');
+      };
+    }
+
+    function setupWaysMobile() {
+      waysTrack.style.removeProperty('height');
+      wayCards.forEach(function (card) {
+        card.classList.remove('is-active', 'is-receded');
+        stopWayDemo(card);
+      });
+      waysStage.classList.remove('is-outro');
+      waysStage.removeAttribute('data-way-mood');
+
+      // Без пина карточки идут обычным потоком — каждая получает .is-active
+      // насовсем, как только на треть попала в кадр, и мини-демо проигрывается
+      // один раз. Раньше здесь демо не включалось вовсе (только fade-up).
+      var io = null;
+      if ('IntersectionObserver' in window) {
+        io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('is-active');
+            playWayDemo(entry.target);
+            io.unobserve(entry.target);
+          });
+        }, { threshold: 0.35, rootMargin: '0px 0px -8% 0px' });
+        wayCards.forEach(function (card) { io.observe(card); });
+      } else {
+        wayCards.forEach(function (card) { card.classList.add('is-active'); playWayDemo(card); });
+      }
+
+      return function cleanup() {
+        if (io) io.disconnect();
+      };
+    }
+
+    function setupWays() {
+      if (waysTeardown) waysTeardown();
+      waysTeardown = (!waysDesktopMQ.matches || waysReduceMQ.matches) ? setupWaysMobile() : setupWaysDesktop();
+    }
+
+    setupWays();
+
+    if (waysDesktopMQ.addEventListener) {
+      waysDesktopMQ.addEventListener('change', setupWays);
+      waysReduceMQ.addEventListener('change', setupWays);
+    } else {
+      waysDesktopMQ.addListener(setupWays);
+      waysReduceMQ.addListener(setupWays);
     }
   }
 
@@ -255,7 +446,10 @@
       { id: 'director', vh: 75,  states: ['default'] }
     ];
     var ACT_ROLE = { hero: 'guest', how: 'guest', checkout: 'guest', cash: 'cash', kitchen: 'cook', director: 'director' };
-    var MOBILE_ACT_STATE = { hero: 'venue', how: 'success', checkout: 'checkout', cash: 'accepted', kitchen: 'ready', director: 'default' };
+    // Mobile follows the same narrative in scroll order: the link opens the
+    // venue screen, then every new card advances the single live phone by one
+    // understandable product step.
+    var MOBILE_ACT_STATE = { hero: 'venue', how: 'menu', checkout: 'checkout', cash: 'accepted', kitchen: 'ready', director: 'default' };
     var HOW_COPY = {
       venue: { kicker: 'Шаг 1 / 4', headline: 'Открыл Telegram / MAX' },
       menu: { kicker: 'Шаг 2 / 4', headline: 'Выбрал блюда' },
@@ -495,7 +689,21 @@
             if (!entry.isIntersecting) return;
             var actId = entry.target.getAttribute('data-act');
             if (actId !== 'hero' && window.YJ_HERO_AUTOPLAY) window.YJ_HERO_AUTOPLAY.stop();
-            actPanels.forEach(function (p) { p.classList.toggle('is-active', p === entry.target); });
+            storyStage.setAttribute('data-story-act', actId);
+            // Hero is an entry panel, not a scroll-act on mobile: keeping it
+            // active prevents desktop visibility rules from blanking the offer
+            // when a later card becomes the active demo state.
+            actPanels.forEach(function (p) {
+              p.classList.toggle('is-active', p === entry.target || p.getAttribute('data-act') === 'hero');
+            });
+            if (actId === 'how' && howKicker && howHeadline) {
+              var mobileHowCopy = HOW_COPY[MOBILE_ACT_STATE.how];
+              howKicker.textContent = mobileHowCopy.kicker;
+              howHeadline.textContent = mobileHowCopy.headline;
+            }
+            if (actId === 'kitchen' && kitchenChip) {
+              kitchenChip.textContent = KITCHEN_CHIP[MOBILE_ACT_STATE.kitchen];
+            }
             applyAura(ACT_ROLE[actId]);
             window.YJ_HERO_DEMO.applyState(ACT_ROLE[actId], MOBILE_ACT_STATE[actId]);
           });
@@ -537,6 +745,21 @@
     function setup() {
       if (teardown) teardown();
       teardown = (!desktopMQ.matches || reduceMQ.matches) ? setupMobile() : setupDesktop();
+    }
+
+    var mobileDemoLink = document.querySelector('[data-mobile-demo-link]');
+    var mobileDemoStage = document.getElementById('mobileDemoStage');
+    if (mobileDemoLink && mobileDemoStage) {
+      mobileDemoLink.addEventListener('click', function (event) {
+        if (!window.matchMedia('(max-width:620px)').matches) return;
+        event.preventDefault();
+        // The mobile demo is deliberately driven by the reader's scroll. The
+        // desktop hero autoplay may already be running, so freeze it on the
+        // first guest screen before revealing the scroll-story.
+        if (window.YJ_HERO_AUTOPLAY) window.YJ_HERO_AUTOPLAY.stop();
+        window.YJ_HERO_DEMO.applyState('guest', 'venue');
+        mobileDemoStage.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+      });
     }
 
     setup();

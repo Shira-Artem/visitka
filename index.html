@@ -23,7 +23,7 @@
   <link rel="stylesheet" href="assets/css/layout.css" />
   <link rel="stylesheet" href="assets/css/components.css?v=story-3" />
   <link rel="stylesheet" href="assets/css/hero-demo.css?v=premium-4" />
-  <link rel="stylesheet" href="assets/css/sections.css?v=order-story-6" />
+  <link rel="stylesheet" href="assets/css/sections.css?v=mobile-story-6" />
 </head>
 <body id="top">
 
@@ -147,7 +147,10 @@
               <a href="#final" class="btn btn--fire btn--lg">Подключить заведение
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </a>
-              <a href="#story" class="btn btn--ghost btn--lg">Смотреть демо</a>
+              <a href="#story" class="btn btn--ghost btn--lg story__demo-link" data-mobile-demo-link>
+                <span class="story__demo-link-desktop">Смотреть демо</span>
+                <span class="story__demo-link-mobile">Смотреть живое демо ↓</span>
+              </a>
             </div>
           </div>
 
@@ -183,7 +186,7 @@
           </div>
         </div>
 
-        <div class="story__phone-col">
+        <div class="story__phone-col" id="mobileDemoStage">
         <div class="story__aura" aria-hidden="true">
           <span data-aura-role="guest" class="is-active"></span>
           <span data-aura-role="cash"></span>
@@ -396,6 +399,7 @@
                 <button type="button" aria-pressed="false" data-demo-role="director">Директор</button>
               </div>
             </div>
+            <p class="story__scroll-hint" aria-hidden="true">Листайте — увидите путь заказа</p>
           </div>
         </div>
 
@@ -413,74 +417,171 @@
     </div>
   </section>
 
-  <!-- ================= СПОСОБЫ ПОЛУЧЕНИЯ ЗАКАЗА ================= -->
+  <!-- ================= СПОСОБЫ ПОЛУЧЕНИЯ ЗАКАЗА: закреплённая scroll-сцена (~300vh) ================= -->
   <section class="ways" id="ways">
-    <div class="ways__aura" aria-hidden="true">
-      <span class="ways__blob ways__blob--a"></span>
-      <span class="ways__blob ways__blob--b"></span>
-      <span class="ways__blob ways__blob--c"></span>
-    </div>
-    <div class="container">
-      <div class="ways__head" data-reveal>
-        <span class="eyebrow">Как получить заказ</span>
-        <h2>Выбирай,<br><span class="grad-text">как удобно</span></h2>
-        <p class="lead">Один Mini App — три способа получить заказ. Гость выбирает сам, заведение
-          ведёт все заказы в одной системе.</p>
-        <span class="ways__rule" aria-hidden="true"></span>
-      </div>
+    <div class="ways__track" id="waysTrack">
+      <div class="ways__stage" id="waysStage">
+        <div class="ways__aura" aria-hidden="true">
+          <span class="ways__blob ways__blob--a" data-way-blob="0"></span>
+          <span class="ways__blob ways__blob--b" data-way-blob="1"></span>
+          <span class="ways__blob ways__blob--c" data-way-blob="2"></span>
+          <span class="ways__mood" data-way-mood></span>
+        </div>
+        <div class="container ways__inner">
+          <div class="ways__head" data-reveal>
+            <span class="eyebrow" id="waysEyebrow">Как получить заказ</span>
+            <h2 id="waysHeadline">Выбирай,<br><span class="grad-text">как удобно</span></h2>
+            <p class="lead" id="waysLead">Один Mini App — три способа получить заказ. Гость выбирает сам, заведение
+              ведёт все заказы в одной системе.</p>
+            <div class="ways__progress" id="waysProgress" aria-hidden="true">
+              <span class="ways__step is-active" data-way-step="0">01</span>
+              <span class="ways__step" data-way-step="1">02</span>
+              <span class="ways__step" data-way-step="2">03</span>
+            </div>
+          </div>
 
-      <div class="ways__grid">
-        <article class="way-card" data-way-card style="--i:0;--way-c:var(--fire);--way-glow:rgba(255,90,31,.28)">
-          <span class="way-card__num" aria-hidden="true">01</span>
-          <span class="way-card__glow" aria-hidden="true"></span>
-          <span class="way-card__icon" aria-hidden="true">
-            <svg class="way-icon" viewBox="0 0 48 48" fill="none">
-              <path pathLength="1" d="M14 18h20l-2.1 20.2A3 3 0 0 1 28.9 41H19.1a3 3 0 0 1-3-2.8L14 18Z" stroke="url(#fireGrad)" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
-              <path pathLength="1" d="M18.5 18v-3a5.5 5.5 0 0 1 11 0v3" stroke="url(#fireGrad)" stroke-width="2.6" stroke-linecap="round"/>
-              <path pathLength="1" d="M19.5 24.5h9" stroke="url(#fireGrad)" stroke-width="2.4" stroke-linecap="round"/>
-              <path class="way-icon__fx" pathLength="1" d="M24 11c-2.2 1.8-2.2 3.6 0 5.4" stroke="url(#fireGrad)" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-          </span>
-          <h3>Самовывоз</h3>
-          <p>Заказал заранее, оплатил в приложении — забрал готовое без очереди к нужному времени.</p>
-          <span class="way-card__tag"><i></i>Без очереди у кассы</span>
-        </article>
+          <div class="ways__grid" id="waysGrid">
+            <article class="way-card" data-way-card style="--i:0;--way-c:var(--fire);--way-glow:rgba(255,90,31,.28)">
+              <span class="way-card__num" aria-hidden="true">01</span>
+              <span class="way-card__glow" aria-hidden="true"></span>
+              <span class="way-card__spot" aria-hidden="true"></span>
+              <span class="way-card__icon" aria-hidden="true">
+                <svg class="way-icon" viewBox="0 0 48 48" fill="none">
+                  <path pathLength="1" d="M14 18h20l-2.1 20.2A3 3 0 0 1 28.9 41H19.1a3 3 0 0 1-3-2.8L14 18Z" stroke="url(#fireGrad)" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
+                  <path pathLength="1" d="M18.5 18v-3a5.5 5.5 0 0 1 11 0v3" stroke="url(#fireGrad)" stroke-width="2.6" stroke-linecap="round"/>
+                  <path pathLength="1" d="M19.5 24.5h9" stroke="url(#fireGrad)" stroke-width="2.4" stroke-linecap="round"/>
+                  <path class="way-icon__fx" pathLength="1" d="M24 11c-2.2 1.8-2.2 3.6 0 5.4" stroke="url(#fireGrad)" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </span>
+              <h3>Самовывоз</h3>
+              <div class="way-card__body">
+                <p class="way-card__desc">Заказал заранее, оплатил в приложении — забрал готовое без очереди к нужному времени.</p>
+                <div class="way-card__demo" data-way-demo aria-hidden="true">
+                  <div class="wd-pickup">
+                    <div class="wd-pickup__ticket">
+                      <span><i></i>Заказ №118</span>
+                      <span><i></i>Готовится к 19:20</span>
+                    </div>
+                    <div class="wd-pickup__stamp">
+                      <svg viewBox="0 0 56 56" fill="none">
+                        <circle pathLength="1" cx="28" cy="28" r="24" stroke="url(#fireGrad)" stroke-width="3"/>
+                        <path pathLength="1" d="M17 29l7 7 15-16" stroke="url(#fireGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                      <b>Готово</b>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <span class="way-card__tag"><i></i>Без очереди у кассы</span>
+            </article>
 
-        <article class="way-card" data-way-card style="--i:1;--way-c:var(--ember);--way-glow:rgba(240,160,34,.28)">
-          <span class="way-card__num" aria-hidden="true">02</span>
-          <span class="way-card__glow" aria-hidden="true"></span>
-          <span class="way-card__icon" aria-hidden="true">
-            <svg class="way-icon" viewBox="0 0 48 48" fill="none">
-              <circle pathLength="1" cx="14.5" cy="35" r="4" stroke="url(#emberGrad)" stroke-width="2.6"/>
-              <circle pathLength="1" cx="34" cy="35" r="4" stroke="url(#emberGrad)" stroke-width="2.6"/>
-              <path pathLength="1" d="M14.5 35H22l3-9h9.5" stroke="url(#emberGrad)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
-              <path pathLength="1" d="M25 26.5 29 35h5" stroke="url(#emberGrad)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
-              <path pathLength="1" d="M31 26.5v-5h4" stroke="url(#emberGrad)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
-              <path class="way-icon__fx way-icon__fx--speed" pathLength="1" d="M4 21h6" stroke="url(#emberGrad)" stroke-width="2" stroke-linecap="round"/>
-              <path class="way-icon__fx way-icon__fx--speed" pathLength="1" d="M3 26h5" stroke="url(#emberGrad)" stroke-width="2" stroke-linecap="round"/>
-              <path class="way-icon__fx way-icon__fx--speed" pathLength="1" d="M5 31h4" stroke="url(#emberGrad)" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-          </span>
-          <h3>Доставка курьером</h3>
-          <p>Кухня готовит, курьер забирает и везёт заказ прямо к гостю — статус виден в приложении.</p>
-          <span class="way-card__tag"><i></i>Статус в реальном времени</span>
-        </article>
+            <article class="way-card" data-way-card style="--i:1;--way-c:var(--ember);--way-glow:rgba(240,160,34,.28)">
+              <span class="way-card__num" aria-hidden="true">02</span>
+              <span class="way-card__glow" aria-hidden="true"></span>
+              <span class="way-card__spot" aria-hidden="true"></span>
+              <span class="way-card__icon" aria-hidden="true">
+                <svg class="way-icon" viewBox="0 0 48 48" fill="none">
+                  <circle pathLength="1" cx="14.5" cy="35" r="4" stroke="url(#emberGrad)" stroke-width="2.6"/>
+                  <circle pathLength="1" cx="34" cy="35" r="4" stroke="url(#emberGrad)" stroke-width="2.6"/>
+                  <path pathLength="1" d="M14.5 35H22l3-9h9.5" stroke="url(#emberGrad)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path pathLength="1" d="M25 26.5 29 35h5" stroke="url(#emberGrad)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path pathLength="1" d="M31 26.5v-5h4" stroke="url(#emberGrad)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path class="way-icon__fx way-icon__fx--speed" pathLength="1" d="M4 21h6" stroke="url(#emberGrad)" stroke-width="2" stroke-linecap="round"/>
+                  <path class="way-icon__fx way-icon__fx--speed" pathLength="1" d="M3 26h5" stroke="url(#emberGrad)" stroke-width="2" stroke-linecap="round"/>
+                  <path class="way-icon__fx way-icon__fx--speed" pathLength="1" d="M5 31h4" stroke="url(#emberGrad)" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </span>
+              <h3>Доставка курьером</h3>
+              <div class="way-card__body">
+                <p class="way-card__desc">Кухня готовит, курьер забирает и везёт заказ прямо к гостю — статус виден в приложении.</p>
+                <div class="way-card__demo" data-way-demo aria-hidden="true">
+                  <div class="wd-route">
+                    <span class="wd-route__pin"><svg viewBox="0 0 24 24" fill="none"><path d="M4 9l1-5h14l1 5M4 9a2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0M5 9v10h14V9" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/></svg></span>
+                    <span class="wd-route__pathwrap">
+                      <svg class="wd-route__path" viewBox="0 0 180 28" preserveAspectRatio="none" aria-hidden="true">
+                        <path pathLength="1" d="M6,14 C54,2 126,26 174,14" style="stroke:var(--way-c)" stroke-width="2" fill="none" stroke-linecap="round"/>
+                      </svg>
+                      <span class="wd-route__courier" aria-hidden="true"></span>
+                    </span>
+                    <span class="wd-route__pin"><svg viewBox="0 0 24 24" fill="none"><path d="M4 11l8-7 8 7M6 10v10h12V10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                  </div>
+                  <div class="wd-route__eta"><i></i>Курьер в пути · <b>18 мин</b></div>
+                </div>
+              </div>
+              <span class="way-card__tag"><i></i>Статус в реальном времени</span>
+            </article>
 
-        <article class="way-card" data-way-card style="--i:2;--way-c:var(--lime);--way-glow:rgba(91,191,23,.26)">
-          <span class="way-card__num" aria-hidden="true">03</span>
-          <span class="way-card__glow" aria-hidden="true"></span>
-          <span class="way-card__icon" aria-hidden="true">
-            <svg class="way-icon" viewBox="0 0 48 48" fill="none">
-              <path pathLength="1" d="M8 19h32M12.5 19v15M35.5 19v15" stroke="url(#limeGrad)" stroke-width="2.6" stroke-linecap="round"/>
-              <rect class="way-icon__qr" pathLength="1" x="18" y="25" width="12" height="12" rx="2.4" stroke="url(#limeGrad)" stroke-width="2.2"/>
-              <path pathLength="1" d="M20.8 28.2h1.6M20.8 33.8h1.6M25.6 28.2h1.6v1.6h-1.6zM25.6 32.6h1.6v1.6h-1.6z" stroke="url(#limeGrad)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              <path class="way-icon__fx way-icon__scan" pathLength="1" d="M18 25h12" stroke="url(#limeGrad)" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-          </span>
-          <h3>Закажи к столику</h3>
-          <p>Гость сканирует QR за столом — заказ летит на кухню, официант для приёма заказа не нужен.</p>
-          <span class="way-card__tag"><i></i>Без ожидания официанта</span>
-        </article>
+            <article class="way-card" data-way-card style="--i:2;--way-c:var(--lime);--way-glow:rgba(91,191,23,.26)">
+              <span class="way-card__num" aria-hidden="true">03</span>
+              <span class="way-card__glow" aria-hidden="true"></span>
+              <span class="way-card__spot" aria-hidden="true"></span>
+              <span class="way-card__qrfield" aria-hidden="true">
+                <svg viewBox="0 0 40 40" preserveAspectRatio="xMidYMid slice">
+                  <defs>
+                    <pattern id="wayQrNoise" width="3" height="3" patternUnits="userSpaceOnUse">
+                      <rect width="1.15" height="1.15" fill="currentColor"/>
+                      <rect x="1.7" y="0.5" width="0.75" height="0.75" fill="currentColor"/>
+                      <rect x="0.5" y="1.8" width="0.85" height="0.85" fill="currentColor"/>
+                      <rect x="1.9" y="1.9" width="0.55" height="0.55" fill="currentColor"/>
+                    </pattern>
+                    <radialGradient id="wayQrFade" cx="100%" cy="100%" r="100%">
+                      <stop offset="55%" stop-color="#fff"/>
+                      <stop offset="100%" stop-color="#000"/>
+                    </radialGradient>
+                    <mask id="wayQrMask"><rect width="40" height="40" fill="url(#wayQrFade)"/></mask>
+                  </defs>
+                  <rect width="40" height="40" fill="url(#wayQrNoise)" mask="url(#wayQrMask)"/>
+                </svg>
+                <span class="way-card__qrfield-scan"></span>
+              </span>
+              <span class="way-card__icon" aria-hidden="true">
+                <svg class="way-icon" viewBox="0 0 48 48" fill="none">
+                  <path pathLength="1" d="M8 19h32M12.5 19v15M35.5 19v15" stroke="url(#limeGrad)" stroke-width="2.6" stroke-linecap="round"/>
+                  <rect class="way-icon__qr" pathLength="1" x="18" y="25" width="12" height="12" rx="2.4" stroke="url(#limeGrad)" stroke-width="2.2"/>
+                  <path pathLength="1" d="M20.8 28.2h1.6M20.8 33.8h1.6M25.6 28.2h1.6v1.6h-1.6zM25.6 32.6h1.6v1.6h-1.6z" stroke="url(#limeGrad)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path class="way-icon__fx way-icon__scan" pathLength="1" d="M18 25h12" stroke="url(#limeGrad)" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </span>
+              <h3>Закажи к столику</h3>
+              <div class="way-card__body">
+                <p class="way-card__desc">Гость сканирует QR за столом — заказ летит на кухню, официант для приёма заказа не нужен.</p>
+                <div class="way-card__demo" data-way-demo aria-hidden="true">
+                  <div class="wd-table">
+                    <span class="wd-table__qr">
+                      <svg viewBox="0 0 28 28" fill="none" aria-hidden="true">
+                        <rect x="1.5" y="1.5" width="9" height="9" rx="1.6" stroke="currentColor" stroke-width="2"/>
+                        <rect x="17.5" y="1.5" width="9" height="9" rx="1.6" stroke="currentColor" stroke-width="2"/>
+                        <rect x="1.5" y="17.5" width="9" height="9" rx="1.6" stroke="currentColor" stroke-width="2"/>
+                        <rect x="4.6" y="4.6" width="2.8" height="2.8" fill="currentColor"/>
+                        <rect x="20.6" y="4.6" width="2.8" height="2.8" fill="currentColor"/>
+                        <rect x="4.6" y="20.6" width="2.8" height="2.8" fill="currentColor"/>
+                        <rect x="17.5" y="17.5" width="3.6" height="3.6" fill="currentColor"/>
+                        <rect x="23" y="17.5" width="3.6" height="3.6" fill="currentColor"/>
+                        <rect x="17.5" y="23" width="3.6" height="3.6" fill="currentColor"/>
+                        <rect x="23" y="23" width="3.6" height="3.6" fill="currentColor"/>
+                      </svg>
+                      <span class="wd-table__scan"></span>
+                    </span>
+                    <span class="wd-table__pathwrap">
+                      <svg class="wd-table__path" viewBox="0 0 120 20" preserveAspectRatio="none" aria-hidden="true">
+                        <path pathLength="1" d="M4,10 C40,10 80,10 116,10" style="stroke:var(--way-c)" stroke-width="2" stroke-dasharray="1 3.4" fill="none" stroke-linecap="round"/>
+                      </svg>
+                      <span class="wd-table__signal" aria-hidden="true"></span>
+                    </span>
+                    <span class="wd-table__pin wd-table__pin--kitchen"><svg viewBox="0 0 24 24" fill="none"><path d="M4 13a8 8 0 0 1 16 0v1H4v-1Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M2 14h20M9 6l1.5-2M15 6l-1.5-2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+                  </div>
+                  <div class="wd-table__plate">
+                    <svg viewBox="0 0 40 40" fill="none"><circle pathLength="1" cx="20" cy="20" r="15" style="stroke:var(--way-c)" stroke-width="2"/><circle cx="20" cy="20" r="8" style="stroke:var(--way-c)" stroke-width="1.4" opacity=".6"/></svg>
+                    <b>Блюдо на столе</b>
+                  </div>
+                </div>
+              </div>
+              <span class="way-card__tag"><i></i>Без ожидания официанта</span>
+            </article>
+          </div>
+
+          <p class="ways__outro-mobile" data-reveal>Один сервис. <span class="grad-text">Любой способ получить заказ.</span></p>
+        </div>
       </div>
     </div>
   </section>
@@ -542,6 +643,6 @@
   </div>
 
   <script src="assets/js/hero-demo.js?v=story-3" defer></script>
-  <script src="assets/js/main.js?v=order-story-6" defer></script>
+  <script src="assets/js/main.js?v=mobile-story-5" defer></script>
 </body>
 </html>
