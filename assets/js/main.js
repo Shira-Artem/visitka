@@ -642,7 +642,131 @@
       };
     }
 
-    function setupMobile() {
+    /* The narrow Story is its own pinned composition: one caption slot, one
+       existing phone and one active scene index.  The tablet fallback below
+       deliberately keeps the previous flowing layout. */
+    function setupMobileStory() {
+      var mobileStoryTotalVh = STORY_ACTS.length * 108;
+      var activeSceneIndex = 0;
+      var ticking = false;
+      var mobileBackdrops = [].slice.call(storyStage.querySelectorAll('.story__mobile-backdrop-layer'));
+      var activeBackdropIndex = 0;
+      var mobileCaptions = [];
+      var mobileCaptionCopy = {
+        how: { kicker: '01 / ВЫБОР', title: ['ВЫБРАЛ', 'БЛЮДО'] },
+        checkout: { kicker: '02 / ОПЛАТА', title: ['ОПЛАТИЛ', 'ОНЛАЙН'], note: '580 ₽ · сохранённая карта' },
+        cash: { kicker: '03 / КАССА', title: ['ЗАКАЗ УЖЕ', 'У КАССИРА'], note: 'Заказ №120 принят автоматически' },
+        kitchen: { kicker: '04 / КУХНЯ', title: ['ПОВАР УЖЕ', 'ГОТОВИТ'], note: 'Без звонков и бумажных чеков' },
+        director: { kicker: '05 / КОНТРОЛЬ', title: ['ДИРЕКТОР', 'ВИДИТ ВСЁ'], note: 'Выручка, заказы и команда — в реальном времени' }
+      };
+
+      function mountMobileCaptions() {
+        actPanels.forEach(function (panel) {
+          var actId = panel.getAttribute('data-act');
+          var copy = mobileCaptionCopy[actId];
+          if (!copy) return;
+          var caption = document.createElement('div');
+          caption.className = 'story__mobile-caption';
+          caption.innerHTML = '<span class="story__mobile-kicker">' + copy.kicker + '</span>' +
+            '<h2 class="story__headline story__headline--mobile">' + copy.title.join('<br>') + '</h2>' +
+            (copy.note ? '<p class="story__mobile-note">' + copy.note + '</p>' : '');
+          panel.appendChild(caption);
+          mobileCaptions.push(caption);
+        });
+      }
+
+      function updateMobilePhoneGeometry() {
+        var top = Math.round(window.innerHeight > 700
+          ? Math.max(264, Math.min(276, window.innerHeight * 0.30))
+          : 249);
+        var availableHeight = Math.max(300, window.innerHeight - top - 48);
+        var phoneWidth = Math.round(Math.max(156, Math.min(226, availableHeight * 0.461)));
+        storyStage.style.setProperty('--mobile-phone-top', top + 'px');
+        storyStage.style.setProperty('--mobile-phone-width', phoneWidth + 'px');
+      }
+
+      function updateMobileBackdrop(index) {
+        if (!mobileBackdrops.length) return;
+        var nextIndex = activeBackdropIndex === 0 ? 1 : 0;
+        var next = mobileBackdrops[nextIndex];
+        var current = mobileBackdrops[activeBackdropIndex];
+        next.setAttribute('data-story-tone', STORY_ACTS[index].id);
+        next.classList.add('is-active');
+        current.classList.remove('is-active');
+        activeBackdropIndex = nextIndex;
+      }
+
+      storyTrack.style.height = mobileStoryTotalVh + 'svh';
+      storyStage.setAttribute('data-mobile-story', 'true');
+      mountMobileCaptions();
+      updateMobilePhoneGeometry();
+
+      function mobileStoryProgress() {
+        var rect = storyTrack.getBoundingClientRect();
+        var scrollable = rect.height - window.innerHeight;
+        if (scrollable <= 0) return 0;
+        return Math.max(0, Math.min(1, -rect.top / scrollable));
+      }
+
+      function applyMobileStoryScene(index) {
+        var act = STORY_ACTS[index];
+        var state = MOBILE_ACT_STATE[act.id];
+        if (act.id !== 'hero' && window.YJ_HERO_AUTOPLAY) window.YJ_HERO_AUTOPLAY.stop();
+
+        activeSceneIndex = index;
+        storyStage.setAttribute('data-story-act', act.id);
+        storyStage.setAttribute('data-order-phase', act.id);
+        storyStage.setAttribute('data-cash-step', act.id === 'cash' ? state : '');
+        updateMobileBackdrop(index);
+        applyPanel(index);
+        setCashTimeline(act.id === 'cash' ? 1 : 0);
+
+        if (act.id === 'how' && howKicker && howHeadline) {
+          howKicker.textContent = 'Сцена 1 · выбор';
+          howHeadline.textContent = 'Выбрал блюдо';
+        }
+        if (act.id === 'kitchen' && kitchenChip) kitchenChip.textContent = 'Заказ уже готов';
+
+        window.YJ_HERO_DEMO.applyState(ACT_ROLE[act.id], state);
+      }
+
+      function tickMobileStory() {
+        ticking = false;
+        var progress = mobileStoryProgress();
+        var rawPosition = progress * STORY_ACTS.length;
+        var rawIndex = Math.min(STORY_ACTS.length - 1, Math.floor(rawPosition));
+        if (rawIndex > activeSceneIndex && rawPosition < activeSceneIndex + 1.08) rawIndex = activeSceneIndex;
+        if (rawIndex < activeSceneIndex && rawPosition > activeSceneIndex - 0.08) rawIndex = activeSceneIndex;
+        storyStage.style.setProperty('--mobile-story-progress', progress.toFixed(3));
+        storyStage.style.setProperty('--mobile-route-offset', Math.round(640 - progress * 520) + 'px');
+        if (rawIndex !== activeSceneIndex) applyMobileStoryScene(rawIndex);
+      }
+
+      function onMobileStoryScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(tickMobileStory);
+      }
+
+      applyMobileStoryScene(0);
+      window.addEventListener('scroll', onMobileStoryScroll, { passive: true });
+      window.addEventListener('resize', updateMobilePhoneGeometry);
+      tickMobileStory();
+
+      return function cleanup() {
+        window.removeEventListener('scroll', onMobileStoryScroll);
+        window.removeEventListener('resize', updateMobilePhoneGeometry);
+        mobileCaptions.forEach(function (caption) { caption.remove(); });
+        storyTrack.style.removeProperty('height');
+        storyStage.style.removeProperty('--mobile-phone-top');
+        storyStage.style.removeProperty('--mobile-phone-width');
+        storyStage.style.removeProperty('--mobile-story-progress');
+        storyStage.style.removeProperty('--mobile-route-offset');
+        storyStage.removeAttribute('data-mobile-story');
+      };
+    }
+
+    function setupMobileFlow() {
       storyTrack.style.removeProperty('height');
       storyStage.style.removeProperty('--cash-progress');
       storyStage.style.removeProperty('--cash-intro');
@@ -725,7 +849,15 @@
 
     function setup() {
       if (teardown) teardown();
-      teardown = (!desktopMQ.matches || reduceMQ.matches) ? setupMobile() : setupDesktop();
+      if (window.matchMedia('(max-width:768px)').matches) {
+        teardown = setupMobileStory();
+      } else if (reduceMQ.matches) {
+        teardown = setupMobileFlow();
+      } else if (!desktopMQ.matches) {
+        teardown = setupMobileFlow();
+      } else {
+        teardown = setupDesktop();
+      }
     }
 
     var mobileDemoLink = document.querySelector('[data-mobile-demo-link]');

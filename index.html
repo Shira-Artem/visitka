@@ -20,10 +20,10 @@
   <!-- Стили (модульно: токены → база → раскладка → компоненты → секции) -->
   <link rel="stylesheet" href="assets/css/tokens.css?v=premium-4" />
   <link rel="stylesheet" href="assets/css/base.css?v=premium-4" />
-  <link rel="stylesheet" href="assets/css/layout.css" />
+  <link rel="stylesheet" href="assets/css/layout.css?v=mobile-story-7" />
   <link rel="stylesheet" href="assets/css/components.css?v=story-3" />
   <link rel="stylesheet" href="assets/css/hero-demo.css?v=premium-4" />
-  <link rel="stylesheet" href="assets/css/sections.css?v=mobile-story-6" />
+  <link rel="stylesheet" href="assets/css/sections.css?v=mobile-story-9" />
 </head>
 <body id="top">
 
@@ -87,6 +87,11 @@
     <div class="story__track" id="storyTrack">
       <div class="story__stage" id="storyStage">
 
+        <div class="story__mobile-backdrop" aria-hidden="true">
+          <span class="story__mobile-backdrop-layer is-active" data-story-tone="hero"></span>
+          <span class="story__mobile-backdrop-layer" data-story-tone="hero"></span>
+        </div>
+
         <!-- Декоративные линии-потоки: от текста к телефону, с бегущими световыми импульсами -->
         <svg class="story__flowlines" viewBox="0 0 1200 800" preserveAspectRatio="none" aria-hidden="true">
           <defs>
@@ -144,7 +149,7 @@
               <span class="line"><span class="grad-text">Забери.</span></span>
             </h1>
             <div class="story__actions">
-              <a href="#final" class="btn btn--fire btn--lg">Подключить заведение
+              <a href="#final" class="btn btn--fire btn--lg"><span class="story__cta-desktop">Подключить заведение</span><span class="story__cta-mobile">Посмотреть в действии</span>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </a>
               <a href="#story" class="btn btn--ghost btn--lg story__demo-link" data-mobile-demo-link>
@@ -419,7 +424,7 @@
                 <button type="button" aria-pressed="false" data-demo-role="director">Директор</button>
               </div>
             </div>
-            <p class="story__scroll-hint" aria-hidden="true">Листайте — увидите путь заказа</p>
+            <p class="story__scroll-hint" aria-hidden="true"><span class="story__hint-desktop">Листайте — увидите путь заказа</span><span class="story__hint-mobile">Листай — заказ оживает</span></p>
           </div>
         </div>
 
