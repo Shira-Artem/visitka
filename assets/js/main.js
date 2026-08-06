@@ -118,6 +118,55 @@
     revealEls.forEach(function (el) { el.classList.add('in'); });
   }
 
+  /* ============================================================
+     Способы получения заказа (.way-card): собственный stagger-reveal
+     с прорисовкой иконок + spotlight/3D-tilt по курсору. Отдельно от
+     общего [data-reveal] выше — тут нужна своя хореография (--i
+     задержки на CSS-стороне, --rx/--ry/--mx/--my на pointermove),
+     смешивать с generic-observer нельзя: он бы сбросил transform
+     раньше, чем доиграет entrance-анимация карточки.
+     ============================================================ */
+  var wayCards = [].slice.call(document.querySelectorAll('[data-way-card]'));
+  if (wayCards.length) {
+    if ('IntersectionObserver' in window) {
+      var wayIo = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            wayIo.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.3, rootMargin: '0px 0px -6% 0px' });
+      wayCards.forEach(function (card) { wayIo.observe(card); });
+    } else {
+      wayCards.forEach(function (card) { card.classList.add('in-view'); });
+    }
+
+    var fineHover = window.matchMedia('(hover: hover) and (pointer: fine)');
+    if (!reduce && fineHover.matches) {
+      wayCards.forEach(function (card) {
+        function onWayMove(e) {
+          var r = card.getBoundingClientRect();
+          var x = (e.clientX - r.left) / r.width;
+          var y = (e.clientY - r.top) / r.height;
+          card.style.setProperty('--mx', (x * 100).toFixed(1) + '%');
+          card.style.setProperty('--my', (y * 100).toFixed(1) + '%');
+          card.style.setProperty('--rx', ((0.5 - y) * 9).toFixed(2) + 'deg');
+          card.style.setProperty('--ry', ((x - 0.5) * 11).toFixed(2) + 'deg');
+        }
+        card.addEventListener('pointermove', function (e) {
+          card.classList.add('is-tracking');
+          onWayMove(e);
+        }, { passive: true });
+        card.addEventListener('pointerleave', function () {
+          card.classList.remove('is-tracking');
+          card.style.removeProperty('--rx');
+          card.style.removeProperty('--ry');
+        });
+      });
+    }
+  }
+
   /* ---- Hero phone motion: slow float + desktop cursor parallax ---- */
   var heroPhone = document.getElementById('heroPhone');
   if (heroPhone && !reduce) {

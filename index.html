@@ -23,7 +23,7 @@
   <link rel="stylesheet" href="assets/css/layout.css" />
   <link rel="stylesheet" href="assets/css/components.css?v=story-3" />
   <link rel="stylesheet" href="assets/css/hero-demo.css?v=premium-4" />
-  <link rel="stylesheet" href="assets/css/sections.css?v=premium-5" />
+  <link rel="stylesheet" href="assets/css/sections.css?v=premium-6" />
 </head>
 <body id="top">
 
@@ -43,6 +43,12 @@
       </linearGradient>
       <linearGradient id="fireGrad" x1="0" y1="0" x2="1" y2="1">
         <stop offset="0" stop-color="#ff9a3d" /><stop offset=".5" stop-color="#ff5a1f" /><stop offset="1" stop-color="#e8410a" />
+      </linearGradient>
+      <linearGradient id="emberGrad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#ffcf7a" /><stop offset=".5" stop-color="#f0a022" /><stop offset="1" stop-color="#c96a08" />
+      </linearGradient>
+      <linearGradient id="limeGrad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#cdf28f" /><stop offset=".5" stop-color="#8fd93a" /><stop offset="1" stop-color="#4a9c12" />
       </linearGradient>
     </defs>
   </svg>
@@ -381,28 +387,71 @@
 
   <!-- ================= СПОСОБЫ ПОЛУЧЕНИЯ ЗАКАЗА ================= -->
   <section class="ways" id="ways">
+    <div class="ways__aura" aria-hidden="true">
+      <span class="ways__blob ways__blob--a"></span>
+      <span class="ways__blob ways__blob--b"></span>
+      <span class="ways__blob ways__blob--c"></span>
+    </div>
     <div class="container">
       <div class="ways__head" data-reveal>
         <span class="eyebrow">Как получить заказ</span>
         <h2>Выбирай,<br><span class="grad-text">как удобно</span></h2>
         <p class="lead">Один Mini App — три способа получить заказ. Гость выбирает сам, заведение
           ведёт все заказы в одной системе.</p>
+        <span class="ways__rule" aria-hidden="true"></span>
       </div>
+
       <div class="ways__grid">
-        <article class="way-card" data-reveal>
-          <span class="way-card__icon" aria-hidden="true">🏪</span>
+        <article class="way-card" data-way-card style="--i:0;--way-c:var(--fire);--way-glow:rgba(255,90,31,.28)">
+          <span class="way-card__num" aria-hidden="true">01</span>
+          <span class="way-card__glow" aria-hidden="true"></span>
+          <span class="way-card__icon" aria-hidden="true">
+            <svg class="way-icon" viewBox="0 0 48 48" fill="none">
+              <path pathLength="1" d="M14 18h20l-2.1 20.2A3 3 0 0 1 28.9 41H19.1a3 3 0 0 1-3-2.8L14 18Z" stroke="url(#fireGrad)" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
+              <path pathLength="1" d="M18.5 18v-3a5.5 5.5 0 0 1 11 0v3" stroke="url(#fireGrad)" stroke-width="2.6" stroke-linecap="round"/>
+              <path pathLength="1" d="M19.5 24.5h9" stroke="url(#fireGrad)" stroke-width="2.4" stroke-linecap="round"/>
+              <path class="way-icon__fx" pathLength="1" d="M24 11c-2.2 1.8-2.2 3.6 0 5.4" stroke="url(#fireGrad)" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </span>
           <h3>Самовывоз</h3>
           <p>Заказал заранее, оплатил в приложении — забрал готовое без очереди к нужному времени.</p>
+          <span class="way-card__tag"><i></i>Без очереди у кассы</span>
         </article>
-        <article class="way-card" data-reveal>
-          <span class="way-card__icon" aria-hidden="true">🛵</span>
+
+        <article class="way-card" data-way-card style="--i:1;--way-c:var(--ember);--way-glow:rgba(240,160,34,.28)">
+          <span class="way-card__num" aria-hidden="true">02</span>
+          <span class="way-card__glow" aria-hidden="true"></span>
+          <span class="way-card__icon" aria-hidden="true">
+            <svg class="way-icon" viewBox="0 0 48 48" fill="none">
+              <circle pathLength="1" cx="14.5" cy="35" r="4" stroke="url(#emberGrad)" stroke-width="2.6"/>
+              <circle pathLength="1" cx="34" cy="35" r="4" stroke="url(#emberGrad)" stroke-width="2.6"/>
+              <path pathLength="1" d="M14.5 35H22l3-9h9.5" stroke="url(#emberGrad)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+              <path pathLength="1" d="M25 26.5 29 35h5" stroke="url(#emberGrad)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+              <path pathLength="1" d="M31 26.5v-5h4" stroke="url(#emberGrad)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+              <path class="way-icon__fx way-icon__fx--speed" pathLength="1" d="M4 21h6" stroke="url(#emberGrad)" stroke-width="2" stroke-linecap="round"/>
+              <path class="way-icon__fx way-icon__fx--speed" pathLength="1" d="M3 26h5" stroke="url(#emberGrad)" stroke-width="2" stroke-linecap="round"/>
+              <path class="way-icon__fx way-icon__fx--speed" pathLength="1" d="M5 31h4" stroke="url(#emberGrad)" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </span>
           <h3>Доставка курьером</h3>
           <p>Кухня готовит, курьер забирает и везёт заказ прямо к гостю — статус виден в приложении.</p>
+          <span class="way-card__tag"><i></i>Статус в реальном времени</span>
         </article>
-        <article class="way-card" data-reveal>
-          <span class="way-card__icon" aria-hidden="true">🍽️</span>
+
+        <article class="way-card" data-way-card style="--i:2;--way-c:var(--lime);--way-glow:rgba(91,191,23,.26)">
+          <span class="way-card__num" aria-hidden="true">03</span>
+          <span class="way-card__glow" aria-hidden="true"></span>
+          <span class="way-card__icon" aria-hidden="true">
+            <svg class="way-icon" viewBox="0 0 48 48" fill="none">
+              <path pathLength="1" d="M8 19h32M12.5 19v15M35.5 19v15" stroke="url(#limeGrad)" stroke-width="2.6" stroke-linecap="round"/>
+              <rect class="way-icon__qr" pathLength="1" x="18" y="25" width="12" height="12" rx="2.4" stroke="url(#limeGrad)" stroke-width="2.2"/>
+              <path pathLength="1" d="M20.8 28.2h1.6M20.8 33.8h1.6M25.6 28.2h1.6v1.6h-1.6zM25.6 32.6h1.6v1.6h-1.6z" stroke="url(#limeGrad)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path class="way-icon__fx way-icon__scan" pathLength="1" d="M18 25h12" stroke="url(#limeGrad)" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </span>
           <h3>Закажи к столику</h3>
           <p>Гость сканирует QR за столом — заказ летит на кухню, официант для приёма заказа не нужен.</p>
+          <span class="way-card__tag"><i></i>Без ожидания официанта</span>
         </article>
       </div>
     </div>
@@ -465,6 +514,6 @@
   </div>
 
   <script src="assets/js/hero-demo.js?v=story-3" defer></script>
-  <script src="assets/js/main.js?v=premium-4" defer></script>
+  <script src="assets/js/main.js?v=premium-5" defer></script>
 </body>
 </html>
