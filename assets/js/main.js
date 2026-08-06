@@ -250,7 +250,7 @@
       { id: 'hero',     vh: 70,  states: ['idle'] },
       { id: 'how',      vh: 130, states: ['venue', 'menu', 'checkout', 'success'] },
       { id: 'checkout', vh: 65,  states: ['checkout'] },
-      { id: 'cash',     vh: 65,  states: ['new', 'accepted'] },
+      { id: 'cash',     vh: 230, states: ['sent', 'received', 'accepted'] },
       { id: 'kitchen',  vh: 90,  states: ['new', 'cooking', 'ready'] },
       { id: 'director', vh: 75,  states: ['default'] }
     ];
@@ -301,8 +301,35 @@
       return crossed ? rounded : lastIndex;
     }
 
+    function clamp01(value) {
+      return Math.max(0, Math.min(1, value));
+    }
+
+    function smoothRange(progress, start, end) {
+      var value = clamp01((progress - start) / (end - start));
+      return value * value * (3 - 2 * value);
+    }
+
+    function easeOutCubic(value) {
+      return 1 - Math.pow(1 - clamp01(value), 3);
+    }
+
+    function setCashTimeline(progress) {
+      var p = clamp01(progress);
+      // 0–15: entrance; 15–40: flight with a gentle deceleration;
+      // 40–55: received pause; 55–75: acceptance; 75–90: confirmation;
+      // 90–100: all values stay at one, creating the final hold.
+      storyStage.style.setProperty('--cash-progress', p.toFixed(3));
+      storyStage.style.setProperty('--cash-intro', smoothRange(p, 0, 0.15).toFixed(3));
+      storyStage.style.setProperty('--cash-flight', easeOutCubic((p - 0.15) / 0.25).toFixed(3));
+      storyStage.style.setProperty('--cash-received', smoothRange(p, 0.40, 0.47).toFixed(3));
+      storyStage.style.setProperty('--cash-accept', smoothRange(p, 0.55, 0.75).toFixed(3));
+      storyStage.style.setProperty('--cash-accepted', smoothRange(p, 0.75, 0.90).toFixed(3));
+    }
+
     function applyPanel(actIndex) {
       var actId = STORY_ACTS[actIndex].id;
+      storyStage.setAttribute('data-story-act', actId);
       actPanels.forEach(function (p) {
         p.classList.toggle('is-active', p.getAttribute('data-act') === actId);
       });
@@ -322,6 +349,7 @@
       var act = STORY_ACTS[actIndex];
       if (act.id !== 'hero' && window.YJ_HERO_AUTOPLAY) window.YJ_HERO_AUTOPLAY.stop();
       var sub = act.states[subIndex];
+      storyStage.setAttribute('data-cash-step', act.id === 'cash' ? sub : '');
       applyPanel(actIndex);
 
       if (act.id === 'how' && howKicker && howHeadline) {
@@ -376,6 +404,11 @@
         }
 
         var actIndex = pickIndex(rawAct, lastActIndex, STORY_ACTS.length, 0.12);
+        // The cashier chapter is long enough to be its own scroll narrative, so
+        // it enters and exits exactly on its boundaries rather than hysteresis.
+        if ((lastActIndex === 2 || lastActIndex === 3) && rawAct >= 2 && rawAct < 4) {
+          actIndex = Math.floor(rawAct);
+        }
 
         if (manualOverride) {
           if (actIndex !== overrideActIndex) {
@@ -389,9 +422,15 @@
         var actSpan = bounds[actIndex].end - bounds[actIndex].start;
         var localP = actSpan > 0 ? Math.max(0, Math.min(1, (progress - bounds[actIndex].start) / actSpan)) : 0;
         var subIndex = 0;
-        if (act.states.length > 1) {
+        if (act.id === 'cash') {
+          subIndex = localP < 0.40 ? 0 : (localP < 0.75 ? 1 : 2);
+        } else if (act.states.length > 1) {
           subIndex = pickIndex(localP * (act.states.length - 1), lastSub[actIndex], act.states.length, 0.12);
         }
+
+        // The cashier chapter is continuous: CSS values are interpolated from
+        // scroll progress even between the three unchanged phone states.
+        setCashTimeline(act.id === 'cash' ? localP : 0);
 
         if (actIndex !== lastActIndex || subIndex !== lastSub[actIndex]) {
           lastActIndex = actIndex;
@@ -408,6 +447,7 @@
 
       window.addEventListener('scroll', onScroll, { passive: true });
       window.addEventListener('yj:manual-role', onManualRole);
+      tick();
       drive(0, 0);
 
       return function cleanup() {
@@ -419,6 +459,14 @@
 
     function setupMobile() {
       storyTrack.style.removeProperty('height');
+      storyStage.style.removeProperty('--cash-progress');
+      storyStage.style.removeProperty('--cash-intro');
+      storyStage.style.removeProperty('--cash-flight');
+      storyStage.style.removeProperty('--cash-received');
+      storyStage.style.removeProperty('--cash-accept');
+      storyStage.style.removeProperty('--cash-accepted');
+      storyStage.removeAttribute('data-story-act');
+      storyStage.removeAttribute('data-cash-step');
       var io = null;
       var revealIo = null;
 
@@ -455,6 +503,9 @@
 
       actPanels.forEach(function (p, i) { p.classList.toggle('is-active', i === 0); });
       applyAura('guest');
+      storyStage.setAttribute('data-story-act', 'hero');
+      storyStage.setAttribute('data-cash-step', '');
+      storyStage.style.setProperty('--cash-progress', 0);
       window.YJ_HERO_DEMO.applyState('guest', 'venue');
 
       return function cleanup() {

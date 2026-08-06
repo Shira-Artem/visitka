@@ -14,6 +14,12 @@
   max-width:var(--maxw);margin:0 auto;padding:96px 24px 34px;box-sizing:border-box;
   display:grid;grid-template-columns:minmax(0,1.05fr) minmax(360px,.95fr);
   align-items:stretch;gap:clamp(28px,4vw,56px);
+  --cash-progress:0;
+  --cash-intro:0;
+  --cash-flight:0;
+  --cash-received:0;
+  --cash-accept:0;
+  --cash-accepted:0;
 }
 /* Линии-потоки: тонкая связь между текстом истории и живым телефоном справа —
    только десктоп/pin-раскладка, где эта геометрия текст→телефон буквально верна. */
@@ -93,6 +99,88 @@
 .story__dots::after{content:"";position:absolute;left:3px;top:50%;height:1px;width:calc((100% - 6px) * var(--rail-progress,0));background:linear-gradient(90deg,var(--fire-deep),var(--fire));box-shadow:0 0 8px rgba(255,90,31,.5);transform:translateY(-50%);transition:width .35s var(--ease)}
 .story__dots span{position:relative;z-index:1;width:7px;height:7px;border-radius:50%;background:var(--border-strong);transition:.3s var(--ease)}
 .story__dots span.is-active{background:var(--fire);width:22px;border-radius:5px;box-shadow:0 0 10px rgba(255,90,31,.35)}
+
+/* ---- Cash: a dedicated scroll chapter outside the existing phone UI ---- */
+.cash-story{
+  position:absolute;inset:0;z-index:2;overflow:hidden;pointer-events:none;
+  opacity:0;transition:opacity .24s linear;
+  background:
+    radial-gradient(44% 72% at 15% 26%,rgba(255,245,214,.98),transparent 72%),
+    radial-gradient(43% 62% at 85% 70%,rgba(255,190,83,.4),transparent 74%),
+    linear-gradient(130deg,#fff4dc 2%,#ffd889 51%,#f5a440 100%);
+}
+.cash-story::before{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(116deg,rgba(255,255,255,.55),transparent 36%,rgba(195,94,15,.08));
+  opacity:calc(.25 + var(--cash-progress) * .38);
+}
+.story__stage[data-story-act="cash"] .cash-story{opacity:var(--cash-intro)}
+.story__stage[data-story-act="cash"] .story__copy,
+.story__stage[data-story-act="cash"] .story__phone-col{z-index:3}
+.story__stage[data-story-act="cash"] .story__flowlines,
+.story__stage[data-story-act="cash"] .story__dots{opacity:0;visibility:hidden}
+.story__stage[data-story-act="cash"] .story__aura,
+.story__stage[data-story-act="cash"] .phone-wrap::before,
+.story__stage[data-story-act="cash"] .phone-wrap::after{opacity:0}
+.story__act-panel[data-act="cash"]::before{display:none}
+
+.story__headline--cash{
+  font-family:'Manrope',sans-serif;font-weight:900;font-size:clamp(40px,5.25vw,74px);
+  line-height:.89;letter-spacing:-.075em;text-shadow:none;margin:0;
+  opacity:var(--cash-intro)!important;transform:none!important;filter:none!important;transition:none!important;
+}
+.story__headline--cash .line{display:block;overflow:hidden;padding:.09em 0 .13em}
+.story__headline--cash .line>span{display:block;transform:translateY(calc((1 - var(--cash-intro)) * 108%));will-change:transform}
+.story__act-panel.is-active .story__headline--cash .line>span{animation:none}
+.story__headline--cash em{display:inline-block;font:inherit;font-size:1.25em;color:#e96312;font-style:normal;letter-spacing:-.09em}
+.cash-story__mobile-note{display:none}
+
+.cash-story__receipt{
+  position:absolute;left:clamp(22px,5vw,82px);bottom:clamp(34px,7vh,86px);width:clamp(190px,22vw,294px);min-height:clamp(260px,39vh,390px);
+  padding:clamp(25px,3.1vw,42px) clamp(22px,2.8vw,38px);color:#5d2d0f;
+  background:linear-gradient(135deg,#fffdf6,#ffe7b2);border:1px solid rgba(177,91,22,.2);
+  clip-path:polygon(0 0,100% 0,100% 97%,94% 100%,88% 97%,82% 100%,76% 97%,70% 100%,64% 97%,58% 100%,52% 97%,46% 100%,40% 97%,34% 100%,28% 97%,22% 100%,16% 97%,10% 100%,0 97%);
+  box-shadow:16px 19px 0 rgba(183,103,28,.12);transform:rotate(-8deg) translateY(calc((1 - var(--cash-intro)) * 40px));opacity:var(--cash-intro);
+}
+.cash-story__receipt-kicker{display:block;margin-bottom:clamp(24px,4vh,46px);font:800 10px/1 'Manrope',sans-serif;letter-spacing:.16em;color:#ba651f}
+.cash-story__receipt strong{display:block;font:900 clamp(27px,3vw,42px)/.93 'Manrope',sans-serif;letter-spacing:-.08em}
+.cash-story__receipt i{display:block;height:1px;background:rgba(93,45,15,.22);margin-top:clamp(15px,2.4vh,25px)}
+.cash-story__receipt small{display:block;margin-top:clamp(18px,3vh,34px);font:800 11px/1.2 'Manrope',sans-serif;letter-spacing:.04em;text-transform:uppercase;color:#a95a1d}
+
+.cash-story__route{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.cash-story__route path{fill:none;stroke:url(#cashRouteGrad);stroke-width:3;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--cash-flight));filter:drop-shadow(0 0 5px rgba(255,250,226,.86))}
+.cash-story__flight-card{
+  position:absolute;left:50%;top:58%;z-index:2;width:clamp(138px,13vw,176px);padding:14px 16px 13px;border-radius:16px;
+  color:#5a2d10;background:linear-gradient(145deg,#fffdf7,#ffe6b1);border:1px solid rgba(188,102,27,.22);box-shadow:0 16px 28px -17px rgba(127,66,16,.45);
+  transform:translate(calc((1 - var(--cash-flight)) * 28vw),calc((1 - var(--cash-flight)) * -25vh)) rotate(calc((1 - var(--cash-flight)) * 7deg)) scale(calc(.94 + var(--cash-flight) * .06));
+  opacity:var(--cash-flight);
+}
+.cash-story__flight-card span,.cash-story__flight-card small{display:block;font:800 9px/1.1 'Manrope',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#ad621f}
+.cash-story__flight-card strong{display:block;margin:5px 0 4px;font:900 24px/1 'Manrope',sans-serif;letter-spacing:-.07em}
+.cash-story__desk{
+  position:absolute;left:45%;top:67%;min-width:clamp(200px,21vw,270px);padding:20px 22px 18px;border-radius:20px;
+  color:#48220c;background:rgba(255,249,232,.91);border:1px solid rgba(154,78,12,.18);box-shadow:0 20px 42px -28px rgba(111,53,9,.42);
+  transform:translateY(calc((1 - var(--cash-intro)) * 20px)) scale(calc(1 + var(--cash-accept) * .018));opacity:var(--cash-intro);
+}
+.cash-story__desk-label{display:block;margin-bottom:9px;font:800 9px/1 'Manrope',sans-serif;letter-spacing:.13em;text-transform:uppercase;color:#ac5f1c}
+.cash-story__desk>strong{display:block;margin-bottom:15px;font:900 clamp(20px,2.25vw,29px)/1 'Manrope',sans-serif;letter-spacing:-.065em}
+.cash-story__statuses{display:flex;flex-direction:column;gap:8px;padding-top:12px;border-top:1px solid rgba(112,56,16,.13)}
+.cash-story__statuses span{display:flex;align-items:center;gap:8px;font:800 10px/1.2 'Manrope',sans-serif;color:#aa896d;transition:none}
+.cash-story__statuses span::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.cash-story__statuses span:first-child{color:#c2651f}
+.cash-story__statuses span:nth-child(2){color:#5f3a1d;opacity:calc(.28 + var(--cash-received) * .72);transform:translateY(calc((1 - var(--cash-received)) * 5px))}
+.cash-story__statuses span:nth-child(3){color:#5f3a1d;opacity:var(--cash-accepted);transform:translateY(calc((1 - var(--cash-accepted)) * 5px))}
+.cash-story__desk p{display:flex;align-items:center;gap:8px;height:calc(var(--cash-accepted) * 34px);overflow:hidden;opacity:var(--cash-accepted);transform:translateY(calc((1 - var(--cash-accepted)) * 6px));margin-top:calc(var(--cash-accepted) * 16px);padding-top:calc(var(--cash-accepted) * 14px);border-top:1px solid rgba(112,56,16,calc(var(--cash-accepted) * .13));font:800 11px/1.2 'Manrope',sans-serif;color:#41752a}
+.cash-story__desk p i,.cash-story__mobile-note i{display:grid;place-items:center;width:18px;height:18px;border-radius:50%;font-style:normal;color:#fff;background:#69a94c}
+.cash-story__pulse{position:absolute;left:48%;top:67%;width:74px;height:74px;border:2px solid rgba(238,126,35,.58);border-radius:50%;transform:translate(-50%,-50%) scale(calc(.55 + var(--cash-accepted) * .9));opacity:calc(var(--cash-accepted) * .64);}
+
+@media (max-width:980px), (prefers-reduced-motion:reduce){
+  .cash-story{display:none}
+  .story__headline--cash{font-size:clamp(36px,12vw,55px);line-height:.92;opacity:1!important}
+  .story__headline--cash .line>span{transform:none!important}
+  .cash-story__mobile-note{display:flex;align-items:center;gap:9px;margin-top:18px;font:800 13px/1.3 'Manrope',sans-serif;color:#587536}
+  .story__act-panel[data-act="cash"]{background:linear-gradient(145deg,#fff8e9,#ffdfa0)!important}
+}
 
 /* ---- Способы получения заказа: самовывоз / доставка курьером / к столику ----
    Три идентичности (fire / ember / lime) эхом повторяют цвета .story__aura
