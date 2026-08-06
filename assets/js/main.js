@@ -310,26 +310,34 @@
       return value * value * (3 - 2 * value);
     }
 
-    function easeOutCubic(value) {
-      return 1 - Math.pow(1 - clamp01(value), 3);
-    }
-
     function setCashTimeline(progress) {
       var p = clamp01(progress);
-      // 0–15: entrance; 15–40: flight with a gentle deceleration;
-      // 40–55: received pause; 55–75: acceptance; 75–90: confirmation;
-      // 90–100: all values stay at one, creating the final hold.
+      var sent = smoothRange(p, 0.32, 0.40);
+      var received = smoothRange(p, 0.40, 0.55);
+      var accepted = smoothRange(p, 0.75, 0.90);
+      var statusProgress = p < 0.40 ? 0.32 * sent : (p < 0.75 ? 0.32 + 0.36 * received : 0.68 + 0.32 * accepted);
+      // The receipt does not exist before this chapter. It feeds down first,
+      // then its content and cashier statuses are drawn from the same progress.
       storyStage.style.setProperty('--cash-progress', p.toFixed(3));
       storyStage.style.setProperty('--cash-intro', smoothRange(p, 0, 0.15).toFixed(3));
-      storyStage.style.setProperty('--cash-flight', easeOutCubic((p - 0.15) / 0.25).toFixed(3));
-      storyStage.style.setProperty('--cash-received', smoothRange(p, 0.40, 0.47).toFixed(3));
+      storyStage.style.setProperty('--cash-paper', smoothRange(p, 0.05, 0.24).toFixed(3));
+      storyStage.style.setProperty('--cash-head', smoothRange(p, 0.09, 0.18).toFixed(3));
+      storyStage.style.setProperty('--cash-number', smoothRange(p, 0.13, 0.22).toFixed(3));
+      storyStage.style.setProperty('--cash-received', received.toFixed(3));
       storyStage.style.setProperty('--cash-accept', smoothRange(p, 0.55, 0.75).toFixed(3));
-      storyStage.style.setProperty('--cash-accepted', smoothRange(p, 0.75, 0.90).toFixed(3));
+      storyStage.style.setProperty('--cash-accepted', accepted.toFixed(3));
+      storyStage.style.setProperty('--cash-line-1', smoothRange(p, 0.18, 0.27).toFixed(3));
+      storyStage.style.setProperty('--cash-line-2', smoothRange(p, 0.23, 0.32).toFixed(3));
+      storyStage.style.setProperty('--cash-line-3', smoothRange(p, 0.28, 0.36).toFixed(3));
+      storyStage.style.setProperty('--cash-total', smoothRange(p, 0.32, 0.42).toFixed(3));
+      storyStage.style.setProperty('--cash-sent', sent.toFixed(3));
+      storyStage.style.setProperty('--cash-status-progress', statusProgress.toFixed(3));
     }
 
     function applyPanel(actIndex) {
       var actId = STORY_ACTS[actIndex].id;
       storyStage.setAttribute('data-story-act', actId);
+      storyStage.setAttribute('data-order-phase', actId);
       actPanels.forEach(function (p) {
         p.classList.toggle('is-active', p.getAttribute('data-act') === actId);
       });
@@ -404,9 +412,9 @@
         }
 
         var actIndex = pickIndex(rawAct, lastActIndex, STORY_ACTS.length, 0.12);
-        // The cashier chapter is long enough to be its own scroll narrative, so
-        // it enters and exits exactly on its boundaries rather than hysteresis.
-        if ((lastActIndex === 2 || lastActIndex === 3) && rawAct >= 2 && rawAct < 4) {
+        // Keep chapter boundaries exact so the cash-only receipt can never leak
+        // into selection or checkout while the user reverses the scroll.
+        if (rawAct >= 1 && rawAct < 4) {
           actIndex = Math.floor(rawAct);
         }
 
@@ -447,8 +455,10 @@
 
       window.addEventListener('scroll', onScroll, { passive: true });
       window.addEventListener('yj:manual-role', onManualRole);
+      // Keep the neutral initial phase explicit without resetting the phone's
+      // existing hero state; tick() will replace it immediately on deep links.
+      applyPanel(0);
       tick();
-      drive(0, 0);
 
       return function cleanup() {
         window.removeEventListener('scroll', onScroll);
@@ -461,12 +471,21 @@
       storyTrack.style.removeProperty('height');
       storyStage.style.removeProperty('--cash-progress');
       storyStage.style.removeProperty('--cash-intro');
-      storyStage.style.removeProperty('--cash-flight');
+      storyStage.style.removeProperty('--cash-paper');
+      storyStage.style.removeProperty('--cash-head');
+      storyStage.style.removeProperty('--cash-number');
       storyStage.style.removeProperty('--cash-received');
       storyStage.style.removeProperty('--cash-accept');
       storyStage.style.removeProperty('--cash-accepted');
+      storyStage.style.removeProperty('--cash-line-1');
+      storyStage.style.removeProperty('--cash-line-2');
+      storyStage.style.removeProperty('--cash-line-3');
+      storyStage.style.removeProperty('--cash-total');
+      storyStage.style.removeProperty('--cash-sent');
+      storyStage.style.removeProperty('--cash-status-progress');
       storyStage.removeAttribute('data-story-act');
       storyStage.removeAttribute('data-cash-step');
+      storyStage.removeAttribute('data-order-phase');
       var io = null;
       var revealIo = null;
 
@@ -505,6 +524,7 @@
       applyAura('guest');
       storyStage.setAttribute('data-story-act', 'hero');
       storyStage.setAttribute('data-cash-step', '');
+      storyStage.setAttribute('data-order-phase', 'hero');
       storyStage.style.setProperty('--cash-progress', 0);
       window.YJ_HERO_DEMO.applyState('guest', 'venue');
 

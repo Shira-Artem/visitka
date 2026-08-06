@@ -23,7 +23,7 @@
   <link rel="stylesheet" href="assets/css/layout.css" />
   <link rel="stylesheet" href="assets/css/components.css?v=story-3" />
   <link rel="stylesheet" href="assets/css/hero-demo.css?v=premium-4" />
-  <link rel="stylesheet" href="assets/css/sections.css?v=cash-story-2" />
+  <link rel="stylesheet" href="assets/css/sections.css?v=order-story-6" />
 </head>
 <body id="top">
 
@@ -110,44 +110,28 @@
           </circle>
         </svg>
 
-        <!-- Cash scene lives outside the phone: scroll progress drives this visual hand-off,
-             while the existing cashier screen inside the phone remains untouched. -->
-        <div class="cash-story" id="cashStory" aria-hidden="true">
-          <div class="cash-story__receipt">
-            <span class="cash-story__receipt-kicker">КАССА · LIVE</span>
-            <strong>Цифровой<br>чек</strong>
-            <i></i><i></i><i></i>
-            <small>без ручной<br>передачи</small>
-          </div>
-
-          <svg class="cash-story__route" viewBox="0 0 1000 660" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="cashRouteGrad" x1="1" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#ff8f38" stop-opacity=".2" />
-                <stop offset=".45" stop-color="#ff8f38" />
-                <stop offset="1" stop-color="#e86218" />
-              </linearGradient>
-            </defs>
-            <path pathLength="1" d="M758 235 C690 304 616 336 500 382" />
-          </svg>
-
-          <article class="cash-story__flight-card">
-            <span>Новый заказ</span>
-            <strong>№ 120</strong>
-            <small>580 ₽ · онлайн</small>
-          </article>
-
-          <div class="cash-story__desk">
-            <span class="cash-story__desk-label">Касса · Марина</span>
-            <strong>Заказ №120</strong>
-            <div class="cash-story__statuses">
+        <!-- Cash-only receipt animation; every earlier chapter stays untouched. -->
+        <div class="order-story" id="orderStory" aria-hidden="true">
+          <article class="cash-receipt">
+            <span class="cash-receipt__feed" aria-hidden="true"></span>
+            <header class="cash-receipt__head">
+              <span>Цифровой чек</span>
+              <strong>Заказ №120</strong>
+            </header>
+            <div class="cash-receipt__items">
+              <span><b>Шаурма классическая</b><em>500 ₽</em></span>
+              <span><b>Лимонад</b><em>80 ₽</em></span>
+              <i></i>
+            </div>
+            <div class="cash-receipt__total"><span>Самовывоз</span><b>580 ₽</b></div>
+            <div class="cash-receipt__statuses">
               <span>Отправлен</span>
-              <span>Получен кассиром</span>
+              <span>Получен</span>
               <span>Принят</span>
             </div>
-            <p><i>✓</i> Заказ уже в работе</p>
-          </div>
-          <span class="cash-story__pulse"></span>
+            <p class="cash-receipt__done"><i><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M4 9.2 7.25 12.4 14 5.8"/></svg></i> Заказ уже в работе</p>
+          </article>
+          <span class="cash-receipt__pulse"></span>
         </div>
 
         <div class="story__copy" id="storyCopy">
@@ -558,6 +542,6 @@
   </div>
 
   <script src="assets/js/hero-demo.js?v=story-3" defer></script>
-  <script src="assets/js/main.js?v=cash-story-2" defer></script>
+  <script src="assets/js/main.js?v=order-story-6" defer></script>
 </body>
 </html>
