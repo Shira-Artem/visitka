@@ -32,39 +32,20 @@
 
   /* ============================================================
      Hero autoplay — пока пользователь не тронул скролл/демо сам,
-     телефон в hero-акте сам крутит гостевой сценарий по кругу
-     (venue → menu → checkout → success → venue…), чтобы механика
-     была видна сразу при заходе на сайт, без необходимости скроллить.
-     Останавливается насовсем при первом реальном уходе скролла из
-     hero-акта (см. drive()/setupMobile() ниже) или любом клике внутри
-     демо/по переключателю ролей — дальше решает либо скролл, либо
-     сам гость. Кнопки "Смотреть демо"/"Как это работает" (href="#story")
-     перезапускают показ с начала. ---- */
+     телефон в hero-акте сам проигрывает ВЕСЬ процесс по кругу
+     (гость → касса → кухня → директор → гость…), чтобы результат
+     был виден сразу при заходе на сайт, целиком, без необходимости
+     скроллить. Крутит настоящую цепочку hero-demo.js (enterRole()),
+     а не урезанный гостевой повтор — так же дорого выглядит и без
+     скролла, как и после него. Останавливается насовсем при первом
+     реальном уходе скролла из hero-акта (см. drive()/setupMobile()
+     ниже) или любом клике внутри демо/по переключателю ролей —
+     дальше решает либо скролл, либо сам гость. Кнопки "Смотреть
+     демо"/"Как это работает" (href="#story") перезапускают показ
+     с начала. ---- */
   if (window.YJ_HERO_DEMO && !reduce) {
-    var HERO_AUTOPLAY_SEQ = [['venue', 1600], ['menu', 1700], ['checkout', 1700], ['success', 2300]];
-    var heroAutoplaySeqIndex = 0;
-    var heroAutoplayTimer = null;
-    var heroAutoplayActive = false;
-
-    var heroAutoplayStep = function () {
-      if (!heroAutoplayActive) return;
-      var entry = HERO_AUTOPLAY_SEQ[heroAutoplaySeqIndex];
-      window.YJ_HERO_DEMO.applyState('guest', entry[0]);
-      heroAutoplaySeqIndex = (heroAutoplaySeqIndex + 1) % HERO_AUTOPLAY_SEQ.length;
-      heroAutoplayTimer = window.setTimeout(heroAutoplayStep, entry[1]);
-    };
-
-    var startHeroAutoplay = function () {
-      if (heroAutoplayActive) return;
-      heroAutoplayActive = true;
-      heroAutoplaySeqIndex = 0;
-      heroAutoplayStep();
-    };
-
-    var stopHeroAutoplay = function () {
-      heroAutoplayActive = false;
-      if (heroAutoplayTimer) { window.clearTimeout(heroAutoplayTimer); heroAutoplayTimer = null; }
-    };
+    var startHeroAutoplay = window.YJ_HERO_DEMO.startFullAutoplay;
+    var stopHeroAutoplay = window.YJ_HERO_DEMO.stopFullAutoplay;
 
     window.YJ_HERO_AUTOPLAY = { start: startHeroAutoplay, stop: stopHeroAutoplay };
 

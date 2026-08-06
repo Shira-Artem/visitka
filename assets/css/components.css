@@ -18,6 +18,14 @@
 .btn--max{background:var(--max);color:#fff;box-shadow:0 18px 44px -18px rgba(111,92,255,.55)}
 .btn--max:hover{transform:translateY(-3px);box-shadow:0 28px 60px -18px rgba(111,92,255,.7)}
 
+/* ---- Press-состояние: на тач нет :hover, поэтому именно :active — единственная
+   тактильная реакция кнопки. Прожатие короче и быстрее подъёма при hover. ---- */
+.btn:active{transition-duration:.12s}
+.btn--fire:active{transform:scale(.96);box-shadow:0 16px 34px -16px rgba(255,90,31,.55)}
+.btn--ghost:active{transform:scale(.96);border-color:var(--fire);color:var(--fire-deep)}
+.btn--tg:active{transform:scale(.96);box-shadow:0 14px 30px -16px rgba(34,158,217,.6)}
+.btn--max:active{transform:scale(.96);box-shadow:0 14px 30px -16px rgba(111,92,255,.6)}
+
 /* ---- QR-код ---- */
 .qr-box{width:118px;height:118px;flex-shrink:0;border-radius:18px;background:var(--surface);padding:11px;position:relative;box-shadow:var(--sh-md);border:1px solid var(--border)}
 .qr-box::before{content:"";position:absolute;inset:-4px;border-radius:22px;border:2px solid var(--fire);animation:qrPulse 2.4s var(--ease) infinite;pointer-events:none}

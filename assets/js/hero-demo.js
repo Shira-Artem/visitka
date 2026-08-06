@@ -9,9 +9,14 @@
 
   window.YJ_HERO_DEMO_ACTIVE = true;
 
-  // Когда на странице есть .story, телефон управляется скроллом (main.js:initStoryScroll),
-  // а не собственной цепочкой автоплей-таймеров — см. scheduleNext()/applyState() ниже.
+  // Когда на странице есть .story, телефон обычно управляется скроллом
+  // (main.js:initStoryScroll), а не собственной цепочкой автоплей-таймеров —
+  // см. applyState() ниже. Но пока пользователь ещё не тронул скролл, тот же
+  // самый телефон может проиграть весь процесс сам (см. fullAutoplayActive
+  // и startFullAutoplay/stopFullAutoplay) — scheduleNext() уступает скроллу
+  // только когда автоплей не запущен явно.
   var scrollDriven = Boolean(document.querySelector('.story'));
+  var fullAutoplayActive = false;
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   var roleOrder = ['guest', 'cash', 'cook', 'director'];
@@ -456,7 +461,7 @@
   }
 
   function scheduleNext(role, delay) {
-    if (scrollDriven) return; // скролл сам решает, что идёт следующим — см. initStoryScroll()
+    if (scrollDriven && !fullAutoplayActive) return; // скролл сам решает, что идёт следующим — см. initStoryScroll()
     queue(function () {
       enterRole(role);
     }, delay);
@@ -563,7 +568,28 @@
     window.dispatchEvent(new CustomEvent('yj:manual-role', { detail: { role: role } }));
   }
 
-  window.YJ_HERO_DEMO = { applyState: applyState };
+  // Полный автоплей всего процесса (гость → касса → кухня → директор → гость…),
+  // для того чтобы результат был виден без скролла — например сразу после клика
+  // по "Смотреть демо". Использует ту же цепочку enterRole()/scheduleNext(), что
+  // и автономный (не-scrollDriven) режим показа; вызывающая сторона (main.js)
+  // сама решает, когда его останавливать — при реальном скролле сцены или любом
+  // ручном взаимодействии с телефоном/переключателем ролей.
+  function startFullAutoplay() {
+    if (fullAutoplayActive) return;
+    fullAutoplayActive = true;
+    enterRole('guest', { instant: true });
+  }
+
+  function stopFullAutoplay() {
+    fullAutoplayActive = false;
+    clearTimers();
+  }
+
+  window.YJ_HERO_DEMO = {
+    applyState: applyState,
+    startFullAutoplay: startFullAutoplay,
+    stopFullAutoplay: stopFullAutoplay
+  };
 
   function advanceGuest(scene) {
     clearTimers();
@@ -693,9 +719,16 @@
       if (scrollDriven) {
         if (isVisible && !hasStarted) {
           hasStarted = true;
-          applyState('guest', 'venue');
-        } else if (!isVisible) {
-          clearTimers();
+          // Полный автоплей (см. startFullAutoplay) уже привёл экран в нужное
+          // состояние и поставил свою цепочку таймеров — applyState() здесь
+          // обнулила бы её через clearTimers(). Нужен только как страховка,
+          // когда автоплей не запущен (reduced-motion, автоплей ещё не звали).
+          if (!fullAutoplayActive) applyState('guest', 'venue');
+        } else if (!isVisible && hasStarted) {
+          // hasStarted гарантирует, что это не тот самый первый (иногда ложный
+          // на старте — до layout/paint) вызов колбэка, а настоящий уход
+          // hero-акта из вьюпорта после того, как видимость уже подтверждалась.
+          stopFullAutoplay();
         }
         return;
       }

@@ -1731,6 +1731,18 @@
   #heroPhoneDisplay .yj-director-tabbar button:not(.is-active):hover{border-color:rgba(46,110,91,.4);color:#2e6e5b}
 }
 
+/* ---- Touch targets for the live demo: cqw scales down with the phone's own
+   width, so on a 250-300px mobile phone these buttons shrink below a
+   comfortable tap size even though they're fully interactive (add-to-cart,
+   checkout, cashier/cook actions). Floor them in px on coarse pointers only —
+   mouse users keep the original cqw-scaled sizing. ---- */
+@media (pointer:coarse){
+  #heroPhoneDisplay .yj-food-card>button{width:max(40px,8.4cqw);height:max(40px,8.4cqw)}
+  #heroPhoneDisplay .yj-cart-bar{min-height:max(44px,12cqw)}
+  #heroPhoneDisplay .yj-primary-action{min-height:max(44px,11.5cqw)}
+  #heroPhoneDisplay .yj-staff-action{min-height:max(44px,11cqw)}
+}
+
 /* ---- Legibility pass for the narrow perspective display ---- */
 
 #heroPhoneDisplay .yj-client-brand small,

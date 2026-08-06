@@ -40,6 +40,9 @@
   pointer-events:none;counter-increment:act;
 }
 .story__act-panel.is-active{pointer-events:auto}
+/* Мобильный бейдж-иконка роли — существует только в компактной раскладке
+   ниже (см. "Адаптив"); на десктопе вместо него ghost-нумерация ::before. */
+.story__act-badge{display:none}
 /* Ghost-нумерация акта: заполняет пустоту вокруг короткого текста, держит ритм истории */
 .story__act-panel::before{
   content:counter(act,decimal-leading-zero);
@@ -538,19 +541,25 @@
     background:radial-gradient(62% 100% at 28% 0%,var(--card-glow),transparent 72%);
     pointer-events:none;
   }
-  /* Значок-бейдж роли — приподнят над верхним краем карточки, как ярлычок */
-  .story__act-panel:not([data-act="hero"])::after{
-    content:"🔥";position:absolute;top:-15px;left:22px;width:42px;height:42px;
-    display:grid;place-items:center;border-radius:13px;font-size:19px;line-height:1;
+  /* Значок-бейдж роли — приподнят над верхним краем карточки, как ярлычок.
+     Настоящий SVG (не emoji), чтобы штрихи можно было "прорисовывать" по
+     скроллу тем же приёмом, что и у иконок блока Ways (см. .way-icon ниже):
+     pathLength="1" + stroke-dasharray/dashoffset. */
+  .story__act-badge{
+    position:absolute;top:-15px;left:22px;width:42px;height:42px;
+    display:grid;place-items:center;border-radius:13px;
     background:linear-gradient(135deg,var(--card-accent-1),var(--card-accent-2));
     box-shadow:0 12px 22px -9px rgba(232,65,10,.55);transform:rotate(-6deg);
   }
+  .story__act-badge svg{width:23px;height:23px}
+  .story__act-badge svg path,.story__act-badge svg circle{
+    stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .7s var(--ease);
+  }
+  .story__act-panel.in-view .story__act-badge svg path,
+  .story__act-panel.in-view .story__act-badge svg circle{stroke-dashoffset:0;transition-delay:.3s}
   .story__act-panel[data-act="cash"]{--card-glow:rgba(240,158,34,.24);--card-accent-1:#ffcf6b;--card-accent-2:#e8940a}
-  .story__act-panel[data-act="cash"]::after{content:"🧾"}
   .story__act-panel[data-act="kitchen"]{--card-glow:rgba(216,98,30,.24);--card-accent-1:#ff8a4d;--card-accent-2:#c8460c}
-  .story__act-panel[data-act="kitchen"]::after{content:"👨‍🍳"}
   .story__act-panel[data-act="director"]{--card-glow:rgba(41,140,105,.22);--card-accent-1:#57c39a;--card-accent-2:#1f6b4f}
-  .story__act-panel[data-act="director"]::after{content:"📊"}
   .story__aura{opacity:.7}
   .story__dots{display:none}
 }
@@ -628,6 +637,7 @@
     min-height:38px;padding:8px 12px;border:0;background:transparent;box-shadow:none;
     color:var(--ink-2);font-size:13px;text-decoration:underline;text-decoration-color:rgba(255,90,31,.34);text-underline-offset:4px;
   }
+  .story__actions .btn--ghost:active{transform:scale(.97);opacity:.6;transition-duration:.12s}
   .story__demo-link-desktop{display:none}
   .story__demo-link-mobile{display:inline}
 
