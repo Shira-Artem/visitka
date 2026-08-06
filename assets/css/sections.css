@@ -65,6 +65,17 @@
 .story__dots span{position:relative;z-index:1;width:7px;height:7px;border-radius:50%;background:var(--border-strong);transition:.3s var(--ease)}
 .story__dots span.is-active{background:var(--fire);width:22px;border-radius:5px;box-shadow:0 0 10px rgba(255,90,31,.35)}
 
+/* ---- Способы получения заказа: самовывоз / доставка курьером / к столику ---- */
+.ways{position:relative;padding:50px 0 30px}
+.ways__head{max-width:640px;margin:0 auto 52px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:18px}
+.ways__head h2{font-size:clamp(32px,4vw,52px);text-transform:uppercase}
+.ways__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.way-card{padding:38px 30px;border-radius:var(--r-lg);background:var(--surface);border:1px solid var(--border);box-shadow:var(--sh-md);transition:transform .35s var(--ease),box-shadow .35s var(--ease),border-color .35s var(--ease)}
+.way-card:hover{transform:translateY(-6px);box-shadow:var(--sh-lg);border-color:rgba(255,90,31,.3)}
+.way-card__icon{display:grid;place-items:center;width:60px;height:60px;border-radius:18px;font-size:28px;margin-bottom:22px;background:linear-gradient(150deg,var(--fire-soft),#fff);border:1px solid rgba(255,90,31,.18)}
+.way-card h3{font-size:21px;margin-bottom:10px}
+.way-card p{color:var(--ink-2);font-size:14.5px;line-height:1.55}
+
 /* ---- Финальный CTA ---- */
 .final{position:relative;padding:120px 0}
 .final__panel{border-radius:40px;padding:70px 50px;text-align:center;position:relative;overflow:hidden;background:linear-gradient(165deg,#fff 0%,var(--fire-soft) 100%);border:1px solid rgba(255,90,31,.22);box-shadow:var(--sh-lg)}
@@ -90,6 +101,7 @@
   .header__cta .btn--ghost{display:none}
   .burger{display:flex}
   .footer__grid{grid-template-columns:1fr 1fr}
+  .ways__grid{grid-template-columns:1fr 1fr;gap:18px}
 }
 @media (max-width:620px){
   .container{padding:0 18px}
@@ -104,6 +116,10 @@
   .footer__grid{grid-template-columns:1fr 1fr;gap:28px}
   .footer__brand{grid-column:1/-1}
   .final__panel{padding:48px 24px}
+  .ways{padding:34px 0 10px}
+  .ways__head{margin-bottom:34px;gap:14px}
+  .ways__grid{grid-template-columns:1fr;gap:14px}
+  .way-card{padding:28px 24px}
   .mobile-cta{display:block}
   .header__cta .btn--fire{display:none}
 }
