@@ -642,104 +642,249 @@
       };
     }
 
-    /* The narrow Story is its own pinned composition: one caption slot, one
-       existing phone and one active scene index.  The tablet fallback below
-       deliberately keeps the previous flowing layout. */
-    function setupMobileStory() {
-      var mobileStoryTotalVh = STORY_ACTS.length * 108;
-      var activeSceneIndex = 0;
-      var ticking = false;
-      var mobileBackdrops = [].slice.call(storyStage.querySelectorAll('.story__mobile-backdrop-layer'));
-      var activeBackdropIndex = 0;
-      var mobileCaptions = [];
-      var mobileCaptionCopy = {
-        how: { kicker: '01 / ВЫБОР', title: ['ВЫБРАЛ', 'БЛЮДО'] },
-        checkout: { kicker: '02 / ОПЛАТА', title: ['ОПЛАТИЛ', 'ОНЛАЙН'], note: '580 ₽ · сохранённая карта' },
-        cash: { kicker: '03 / КАССА', title: ['ЗАКАЗ УЖЕ', 'У КАССИРА'], note: 'Заказ №120 принят автоматически' },
-        kitchen: { kicker: '04 / КУХНЯ', title: ['ПОВАР УЖЕ', 'ГОТОВИТ'], note: 'Без звонков и бумажных чеков' },
-        director: { kicker: '05 / КОНТРОЛЬ', title: ['ДИРЕКТОР', 'ВИДИТ ВСЁ'], note: 'Выручка, заказы и команда — в реальном времени' }
-      };
+    /* ============================================================
+       Мобильная Story (≤768px) — «Свет заказа».
 
-      function mountMobileCaptions() {
+       Один закреплённый кадр на шесть сцен. Телефон стоит неподвижно
+       (одна координата, один размер), меняются только свет вокруг него
+       и подпись сверху — поэтому сцена читается как единый ролик, а не
+       как набор экранов.
+
+       Единственный источник состояния — прогресс .story__track:
+         progress → sceneIndex (с гистерезисом) + локальный прогресс сцены.
+       Отсюда пишутся все CSS-переменные (см. sections.css, блок
+       «МОБИЛЬНАЯ STORY»); второй логики сцен ни в CSS, ни в разметке нет.
+       ============================================================ */
+    var MOBILE_SCENE_VH = 108;         // высота прокрутки одной сцены
+    var MOBILE_HEADER_CLEARANCE = 68;  // воздух под фиксированной шапкой
+    var MOBILE_CAPTION_GAP = 16;       // зазор между подписью и телефоном
+    var MOBILE_RAIL_SPACE = 46;        // нить + маршрутная шкала под телефоном
+    var MOBILE_MIN_CAPTION_BAND = 196;
+    var PHONE_WIDTH_RATIO = 9 / 19.5;  // пропорции корпуса (components.css)
+    var MOBILE_TONE_LEAD = 0.62;   // с какой доли сцены свет начинает уходить в следующую
+    var MOBILE_EXIT_START = 0.95;  // мягкая передача кадра секции «Способы получения»
+    var MOBILE_PAGE_TONE = [250, 247, 243]; // фон страницы сразу под Story
+
+    // Сцены сценария: подпись + собственная световая температура.
+    // Дуга света: тёплая бумага → оранжевый выбор → золото оплаты →
+    // огонь кассы → самая горячая точка кухни → холодный контроль директора.
+    var MOBILE_SCENES = {
+      hero: {
+        tone: { base: [241, 232, 220], key: [255, 173, 114], tint: [168, 84, 50] }
+      },
+      how: {
+        index: '01', label: 'Выбор',
+        lines: ['Выбрал', 'блюдо'],
+        note: 'Меню заведения открывается прямо в Telegram или MAX',
+        tone: { base: [242, 229, 213], key: [255, 152, 78], tint: [171, 78, 40] }
+      },
+      checkout: {
+        index: '02', label: 'Оплата',
+        lines: ['Оплатил', 'онлайн'],
+        note: '580 ₽ сохранённой картой — без ввода данных и очереди',
+        tone: { base: [246, 234, 203], key: [255, 190, 58], tint: [156, 102, 16] }
+      },
+      cash: {
+        index: '03', label: 'Касса',
+        lines: ['Заказ уже', 'у <span class="story__hl-accent">кассира</span>'],
+        note: 'Заказ №120 пришёл автоматически — без звонков и бумажек',
+        tone: { base: [245, 226, 202], key: [255, 126, 40], tint: [174, 68, 22] }
+      },
+      kitchen: {
+        index: '04', label: 'Кухня',
+        lines: ['Кухня уже', 'готовит'],
+        note: 'Состав, модификаторы и комментарий гостя — сразу у повара',
+        tone: { base: [235, 206, 186], key: [240, 62, 22], tint: [152, 42, 14] }
+      },
+      director: {
+        index: '05', label: 'Контроль',
+        lines: ['Директор', 'видит <span class="story__hl-accent">всё</span>'],
+        note: 'Выручка, заказы и смена — в реальном времени',
+        tone: { base: [224, 231, 232], key: [70, 183, 150], tint: [26, 100, 80] }
+      }
+    };
+
+    function setupMobileStory() {
+      var sceneCount = STORY_ACTS.length;
+      var activeSceneIndex = -1;
+      var ticking = false;
+      var mounted = [];
+      var lastTone = '';
+      var cutTimer = 0;
+
+      function toneOf(index) {
+        return MOBILE_SCENES[STORY_ACTS[Math.max(0, Math.min(sceneCount - 1, index))].id].tone;
+      }
+
+      function mix(a, b, t) {
+        return Math.round(a + (b - a) * t);
+      }
+
+      function mixTriplet(from, to, t) {
+        return mix(from[0], to[0], t) + ',' + mix(from[1], to[1], t) + ',' + mix(from[2], to[2], t);
+      }
+
+      /* Подписи сцен монтируются в существующие .story__act-panel: панель
+         остаётся единственным носителем состояния (.is-active), а мобильная
+         типографика живёт отдельным узлом и снимается в cleanup(). */
+      function mountCaptions() {
         actPanels.forEach(function (panel) {
           var actId = panel.getAttribute('data-act');
-          var copy = mobileCaptionCopy[actId];
-          if (!copy) return;
+          var scene = MOBILE_SCENES[actId];
+          if (!scene || !scene.lines) return;
           var caption = document.createElement('div');
           caption.className = 'story__mobile-caption';
-          caption.innerHTML = '<span class="story__mobile-kicker">' + copy.kicker + '</span>' +
-            '<h2 class="story__headline story__headline--mobile">' + copy.title.join('<br>') + '</h2>' +
-            (copy.note ? '<p class="story__mobile-note">' + copy.note + '</p>' : '');
+          caption.innerHTML =
+            '<span class="story__mobile-kicker"><b>' + scene.index + '</b><i></i>' + scene.label + '</span>' +
+            '<h2 class="story__headline story__headline--mobile">' +
+              scene.lines.map(function (line) {
+                return '<span class="line"><span>' + line + '</span></span>';
+              }).join('') +
+            '</h2>' +
+            (scene.note ? '<p class="story__mobile-note">' + scene.note + '</p>' : '');
           panel.appendChild(caption);
-          mobileCaptions.push(caption);
+          mounted.push(caption);
         });
+
+        // Подсказка прокрутки принадлежит первой сцене и уезжает вместе с ней.
+        var heroPanel = storyStage.querySelector('.story__act-panel[data-act="hero"]');
+        if (heroPanel) {
+          var cue = document.createElement('p');
+          cue.className = 'story__cue';
+          cue.setAttribute('aria-hidden', 'true');
+          cue.innerHTML = '<i></i>Листай — заказ оживает';
+          heroPanel.appendChild(cue);
+          mounted.push(cue);
+        }
       }
 
+      // Реальная высота самой высокой подписи — hero: четыре строки обещания
+      // плюс подсказка прокрутки. Меряем по факту, а не повторяем в JS clamp()
+      // из CSS: размеры шрифта живут в одном месте — в таблице стилей.
+      function heroBlockHeight() {
+        var panel = storyStage.querySelector('.story__act-panel[data-act="hero"]');
+        if (!panel) return 0;
+        var kids = [].filter.call(panel.children, function (node) {
+          return window.getComputedStyle(node).display !== 'none';
+        });
+        if (!kids.length) return 0;
+        var first = kids[0].getBoundingClientRect();
+        var last = kids[kids.length - 1].getBoundingClientRect();
+        return Math.max(0, last.bottom - first.top);
+      }
+
+      /* Геометрия кадра. Телефон получает одну координату и один размер на всю
+         Story, поэтому полосу подписи задаёт самая высокая сцена, а не средняя:
+         так текст ни в одной сцене не спорит ни с шапкой, ни с телефоном. */
       function updateMobilePhoneGeometry() {
-        var top = Math.round(window.innerHeight > 700
-          ? Math.max(264, Math.min(276, window.innerHeight * 0.30))
-          : 249);
-        var availableHeight = Math.max(300, window.innerHeight - top - 48);
-        var phoneWidth = Math.round(Math.max(156, Math.min(226, availableHeight * 0.461)));
+        var vh = window.innerHeight;
+        var captionBand = Math.round(Math.max(
+          MOBILE_MIN_CAPTION_BAND,
+          heroBlockHeight() + MOBILE_HEADER_CLEARANCE + MOBILE_CAPTION_GAP
+        ));
+        var available = Math.max(240, vh - captionBand - MOBILE_RAIL_SPACE - 16);
+        var width = Math.round(Math.max(148, Math.min(260, available * PHONE_WIDTH_RATIO)));
+        var phoneHeight = width / PHONE_WIDTH_RATIO;
+        var slack = Math.max(0, vh - captionBand - MOBILE_RAIL_SPACE - phoneHeight);
+        var top = Math.round(captionBand + slack * 0.42);
         storyStage.style.setProperty('--mobile-phone-top', top + 'px');
-        storyStage.style.setProperty('--mobile-phone-width', phoneWidth + 'px');
+        storyStage.style.setProperty('--mobile-phone-width', width + 'px');
       }
-
-      function updateMobileBackdrop(index) {
-        if (!mobileBackdrops.length) return;
-        var nextIndex = activeBackdropIndex === 0 ? 1 : 0;
-        var next = mobileBackdrops[nextIndex];
-        var current = mobileBackdrops[activeBackdropIndex];
-        next.setAttribute('data-story-tone', STORY_ACTS[index].id);
-        next.classList.add('is-active');
-        current.classList.remove('is-active');
-        activeBackdropIndex = nextIndex;
-      }
-
-      storyTrack.style.height = mobileStoryTotalVh + 'svh';
-      storyStage.setAttribute('data-mobile-story', 'true');
-      mountMobileCaptions();
-      updateMobilePhoneGeometry();
 
       function mobileStoryProgress() {
         var rect = storyTrack.getBoundingClientRect();
         var scrollable = rect.height - window.innerHeight;
         if (scrollable <= 0) return 0;
-        return Math.max(0, Math.min(1, -rect.top / scrollable));
+        return clamp01(-rect.top / scrollable);
+      }
+
+      // Свет ведёт монтаж: цвет уходит в следующую сцену чуть раньше, чем
+      // сменится подпись, — переход читается как режиссура, а не как переключение.
+      function paintAtmosphere(progress) {
+        var rawIndex = Math.min(sceneCount - 1, Math.floor(progress * sceneCount));
+        var local = clamp01(progress * sceneCount - rawIndex);
+        var blend = smoothRange(local, MOBILE_TONE_LEAD, 1);
+        var from = toneOf(rawIndex);
+        var to = toneOf(rawIndex + 1);
+        var exit = smoothRange(progress, MOBILE_EXIT_START, 1);
+
+        var base = [
+          mix(from.base[0], to.base[0], blend),
+          mix(from.base[1], to.base[1], blend),
+          mix(from.base[2], to.base[2], blend)
+        ];
+        // В финале база уходит в цвет страницы — стык со следующей секцией не виден.
+        var baseValue = mixTriplet(base, MOBILE_PAGE_TONE, exit);
+        var next = baseValue + '|' + mixTriplet(from.key, to.key, blend) + '|' + mixTriplet(from.tint, to.tint, blend);
+        if (next !== lastTone) {
+          lastTone = next;
+          var parts = next.split('|');
+          storySection.style.setProperty('--st-base', parts[0]);
+          storySection.style.setProperty('--st-key', parts[1]);
+          storySection.style.setProperty('--st-tint', parts[2]);
+        }
+        storyStage.style.setProperty('--scene-p', local.toFixed(3));
+        storyStage.style.setProperty('--story-p', progress.toFixed(3));
+        storyStage.style.setProperty('--story-exit', exit.toFixed(3));
       }
 
       function applyMobileStoryScene(index) {
         var act = STORY_ACTS[index];
         var state = MOBILE_ACT_STATE[act.id];
-        if (act.id !== 'hero' && window.YJ_HERO_AUTOPLAY) window.YJ_HERO_AUTOPLAY.stop();
-
         activeSceneIndex = index;
         storyStage.setAttribute('data-story-act', act.id);
         storyStage.setAttribute('data-order-phase', act.id);
         storyStage.setAttribute('data-cash-step', act.id === 'cash' ? state : '');
-        updateMobileBackdrop(index);
         applyPanel(index);
         setCashTimeline(act.id === 'cash' ? 1 : 0);
 
-        if (act.id === 'how' && howKicker && howHeadline) {
-          howKicker.textContent = 'Сцена 1 · выбор';
-          howHeadline.textContent = 'Выбрал блюдо';
-        }
-        if (act.id === 'kitchen' && kitchenChip) kitchenChip.textContent = 'Заказ уже готов';
+        // Пройденные узлы маршрута остаются зажжёнными — заказ движется вперёд.
+        dotEls.forEach(function (dot, i) {
+          dot.classList.toggle('is-done', i < index);
+        });
 
-        window.YJ_HERO_DEMO.applyState(ACT_ROLE[act.id], state);
+        // Одиночный световой «стык» — прячет подмену подписи.
+        if (!reduce) {
+          storyStage.classList.remove('is-cut');
+          void storyStage.offsetWidth;
+          storyStage.classList.add('is-cut');
+          window.clearTimeout(cutTimer);
+          cutTimer = window.setTimeout(function () {
+            storyStage.classList.remove('is-cut');
+          }, 620);
+        }
+
+        // Первая сцена — витрина: телефон сам проигрывает весь путь заказа,
+        // чтобы «вау» случилось ещё до первого движения пальцем. Как только
+        // история тронулась, управление забирает скролл; при возврате в hero
+        // автоплей стартует заново. applyState() чистит таймеры автоплея,
+        // поэтому в hero его звать нельзя.
+        if (act.id === 'hero' && window.YJ_HERO_AUTOPLAY) {
+          window.YJ_HERO_AUTOPLAY.start();
+        } else {
+          if (window.YJ_HERO_AUTOPLAY) window.YJ_HERO_AUTOPLAY.stop();
+          window.YJ_HERO_DEMO.applyState(ACT_ROLE[act.id], state);
+        }
       }
 
       function tickMobileStory() {
         ticking = false;
         var progress = mobileStoryProgress();
-        var rawPosition = progress * STORY_ACTS.length;
-        var rawIndex = Math.min(STORY_ACTS.length - 1, Math.floor(rawPosition));
-        if (rawIndex > activeSceneIndex && rawPosition < activeSceneIndex + 1.08) rawIndex = activeSceneIndex;
-        if (rawIndex < activeSceneIndex && rawPosition > activeSceneIndex - 0.08) rawIndex = activeSceneIndex;
-        storyStage.style.setProperty('--mobile-story-progress', progress.toFixed(3));
-        storyStage.style.setProperty('--mobile-route-offset', Math.round(640 - progress * 520) + 'px');
-        if (rawIndex !== activeSceneIndex) applyMobileStoryScene(rawIndex);
+        var rawPosition = progress * sceneCount;
+        var index = Math.min(sceneCount - 1, Math.floor(rawPosition));
+        // Гистерезис: смена сцены требует уверенного перехода границы, поэтому
+        // дрожание пальца у стыка не даёт мерцания.
+        if (index > activeSceneIndex && rawPosition < activeSceneIndex + 1.06) index = activeSceneIndex;
+        if (index < activeSceneIndex && rawPosition > activeSceneIndex - 0.06) index = activeSceneIndex;
+
+        paintAtmosphere(progress);
+        if (index !== activeSceneIndex) applyMobileStoryScene(index);
+        // Маршрутная шкала непрерывна: заливка доходит до узла ровно тогда,
+        // когда начинается его сцена (узлы стоят на i/(N-1)). Пишем после
+        // applyPanel(), который ставит своё дискретное значение для десктопа.
+        if (dotsEl) {
+          dotsEl.style.setProperty('--rail-progress', clamp01(rawPosition / (sceneCount - 1)).toFixed(4));
+        }
       }
 
       function onMobileStoryScroll() {
@@ -748,20 +893,33 @@
         requestAnimationFrame(tickMobileStory);
       }
 
+      function onMobileStoryResize() {
+        updateMobilePhoneGeometry();
+        onMobileStoryScroll();
+      }
+
+      storyTrack.style.setProperty('--story-track-h', (sceneCount * MOBILE_SCENE_VH) + 'svh');
+      storyStage.setAttribute('data-mobile-story', 'true');
+      mountCaptions();
+      updateMobilePhoneGeometry();
       applyMobileStoryScene(0);
       window.addEventListener('scroll', onMobileStoryScroll, { passive: true });
-      window.addEventListener('resize', updateMobilePhoneGeometry);
+      window.addEventListener('resize', onMobileStoryResize);
       tickMobileStory();
 
       return function cleanup() {
+        window.clearTimeout(cutTimer);
         window.removeEventListener('scroll', onMobileStoryScroll);
-        window.removeEventListener('resize', updateMobilePhoneGeometry);
-        mobileCaptions.forEach(function (caption) { caption.remove(); });
-        storyTrack.style.removeProperty('height');
-        storyStage.style.removeProperty('--mobile-phone-top');
-        storyStage.style.removeProperty('--mobile-phone-width');
-        storyStage.style.removeProperty('--mobile-story-progress');
-        storyStage.style.removeProperty('--mobile-route-offset');
+        window.removeEventListener('resize', onMobileStoryResize);
+        mounted.forEach(function (node) { node.remove(); });
+        dotEls.forEach(function (dot) { dot.classList.remove('is-done'); });
+        storyStage.classList.remove('is-cut');
+        storyTrack.style.removeProperty('--story-track-h');
+        ['--mobile-phone-top', '--mobile-phone-width', '--scene-p', '--story-p', '--story-exit']
+          .forEach(function (name) { storyStage.style.removeProperty(name); });
+        ['--st-base', '--st-key', '--st-tint']
+          .forEach(function (name) { storySection.style.removeProperty(name); });
+        if (dotsEl) dotsEl.style.removeProperty('--rail-progress');
         storyStage.removeAttribute('data-mobile-story');
       };
     }
@@ -847,9 +1005,13 @@
       };
     }
 
+    // Границы раскладок Story: ≤768px — закреплённая мобильная Story,
+    // 769…980px — прежний потоковый мобильный вариант, ≥981px — десктоп.
+    var mobileStoryMQ = window.matchMedia('(max-width:768px)');
+
     function setup() {
       if (teardown) teardown();
-      if (window.matchMedia('(max-width:768px)').matches) {
+      if (mobileStoryMQ.matches) {
         teardown = setupMobileStory();
       } else if (reduceMQ.matches) {
         teardown = setupMobileFlow();
@@ -877,12 +1039,9 @@
 
     setup();
 
-    if (desktopMQ.addEventListener) {
-      desktopMQ.addEventListener('change', setup);
-      reduceMQ.addEventListener('change', setup);
-    } else {
-      desktopMQ.addListener(setup);
-      reduceMQ.addListener(setup);
-    }
+    [desktopMQ, reduceMQ, mobileStoryMQ].forEach(function (mq) {
+      if (mq.addEventListener) mq.addEventListener('change', setup);
+      else mq.addListener(setup);
+    });
   }
 })();

@@ -23,7 +23,7 @@
   <link rel="stylesheet" href="assets/css/layout.css?v=mobile-story-7" />
   <link rel="stylesheet" href="assets/css/components.css?v=story-3" />
   <link rel="stylesheet" href="assets/css/hero-demo.css?v=premium-4" />
-  <link rel="stylesheet" href="assets/css/sections.css?v=mobile-story-9" />
+  <link rel="stylesheet" href="assets/css/sections.css?v=story-light-1" />
 </head>
 <body id="top">
 
@@ -87,9 +87,18 @@
     <div class="story__track" id="storyTrack">
       <div class="story__stage" id="storyStage">
 
-        <div class="story__mobile-backdrop" aria-hidden="true">
-          <span class="story__mobile-backdrop-layer is-active" data-story-tone="hero"></span>
-          <span class="story__mobile-backdrop-layer" data-story-tone="hero"></span>
+        <!-- Световой риг мобильной Story (≤768px). Постоянная геометрия света:
+             верхний луч → ключевой свет за телефоном → пол → виньетка → зерно.
+             Цвет и яркость непрерывно интерполируются скроллом (main.js пишет
+             --st-base/--st-key), поэтому атмосфера меняется без crossfade-слоёв.
+             На десктопе слой выключен (display:none), разметка не мешает grid. -->
+        <div class="story__rig" aria-hidden="true">
+          <span class="story__rig-beam"></span>
+          <span class="story__rig-key"></span>
+          <span class="story__rig-floor"></span>
+          <span class="story__rig-vignette"></span>
+          <span class="story__rig-grain"></span>
+          <span class="story__rig-sweep"></span>
         </div>
 
         <!-- Декоративные линии-потоки: от текста к телефону, с бегущими световыми импульсами -->
@@ -428,6 +437,10 @@
           </div>
         </div>
 
+        <!-- Мобильная Story: световая нить «заказ уходит из телефона в систему».
+             Соединяет низ телефона с маршрутной шкалой ниже. -->
+        <span class="story__thread" aria-hidden="true"><i></i></span>
+
         <div class="story__dots" id="storyDots" aria-hidden="true">
           <span data-dot="0" class="is-active"></span>
           <span data-dot="1"></span>
@@ -668,6 +681,6 @@
   </div>
 
   <script src="assets/js/hero-demo.js?v=story-3" defer></script>
-  <script src="assets/js/main.js?v=mobile-story-5" defer></script>
+  <script src="assets/js/main.js?v=story-light-1" defer></script>
 </body>
 </html>
