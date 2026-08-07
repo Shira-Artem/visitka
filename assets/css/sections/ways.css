@@ -1,0 +1,269 @@
+/* ============================================================
+   sections/ways.css — секция «Способы получения заказа»
+   Подключается после story.css, до final.css (см. шапку story.css).
+   ============================================================ */
+
+/* ---- Способы получения заказа: закреплённая scroll-сцена (~300vh) ----
+   Архитектура зеркалит .story выше: .ways__track держит общую прокручиваемую
+   высоту (main.js: WAYS_ACTS), .ways__stage — sticky на весь экран. JS
+   переключает акты по порогам прогресса, подсвечивая активный способ через
+   .is-active/.is-receded на карточках. На мобильном/reduced-motion пин
+   отключается (см. общий media-блок ниже) — карточки идут обычным потоком
+   с fade-up, как раньше. Три идентичности (fire/ember/lime) эхом повторяют
+   цвета .story__aura ролей выше — гость/касса/директор. ---- */
+.ways{position:relative}
+.ways__track{position:relative}
+.ways__stage{
+  position:sticky;top:0;height:100svh;overflow:hidden;box-sizing:border-box;
+  padding:100px 0 36px;display:flex;flex-direction:column;justify-content:center;
+}
+.ways__inner{position:relative;width:100%}
+
+.ways__aura{position:absolute;inset:-8% -6%;z-index:0;pointer-events:none;filter:blur(74px)}
+.ways__blob{position:absolute;border-radius:50%;opacity:.35;transition:opacity .6s var(--ease)}
+.ways__blob--a{top:4%;left:0;width:32vw;height:32vw;max-width:420px;max-height:420px;background:radial-gradient(circle,rgba(255,90,31,.22),transparent 70%);animation:blobDriftA 42s ease-in-out infinite}
+.ways__blob--b{top:-6%;left:50%;width:26vw;height:26vw;max-width:360px;max-height:360px;transform:translateX(-50%);background:radial-gradient(circle,rgba(240,160,34,.2),transparent 70%);animation:blobDriftB 52s ease-in-out infinite}
+.ways__blob--c{top:4%;right:0;width:32vw;height:32vw;max-width:420px;max-height:420px;background:radial-gradient(circle,rgba(91,191,23,.18),transparent 70%);animation:blobDriftC 46s ease-in-out infinite}
+.ways__blob.is-active{opacity:.85}
+.ways__aura:has(.ways__blob.is-active) .ways__blob:not(.is-active){opacity:.08}
+
+/* Мягкая цветовая подсветка сцены — эхо активного способа, включается
+   атрибутом data-way-mood на сцене (main.js). Без частиц и тяжёлого blur —
+   просто тихий radial-wash поверх фоновых пятен выше. */
+.ways__mood{position:absolute;inset:0;z-index:0;opacity:0;pointer-events:none;transition:opacity .8s var(--ease)}
+#waysStage[data-way-mood="0"] .ways__mood{opacity:.6;background:radial-gradient(60% 46% at 50% 0%,rgba(255,90,31,.14),transparent 72%)}
+#waysStage[data-way-mood="1"] .ways__mood{opacity:.6;background:radial-gradient(60% 46% at 50% 0%,rgba(240,160,34,.14),transparent 72%)}
+#waysStage[data-way-mood="2"] .ways__mood{opacity:.6;background:radial-gradient(60% 46% at 50% 0%,rgba(91,191,23,.13),transparent 72%)}
+
+.ways__head{position:relative;z-index:1;max-width:640px;margin:0 auto 40px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:16px}
+.ways__head h2{font-family:var(--font-display);font-size:clamp(28px,3.4vw,46px);line-height:1.08;text-transform:uppercase;transition:opacity .3s var(--ease)}
+.ways__head .lead{transition:opacity .3s var(--ease),margin .3s var(--ease),height .3s var(--ease)}
+.ways__stage.is-outro .ways__head .lead{opacity:0;height:0;margin:0;overflow:hidden}
+
+/* Степпер 01 → 02 → 03: заполняемый рельс, как .story__dots выше, но с
+   явными номерами — прогресс сцены должен читаться однозначно. */
+.ways__progress{position:relative;display:flex;align-items:center;justify-content:space-between;width:210px;margin-top:4px}
+.ways__progress::before{content:"";position:absolute;left:18px;right:18px;top:50%;height:2px;background:var(--border-strong);transform:translateY(-50%);z-index:0}
+.ways__progress::after{content:"";position:absolute;left:18px;top:50%;height:2px;width:calc((100% - 36px) * var(--rail-progress,0));background:linear-gradient(90deg,var(--fire-deep),var(--fire),var(--ember));box-shadow:0 0 10px rgba(255,90,31,.4);transform:translateY(-50%);transition:width .5s var(--ease);z-index:0}
+.ways__step{position:relative;z-index:1;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:800;color:var(--ink-3);background:var(--surface);border:1.5px solid var(--border-strong);transition:.4s var(--ease)}
+.ways__step.is-active{color:#fff;border-color:transparent;background:linear-gradient(135deg,var(--fire),var(--fire-deep));box-shadow:0 8px 18px -8px rgba(255,90,31,.55);transform:scale(1.08)}
+.ways__progress.is-complete .ways__step{color:#fff;border-color:transparent;background:linear-gradient(135deg,var(--fire),var(--fire-deep))}
+.ways__progress.is-complete .ways__step.is-active{transform:scale(1)}
+
+.ways__grid{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1080px;margin:0 auto}
+
+/* Карточка: держит фирменный цвет в --way-c/--way-glow (заданы инлайн в
+   разметке на каждой article). .is-active — активный способ в сцене
+   (укрупняется, показывает мини-демо вместо описания), .is-receded — два
+   остальных (отходят назад в 3D через translateZ и тускнеют). ---- */
+.way-card{
+  --way-c:var(--fire);--way-glow:rgba(255,90,31,.28);
+  position:relative;isolation:isolate;overflow:hidden;
+  display:flex;flex-direction:column;align-items:flex-start;
+  padding:34px 28px 28px;border-radius:var(--r-lg);
+  background:linear-gradient(165deg,rgba(255,255,255,.97),rgba(255,255,255,.88));
+  border:1px solid var(--border);box-shadow:var(--sh-md);
+  transform-style:preserve-3d;
+  transform:perspective(1000px) translateZ(0) translateY(0) scale(1);
+  transition:transform .6s cubic-bezier(.16,1,.3,1),box-shadow .5s var(--ease),border-color .5s var(--ease),opacity .5s var(--ease);
+}
+.way-card.is-active{
+  transform:perspective(1000px) translateZ(0) translateY(-6px) scale(1.045);
+  border-color:var(--way-c);z-index:3;
+  box-shadow:0 40px 80px -32px var(--way-glow),var(--sh-lg);
+}
+.way-card.is-receded{
+  transform:perspective(1000px) translateZ(-70px) translateY(0) scale(.9);
+  opacity:.5;z-index:1;
+}
+
+/* Призрачная нумерация — та же идея, что .story__act-panel::before у шагов
+   сценария выше: держит ритм «шаг за шагом» и подсвечена цветом карточки.
+   На активной карточке слегка «загорается» и приподнимается — тихий акцент,
+   эхо card__num/is-hot из референса. */
+.way-card__num{
+  position:absolute;top:-8px;right:16px;z-index:-1;
+  font-family:var(--font-display);font-size:96px;line-height:1;font-weight:800;
+  color:transparent;-webkit-text-stroke:1.5px var(--way-c);opacity:.16;
+  pointer-events:none;user-select:none;
+  transition:opacity .5s var(--ease),transform .5s cubic-bezier(.16,1,.3,1),-webkit-text-stroke-color .5s var(--ease);
+}
+.way-card.is-active .way-card__num{opacity:.3;transform:translateY(-4px) scale(1.03)}
+/* Статичное сияние — загорается вместе с .is-active, не следует за курсором:
+   сценой управляет скролл, а не мышь. */
+.way-card__glow{
+  position:absolute;inset:0;z-index:-1;border-radius:inherit;opacity:0;
+  background:radial-gradient(120% 90% at 50% 0%,var(--way-glow),transparent 65%);
+  transition:opacity .5s var(--ease);
+}
+.way-card.is-active .way-card__glow{opacity:1}
+/* Авто-spotlight, «дышит» по диагонали, пока карточка активна — эхо
+   card__spot/spotSweep из референса; курсор тут ни при чём, ведёт сцена. */
+.way-card__spot{
+  position:absolute;inset:-30%;z-index:-1;pointer-events:none;opacity:0;
+  background:radial-gradient(260px circle,var(--way-glow),transparent 62%);
+  background-repeat:no-repeat;background-size:220% 220%;background-position:20% 24%;
+  transition:opacity .5s var(--ease);
+}
+.way-card.is-active .way-card__spot{opacity:.8;animation:waySpotSweep 3.2s ease-in-out infinite}
+@keyframes waySpotSweep{0%,100%{background-position:18% 22%}50%{background-position:82% 78%}}
+
+/* Карточка «Закажи к столику» — фирменная фишка (QR) должна читаться сразу,
+   даже до наведения/активации: крупная QR-подложка в углу карточки, поверх
+   неё непрерывно бежит сканирующая полоса. На .is-active подложка и скан
+   становятся заметно ярче — карточка буквально «сканирует» сама себя. ---- */
+.way-card__qrfield{
+  position:absolute;right:0;bottom:0;width:46%;height:56%;z-index:-1;
+  color:var(--way-c);opacity:.045;overflow:hidden;pointer-events:none;
+  transition:opacity .6s var(--ease);
+  -webkit-mask-image:radial-gradient(circle at 100% 100%,#000 0%,transparent 70%);
+  mask-image:radial-gradient(circle at 100% 100%,#000 0%,transparent 70%);
+}
+.way-card__qrfield svg{width:100%;height:100%;display:block}
+.way-card.is-active .way-card__qrfield{opacity:.1}
+.way-card__qrfield-scan{
+  position:absolute;left:0;right:0;top:-30%;height:34%;
+  background:linear-gradient(180deg,transparent,var(--way-c) 48%,var(--way-c) 52%,transparent);
+  opacity:.4;filter:blur(1.5px);
+  animation:wayQrFieldScan 3.6s ease-in-out infinite;
+}
+.way-card.is-active .way-card__qrfield-scan{opacity:.75;animation-duration:2.2s}
+@keyframes wayQrFieldScan{0%,100%{top:-34%}50%{top:100%}}
+
+.way-card__icon{
+  position:relative;display:grid;place-items:center;width:58px;height:58px;margin-bottom:18px;
+  border-radius:16px;background:linear-gradient(150deg,#fff,rgba(255,255,255,.5));
+  border:1px solid var(--way-glow);
+  box-shadow:0 14px 30px -16px var(--way-glow),0 1px 0 rgba(255,255,255,.75) inset;
+  transition:transform .5s var(--ease);
+}
+.way-card.is-active .way-card__icon{transform:translateZ(24px) scale(1.08)}
+.way-icon{width:27px;height:27px;overflow:visible}
+.way-icon path,.way-icon circle,.way-icon rect{stroke-dashoffset:0}
+
+.way-card h3{font-size:19.5px;margin-bottom:8px;letter-spacing:-.01em;transition:transform .5s var(--ease)}
+.way-card.is-active h3{transform:translateZ(14px)}
+
+/* Тело карточки держит фиксированную высоту — описание и мини-демо лежат
+   друг на друге и кроссфейдят, чтобы переключение не двигало соседние карточки. */
+.way-card__body{position:relative;min-height:92px;width:100%;margin-bottom:16px}
+.way-card__desc{position:relative;color:var(--ink-2);font-size:13.5px;line-height:1.55;transition:opacity .4s var(--ease)}
+.way-card.is-active .way-card__desc{opacity:0}
+.way-card__demo{position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity .4s var(--ease) .12s}
+.way-card.is-active .way-card__demo{opacity:1}
+
+.way-card__tag{margin-top:auto;display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:800;letter-spacing:.02em;color:var(--ink-2)}
+.way-card__tag i{width:6px;height:6px;border-radius:50%;background:var(--way-c);box-shadow:0 0 8px var(--way-glow)}
+
+/* Живые детали внутри фирменных иконок — тихая ambient-подсказка, что
+   карточка «живая» даже до активации. */
+.way-icon__fx{animation:waySteam 2.6s ease-in-out infinite}
+.way-icon__fx--speed{animation:waySpeed 1.4s ease-in-out infinite}
+.way-icon__fx--speed:nth-of-type(2){animation-delay:.15s}
+.way-icon__fx--speed:nth-of-type(3){animation-delay:.3s}
+.way-icon__scan{animation:wayScan 2.2s ease-in-out infinite}
+@keyframes waySteam{0%,100%{transform:translateY(0) scaleY(1);opacity:.65}50%{transform:translateY(-3px) scaleY(1.18);opacity:1}}
+@keyframes waySpeed{0%,100%{opacity:.35;transform:translateX(0)}50%{opacity:.9;transform:translateX(3px)}}
+@keyframes wayScan{0%,100%{transform:translateY(0);opacity:.7}50%{transform:translateY(8px);opacity:1}}
+
+/* ---- Мини-демо №1 — Самовывоз: тикет заказа + штамп «Готово» ---- */
+.wd-pickup{display:flex;align-items:center;justify-content:space-between;gap:12px;height:100%}
+.wd-pickup__ticket{display:flex;flex-direction:column;gap:9px}
+.wd-pickup__ticket span{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--ink-2);opacity:0;transform:translateX(-6px)}
+.wd-pickup__ticket span i{width:6px;height:6px;border-radius:50%;background:var(--way-c);flex:none}
+.way-card__demo.is-playing .wd-pickup__ticket span:nth-child(1){animation:wdRowIn .5s var(--ease) .05s forwards}
+.way-card__demo.is-playing .wd-pickup__ticket span:nth-child(2){animation:wdRowIn .5s var(--ease) .18s forwards}
+@keyframes wdRowIn{to{opacity:1;transform:none}}
+
+.wd-pickup__stamp{display:flex;flex-direction:column;align-items:center;gap:2px;flex:none;opacity:0;transform:scale(1.5) rotate(-10deg)}
+.wd-pickup__stamp svg{width:40px;height:40px}
+.wd-pickup__stamp svg circle{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .5s var(--ease) .5s}
+.wd-pickup__stamp svg path{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .35s var(--ease) .85s}
+.wd-pickup__stamp b{font-size:10px;font-weight:900;letter-spacing:.05em;text-transform:uppercase;color:var(--way-c)}
+.way-card__demo.is-playing .wd-pickup__stamp{animation:wdStamp .55s cubic-bezier(.2,1.4,.4,1) .5s forwards}
+.way-card__demo.is-playing .wd-pickup__stamp svg circle,
+.way-card__demo.is-playing .wd-pickup__stamp svg path{stroke-dashoffset:0}
+@keyframes wdStamp{0%{opacity:0;transform:scale(1.6) rotate(-10deg)}65%{opacity:1;transform:scale(.94) rotate(-10deg)}100%{opacity:1;transform:scale(1) rotate(-10deg)}}
+
+/* ---- Мини-демо №2 — Доставка: маршрут с бегущим курьером + шлейф скорости ----
+   Раньше тут была нейтральная точка-пульс — неотличимая от пульса карточки 3.
+   Теперь курьер — маленькая «стрелка», которая физически разворачивается по
+   ходу движения (offset-rotate:auto) и тащит за собой размытый комет-хвост
+   (box-shadow в локальных координатах уезжает «назад» вместе с поворотом) —
+   это и есть speed-lines эффект, без лишних DOM-узлов. ---- */
+.wd-route{display:flex;align-items:center;gap:9px}
+.wd-route__pin{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;color:var(--way-c);background:var(--way-glow)}
+.wd-route__pin svg{width:13px;height:13px}
+.wd-route__pathwrap{position:relative;flex:none;width:150px;height:24px}
+.wd-route__path{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.wd-route__path path{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .7s var(--ease) .05s;filter:drop-shadow(0 0 3px var(--way-glow))}
+.way-card__demo.is-playing .wd-route__path path{stroke-dashoffset:0}
+.wd-route__courier{
+  position:absolute;top:0;left:0;width:0;height:0;margin:0;opacity:0;
+  offset-path:path("M6,14 C54,2 126,26 174,14");offset-distance:0%;offset-rotate:auto;
+}
+.wd-route__courier::before{
+  content:"";position:absolute;top:-5px;left:-2px;width:10px;height:10px;
+  background:var(--way-c);clip-path:polygon(100% 50%,0 0,22% 50%,0 100%);
+  filter:drop-shadow(0 0 6px var(--way-glow));
+}
+.wd-route__courier::after{
+  content:"";position:absolute;top:-1.5px;left:-16px;width:14px;height:3px;border-radius:3px;
+  background:linear-gradient(90deg,transparent,var(--way-c));opacity:.55;
+}
+.way-card__demo.is-playing .wd-route__courier{animation:wdCourierTravel 1.3s cubic-bezier(.16,1,.3,1) .45s forwards}
+@keyframes wdCourierTravel{0%{offset-distance:0%;opacity:0}8%{opacity:1}90%{opacity:1}100%{offset-distance:100%;opacity:0}}
+.wd-route__eta{
+  display:inline-flex;align-items:center;gap:7px;margin-top:10px;
+  font-size:12px;font-weight:700;color:var(--ink-2);opacity:0;transform:translateY(4px);
+}
+.way-card__demo.is-playing .wd-route__eta{animation:wdRowIn .5s var(--ease) 1.5s forwards}
+.wd-route__eta i{width:6px;height:6px;border-radius:50%;background:var(--way-c);box-shadow:0 0 8px var(--way-glow);flex:none}
+.way-card__demo.is-playing .wd-route__eta i{animation:wayPulseDot 1.6s ease-in-out 2s infinite}
+.wd-route__eta b{color:var(--way-c)}
+@keyframes wayPulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+
+/* ---- Мини-демо №3 — К столику: QR со скан-линией → сигнал → кухня → блюдо ----
+   Раньше начиналось с той же пары «пин + дугообразный путь + точка», что и
+   карточка 2 — визуально дублировало её. Теперь старт — узнаваемый QR-глиф
+   со скан-линией (тот же язык, что иконка карточки), путь до кухни — прямой
+   пунктир с редкими сигнальными импульсами, а не дуга. ---- */
+.wd-table{display:flex;align-items:center;gap:9px}
+.wd-table__qr{position:relative;flex:none;width:28px;height:28px;color:var(--way-c);opacity:0;transform:scale(.85)}
+.way-card__demo.is-playing .wd-table__qr{animation:wdQrIn .45s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes wdQrIn{to{opacity:1;transform:scale(1)}}
+.wd-table__scan{
+  position:absolute;left:6%;right:6%;top:4%;height:2px;border-radius:2px;
+  background:linear-gradient(90deg,transparent,var(--way-c),transparent);
+  opacity:0;box-shadow:0 0 6px var(--way-glow);
+}
+.way-card__demo.is-playing .wd-table__scan{animation:wdQrScan 1.3s ease-in-out .25s 2;animation-fill-mode:forwards}
+@keyframes wdQrScan{0%{top:4%;opacity:0}8%{opacity:1}92%{opacity:1}100%{top:92%;opacity:0}}
+.wd-table__pin{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;color:var(--way-c);background:var(--way-glow);transition:transform .3s var(--ease)}
+.wd-table__pin svg{width:13px;height:13px}
+.way-card__demo.is-playing .wd-table__pin--kitchen{animation:wdKitchenFlash .5s var(--ease) 1.4s forwards}
+@keyframes wdKitchenFlash{0%,100%{transform:scale(1)}45%{transform:scale(1.2)}}
+.wd-table__pathwrap{position:relative;flex:none;width:120px;height:20px}
+.wd-table__path{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.wd-table__path path{stroke-dasharray:1 3.4;stroke-dashoffset:0;opacity:0}
+.way-card__demo.is-playing .wd-table__path path{animation:wdDashIn .3s var(--ease) .9s forwards,wdDashFlow 1s linear 1.2s infinite}
+@keyframes wdDashIn{to{opacity:.6}}
+@keyframes wdDashFlow{to{stroke-dashoffset:-8.8}}
+.wd-table__signal{
+  position:absolute;top:0;left:0;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;
+  background:var(--way-c);box-shadow:0 0 8px var(--way-glow);opacity:0;
+  offset-path:path("M4,10 C40,10 80,10 116,10");offset-distance:0%;
+}
+.way-card__demo.is-playing .wd-table__signal{animation:wdPulseTravel .7s var(--ease) 1s forwards}
+@keyframes wdPulseTravel{0%{offset-distance:0%;opacity:0}10%{opacity:1}88%{opacity:1}100%{offset-distance:100%;opacity:0}}
+.wd-table__plate{display:flex;align-items:center;gap:9px;margin-top:10px;opacity:0;transform:translateY(6px)}
+.wd-table__plate svg{width:28px;height:28px;flex:none}
+.wd-table__plate svg circle:first-child{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .6s var(--ease) 1.7s}
+.wd-table__plate b{font-size:12px;font-weight:700;color:var(--ink-2)}
+.way-card__demo.is-playing .wd-table__plate{animation:wdRowIn .5s var(--ease) 1.7s forwards}
+.way-card__demo.is-playing .wd-table__plate svg circle:first-child{stroke-dashoffset:0}
+
+/* Финальная фраза мобильного фолбэка — на десктопе не используется: там
+   «Один сервис. Любой способ получить заказ.» подставляется прямо в h2/eyebrow
+   сцены (main.js), см. .ways__stage.is-outro выше. */
+.ways__outro-mobile{display:none}

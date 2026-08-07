@@ -56,7 +56,8 @@ h1,h2,h3{line-height:1.02;letter-spacing:-.025em;font-weight:900;color:var(--ink
 .grad-text{background:linear-gradient(100deg,var(--fire-deep) 0%,var(--fire) 50%,var(--ember) 100%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shineSweep 7s linear infinite}
 
 /* ---- Премиальный 3D-шрифт заголовков: слоистая экструзия text-shadow (в
-   sections.css у .story__headline/.final h2) даёт объём без WebGL; keyframes
+   sections/story.css у .story__headline и sections/final.css у .final h2)
+   даёт объём без WebGL; keyframes
    общие — shineSweep для grad-text, text3dTilt для лёгкого наклона в покое
    (перспектива задаётся на предке: .story__copy/.final__panel). ---- */
 @keyframes shineSweep{0%{background-position:0% 0}100%{background-position:220% 0}}

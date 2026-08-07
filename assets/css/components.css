@@ -38,7 +38,7 @@
    геометрия/позиционирование, которые hero-demo.css не переобъявляет. ---- */
 .phone-wrap{position:relative;display:flex;justify-content:flex-end;align-items:center;min-height:640px;padding:0;perspective:2400px;isolation:isolate;overflow:visible}
 /* Нейтральный "стеклянный" подсвет корпуса — приглушён, чтобы цвет задавала
-   роль-реактивная .story__aura (sections.css) позади, а не фиксированный блик тут. */
+   роль-реактивная .story__aura (sections/story.css) позади, а не фиксированный блик тут. */
 .phone-wrap::before{content:"";position:absolute;left:50%;top:48%;width:min(600px,100%);height:min(610px,105%);transform:translate(-50%,-48%);background:radial-gradient(ellipse at 48% 46%,rgba(255,255,255,.4) 0 20%,rgba(255,255,255,.2) 34%,transparent 68%);filter:blur(28px);opacity:.5;z-index:0;pointer-events:none}
 .phone-wrap::after{content:"";position:absolute;left:56%;bottom:16%;width:min(440px,78%);height:100px;transform:translateX(-44%);background:linear-gradient(90deg,transparent,rgba(255,255,255,.16),rgba(255,255,255,.12),transparent);filter:blur(22px);opacity:.4;z-index:1;pointer-events:none}
 .hero-demo{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;width:min(100%,500px);transform:translateX(clamp(10px,3.2vw,58px))}

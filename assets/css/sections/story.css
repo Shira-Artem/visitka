@@ -1,0 +1,199 @@
+/* ============================================================
+   sections/story.css — секция Story (базовая, pin-раскладка)
+   Здесь только раскладка блоков; сами карточки — в components.css
+
+   ВАЖНО: файлы sections/* — это бывший единый sections.css, разрезанный
+   без единой правки правил. Порядок подключения в index.html
+     story → ways → final → adaptive → story-mobile
+   повторяет исходный порядок строк, поэтому каскад не изменился.
+   Переставлять <link> местами нельзя: часть правил спорит на равной
+   специфичности и разрешается только порядком (например
+   .story__stage[data-order-phase="cash"] .story__dots в этом файле
+   против .story__stage[data-order-phase] .story__dots в story-mobile.css).
+   ============================================================ */
+
+/* ---- Story: единственный телефон, sticky от Hero до акта «Директор» ----
+   Требование: телефон — один и тот же DOM-узел на всём пути, без скачков/дублей
+   на границе Hero → pin. Высота .story__track выставляется JS (main.js:STORY_ACTS),
+   здесь только структура и crossfade. ---- */
+.story{position:relative}
+.story__track{position:relative}
+.story__stage{
+  position:sticky;top:0;height:100svh;
+  max-width:var(--maxw);margin:0 auto;padding:96px 24px 34px;box-sizing:border-box;
+  display:grid;grid-template-columns:minmax(0,1.05fr) minmax(360px,.95fr);
+  align-items:stretch;gap:clamp(28px,4vw,56px);
+  --cash-progress:0;
+  --cash-intro:0;
+  --cash-paper:0;
+  --cash-head:0;
+  --cash-number:0;
+  --cash-received:0;
+  --cash-accept:0;
+  --cash-accepted:0;
+  --cash-line-1:0;
+  --cash-line-2:0;
+  --cash-line-3:0;
+  --cash-total:0;
+  --cash-sent:0;
+  --cash-status-progress:0;
+}
+/* Линии-потоки: тонкая связь между текстом истории и живым телефоном справа —
+   только десктоп/pin-раскладка, где эта геометрия текст→телефон буквально верна. */
+.story__flowlines{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+.story__flowline{fill:none;stroke:url(#flowLineGrad);stroke-width:1.4;stroke-linecap:round}
+.story__flowpulse{fill:#ffcf9e;filter:drop-shadow(0 0 5px rgba(255,122,61,.85)) drop-shadow(0 0 1.5px rgba(255,255,255,.9))}
+.story__copy{position:relative;counter-reset:act;perspective:900px}
+.story__act-panel{
+  position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;
+  pointer-events:none;counter-increment:act;
+}
+.story__act-panel.is-active{pointer-events:auto}
+/* Мобильный бейдж-иконка роли — существует только в компактной раскладке
+   ниже (см. "Адаптив"); на десктопе вместо него ghost-нумерация ::before. */
+.story__act-badge{display:none}
+/* Ghost-нумерация акта: заполняет пустоту вокруг короткого текста, держит ритм истории */
+.story__act-panel::before{
+  content:counter(act,decimal-leading-zero);
+  position:absolute;top:-2%;left:-1%;z-index:-1;
+  font-family:var(--font-display);
+  font-size:clamp(110px,13vw,210px);line-height:1;font-weight:900;letter-spacing:-.03em;
+  color:transparent;-webkit-text-stroke:2px rgba(255,90,31,.16);
+  text-shadow:2px 3px 0 rgba(23,19,16,.05),6px 9px 20px rgba(255,90,31,.1);
+  opacity:0;transform:scale(.94);
+  transition:opacity .7s var(--ease) .05s,transform 1.1s var(--ease) .05s;
+  pointer-events:none;
+}
+.story__act-panel.is-active::before{opacity:1;transform:scale(1)}
+/* Каждый прямой потомок панели появляется отдельно — расстановка + фокус вместо резкого fade */
+.story__act-panel>*{
+  opacity:0;transform:translateY(18px);filter:blur(6px);
+  transition:opacity .55s var(--ease),transform .55s var(--ease),filter .55s var(--ease);
+}
+.story__act-panel.is-active>*{opacity:1;transform:none;filter:blur(0)}
+.story__act-panel.is-active>*:nth-child(1){transition-delay:.02s}
+.story__act-panel.is-active>*:nth-child(2){transition-delay:.09s}
+.story__act-panel.is-active>*:nth-child(3){transition-delay:.16s}
+.story__kicker{margin-bottom:18px;width:fit-content}
+.story__headline{
+  font-family:var(--font-display);font-weight:900;line-height:1.04;letter-spacing:-.01em;
+  color:var(--ink);text-transform:uppercase;margin-bottom:22px;transform-style:preserve-3d;
+  text-shadow:0 3px 0 rgba(23,19,16,.92);
+}
+.story__headline .grad-text{text-shadow:0 3px 0 rgba(150,36,5,.92)}
+.story__headline--hero{font-size:clamp(32px,4.6vw,60px);animation:text3dTilt 9s var(--ease) infinite;will-change:transform}
+.story__headline--hero .line{display:block;overflow:hidden}
+.story__headline--hero .line span{display:block;transform:translateY(105%);animation:lineUp .8s var(--ease) forwards}
+.story__headline--hero .line:nth-child(2) span{animation-delay:.07s}
+.story__headline--hero .line:nth-child(3) span{animation-delay:.14s}
+.story__headline--hero .line:nth-child(4) span{animation-delay:.21s}
+.story__headline--sm{font-size:clamp(26px,2.8vw,38px);margin-bottom:8px}
+/* Финальный акт «Директор»: крупнее, туже, без теней — раскрывается построчно через маску */
+.story__headline--director{
+  font-weight:800;font-size:clamp(32px,3.5vw,48px);line-height:.88;letter-spacing:-.05em;
+  text-shadow:none;margin-bottom:10px;
+}
+.story__headline--director .line{display:block;overflow:hidden}
+.story__headline--director .line>span{display:block;transform:translateY(105%)}
+.story__act-panel.is-active .story__headline--director .line>span{animation:lineUp .5s var(--ease) forwards}
+.story__act-panel.is-active .story__headline--director .line:nth-child(2)>span{animation-delay:.07s}
+.story__headline--director .story__accent{
+  display:inline-block;color:var(--fire);font-size:1.15em;opacity:0;transform:scale(.9);
+}
+.story__act-panel.is-active .story__headline--director .story__accent{animation:accentPop .5s var(--ease) .32s forwards}
+@keyframes accentPop{to{opacity:1;transform:scale(1)}}
+.story__subline{font-size:14px;font-weight:600;color:var(--ink-3);text-transform:none;letter-spacing:0}
+.story__actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:8px}
+.story__cta-mobile{display:none}
+.story__demo-link-mobile{display:none}
+.story__hint-mobile{display:none}
+/* Mobile-only decorative layers must not become grid items in the desktop Story. */
+.story__rig,.story__thread,.story__pulse,.story__cue,.story__mobile-caption{display:none}
+.story__chip{display:inline-flex;align-items:center;gap:8px;margin-top:14px;padding:10px 16px;border-radius:100px;font-size:13px;font-weight:800;color:var(--ink-2);background:rgba(255,255,255,.78);border:1px solid var(--border-strong);box-shadow:var(--sh-sm);backdrop-filter:blur(12px);width:fit-content}
+.story__phone-col{position:relative;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px}
+/* Аура за телефоном: цвет меняется по активной роли (гость/касса/кухня/директор) */
+.story__aura{position:absolute;inset:-30% -18%;z-index:0;pointer-events:none;filter:blur(64px);isolation:isolate}
+.story__aura span{position:absolute;inset:0;opacity:0;transition:opacity 1.1s var(--ease);background:radial-gradient(ellipse 62% 56% at 50% 38%,var(--aura-c),transparent 72%)}
+.story__aura span.is-active{opacity:.9}
+.story__aura span[data-aura-role="guest"]{--aura-c:rgba(255,122,61,.65)}
+.story__aura span[data-aura-role="cash"]{--aura-c:rgba(240,158,34,.68)}
+.story__aura span[data-aura-role="cook"]{--aura-c:rgba(216,98,30,.68)}
+.story__aura span[data-aura-role="director"]{--aura-c:rgba(41,140,105,.62)}
+.story__dots{position:relative;display:flex;align-items:center;gap:8px;padding:0 2px}
+.story__dots::before{content:"";position:absolute;left:3px;right:3px;top:50%;height:1px;background:var(--border-strong);transform:translateY(-50%)}
+.story__dots::after{content:"";position:absolute;left:3px;top:50%;height:1px;width:calc((100% - 6px) * var(--rail-progress,0));background:linear-gradient(90deg,var(--fire-deep),var(--fire));box-shadow:0 0 8px rgba(255,90,31,.5);transform:translateY(-50%);transition:width .35s var(--ease)}
+.story__dots span{position:relative;z-index:1;width:7px;height:7px;border-radius:50%;background:var(--border-strong);transition:.3s var(--ease)}
+.story__dots span.is-active{background:var(--fire);width:22px;border-radius:5px;box-shadow:0 0 10px rgba(255,90,31,.35)}
+
+/* ---- Cash copy is driven by the shared external order object. ---- */
+.story__act-panel[data-act="cash"]::before{display:none}
+
+.story__headline--cash{
+  font-family:'Manrope',sans-serif;font-weight:900;font-size:clamp(40px,5.25vw,74px);
+  line-height:.89;letter-spacing:-.075em;text-shadow:none;margin:0;
+  opacity:var(--cash-intro)!important;transform:none!important;filter:none!important;transition:none!important;
+}
+.story__headline--cash .line{display:block;overflow:hidden;padding:.09em 0 .13em}
+.story__headline--cash .line>span{display:block;transform:translateY(calc((1 - var(--cash-intro)) * 108%));will-change:transform}
+.story__act-panel.is-active .story__headline--cash .line>span{animation:none}
+.story__headline--cash em{display:inline-block;font:inherit;font-size:1.25em;color:#e96312;font-style:normal;letter-spacing:-.09em}
+.cash-story__mobile-note{display:none}
+
+
+/* ---- The external receipt belongs to the cashier chapter only. ---- */
+.order-story{display:none;position:absolute;inset:0;z-index:2;overflow:hidden;pointer-events:none;opacity:0;visibility:hidden}
+.story__stage[data-order-phase="cash"] .order-story{display:block;opacity:1;visibility:visible}
+.story__stage[data-order-phase="cash"] .story__copy,
+.story__stage[data-order-phase="cash"] .story__phone-col{z-index:4}
+.story__stage[data-order-phase="cash"] .story__flowlines,
+.story__stage[data-order-phase="cash"] .story__dots{opacity:0;visibility:hidden}
+.story__stage[data-order-phase="cash"] .story__aura,
+.story__stage[data-order-phase="cash"] .phone-wrap::before,
+.story__stage[data-order-phase="cash"] .phone-wrap::after{opacity:0}
+
+/* Cash composition: headline and the unchanged phone stay above the receipt layer. */
+.story__stage[data-order-phase="cash"] .story__act-panel[data-act="cash"]{justify-content:flex-start;padding-top:0}
+.story__stage[data-order-phase="cash"] .story__headline--cash{font-size:clamp(38px,4.6vw,64px);line-height:.87}
+
+.cash-receipt{
+  position:absolute;left:8.7%;top:35.3%;width:380px;min-height:460px;padding:32px 34px 29px;
+  box-sizing:border-box;color:#553018;background:linear-gradient(160deg,#fffef9 0%,#fff8eb 100%);
+  border:1px solid rgba(152,82,26,.17);border-radius:3px;box-shadow:0 22px 48px -36px rgba(113,61,18,.34);
+  opacity:0;transform:translateY(12px);clip-path:inset(0 0 calc((1 - var(--cash-paper)) * 100%) 0);
+}
+.story__stage[data-order-phase="cash"] .cash-receipt{opacity:var(--cash-paper);transform:translateY(calc((1 - var(--cash-paper)) * 12px))}
+.story__stage[data-order-phase="cash"] .order-story::before{content:"";position:absolute;left:3.5%;top:29%;width:470px;height:500px;background:radial-gradient(ellipse,rgba(239,151,47,.16),transparent 70%);opacity:var(--cash-paper)}
+.cash-receipt::before{content:"";position:absolute;inset:-35px -44px;z-index:-1;background:radial-gradient(ellipse,rgba(239,151,47,.18),transparent 69%)}
+.cash-receipt__feed{position:absolute;left:20px;right:20px;top:calc(var(--cash-paper) * 100% - 2px);height:2px;background:linear-gradient(90deg,transparent,#ed983d 20%,#ffd79a 50%,#ed983d 80%,transparent);opacity:calc(1 - var(--cash-head));box-shadow:0 0 9px rgba(232,127,32,.28)}
+.cash-receipt__head{display:grid;gap:7px;padding-bottom:22px;border-bottom:1px solid rgba(99,50,16,.16)}
+.cash-receipt__head span{font:800 9px/1 'Manrope',sans-serif;letter-spacing:.17em;text-transform:uppercase;color:#ad621f;opacity:var(--cash-head);transform:translateY(calc((1 - var(--cash-head)) * 7px))}
+.cash-receipt__head strong{font:900 37px/.92 'Manrope',sans-serif;letter-spacing:-.07em;opacity:var(--cash-number);transform:translateY(calc((1 - var(--cash-number)) * 9px))}
+.cash-receipt__items{display:grid;gap:13px;margin-top:26px}
+.cash-receipt__items span{display:flex;justify-content:space-between;gap:12px;padding-bottom:12px;border-bottom:1px solid rgba(93,45,15,.13);font:800 11px/1.25 'Manrope',sans-serif;opacity:0;transform:translateY(8px)}
+.cash-receipt__items span b{font:inherit}.cash-receipt__items span em{font-style:normal;color:#a95a1d}
+.cash-receipt__items i{display:block;height:1px;background:rgba(93,45,15,.28);transform-origin:left;opacity:var(--cash-line-3);transform:scaleX(var(--cash-line-3))}
+.cash-receipt__items span:nth-child(1){opacity:var(--cash-line-1);transform:translateY(calc((1 - var(--cash-line-1)) * 8px))}
+.cash-receipt__items span:nth-child(2){opacity:var(--cash-line-2);transform:translateY(calc((1 - var(--cash-line-2)) * 8px))}
+.cash-receipt__total{display:flex;justify-content:space-between;align-items:baseline;margin-top:18px;opacity:var(--cash-total);transform:translateY(calc((1 - var(--cash-total)) * 8px))}
+.cash-receipt__total span{font:800 10px/1 'Manrope',sans-serif;color:#a95a1d}.cash-receipt__total b{font:900 29px/1 'Manrope',sans-serif;letter-spacing:-.07em}
+.cash-receipt__statuses{position:relative;display:flex;flex-direction:column;gap:9px;margin-top:25px;padding:13px 0 0 18px;border-top:1px solid rgba(112,56,16,.13)}
+.cash-receipt__statuses::before,.cash-receipt__statuses::after{content:"";position:absolute;left:3px;top:20px;bottom:5px;width:1px;background:rgba(112,56,16,.15)}
+.cash-receipt__statuses::after{background:#d77725;transform-origin:top;transform:scaleY(var(--cash-status-progress))}
+.cash-receipt__statuses span{position:relative;font:800 10px/1.2 'Manrope',sans-serif;color:#5f3a1d;opacity:0;transform:translateY(5px)}
+.cash-receipt__statuses span::before{content:"";position:absolute;left:-18px;top:2px;width:7px;height:7px;border:2px solid #fff7e8;border-radius:50%;box-sizing:border-box;background:#d77725}
+.cash-receipt__statuses span:nth-child(1){opacity:var(--cash-sent);transform:translateY(calc((1 - var(--cash-sent)) * 5px))}
+.cash-receipt__statuses span:nth-child(2){opacity:var(--cash-received);transform:translateY(calc((1 - var(--cash-received)) * 5px))}
+.cash-receipt__statuses span:nth-child(3){opacity:var(--cash-accepted);transform:translateY(calc((1 - var(--cash-accepted)) * 5px))}
+.cash-receipt__done{display:flex;align-items:center;gap:8px;height:calc(var(--cash-accepted) * 35px);margin:calc(var(--cash-accepted) * 14px) 0 0;padding-top:calc(var(--cash-accepted) * 12px);overflow:hidden;border-top:1px solid rgba(112,56,16,calc(var(--cash-accepted) * .13));font:800 11px/1.2 'Manrope',sans-serif;color:#41752a;opacity:var(--cash-accepted);transform:translateY(calc((1 - var(--cash-accepted)) * 6px))}
+.cash-receipt__done i{display:grid;place-items:center;width:18px;height:18px;border-radius:50%;background:#5f9d48;color:#fff}
+.cash-receipt__done svg{width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2.35;stroke-linecap:round;stroke-linejoin:round}
+.cash-receipt__done path{stroke-dasharray:18;stroke-dashoffset:calc(18 - var(--cash-accepted) * 18)}
+.cash-receipt__pulse{position:absolute;left:23.5%;top:60%;width:54px;height:54px;border:1.5px solid rgba(218,117,29,.4);border-radius:50%;opacity:0;transform:translate(-50%,-50%) scale(.65)}
+.story__stage[data-order-phase="cash"] .cash-receipt__pulse{opacity:calc(var(--cash-accepted) * .38);transform:translate(-50%,-50%) scale(calc(.65 + var(--cash-accepted) * .55))}
+
+@media (max-width:980px), (prefers-reduced-motion:reduce){
+  .cash-story,.order-story{display:none!important}
+  .story__headline--cash{font-size:clamp(36px,12vw,55px);line-height:.92;opacity:1!important}
+  .story__headline--cash .line>span{transform:none!important}
+  .cash-story__mobile-note{display:flex;align-items:center;gap:9px;margin-top:18px;font:800 13px/1.3 'Manrope',sans-serif;color:#587536}
+}

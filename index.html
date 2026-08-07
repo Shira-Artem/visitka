@@ -17,13 +17,21 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&family=Unbounded:wght@700;800;900&display=swap" rel="stylesheet" />
 
-  <!-- Стили (модульно: токены → база → раскладка → компоненты → секции) -->
-  <link rel="stylesheet" href="assets/css/tokens.css?v=premium-4" />
-  <link rel="stylesheet" href="assets/css/base.css?v=premium-4" />
-  <link rel="stylesheet" href="assets/css/layout.css?v=mobile-story-7" />
-  <link rel="stylesheet" href="assets/css/components.css?v=story-3" />
-  <link rel="stylesheet" href="assets/css/hero-demo.css?v=premium-4" />
-  <link rel="stylesheet" href="assets/css/sections.css?v=story-pulse-1" />
+  <!-- Стили (модульно: токены → база → раскладка → компоненты → секции).
+       Версий ?v= здесь больше нет: инвалидацию кэша делает build.mjs,
+       он же кладёт в dist/ файлы с хэшем в имени. В деве работает
+       обычная перепроверка по Last-Modified. Порядок sections/* менять
+       нельзя — часть правил разрешается именно им (см. sections/story.css). -->
+  <link rel="stylesheet" href="assets/css/tokens.css" />
+  <link rel="stylesheet" href="assets/css/base.css" />
+  <link rel="stylesheet" href="assets/css/layout.css" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+  <link rel="stylesheet" href="assets/css/hero-demo.css" />
+  <link rel="stylesheet" href="assets/css/sections/story.css" />
+  <link rel="stylesheet" href="assets/css/sections/ways.css" />
+  <link rel="stylesheet" href="assets/css/sections/final.css" />
+  <link rel="stylesheet" href="assets/css/sections/adaptive.css" />
+  <link rel="stylesheet" href="assets/css/sections/story-mobile.css" />
 </head>
 <body id="top">
 
@@ -685,7 +693,11 @@
     <a href="#final" class="btn btn--fire btn--lg">🔥 Заказать сейчас</a>
   </div>
 
-  <script src="assets/js/hero-demo.js?v=story-3" defer></script>
-  <script src="assets/js/main.js?v=story-pulse-1" defer></script>
+  <!-- hero-demo.js остаётся обычным скриптом: он выставляет глобальный
+       window.YJ_HERO_DEMO, на который смотрит main.js. defer-скрипт и
+       модуль выполняются в порядке следования в документе, поэтому
+       к моменту старта main.js телефон уже готов. -->
+  <script src="assets/js/hero-demo.js" defer></script>
+  <script src="assets/js/main.js" type="module"></script>
 </body>
 </html>

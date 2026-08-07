@@ -1,0 +1,390 @@
+/* ============================================================
+   sections/story-mobile.css — мобильная Story «Свет заказа» (≤768px)
+   Подключается последним из sections/* (см. шапку story.css): часть
+   правил здесь перебивает adaptive.css/story.css именно порядком.
+   Состояние сцены пишет assets/js/modules/story/mobile-story.js.
+   ============================================================ */
+
+/* ============================================================
+   МОБИЛЬНАЯ STORY (≤768px) — «Свет заказа»
+   ------------------------------------------------------------
+   Один закреплённый кадр на 6 сцен: гость → выбор → оплата →
+   касса → кухня → директор. Телефон стоит в кадре неподвижно
+   (одна координата, один размер на всю историю), меняется только
+   свет вокруг него и подпись сверху.
+
+   Единственный источник состояния — main.js: setupMobileStory()
+   пишет на #storyStage непрерывные переменные
+     --st-base / --st-key / --st-tint  — цвет атмосферы (лерп по скроллу),
+     --story-p / --scene-p             — общий и локальный прогресс,
+     --story-exit                      — мягкий уход в секцию «Способы»,
+   и дискретный класс .is-active на активной панели.
+   Всё ниже — только чтение этих переменных, никакой второй логики
+   сцен в CSS. Блок целиком заперт в @media (max-width:768px) и
+   селекторе #storyStage[data-mobile-story], поэтому десктоп и всё,
+   что ниже Story, не затрагиваются.
+   ============================================================ */
+@media (max-width:768px){
+  /* Тон сцены живёт на секции (JS: setupMobileStory → paintAtmosphere) и
+     наследуется вниз — фон секции и риг гарантированно одного цвета. */
+  .story{
+    position:relative;overflow:clip;
+    --st-base:247,240,231;
+    --st-key:255,176,120;
+    --st-tint:176,92,58;
+    background:rgb(var(--st-base));
+  }
+  /* Общий блок ≤980px выше выключает пин через height:auto!important —
+     мобильная Story возвращает свою высоту тем же весом, через переменную,
+     которую пишет main.js (единственный владелец длины сценария). */
+  .story__track{position:relative;height:var(--story-track-h,648svh)!important}
+  .story__stage{
+    position:sticky;top:0;height:100svh;min-height:0;max-width:none;margin:0;padding:0;
+    display:block;overflow:hidden;isolation:isolate;background:transparent;
+    --scene-p:0;--story-p:0;--story-exit:0;
+    --mobile-phone-top:249px;
+    --mobile-phone-width:200px;
+  }
+  .story__stage::before{display:none}
+
+  /* ---- Световой риг: постоянная геометрия, меняется только цвет ---- */
+  .story__rig{position:absolute;inset:0;z-index:0;display:block;overflow:hidden;pointer-events:none;background:rgb(var(--st-base))}
+  .story__rig>span{position:absolute;display:block;pointer-events:none}
+  /* В финале гаснет весь свет сцены, а база уже уведена в цвет страницы —
+     Story не обрывается, а спокойно передаёт кадр секции «Способы». */
+  .story__rig-beam,.story__rig-key,.story__rig-floor{opacity:calc(1 - var(--story-exit))}
+  /* Верхний луч — сцена именно освещена сверху, а не залита градиентом */
+  .story__rig-beam{
+    left:50%;top:-26%;width:190%;height:104%;transform:translateX(-50%);
+    background:conic-gradient(from 156deg at 50% 0%,
+      transparent 0deg,
+      rgba(var(--st-key),0) 4deg,
+      rgba(var(--st-key),.2) 12deg,
+      rgba(var(--st-key),.44) 21deg,
+      rgba(var(--st-key),.5) 24deg,
+      rgba(var(--st-key),.44) 27deg,
+      rgba(var(--st-key),.2) 36deg,
+      rgba(var(--st-key),0) 44deg,
+      transparent 360deg);
+    -webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,.35) 0%,#000 26%,rgba(0,0,0,.5) 72%,transparent 97%);
+    mask-image:linear-gradient(180deg,rgba(0,0,0,.35) 0%,#000 26%,rgba(0,0,0,.5) 72%,transparent 97%);
+  }
+  /* Ключевой свет за телефоном — центр композиции */
+  .story__rig-key{
+    left:50%;top:calc(var(--mobile-phone-top) + var(--mobile-phone-width) * 1.08);
+    width:150%;height:74svh;transform:translate(-50%,-50%);
+    background:radial-gradient(ellipse 44% 46% at 50% 50%,
+      rgba(255,255,255,.55) 0%,
+      rgba(var(--st-key),.9) 16%,
+      rgba(var(--st-key),.44) 40%,
+      rgba(var(--st-key),.14) 62%,
+      transparent 78%);
+  }
+  /* Пол: отражённый свет и притяжение композиции к низу кадра */
+  .story__rig-floor{
+    left:-12%;right:-12%;bottom:0;width:124%;height:38%;
+    background:
+      radial-gradient(60% 42% at 50% 22%,rgba(var(--st-key),.3),transparent 72%),
+      linear-gradient(180deg,transparent,rgba(58,34,16,.08) 54%,rgba(58,34,16,.2));
+  }
+  .story__rig-vignette{
+    inset:0;width:100%;height:100%;
+    background:
+      linear-gradient(180deg,rgba(52,31,16,.13),transparent 16%),
+      radial-gradient(112% 72% at 50% 42%,transparent 40%,rgba(52,31,16,.14) 72%,rgba(52,31,16,.3));
+  }
+  .story__rig-grain{
+    inset:0;width:100%;height:100%;opacity:.075;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size:160px 160px;
+  }
+  /* Световой «монтажный стык» — один проход на смене сцены, только transform */
+  .story__rig-sweep{
+    left:-72%;top:0;width:64%;height:100%;opacity:0;
+    background:linear-gradient(102deg,transparent,rgba(255,255,255,.5) 44%,rgba(var(--st-key),.34) 62%,transparent);
+    filter:blur(7px);
+  }
+  .story__stage.is-cut .story__rig-sweep{animation:stSweep .58s cubic-bezier(.33,0,.2,1)}
+
+  /* Десктопные линии-потоки — чужая геометрия, в мобильном кадре не участвуют */
+  .story__flowlines{display:none}
+  .story__aura{display:none}
+
+  /* ---- Подписи: один слот, кинематографическая смена ---- */
+  .story__copy{
+    position:absolute;inset:0;display:block;z-index:4;pointer-events:none;perspective:none;
+    opacity:calc(1 - var(--story-exit) * .85);
+    transform:translate3d(0,calc(var(--story-exit) * -22px),0);
+  }
+  /* [data-act] держит вес выше, чем у карточной раскладки блока ≤980px выше:
+     в закреплённом кадре панель — это чистый слот подписи, без карточки,
+     фона, теней и отступов потока. */
+  .story__act-panel[data-act]{
+    position:absolute;inset:0 0 auto;min-height:0;
+    /* Подпись прижата к общей базовой линии прямо над телефоном: сколько бы
+       строк ни было в сцене, текст всегда стоит на одном уровне. */
+    height:calc(var(--mobile-phone-top) - 16px); /* = MOBILE_CAPTION_GAP в main.js */
+    display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;
+    margin:0;padding:calc(58px + env(safe-area-inset-top)) 24px 0;
+    border:0;border-radius:0;background:none;box-shadow:none;backdrop-filter:none;
+    pointer-events:none;opacity:0;visibility:hidden;transform:none;
+    transition:opacity .11s linear,visibility 0s linear .11s;
+  }
+  /* Задержка входа = время, за которое кольцо-импульс успевает раскрыться:
+     сначала заказ «попадает» в узел, и только потом сменяется подпись. */
+  .story__act-panel[data-act].is-active{opacity:1;visibility:visible;transition:opacity .19s linear .17s,visibility 0s}
+  .story__act-panel[data-act]::before,.story__act-panel[data-act]::after,.story__act-badge{display:none}
+  .story__act-panel[data-act]>*{opacity:1;transform:none;filter:none;transition:none}
+  /* Внутри мобильной Story у каждой панели ровно один видимый ребёнок —
+     смонтированная JS подпись; исходная десктопная вёрстка акта скрыта. */
+  #storyStage[data-mobile-story] .story__act-panel:not([data-act="hero"])> :not(.story__mobile-caption){display:none!important}
+  #storyStage[data-mobile-story] .story__act-panel[data-act="hero"] .story__actions,
+  #storyStage[data-mobile-story] .story__act-panel[data-act="hero"] .story__scroll-hint{display:none}
+
+  .story__mobile-caption{display:block;max-width:min(340px,calc(100vw - 48px))}
+  /* Кикер = номер сцены + рисующаяся черта + название главы */
+  .story__mobile-kicker{
+    display:flex;align-items:center;gap:9px;margin:0 0 11px;
+    font:800 10px/1 'Manrope',sans-serif;letter-spacing:.13em;text-transform:uppercase;
+    color:rgb(var(--st-tint));
+  }
+  .story__mobile-kicker b{font:inherit;font-size:11px;letter-spacing:.06em}
+  .story__mobile-kicker i{
+    display:block;width:26px;height:1.5px;flex:none;border-radius:2px;transform-origin:left center;
+    background:linear-gradient(90deg,rgb(var(--st-tint)),rgba(var(--st-tint),.15));
+  }
+  .story__act-panel.is-active .story__mobile-kicker{animation:stKickerIn .5s var(--ease) .06s both}
+  .story__act-panel.is-active .story__mobile-kicker i{animation:stRuleIn .58s var(--ease) .12s both}
+
+  /* Заголовок: построчная маска — не «просто opacity» */
+  .story__headline--mobile,
+  .story__headline--hero{
+    margin:0;font-family:var(--font-display);font-weight:800;
+    color:var(--ink);text-transform:uppercase;letter-spacing:-.05em;line-height:.88;
+    text-shadow:0 2px 0 rgba(23,19,16,.9);
+    animation:none;transform-style:flat;
+  }
+  .story__headline--mobile{font-size:min(clamp(31px,9.6vw,44px),6.1svh)}
+  .story__headline--hero{font-size:min(clamp(30px,9.2vw,42px),5.4svh);max-width:none;width:100%}
+  .story__headline--mobile .line,
+  .story__headline--hero .line{display:block;overflow:hidden;padding:.055em 0 .1em}
+  .story__headline--mobile .line>span,
+  .story__headline--hero .line>span{display:block;transform:translateY(112%);will-change:transform}
+  .story__act-panel.is-active .story__headline--mobile .line>span,
+  .story__act-panel.is-active .story__headline--hero .line>span{animation:stLineIn .66s cubic-bezier(.16,1,.3,1) both}
+  .story__act-panel.is-active .line:nth-child(2)>span{animation-delay:.07s}
+  .story__act-panel.is-active .line:nth-child(3)>span{animation-delay:.14s}
+  .story__act-panel.is-active .line:nth-child(4)>span{animation-delay:.21s}
+  .story__hl-accent{color:rgb(var(--st-tint))}
+
+  .story__mobile-note{
+    max-width:280px;margin:13px 0 0;
+    font:600 12.5px/1.4 'Manrope',sans-serif;color:var(--ink-2);
+  }
+  .story__act-panel.is-active .story__mobile-note{animation:stNoteIn .55s var(--ease) .26s both}
+
+  /* Hero-акт говорит на том же языке, что и остальные сцены */
+  /* Глава кассы на десктопе прижимает свою панель к верху (см. блок
+     [data-order-phase="cash"] выше) — в мобильном кадре базовая линия одна. */
+  .story__stage[data-order-phase] .story__act-panel[data-act="cash"],
+  .story__act-panel[data-act="hero"]{
+    justify-content:flex-end;padding:calc(58px + env(safe-area-inset-top)) 24px 0;
+  }
+  .story__act-panel[data-act="hero"] .story__kicker{
+    display:flex;align-items:center;gap:8px;width:fit-content;margin:0 0 16px;padding:0;
+    background:none;border:0;border-radius:0;
+    font:800 10px/1 'Manrope',sans-serif;letter-spacing:.13em;color:rgb(var(--st-tint));
+    animation:none;
+  }
+  .story__act-panel[data-act="hero"] .story__kicker::before{
+    content:"";width:6px;height:6px;border-radius:50%;flex:none;background:rgb(var(--st-key));
+    box-shadow:0 0 0 3px rgba(var(--st-key),.24);
+  }
+  .story__act-panel.is-active[data-act="hero"] .story__kicker{animation:stKickerIn .5s var(--ease) .06s both}
+  .story__headline--hero .grad-text{text-shadow:0 2px 0 rgba(150,36,5,.88)}
+
+  /* Подсказка «листай» — только в первой сцене, живёт внутри hero-подписи */
+  .story__cue{
+    display:flex;align-items:center;gap:10px;margin-top:16px;
+    font:800 9.5px/1 'Manrope',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);
+  }
+  .story__cue i{position:relative;display:block;width:1.5px;height:26px;flex:none;border-radius:2px;background:linear-gradient(180deg,rgba(var(--st-tint),.4),transparent)}
+  .story__cue i::after{
+    content:"";position:absolute;left:-1.25px;top:0;width:4px;height:4px;border-radius:50%;
+    background:rgb(var(--st-key));box-shadow:0 0 8px rgba(var(--st-key),.9);
+    animation:stCueDrop 1.9s cubic-bezier(.5,0,.5,1) infinite;
+  }
+  .story__act-panel.is-active .story__cue{animation:stNoteIn .5s var(--ease) .42s both}
+
+  /* ---- Телефон: одна координата, один размер на всю Story ---- */
+  .story__phone-col{
+    position:absolute;z-index:3;left:0;right:0;
+    top:var(--mobile-phone-top)!important;
+    height:auto;min-height:0;margin:0;padding:0;display:block;
+    animation:none;pointer-events:none;transform:none!important;
+    opacity:calc(1 - var(--story-exit) * .8);
+  }
+  /* Контактная тень телефона: композиция стоит на полу, а не висит в воздухе. */
+  .story__phone-col::after{
+    content:"";position:absolute;left:50%;top:calc(100% - 16px);z-index:-1;
+    width:62%;height:26px;transform:translateX(-50%);border-radius:50%;
+    background:radial-gradient(ellipse,rgba(58,32,14,.46),transparent 70%);filter:blur(10px);
+  }
+  .story__phone-col .phone-wrap{height:auto;min-height:0;padding:0;align-items:flex-start;justify-content:center}
+  .story__phone-col .phone-wrap::before{
+    left:50%;top:4%;width:104%;height:94%;transform:translate(-50%,0);
+    background:radial-gradient(ellipse at 50% 42%,
+      rgba(255,255,255,.5) 0 14%,
+      rgba(var(--st-key),.42) 40%,
+      rgba(var(--st-key),.12) 58%,
+      transparent 74%);
+    filter:blur(18px);opacity:.92;
+  }
+  .story__phone-col .phone-wrap::after{display:none}
+  .story__phone-col .hero-demo{width:100%;padding:0;display:flex;justify-content:center;transform:none}
+  .story__phone-col .hero-phone{
+    width:var(--mobile-phone-width)!important;max-width:none;
+    transform:none!important;filter:none!important;opacity:1!important;animation:none;
+  }
+  .story__phone-col .hero-demo__controls{display:none}
+  .story__scroll-hint{display:none}
+
+  /* Глава кассы на десктопе гасит шкалу и подсвет корпуса — там кадр отдан
+     бумажному чеку (.order-story), которого в мобильной Story нет. Здесь заказ
+     как раз доезжает до узла «Касса», поэтому свет и маршрут обязаны жить. */
+  .story__stage[data-order-phase] .story__dots{
+    opacity:calc(1 - var(--story-exit) * .8);visibility:visible;
+  }
+  .story__stage[data-order-phase] .phone-wrap::before{opacity:.92}
+
+  /* ---- Маршрут заказа: нить из телефона + светящаяся шкала сцен ---- */
+  .story__thread{
+    display:block;position:absolute;left:50%;top:calc(100% + 4px);z-index:4;
+    width:1.5px;height:15px;transform:translateX(-50%);border-radius:2px;
+    background:linear-gradient(180deg,rgba(var(--st-key),0),rgba(var(--st-key),.6));
+  }
+  /* Каплю света роняем не по таймеру, а ровно на стыке сцен: заказ уходит
+     из телефона в систему один раз за этап — это не гирлянда, а событие. */
+  .story__thread i{
+    position:absolute;left:50%;top:0;width:3.5px;height:3.5px;margin-left:-1.75px;border-radius:50%;
+    background:rgb(var(--st-key));box-shadow:0 0 9px rgba(var(--st-key),.95);opacity:0;
+  }
+  .story__thread.is-hit i{animation:stThreadDrop .66s cubic-bezier(.4,0,.5,1)}
+  .story__dots{
+    position:absolute;z-index:6;top:calc(100% + 19px);bottom:auto;left:50%;
+    display:flex!important;align-items:center;justify-content:space-between;
+    width:min(280px,74vw);height:14px;padding:0;transform:translateX(-50%);
+    opacity:calc(1 - var(--story-exit) * .8);
+  }
+  .story__dots::before{
+    content:"";position:absolute;left:7px;right:7px;top:50%;height:2px;width:auto;border-radius:2px;
+    background:rgba(48,28,13,.3);transform:translateY(-50%);box-shadow:none;
+  }
+  .story__dots::after{
+    content:"";position:absolute;left:7px;top:50%;height:2px;border-radius:2px;
+    width:calc((100% - 14px) * var(--rail-progress,0));
+    /* Пройденный путь заказа. Яркую «голову» теперь несёт .story__pulse,
+       поэтому сама заливка остаётся спокойным следом. */
+    background:linear-gradient(90deg,rgba(var(--st-key),.42) 0%,rgba(var(--st-key),.92) 100%);
+    box-shadow:0 0 12px rgba(var(--st-key),calc(.45 + var(--rail-energy,0) * .45));
+    transform:translateY(-50%);transition:none;
+  }
+  .story__dots span{
+    position:relative;z-index:1;width:14px;height:14px;flex:none;border-radius:50%;
+    background:none;box-shadow:none;transition:none;
+  }
+  .story__dots span::before{
+    content:"";position:absolute;left:50%;top:50%;width:5px;height:5px;margin:-2.5px 0 0 -2.5px;
+    border-radius:50%;background:rgba(48,28,13,.4);
+    transition:width .32s var(--ease),height .32s var(--ease),margin .32s var(--ease),background .32s var(--ease),box-shadow .32s var(--ease);
+  }
+  .story__dots span.is-done::before{background:rgba(var(--st-key),.85);box-shadow:0 0 7px rgba(var(--st-key),.5)}
+  .story__dots span.is-active{width:14px;height:14px;background:none;box-shadow:none}
+  .story__dots span.is-active::before{
+    width:8px;height:8px;margin:-4px 0 0 -4px;background:rgba(var(--st-key),.9);
+    box-shadow:0 0 0 5px rgba(var(--st-key),.16),0 0 14px rgba(var(--st-key),.6);
+  }
+
+  /* ---- «Пульс заказа» ----
+     Ядро едет по шкале ровно за --rail-progress (transform, не layout).
+     --rail-energy (0…1) — накопленная скорость скролла: от неё зависят длина
+     шлейфа и яркость. --rail-dir (1/-1) разворачивает шлейф при обратной
+     прокрутке. .is-hit — одиночное кольцо в момент попадания в узел. */
+  .story__pulse{
+    display:block;position:absolute;z-index:2;left:7px;top:50%;
+    width:7px;height:7px;margin:-3.5px 0 0 -3.5px;border-radius:50%;
+    background:#fff;
+    box-shadow:
+      0 0 calc(5px + var(--rail-energy,0) * 16px) rgba(var(--st-key),calc(.55 + var(--rail-energy,0) * .45)),
+      0 0 0 calc(1.5px + var(--rail-energy,0) * 2.5px) rgba(var(--st-key),.85);
+    transform:translate3d(calc(var(--rail-span,0px) * var(--rail-progress,0)),0,0) scaleX(var(--rail-dir,1));
+    will-change:transform;
+  }
+  /* Шлейф: короткий раскалённый хвост позади ядра. Он светлее самой заливки —
+     иначе на пройденном пути его просто не видно. Живёт только пока есть
+     энергия, на остановке схлопывается в точку. */
+  .story__pulse::before{
+    content:"";position:absolute;top:50%;right:50%;height:3px;margin-top:-1.5px;
+    width:calc(4px + var(--rail-energy,0) * 52px);border-radius:3px;
+    background:linear-gradient(270deg,
+      rgba(255,255,255,.95) 0%,
+      rgba(255,244,232,.6) 32%,
+      rgba(var(--st-key),.35) 68%,
+      rgba(var(--st-key),0) 100%);
+    box-shadow:0 0 calc(var(--rail-energy,0) * 10px) rgba(255,236,214,calc(var(--rail-energy,0) * .8));
+    opacity:calc(.15 + var(--rail-energy,0) * .85);
+  }
+  /* Кольцо-импульс: одиночный проигрыш, без повторов и без idle-пульсации. */
+  .story__pulse::after{
+    content:"";position:absolute;left:50%;top:50%;width:11px;height:11px;margin:-5.5px 0 0 -5.5px;
+    border-radius:50%;border:2px solid rgba(var(--st-key),.9);opacity:0;
+  }
+  .story__dots.is-hit .story__pulse::after{animation:stPulseRing .74s cubic-bezier(.16,1,.3,1)}
+}
+
+@keyframes stPulseRing{
+  0%{opacity:0;transform:scale(.35)}
+  22%{opacity:.75}
+  100%{opacity:0;transform:scale(3.6)}
+}
+
+@keyframes stSweep{0%{opacity:0;transform:translate3d(0,0,0)}16%{opacity:.85}100%{opacity:0;transform:translate3d(275%,0,0)}}
+@keyframes stLineIn{from{transform:translateY(112%)}to{transform:translateY(0)}}
+@keyframes stKickerIn{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+@keyframes stRuleIn{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes stNoteIn{from{opacity:0;transform:translateY(11px)}to{opacity:1;transform:none}}
+@keyframes stThreadDrop{0%{opacity:0;transform:translateY(-2px)}18%{opacity:1}82%{opacity:1}100%{opacity:0;transform:translateY(13px)}}
+@keyframes stCueDrop{0%{opacity:0;transform:translateY(0)}22%{opacity:1}78%{opacity:1}100%{opacity:0;transform:translateY(22px)}}
+
+/* Планшетная ширина внутри мобильной Story: больше воздуха по бокам,
+   подпись не растягивается на весь кадр. */
+@media (min-width:600px) and (max-width:768px){
+  .story__act-panel[data-act]{padding-inline:clamp(28px,7vw,64px)}
+  .story__mobile-caption{max-width:460px}
+  .story__headline--mobile{font-size:min(52px,5.6svh)}
+  .story__headline--hero{font-size:min(48px,5svh)}
+}
+
+/* Низкие экраны: подсказка «листай» уступает место телефону. */
+@media (max-width:768px) and (max-height:680px){
+  .story__cue{display:none}
+  .story__mobile-note{margin-top:10px;font-size:12px}
+}
+
+@media (max-width:768px) and (prefers-reduced-motion:reduce){
+  .story__act-panel[data-act]{transition:opacity .16s linear,visibility 0s linear .16s}
+  .story__act-panel[data-act].is-active{transition:opacity .16s linear,visibility 0s}
+  .story__act-panel.is-active .story__mobile-kicker,
+  .story__act-panel.is-active .story__mobile-kicker i,
+  .story__act-panel.is-active .story__mobile-note,
+  .story__act-panel.is-active .story__cue,
+  .story__act-panel.is-active .line>span{animation:none}
+  .story__headline--mobile .line>span,
+  .story__headline--hero .line>span{transform:none}
+  .story__thread i,.story__cue i::after{animation:none;opacity:.8}
+  /* Пульс остаётся указателем позиции: без шлейфа, без кольца, без скорости. */
+  .story__pulse{box-shadow:0 0 8px rgba(var(--st-key),.7),0 0 0 2px rgba(var(--st-key),.85)}
+  .story__pulse::before{display:none}
+  .story__dots.is-hit .story__pulse::after{animation:none}
+  .story__stage.is-cut .story__rig-sweep{animation:none}
+}
