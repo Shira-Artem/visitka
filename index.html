@@ -23,7 +23,7 @@
   <link rel="stylesheet" href="assets/css/layout.css?v=mobile-story-7" />
   <link rel="stylesheet" href="assets/css/components.css?v=story-3" />
   <link rel="stylesheet" href="assets/css/hero-demo.css?v=premium-4" />
-  <link rel="stylesheet" href="assets/css/sections.css?v=story-light-1" />
+  <link rel="stylesheet" href="assets/css/sections.css?v=story-pulse-1" />
 </head>
 <body id="top">
 
@@ -448,6 +448,11 @@
           <span data-dot="3"></span>
           <span data-dot="4"></span>
           <span data-dot="5"></span>
+          <!-- «Пульс заказа»: ядро едет по шкале за прогрессом скролла, шлейф
+               и яркость зависят от скорости, кольцо — одиночный импульс при
+               попадании в узел. Абсолютное позиционирование, поэтому элемент
+               не участвует во flex-раскладке узлов. Только ≤768px. -->
+          <i class="story__pulse" aria-hidden="true"></i>
         </div>
         </div>
 
@@ -681,6 +686,6 @@
   </div>
 
   <script src="assets/js/hero-demo.js?v=story-3" defer></script>
-  <script src="assets/js/main.js?v=story-light-1" defer></script>
+  <script src="assets/js/main.js?v=story-pulse-1" defer></script>
 </body>
 </html>

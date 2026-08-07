@@ -661,6 +661,9 @@
     var MOBILE_RAIL_SPACE = 46;        // нить + маршрутная шкала под телефоном
     var MOBILE_MIN_CAPTION_BAND = 196;
     var PHONE_WIDTH_RATIO = 9 / 19.5;  // пропорции корпуса (components.css)
+    var RAIL_ENERGY_GAIN = 42;         // сколько энергии даёт скорость прокрутки
+    var RAIL_ENERGY_DECAY = 0.84;      // затухание энергии за кадр 16 мс
+    var RAIL_SETTLE_MS = 420;          // страховочный сброс энергии после остановки
     var MOBILE_TONE_LEAD = 0.62;   // с какой доли сцены свет начинает уходить в следующую
     var MOBILE_EXIT_START = 0.95;  // мягкая передача кадра секции «Способы получения»
     var MOBILE_PAGE_TONE = [250, 247, 243]; // фон страницы сразу под Story
@@ -711,6 +714,18 @@
       var mounted = [];
       var lastTone = '';
       var cutTimer = 0;
+      var hitTimer = 0;
+      var threadEl = storyStage.querySelector('.story__thread');
+
+      /* «Пульс заказа»: ядро на шкале едет строго за прогрессом, а его энергия
+         (длина шлейфа и яркость) — за скоростью прокрутки. Держим два числа:
+         railEnergy — сглаженная скорость, railDir — направление движения. */
+      var railEnergy = 0;
+      var railDir = 1;
+      var railLastProgress = null;
+      var railLastTime = 0;
+      var railDecayFrame = 0;
+      var railSettleTimer = 0;
 
       function toneOf(index) {
         return MOBILE_SCENES[STORY_ACTS[Math.max(0, Math.min(sceneCount - 1, index))].id].tone;
@@ -761,6 +776,14 @@
       // Реальная высота самой высокой подписи — hero: четыре строки обещания
       // плюс подсказка прокрутки. Меряем по факту, а не повторяем в JS clamp()
       // из CSS: размеры шрифта живут в одном месте — в таблице стилей.
+      /* Кадр Story — это .story__stage высотой 100svh с overflow:hidden, и на
+         мобильных браузерах с прячущейся панелью svh заметно меньше, чем
+         window.innerHeight. Всю геометрию и прогресс считаем от реальной высоты
+         сцены, иначе маршрутная шкала уезжает за нижнюю границу и обрезается. */
+      function stageHeight() {
+        return storyStage.getBoundingClientRect().height || window.innerHeight;
+      }
+
       function heroBlockHeight() {
         var panel = storyStage.querySelector('.story__act-panel[data-act="hero"]');
         if (!panel) return 0;
@@ -777,7 +800,7 @@
          Story, поэтому полосу подписи задаёт самая высокая сцена, а не средняя:
          так текст ни в одной сцене не спорит ни с шапкой, ни с телефоном. */
       function updateMobilePhoneGeometry() {
-        var vh = window.innerHeight;
+        var vh = stageHeight();
         var captionBand = Math.round(Math.max(
           MOBILE_MIN_CAPTION_BAND,
           heroBlockHeight() + MOBILE_HEADER_CLEARANCE + MOBILE_CAPTION_GAP
@@ -789,11 +812,14 @@
         var top = Math.round(captionBand + slack * 0.42);
         storyStage.style.setProperty('--mobile-phone-top', top + 'px');
         storyStage.style.setProperty('--mobile-phone-width', width + 'px');
+        // Длина хода пульса в пикселях: ядро едет через transform, а не через
+        // left, поэтому шкале нужен явный размер (ширина минус два радиуса узла).
+        if (dotsEl) dotsEl.style.setProperty('--rail-span', Math.max(0, dotsEl.clientWidth - 14) + 'px');
       }
 
       function mobileStoryProgress() {
         var rect = storyTrack.getBoundingClientRect();
-        var scrollable = rect.height - window.innerHeight;
+        var scrollable = rect.height - stageHeight();
         if (scrollable <= 0) return 0;
         return clamp01(-rect.top / scrollable);
       }
@@ -828,6 +854,73 @@
         storyStage.style.setProperty('--story-exit', exit.toFixed(3));
       }
 
+      function writeRailEnergy() {
+        if (!dotsEl) return;
+        dotsEl.style.setProperty('--rail-energy', railEnergy.toFixed(3));
+        dotsEl.style.setProperty('--rail-dir', String(railDir));
+      }
+
+      // Затухание считается от времени, а не от числа кадров: пропущенный кадр
+      // не оставляет шлейф растянутым.
+      function railDecayFactor(elapsed) {
+        return Math.pow(RAIL_ENERGY_DECAY, Math.max(1, elapsed) / 16);
+      }
+
+      /* После остановки скролла событий больше нет, поэтому энергию гасим
+         коротким затухающим циклом — он сам останавливается на нуле и не
+         превращается в постоянный rAF. */
+      function decayRailEnergy(now) {
+        railDecayFrame = 0;
+        var elapsed = now - railLastTime;
+        railLastTime = now;
+        railEnergy *= railDecayFactor(elapsed);
+        if (railEnergy < 0.01) railEnergy = 0;
+        writeRailEnergy();
+        if (railEnergy > 0) railDecayFrame = requestAnimationFrame(decayRailEnergy);
+      }
+
+      function trackRailEnergy(progress) {
+        var now = performance.now();
+        if (railLastProgress === null) {
+          railLastProgress = progress;
+          railLastTime = now;
+          return;
+        }
+        var delta = progress - railLastProgress;
+        var elapsed = now - railLastTime;
+        railLastProgress = progress;
+        railLastTime = now;
+        if (delta > 0) railDir = 1;
+        else if (delta < 0) railDir = -1;
+        if (reduce) return;
+        railEnergy = clamp01(railEnergy * railDecayFactor(elapsed) + Math.abs(delta) * RAIL_ENERGY_GAIN);
+        writeRailEnergy();
+        if (!railDecayFrame) railDecayFrame = requestAnimationFrame(decayRailEnergy);
+        // Страховка: если rAF придушен (вкладка ушла в фон), шлейф всё равно
+        // обязан схлопнуться — иначе на экране остаётся висеть «гирлянда».
+        window.clearTimeout(railSettleTimer);
+        railSettleTimer = window.setTimeout(function () {
+          railEnergy = 0;
+          writeRailEnergy();
+        }, RAIL_SETTLE_MS);
+      }
+
+      // Попадание в узел: одиночное кольцо на шкале и капля света из телефона.
+      // Класс всегда снимается по таймеру, поэтому анимации не накапливаются.
+      function playNodeHit() {
+        if (reduce || !dotsEl) return;
+        dotsEl.classList.remove('is-hit');
+        if (threadEl) threadEl.classList.remove('is-hit');
+        void dotsEl.offsetWidth;
+        dotsEl.classList.add('is-hit');
+        if (threadEl) threadEl.classList.add('is-hit');
+        window.clearTimeout(hitTimer);
+        hitTimer = window.setTimeout(function () {
+          dotsEl.classList.remove('is-hit');
+          if (threadEl) threadEl.classList.remove('is-hit');
+        }, 780);
+      }
+
       function applyMobileStoryScene(index) {
         var act = STORY_ACTS[index];
         var state = MOBILE_ACT_STATE[act.id];
@@ -842,6 +935,10 @@
         dotEls.forEach(function (dot, i) {
           dot.classList.toggle('is-done', i < index);
         });
+
+        // Заказ дошёл до узла: сначала кольцо-импульс на шкале, и уже под него
+        // уходят свет, подпись и экран телефона (задержка входа подписи — в CSS).
+        playNodeHit();
 
         // Одиночный световой «стык» — прячет подмену подписи.
         if (!reduce) {
@@ -878,6 +975,7 @@
         if (index < activeSceneIndex && rawPosition > activeSceneIndex - 0.06) index = activeSceneIndex;
 
         paintAtmosphere(progress);
+        trackRailEnergy(progress);
         if (index !== activeSceneIndex) applyMobileStoryScene(index);
         // Маршрутная шкала непрерывна: заливка доходит до узла ровно тогда,
         // когда начинается его сцена (узлы стоят на i/(N-1)). Пишем после
@@ -909,6 +1007,10 @@
 
       return function cleanup() {
         window.clearTimeout(cutTimer);
+        window.clearTimeout(hitTimer);
+        window.clearTimeout(railSettleTimer);
+        if (railDecayFrame) cancelAnimationFrame(railDecayFrame);
+        if (threadEl) threadEl.classList.remove('is-hit');
         window.removeEventListener('scroll', onMobileStoryScroll);
         window.removeEventListener('resize', onMobileStoryResize);
         mounted.forEach(function (node) { node.remove(); });
@@ -919,7 +1021,11 @@
           .forEach(function (name) { storyStage.style.removeProperty(name); });
         ['--st-base', '--st-key', '--st-tint']
           .forEach(function (name) { storySection.style.removeProperty(name); });
-        if (dotsEl) dotsEl.style.removeProperty('--rail-progress');
+        if (dotsEl) {
+          dotsEl.classList.remove('is-hit');
+          ['--rail-progress', '--rail-energy', '--rail-dir', '--rail-span']
+            .forEach(function (name) { dotsEl.style.removeProperty(name); });
+        }
         storyStage.removeAttribute('data-mobile-story');
       };
     }
