@@ -37,18 +37,66 @@
   /* ---- Сцена: по умолчанию обычный статичный блок ---- */
   .cat-journey__scene{position:relative;padding:0 24px}
 
+  /* Атмосферные пятна за карточкой — тот же приём, что у .final__panel::after
+     (радиальный градиент + keyframe floaty), просто мягче и дальше от глаз. */
+  .cat-journey__ambient{position:absolute;border-radius:50%;pointer-events:none;z-index:0}
+  .cat-journey__ambient--a{
+    left:8%;top:6%;width:46%;aspect-ratio:1;
+    background:radial-gradient(circle,rgba(255,154,61,.16),transparent 70%);
+    animation:floaty 8s ease-in-out infinite;
+  }
+  .cat-journey__ambient--b{
+    right:4%;bottom:10%;width:56%;aspect-ratio:1;
+    background:radial-gradient(circle,rgba(255,90,31,.12),transparent 70%);
+    animation:floaty 10s ease-in-out infinite reverse;
+  }
+
   .cat-journey__visuals{
-    position:relative;aspect-ratio:4/5;width:min(100%,320px);margin:0 auto 28px;
+    position:relative;z-index:1;aspect-ratio:4/5;width:min(100%,320px);margin:0 auto 28px;
     border-radius:var(--r-lg);overflow:hidden;background:var(--fire-soft);
+    box-shadow:0 0 0 0 rgba(255,90,31,0);
   }
+  /* Обёртка — то, чем управляет таймлайн (autoAlpha/y/scale/rotation при
+     смене акта). Сам <img> внутри — постоянно «дышит» независимо, поэтому
+     у двух твинов разные элементы и они не спорят за transform. */
+  .cat-journey__cat-wrap{
+    position:absolute;inset:0;opacity:0;transform-origin:50% 100%;
+  }
+  .cat-journey__cat-wrap[data-cat-frame="1"]{opacity:1}
   .cat-journey__cat{
-    position:absolute;inset:0;width:100%;height:100%;
-    object-fit:contain;object-position:center bottom;opacity:0;
+    display:block;width:100%;height:100%;
+    object-fit:contain;object-position:center bottom;
+    transform-origin:50% 100%;
   }
-  .cat-journey__cat[data-cat-frame="1"]{opacity:1}
-  .cat-journey__route{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:0}
-  .cat-journey__route-path{stroke:var(--fire);stroke-width:3;stroke-linecap:round;fill:none}
-  .cat-journey__route-dot{fill:var(--fire);filter:drop-shadow(0 0 6px rgba(255,90,31,.7))}
+
+  .cat-journey__route{position:absolute;inset:0;z-index:2;width:100%;height:100%;pointer-events:none;opacity:0}
+  .cat-journey__route-path{stroke:var(--fire);stroke-width:2.5;stroke-linecap:round;fill:none;opacity:.55}
+  /* Широкий полупрозрачный дубль под основной линией — дешёвое «свечение»
+     без filter:blur (см. gsap-performance). */
+  .cat-journey__route-glow{stroke:var(--fire);stroke-width:9;stroke-linecap:round;fill:none;opacity:.22}
+  /* Яркий «хвост кометы», едущий вместе с точкой — движущееся окно
+     drawSVG(start,end), которое каждый кадр пересчитывает index.js. */
+  .cat-journey__route-trail{
+    stroke:var(--ember);stroke-width:4;stroke-linecap:round;fill:none;
+    filter:drop-shadow(0 0 5px rgba(255,154,61,.85));
+  }
+  .cat-journey__route-dot{fill:var(--fire);filter:drop-shadow(0 0 7px rgba(255,90,31,.85))}
+
+  /* Разовая «вспышка» экрана телефона при получении заказа (акт 2) —
+     мягкий радиальный градиент, не постоянный blur. */
+  .cat-journey__flash{
+    position:absolute;z-index:2;left:50%;top:38%;width:70%;aspect-ratio:1;transform:translate(-50%,-50%) scale(.5);
+    border-radius:50%;pointer-events:none;opacity:0;
+    background:radial-gradient(circle,rgba(255,205,140,.9) 0%,rgba(255,154,61,.4) 45%,transparent 72%);
+  }
+
+  /* Сердечки акта 3 — добавка к тем, что уже нарисованы в самом кадре
+     cat-happy-full.webp: эти летают и гаснут по stagger, а не стоят статично. */
+  .cat-journey__hearts{position:absolute;inset:0;z-index:3;pointer-events:none}
+  .cat-journey__heart{position:absolute;width:20px;height:20px;color:var(--fire);opacity:0}
+  .cat-journey__heart--1{top:10%;right:14%}
+  .cat-journey__heart--2{top:22%;right:2%;width:15px;height:15px}
+  .cat-journey__heart--3{top:2%;right:28%;width:13px;height:13px}
 
   .cat-journey__acts{display:flex;flex-direction:column;gap:16px;list-style:none;margin:0 0 32px;padding:0}
   .cat-journey__act{
@@ -76,17 +124,23 @@
      assets/js/modules/cat-journey/index.js через gsap.matchMedia().
      ============================================================ */
   .cat-journey--live .cat-journey__scene{
-    height:100svh;box-sizing:border-box;
+    height:100svh;box-sizing:border-box;overflow:hidden;
     padding:calc(20px + env(safe-area-inset-top)) 24px calc(20px + env(safe-area-inset-bottom));
     display:flex;flex-direction:column;justify-content:center;gap:24px;
+    /* Атмосфера теплеет к акту 3 — значение по кадрам пишет GSAP-таймлайн
+       (index.js, уже сглажено scrub'ом), здесь только стартовый цвет. */
+    background-color:var(--bg);
   }
   .cat-journey--live .cat-journey__visuals{margin:0 auto;width:min(100%,280px);flex-shrink:0}
   .cat-journey--live .cat-journey__route{opacity:1}
+  .cat-journey--live .cat-journey__hearts,
+  .cat-journey--live .cat-journey__ambient{display:block}
+  .cat-journey__hearts,.cat-journey__ambient{display:none}
 
   .cat-journey--live .cat-journey__acts{position:relative;min-height:150px;margin-bottom:0}
   .cat-journey--live .cat-journey__act{
-    position:absolute;inset:0;opacity:0;transform:translateY(16px);
-    transition:opacity .35s var(--ease),transform .35s var(--ease);
+    position:absolute;inset:0;opacity:0;transform:translateY(16px) scale(.96);
+    transition:opacity .35s var(--ease),transform .4s cubic-bezier(.34,1.56,.64,1);
     pointer-events:none;background:transparent;border:0;box-shadow:none;padding:0 8px;text-align:center;
   }
   .cat-journey--live .cat-journey__scene[data-cat-act="1"] .cat-journey__act[data-act="1"],
