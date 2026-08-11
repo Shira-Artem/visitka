@@ -719,16 +719,26 @@
 
             <div class="cat-journey__flash" aria-hidden="true"></div>
 
-            <!-- viewBox 320×400 = ровно аспект карточки (4:5), иначе SVG
-                 вписывается по высоте и линия сжимается в узкую полоску
-                 сбоку (был баг). Маршрут: от телефона (акт 1, верх-лево)
-                 через уведомление (акт 2, центр) к пакету (акт 3, низ-право). -->
-            <svg class="cat-journey__route" viewBox="0 0 320 400" fill="none" aria-hidden="true">
-              <path class="cat-journey__route-glow" d="M56 66 C 210 96, 90 176, 214 210 S 84 300, 224 348" />
-              <path class="cat-journey__route-path" d="M56 66 C 210 96, 90 176, 214 210 S 84 300, 224 348" />
-              <path class="cat-journey__route-trail" d="M56 66 C 210 96, 90 176, 214 210 S 84 300, 224 348" />
-              <circle class="cat-journey__route-dot" r="6" />
+            <!-- Маршрут теперь не рисованная линия, а следы лапок: путь ниже
+                 невидим (viewBox 320×400 = аспект карточки, только геометрия
+                 для MotionPath), от телефона (акт 1) через уведомление
+                 (акт 2) к пакету (акт 3). Сами следы — .cat-journey__paws
+                 ниже, index.js расставляет их по этому пути и проявляет
+                 по одному вслед за скроллом. -->
+            <svg class="cat-journey__route-guide" viewBox="0 0 320 400" aria-hidden="true">
+              <path class="cat-journey__route-guide-path" d="M56 66 C 210 96, 90 176, 214 210 S 84 300, 224 348" />
             </svg>
+
+            <div class="cat-journey__paws" aria-hidden="true">
+              <svg class="cat-journey__paw" data-paw="1" viewBox="0 0 24 24" fill="currentColor"><ellipse cx="12" cy="17" rx="6.2" ry="5.2"/><ellipse cx="4.5" cy="9" rx="2.6" ry="3.4" transform="rotate(-18 4.5 9)"/><ellipse cx="9.5" cy="4.5" rx="2.5" ry="3.3"/><ellipse cx="14.5" cy="4.5" rx="2.5" ry="3.3"/><ellipse cx="19.5" cy="9" rx="2.6" ry="3.4" transform="rotate(18 19.5 9)"/></svg>
+              <svg class="cat-journey__paw" data-paw="2" viewBox="0 0 24 24" fill="currentColor"><ellipse cx="12" cy="17" rx="6.2" ry="5.2"/><ellipse cx="4.5" cy="9" rx="2.6" ry="3.4" transform="rotate(-18 4.5 9)"/><ellipse cx="9.5" cy="4.5" rx="2.5" ry="3.3"/><ellipse cx="14.5" cy="4.5" rx="2.5" ry="3.3"/><ellipse cx="19.5" cy="9" rx="2.6" ry="3.4" transform="rotate(18 19.5 9)"/></svg>
+              <svg class="cat-journey__paw" data-paw="3" viewBox="0 0 24 24" fill="currentColor"><ellipse cx="12" cy="17" rx="6.2" ry="5.2"/><ellipse cx="4.5" cy="9" rx="2.6" ry="3.4" transform="rotate(-18 4.5 9)"/><ellipse cx="9.5" cy="4.5" rx="2.5" ry="3.3"/><ellipse cx="14.5" cy="4.5" rx="2.5" ry="3.3"/><ellipse cx="19.5" cy="9" rx="2.6" ry="3.4" transform="rotate(18 19.5 9)"/></svg>
+              <svg class="cat-journey__paw" data-paw="4" viewBox="0 0 24 24" fill="currentColor"><ellipse cx="12" cy="17" rx="6.2" ry="5.2"/><ellipse cx="4.5" cy="9" rx="2.6" ry="3.4" transform="rotate(-18 4.5 9)"/><ellipse cx="9.5" cy="4.5" rx="2.5" ry="3.3"/><ellipse cx="14.5" cy="4.5" rx="2.5" ry="3.3"/><ellipse cx="19.5" cy="9" rx="2.6" ry="3.4" transform="rotate(18 19.5 9)"/></svg>
+              <svg class="cat-journey__paw" data-paw="5" viewBox="0 0 24 24" fill="currentColor"><ellipse cx="12" cy="17" rx="6.2" ry="5.2"/><ellipse cx="4.5" cy="9" rx="2.6" ry="3.4" transform="rotate(-18 4.5 9)"/><ellipse cx="9.5" cy="4.5" rx="2.5" ry="3.3"/><ellipse cx="14.5" cy="4.5" rx="2.5" ry="3.3"/><ellipse cx="19.5" cy="9" rx="2.6" ry="3.4" transform="rotate(18 19.5 9)"/></svg>
+              <svg class="cat-journey__paw" data-paw="6" viewBox="0 0 24 24" fill="currentColor"><ellipse cx="12" cy="17" rx="6.2" ry="5.2"/><ellipse cx="4.5" cy="9" rx="2.6" ry="3.4" transform="rotate(-18 4.5 9)"/><ellipse cx="9.5" cy="4.5" rx="2.5" ry="3.3"/><ellipse cx="14.5" cy="4.5" rx="2.5" ry="3.3"/><ellipse cx="19.5" cy="9" rx="2.6" ry="3.4" transform="rotate(18 19.5 9)"/></svg>
+              <svg class="cat-journey__paw" data-paw="7" viewBox="0 0 24 24" fill="currentColor"><ellipse cx="12" cy="17" rx="6.2" ry="5.2"/><ellipse cx="4.5" cy="9" rx="2.6" ry="3.4" transform="rotate(-18 4.5 9)"/><ellipse cx="9.5" cy="4.5" rx="2.5" ry="3.3"/><ellipse cx="14.5" cy="4.5" rx="2.5" ry="3.3"/><ellipse cx="19.5" cy="9" rx="2.6" ry="3.4" transform="rotate(18 19.5 9)"/></svg>
+              <svg class="cat-journey__paw" data-paw="8" viewBox="0 0 24 24" fill="currentColor"><ellipse cx="12" cy="17" rx="6.2" ry="5.2"/><ellipse cx="4.5" cy="9" rx="2.6" ry="3.4" transform="rotate(-18 4.5 9)"/><ellipse cx="9.5" cy="4.5" rx="2.5" ry="3.3"/><ellipse cx="14.5" cy="4.5" rx="2.5" ry="3.3"/><ellipse cx="19.5" cy="9" rx="2.6" ry="3.4" transform="rotate(18 19.5 9)"/></svg>
+            </div>
 
             <div class="cat-journey__hearts" aria-hidden="true">
               <svg class="cat-journey__heart cat-journey__heart--1" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-10-9C.3 8.4 2 4 6 4c2.1 0 3.6 1.1 4.5 2.3C11.4 5.1 12.9 4 15 4c4 0 5.7 4.4 4 8-2.5 4.4-10 9-10 9z"/></svg>

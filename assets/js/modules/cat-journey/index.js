@@ -1,6 +1,8 @@
 /* ============================================================
    cat-journey/index.js — «Котик уже не ждёт» (блок3), пин-сцена
-   на GSAP + ScrollTrigger + DrawSVG + MotionPath.
+   на GSAP + ScrollTrigger + MotionPath. Маршрут — следы лапок,
+   расставленные MotionPath по невидимой направляющей и проявляемые по
+   одному вслед за скроллом (не рисованная линия — см. историю правок).
 
    Вся сцена живёт внутри gsap.matchMedia(): условие "isLive"
    (≤768px, тот же порог, что у мобильной Story-кинематографии) и
@@ -24,19 +26,17 @@ export function initCatJourney() {
   const ScrollTrigger = window.ScrollTrigger;
   if (!root || !gsap || !ScrollTrigger) return;
 
-  gsap.registerPlugin(ScrollTrigger, window.DrawSVGPlugin, window.MotionPathPlugin);
+  gsap.registerPlugin(ScrollTrigger, window.MotionPathPlugin);
 
   const scene = root.querySelector('.cat-journey__scene');
   const visuals = root.querySelector('.cat-journey__visuals');
-  const path = root.querySelector('.cat-journey__route-path');
-  const glow = root.querySelector('.cat-journey__route-glow');
-  const trail = root.querySelector('.cat-journey__route-trail');
-  const dot = root.querySelector('.cat-journey__route-dot');
+  const guidePath = root.querySelector('.cat-journey__route-guide-path');
   const flash = root.querySelector('.cat-journey__flash');
   const wraps = gsap.utils.toArray(root.querySelectorAll('.cat-journey__cat-wrap'));
   const innerCats = gsap.utils.toArray(root.querySelectorAll('.cat-journey__cat'));
   const hearts = gsap.utils.toArray(root.querySelectorAll('.cat-journey__heart'));
-  if (!scene || !visuals || !path || !trail || !dot || wraps.length !== 3) return;
+  const paws = gsap.utils.toArray(root.querySelectorAll('.cat-journey__paw'));
+  if (!scene || !visuals || !guidePath || wraps.length !== 3 || paws.length < 2) return;
 
   // Три тона атмосферы — от нейтрального к тёплому, каждый шаг синхронен
   // со сменой акта, а не просто линейный дрейф через всю сцену.
@@ -63,11 +63,27 @@ export function initCatJourney() {
       // независимо (idle ниже) — два разных элемента, твины не конфликтуют.
       gsap.set(wraps, { autoAlpha: 0, scale: 0.9, y: 16, rotation: 6 });
       gsap.set(wraps[0], { autoAlpha: 1, scale: 1, y: 0, rotation: 0 });
-      gsap.set([path, glow], { drawSVG: '0%' });
-      gsap.set(trail, { drawSVG: '0% 0%' });
       gsap.set(hearts, { autoAlpha: 0, y: 6, scale: 0.4 });
       gsap.set(scene, { backgroundColor: BASE_BG });
       gsap.set(visuals, { boxShadow: '0 0 0px 0px rgba(255,90,31,0)' });
+
+      // Следы лапок вместо рисованной линии: расставляем каждый след на
+      // свою точку направляющей (start===end у MotionPath — статичная
+      // позиция, не анимация), чередуя разворот, как будто левая/правая
+      // лапа. Проявляются по одному внутри таймлайна ниже.
+      const PAW_START_T = 0.06;
+      const PAW_SPREAD = 0.86;
+      paws.forEach((paw, i) => {
+        const t = PAW_START_T + (PAW_SPREAD * i) / (paws.length - 1);
+        const mirror = i % 2 === 0 ? 1 : -1;
+        gsap.set(paw, {
+          motionPath: { path: guidePath, start: t, end: t, align: guidePath, alignOrigin: [0.5, 0.5] },
+          autoAlpha: 0,
+          scale: 0.3,
+          scaleX: mirror,
+          rotation: mirror > 0 ? 10 : -10,
+        });
+      });
 
       // «Дыхание» активного кота — лёгкая пульсация масштаба + покачивание,
       // весь акт, не только между ними. По rotation/scale ЭЛЕМЕНТА img, а
@@ -84,19 +100,9 @@ export function initCatJourney() {
 
       const [w1, w2] = [ACTS[0].weight, ACTS[1].weight];
       const crossfade = 0.06;
-      const TRAIL_WINDOW = 0.09;
 
       const tl = gsap.timeline({
         defaults: { ease: 'none' },
-        onUpdate() {
-          // Яркий «хвост кометы» — скользящее окно drawSVG вслед за точкой,
-          // пересчитывается каждый кадр от текущего прогресса таймлайна
-          // (function-based value в самом твине считался бы один раз, тут
-          // нужен именно живой пересчёт).
-          const p = tl.progress();
-          const from = Math.max(0, p - TRAIL_WINDOW);
-          gsap.set(trail, { drawSVG: (from * 100).toFixed(2) + '% ' + (p * 100).toFixed(2) + '%' });
-        },
         scrollTrigger: {
           trigger: scene,
           start: 'top top',
@@ -107,12 +113,18 @@ export function initCatJourney() {
         },
       });
 
-      // Маршрут (плюс подсветка-дубль) рисуется целиком через всю сцену
-      // (0→1) — акты делят этот же прогресс на 3 части. Лёгкий параллакс
-      // карточки — сцена не стоит колом на скролле, даже когда кот не меняется.
-      tl.to([path, glow], { drawSVG: '100%', duration: 1 }, 0)
-        .to(dot, { motionPath: { path, align: path, alignOrigin: [0.5, 0.5] }, duration: 1 }, 0)
-        .fromTo(visuals, { y: -8 }, { y: 8, duration: 1 }, 0)
+      // Следы лапок проявляются по одному вслед за скроллом — свежий след
+      // выпрыгивает с небольшим перелётом, предыдущий тут же приглушается,
+      // чтобы взгляд читал направление движения, а не «россыпь наклеек».
+      paws.forEach((paw, i) => {
+        const t = 0.06 + (0.86 * i) / (paws.length - 1);
+        tl.fromTo(paw, { autoAlpha: 0, scale: 0.3 }, { autoAlpha: 1, scale: 1, duration: 0.045, ease: 'back.out(2.4)' }, t);
+        if (i > 0) tl.to(paws[i - 1], { autoAlpha: 0.4, duration: 0.045 }, t);
+      });
+
+      // Лёгкий параллакс карточки — сцена не стоит колом на скролле, даже
+      // когда кот не меняется.
+      tl.fromTo(visuals, { y: -8 }, { y: 8, duration: 1 }, 0)
 
         // Акт 1 → 2: кот с разворотом уходит вверх, новый заходит снизу;
         // в момент переключения — вспышка «заказ принят» на экране
@@ -147,7 +159,7 @@ export function initCatJourney() {
         idle.kill();
         root.classList.remove('cat-journey--live');
         scene.removeAttribute('data-cat-act');
-        gsap.set([wraps, innerCats, path, glow, trail, dot, flash, hearts, visuals, scene], { clearProps: 'all' });
+        gsap.set([wraps, innerCats, paws, flash, hearts, visuals, scene], { clearProps: 'all' });
       };
     }
   );
