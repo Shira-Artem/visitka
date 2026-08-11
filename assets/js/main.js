@@ -17,6 +17,7 @@ import { initHeroPhone } from './modules/hero-phone.js';
 import { initWays } from './modules/ways.js';
 import { initStory } from './modules/story/index.js';
 import { initMobileProductJourney } from './modules/mobile-product-journey.js';
+import { initCatJourney } from './modules/cat-journey/index.js';
 
 function bootLanding() {
   initChrome();
@@ -25,6 +26,7 @@ function bootLanding() {
   initHeroPhone();
   initStory();
   initMobileProductJourney();
+  initCatJourney();
 }
 
 // The GSAP UMD bundles above are deferred classic scripts. Waiting for DOMContentLoaded

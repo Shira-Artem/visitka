@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="assets/css/sections/story.css" />
   <link rel="stylesheet" href="assets/css/sections/ways.css" />
   <link rel="stylesheet" href="assets/css/sections/final.css" />
+  <link rel="stylesheet" href="assets/css/sections/cat-journey.css" />
   <link rel="stylesheet" href="assets/css/sections/adaptive.css" />
   <link rel="stylesheet" href="assets/css/sections/story-mobile.css" />
 </head>
@@ -667,7 +668,8 @@
   <!-- ================= ФИНАЛЬНЫЙ CTA ================= -->
   <section class="final" id="final">
     <div class="container">
-      <div class="final__panel" data-reveal>
+      <!-- Десктоп (≥981px) — без изменений, cat-journey его не касается. -->
+      <div class="final__panel final__panel--desktop" data-reveal>
         <h2>Еда уже<br><span class="grad-text">ждёт тебя</span></h2>
         <p class="lead">Открой ЮртаНеЖди и оформи первый заказ. Сканируй, заказывай, забирай — без очередей.</p>
         <div class="final__row">
@@ -687,6 +689,66 @@
           </div>
         </div>
         <div class="final__status"><span class="ck">✓</span> Готово к выдаче</div>
+      </div>
+
+      <!-- Мобильная cinematic-версия (≤980px) — «Котик уже не ждёт», блок3.
+           Разметку/логику см. plan_block3.md. Пин и таймлайн собирает
+           assets/js/modules/cat-journey/index.js (GSAP ScrollTrigger),
+           здесь только структура + текст + запасные состояния для
+           prefers-reduced-motion (класс .is-act-3 читает CSS сам). -->
+      <div class="cat-journey">
+        <header class="cat-journey__intro" data-reveal>
+          <h2>Котик уже <span class="grad-text">не ждёт</span></h2>
+          <p class="lead">Сканируй. Заказывай. Забирай.</p>
+        </header>
+
+        <div class="cat-journey__scene" data-cat-act="1">
+          <div class="cat-journey__visuals">
+            <img class="cat-journey__cat" data-cat-frame="1" src="assets/img/cat-story/cat-hungry.webp" alt="Котик увлечённо смотрит в телефон, оформляя заказ" width="800" height="953" />
+            <img class="cat-journey__cat" data-cat-frame="2" src="assets/img/cat-story/cat-ordering.webp" alt="Котик держит телефон — на экране «Заказ принят»" width="800" height="962" />
+            <img class="cat-journey__cat" data-cat-frame="3" src="assets/img/cat-story/cat-happy-full.webp" alt="Сытый довольный котик обнимает пакет заказа" width="800" height="957" />
+            <svg class="cat-journey__route" viewBox="0 0 320 960" fill="none" aria-hidden="true">
+              <path class="cat-journey__route-path" d="M46 70 C 230 150, 70 330, 250 430 S 60 660, 250 840" />
+              <circle class="cat-journey__route-dot" r="7" />
+            </svg>
+          </div>
+
+          <ol class="cat-journey__acts">
+            <li class="cat-journey__act" data-act="1">
+              <span class="cat-journey__act-num">01</span>
+              <h3>Голодный<br />и сообразительный</h3>
+              <p>Сканирует QR — и запускает заказ.</p>
+            </li>
+            <li class="cat-journey__act" data-act="2">
+              <span class="cat-journey__act-num">02</span>
+              <h3>Заказ<br />в пути</h3>
+              <p>Мы приняли заказ и уже готовим всё вкусное.</p>
+            </li>
+            <li class="cat-journey__act" data-act="3">
+              <span class="cat-journey__act-num">03</span>
+              <h3>Сытый<br />и счастливый</h3>
+              <p>Забрал заказ — доволен на все лапки!</p>
+            </li>
+          </ol>
+        </div>
+
+        <footer class="cat-journey__actions" data-reveal>
+          <div class="qr-box" data-qr aria-label="QR-код для заказа">
+            <!-- QR-ПЛЕЙСХОЛДЕР: тот же паттерн, что и в десктопном .final — замени на реальный QR сервиса -->
+            <svg viewBox="0 0 100 100" shape-rendering="crispEdges"><rect width="100" height="100" fill="#fff"/><g fill="#171310"><path d="M8 8h24v24H8zM14 14v12h12V14z"/><path d="M17 17h6v6h-6z"/><path d="M68 8h24v24H68zM74 14v12h12V14z"/><path d="M77 17h6v6h-6z"/><path d="M8 68h24v24H8zM14 74v12h12V74z"/><path d="M17 77h6v6h-6z"/><path d="M40 8h6v6h-6zM52 8h6v12h-6zM40 20h12v6H40zM60 14h8v6h-8zM40 32h6v6h-6zM52 26h6v6h-6zM64 32h6v6h-6zM76 40h6v6h-6zM88 44h4v6h-4zM40 44h6v6h-6zM50 40h6v6h-6zM60 44h12v6H60zM8 40h12v6H8zM24 40h8v12h-8zM8 52h6v6H8zM18 52h6v6h-6zM32 52h6v6h-6zM44 52h6v6h-6zM56 52h6v12h-6zM68 52h6v6h-6zM80 52h12v6H80zM40 62h6v6h-6zM50 62h6v6h-6zM68 62h6v12h-6zM82 62h6v6h-6zM40 74h6v6h-6zM50 74h12v6H50zM40 84h6v8h-6zM54 84h6v8h-6zM66 84h6v6h-6zM78 78h6v6h-6zM86 84h6v8h-6zM78 88h6v4h-6z"/></g></svg>
+          </div>
+          <div class="cat-journey__buttons">
+            <a href="#" class="btn btn--tg btn--lg">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.8 16.6 9.6 20c.4 0 .6-.2.8-.4l1.9-1.8 4 2.9c.7.4 1.3.2 1.5-.7l2.7-12.6c.2-1-.4-1.4-1-1.2L3.3 9.9c-1 .4-1 1-.2 1.2l4.3 1.3 9.9-6.2c.5-.3.9-.1.5.2z"/></svg>
+              Открыть в Telegram
+            </a>
+            <a href="#" class="btn btn--max btn--lg">
+              <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="9" opacity=".25"/><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Zm0 4.2 2.8 4.8L12 16.8 9.2 12 12 7.2Z"/></svg>
+              Открыть в MAX
+            </a>
+          </div>
+          <div class="cat-journey__status"><span class="ck">✓</span> Готово к выдаче</div>
+        </footer>
       </div>
     </div>
   </section>
@@ -729,6 +791,7 @@
   <script src="assets/js/vendor/DrawSVGPlugin.min.js" defer></script>
   <script src="assets/js/vendor/MotionPathPlugin.min.js" defer></script>
   <script src="assets/js/hero-demo.js" defer></script>
+
   <script src="assets/js/main.js" type="module"></script>
 </body>
 </html>
