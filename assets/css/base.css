@@ -14,8 +14,14 @@ img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none;-webkit-tap-highlight-color:transparent}
 button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 :focus-visible{outline:2px solid var(--fire);outline-offset:3px;border-radius:4px}
-.skip-link{position:fixed;top:12px;left:18px;z-index:200;padding:10px 14px;border-radius:8px;background:var(--ink);color:#fff;font-weight:800;transform:translateY(-180%);transition:transform .18s var(--ease)}
-.skip-link:focus-visible{transform:none}
+.skip-link{
+  position:fixed;top:calc(12px + env(safe-area-inset-top));left:18px;z-index:200;
+  width:1px;height:1px;padding:0;overflow:hidden;white-space:nowrap;clip-path:inset(50%);
+  border-radius:8px;background:var(--ink);color:#fff;font-weight:800;
+}
+/* Mobile Safari may restore focus to the first link after reopening a page.
+   Reveal the skip link only after a real keyboard Tab, not from restored focus. */
+.is-keyboard-nav .skip-link:focus-visible{width:auto;height:auto;padding:10px 14px;overflow:visible;clip-path:none}
 
 /* ---- Фоновая атмосфера: тёплый живой фон на весь сайт (fixed = виден на
    каждой секции, не только в hero). Слои: базовый градиент → дрейфующие

@@ -44,7 +44,7 @@ export const RAIL_ENERGY_DECAY = 0.84;      // затухание энергии
 export const RAIL_SETTLE_MS = 420;          // страховочный сброс энергии после остановки
 export const MOBILE_TONE_LEAD = 0.62;       // с какой доли сцены свет начинает уходить в следующую
 export const MOBILE_EXIT_START = 0.95;      // мягкая передача кадра секции «Способы получения»
-export const MOBILE_PAGE_TONE = [250, 247, 243]; // фон страницы сразу под Story
+export const MOBILE_PAGE_TONE = [255, 248, 239]; // warm Ways entry tone
 
 /* Сцены сценария: подпись + собственная световая температура.
    Дуга света: тёплая бумага → оранжевый выбор → золото оплаты →

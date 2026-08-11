@@ -16,9 +16,21 @@ import { initHeroAutoplay } from './modules/hero-autoplay.js';
 import { initHeroPhone } from './modules/hero-phone.js';
 import { initWays } from './modules/ways.js';
 import { initStory } from './modules/story/index.js';
+import { initMobileProductJourney } from './modules/mobile-product-journey.js';
 
-initChrome();
-initHeroAutoplay();
-initWays();
-initHeroPhone();
-initStory();
+function bootLanding() {
+  initChrome();
+  initHeroAutoplay();
+  initWays();
+  initHeroPhone();
+  initStory();
+  initMobileProductJourney();
+}
+
+// The GSAP UMD bundles above are deferred classic scripts. Waiting for DOMContentLoaded
+// preserves their document order before mobile modules read window.gsap/ScrollTrigger.
+if (document.readyState === 'loading') {
+  window.addEventListener('DOMContentLoaded', bootLanding, { once: true });
+} else {
+  bootLanding();
+}

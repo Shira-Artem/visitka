@@ -39,7 +39,7 @@ export function initWays() {
   const waysStage = document.getElementById('waysStage');
   const wayCards = [].slice.call(document.querySelectorAll('[data-way-card]'));
 
-  if (wayCards.length) {
+  if (wayCards.length && !window.matchMedia('(max-width: 620px)').matches) {
     // Fade-up при появлении в кадре — единственная анимация на мобильном
     // потоке и мягкий вход перед тем, как на десктопе scroll-контроллер
     // ниже возьмёт карточки под управление.
@@ -172,8 +172,34 @@ export function initWays() {
     };
   }
 
+  // The <=620px GSAP showcase is staged by mobile-product-journey.js. This
+  // module deliberately stays passive there so only one scroll controller can
+  // own the cards. If GSAP/plugins fail, fall back to the readable flow.
+  function setupMobilePassive() {
+    waysTrack.style.removeProperty('height');
+    waysStage.classList.remove('is-outro');
+    waysStage.removeAttribute('data-way-mood');
+    wayCards.forEach(function (card) {
+      card.classList.remove('is-active', 'is-receded', 'is-flow-active');
+      stopWayDemo(card);
+    });
+    // The showcase marks the stage synchronously during boot. A missing mark
+    // means the enhancement could not start, so reveal the semantic card list.
+    let fallback = null;
+    const fallbackTimer = window.setTimeout(function () {
+      if (!waysStage.hasAttribute('data-ways-showcase')) fallback = setupFlow();
+    }, 0);
+    return function cleanup() {
+      window.clearTimeout(fallbackTimer);
+      if (fallback) fallback();
+    };
+  }
+
   return createLayoutSwitch(
-    function () { return (!bp.is('desktop') || prefersReduced()) ? 'flow' : 'pinned'; },
-    { pinned: setupPinned, flow: setupFlow }
+    function () {
+      if (window.matchMedia('(max-width: 620px)').matches && !prefersReduced()) return 'mobile-passive';
+      return (!bp.is('desktop') || prefersReduced()) ? 'flow' : 'pinned';
+    },
+    { pinned: setupPinned, flow: setupFlow, 'mobile-passive': setupMobilePassive }
   );
 }

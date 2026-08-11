@@ -34,6 +34,19 @@ function initHeader() {
   onScroll();
 }
 
+/** Show keyboard-only affordances only after a real Tab press.
+ *  This also prevents iOS Safari's restored focus from exposing the skip link. */
+function initInputModality() {
+  function onKeyDown(event) {
+    if (event.key === 'Tab') document.documentElement.classList.add('is-keyboard-nav');
+  }
+  function onPointerDown() {
+    document.documentElement.classList.remove('is-keyboard-nav');
+  }
+  window.addEventListener('keydown', onKeyDown);
+  window.addEventListener('pointerdown', onPointerDown, { passive: true });
+}
+
 /** Бургер-меню. */
 function initMenu() {
   const burger = document.getElementById('burger');
@@ -71,6 +84,7 @@ function initReveal() {
 }
 
 export function initChrome() {
+  initInputModality();
   initHeader();
   initMenu();
   initReveal();

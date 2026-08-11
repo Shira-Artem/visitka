@@ -107,6 +107,7 @@
           <span class="story__rig-vignette"></span>
           <span class="story__rig-grain"></span>
           <span class="story__rig-sweep"></span>
+          <span class="story__handoff-wave"></span>
         </div>
 
         <!-- Декоративные линии-потоки: от текста к телефону, с бегущими световыми импульсами -->
@@ -484,6 +485,12 @@
             <h2 id="waysHeadline">Выбирай,<br><span class="grad-text">как удобно</span></h2>
             <p class="lead" id="waysLead">Один Mini App — три способа получить заказ. Гость выбирает сам, заведение
               ведёт все заказы в одной системе.</p>
+            <div class="ways__route-cue" aria-hidden="true">
+              <svg viewBox="0 0 244 18" preserveAspectRatio="none">
+                <path data-ways-cue-path pathLength="1" d="M4 11C52 2 76 17 120 9S190 4 240 9" />
+              </svg>
+              <span class="ways__route-dot" data-ways-cue-dot></span>
+            </div>
             <div class="ways__progress" id="waysProgress" aria-hidden="true">
               <span class="ways__step is-active" data-way-step="0">01</span>
               <span class="ways__step" data-way-step="1">02</span>
@@ -507,9 +514,14 @@
               <h3>Самовывоз</h3>
               <div class="way-card__body">
                 <p class="way-card__desc">Заказал заранее, оплатил в приложении — забрал готовое без очереди к нужному времени.</p>
+                <ul class="way-card__benefits" aria-label="&#1042;&#1086;&#1079;&#1084;&#1086;&#1078;&#1085;&#1086;&#1089;&#1090;&#1080; &#1089;&#1072;&#1084;&#1086;&#1074;&#1099;&#1074;&#1086;&#1079;&#1072;">
+                  <li><i></i>&#1050; &#1085;&#1091;&#1078;&#1085;&#1086;&#1084;&#1091; &#1074;&#1088;&#1077;&#1084;&#1077;&#1085;&#1080;</li>
+                  <li><i></i>&#1059;&#1078;&#1077; &#1086;&#1087;&#1083;&#1072;&#1095;&#1077;&#1085;&#1086;</li>
+                </ul>
                 <div class="way-card__demo" data-way-demo aria-hidden="true">
                   <div class="wd-pickup">
                     <div class="wd-pickup__ticket">
+                      <small class="wd-pickup__meta">&#1055;&#1088;&#1077;&#1076;&#1086;&#1087;&#1083;&#1072;&#1095;&#1077;&#1085;&#1086; &middot; &#1087;&#1086;&#1083;&#1082;&#1072; A3</small>
                       <span><i></i>Заказ №118</span>
                       <span><i></i>Готовится к 19:20</span>
                     </div>
@@ -545,13 +557,23 @@
               <h3>Доставка курьером</h3>
               <div class="way-card__body">
                 <p class="way-card__desc">Кухня готовит, курьер забирает и везёт заказ прямо к гостю — статус виден в приложении.</p>
+                <ul class="way-card__benefits" aria-label="&#1042;&#1086;&#1079;&#1084;&#1086;&#1078;&#1085;&#1086;&#1089;&#1090;&#1080; &#1076;&#1086;&#1089;&#1090;&#1072;&#1074;&#1082;&#1080;">
+                  <li><i></i>ETA &#1074; &#1087;&#1088;&#1080;&#1083;&#1086;&#1078;&#1077;&#1085;&#1080;&#1080;</li>
+                  <li><i></i>&#1050; &#1076;&#1074;&#1077;&#1088;&#1080; &#1075;&#1086;&#1089;&#1090;&#1103;</li>
+                </ul>
                 <div class="way-card__demo" data-way-demo aria-hidden="true">
+                  <span class="wd-route__legend"><i></i>&#1047;&#1072;&#1082;&#1072;&#1079; &#1079;&#1072;&#1073;&#1088;&#1072;&#1085; &middot; &#1084;&#1072;&#1088;&#1096;&#1088;&#1091;&#1090; &#1087;&#1086;&#1089;&#1090;&#1088;&#1086;&#1077;&#1085;</span>
                   <div class="wd-route">
                     <span class="wd-route__pin"><svg viewBox="0 0 24 24" fill="none"><path d="M4 9l1-5h14l1 5M4 9a2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0M5 9v10h14V9" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/></svg></span>
                     <span class="wd-route__pathwrap">
-                      <svg class="wd-route__path" viewBox="0 0 180 28" preserveAspectRatio="none" aria-hidden="true">
+                      <svg class="wd-route__path wd-route__path--desktop" viewBox="0 0 180 28" preserveAspectRatio="none" aria-hidden="true">
                         <path pathLength="1" d="M6,14 C54,2 126,26 174,14" style="stroke:var(--way-c)" stroke-width="2" fill="none" stroke-linecap="round"/>
                       </svg>
+                      <svg class="wd-route__path wd-route__path--mobile" viewBox="0 0 220 52" preserveAspectRatio="none" aria-hidden="true">
+                        <path pathLength="1" d="M5 38H58Q70 38 70 26V17Q70 7 82 7H132Q144 7 144 19V31Q144 42 156 42H215" style="stroke:var(--way-c)" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                      <i class="wd-route__checkpoint wd-route__checkpoint--a" aria-hidden="true"></i>
+                      <i class="wd-route__checkpoint wd-route__checkpoint--b" aria-hidden="true"></i>
                       <span class="wd-route__courier" aria-hidden="true"></span>
                     </span>
                     <span class="wd-route__pin"><svg viewBox="0 0 24 24" fill="none"><path d="M4 11l8-7 8 7M6 10v10h12V10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
@@ -596,7 +618,12 @@
               <h3>Закажи к столику</h3>
               <div class="way-card__body">
                 <p class="way-card__desc">Гость сканирует QR за столом — заказ летит на кухню, официант для приёма заказа не нужен.</p>
+                <ul class="way-card__benefits" aria-label="&#1042;&#1086;&#1079;&#1084;&#1086;&#1078;&#1085;&#1086;&#1089;&#1090;&#1080; &#1079;&#1072;&#1082;&#1072;&#1079;&#1072; &#1082; &#1089;&#1090;&#1086;&#1083;&#1080;&#1082;&#1091;">
+                  <li><i></i>QR &#1079;&#1072; &#1089;&#1090;&#1086;&#1083;&#1086;&#1084;</li>
+                  <li><i></i>&#1057;&#1088;&#1072;&#1079;&#1091; &#1085;&#1072; &#1082;&#1091;&#1093;&#1085;&#1102;</li>
+                </ul>
                 <div class="way-card__demo" data-way-demo aria-hidden="true">
+                  <span class="wd-table__order"><i></i>&#1057;&#1090;&#1086;&#1083; 12 &middot; &#1079;&#1072;&#1082;&#1072;&#1079; &#1087;&#1088;&#1080;&#1085;&#1103;&#1090;</span>
                   <div class="wd-table">
                     <span class="wd-table__qr">
                       <svg viewBox="0 0 28 28" fill="none" aria-hidden="true">
@@ -697,6 +724,10 @@
        window.YJ_HERO_DEMO, на который смотрит main.js. defer-скрипт и
        модуль выполняются в порядке следования в документе, поэтому
        к моменту старта main.js телефон уже готов. -->
+  <script src="assets/js/vendor/gsap.min.js" defer></script>
+  <script src="assets/js/vendor/ScrollTrigger.min.js" defer></script>
+  <script src="assets/js/vendor/DrawSVGPlugin.min.js" defer></script>
+  <script src="assets/js/vendor/MotionPathPlugin.min.js" defer></script>
   <script src="assets/js/hero-demo.js" defer></script>
   <script src="assets/js/main.js" type="module"></script>
 </body>

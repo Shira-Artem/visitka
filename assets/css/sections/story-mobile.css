@@ -39,7 +39,7 @@
      которую пишет main.js (единственный владелец длины сценария). */
   .story__track{position:relative;height:var(--story-track-h,648svh)!important}
   .story__stage{
-    position:sticky;top:0;height:100svh;min-height:0;max-width:none;margin:0;padding:0;
+    position:sticky;top:0;height:100svh;height:100dvh;min-height:0;max-width:none;margin:0;padding:0;
     display:block;overflow:hidden;isolation:isolate;background:transparent;
     --scene-p:0;--story-p:0;--story-exit:0;
     --mobile-phone-top:249px;
@@ -53,6 +53,16 @@
   /* В финале гаснет весь свет сцены, а база уже уведена в цвет страницы —
      Story не обрывается, а спокойно передаёт кадр секции «Способы». */
   .story__rig-beam,.story__rig-key,.story__rig-floor{opacity:calc(1 - var(--story-exit))}
+  .story__handoff-wave{
+    display:block;left:-28%;top:calc(106% - var(--story-handoff) * 116%);width:156%;height:46px;
+    opacity:var(--story-handoff);background:radial-gradient(70% 125% at 50% 50%,rgba(var(--handoff-key),.28),rgba(var(--handoff-key),.08) 44%,transparent 74%);
+    filter:blur(2px);will-change:top,opacity;
+  }
+  .story__handoff-wave::after{
+    content:"";position:absolute;left:12%;right:12%;top:50%;height:2px;border-radius:999px;
+    background:linear-gradient(90deg,transparent,rgba(var(--handoff-key),.74) 18%,#fff4e8 50%,rgba(var(--handoff-key),.74) 82%,transparent);
+    box-shadow:0 0 14px rgba(var(--handoff-key),.25);transform:scaleX(calc(.08 + var(--story-handoff) * .92));
+  }
   /* Верхний луч — сцена именно освещена сверху, а не залита градиентом */
   .story__rig-beam{
     left:50%;top:-26%;width:190%;height:104%;transform:translateX(-50%);
@@ -224,6 +234,14 @@
     animation:none;pointer-events:none;transform:none!important;
     opacity:calc(1 - var(--story-exit) * .8);
   }
+  .story__stage[data-story-act="director"] .story__copy{
+    opacity:calc(1 - var(--story-exit) * .85 - var(--story-handoff) * .12);
+    transform:translate3d(0,calc(var(--story-exit) * -22px + var(--story-handoff) * -24px),0);filter:blur(calc(var(--story-handoff) * 4px));
+  }
+  .story__stage[data-story-act="director"] .story__phone-col{
+    opacity:calc(1 - var(--story-exit) * .8 - var(--story-handoff) * .18);
+    transform:translate3d(0,calc(var(--story-handoff) * -34px),0)!important;filter:blur(calc(var(--story-handoff) * 3px));
+  }
   /* Контактная тень телефона: композиция стоит на полу, а не висит в воздухе. */
   .story__phone-col::after{
     content:"";position:absolute;left:50%;top:calc(100% - 16px);z-index:-1;
@@ -303,6 +321,11 @@
   .story__dots span.is-active::before{
     width:8px;height:8px;margin:-4px 0 0 -4px;background:rgba(var(--st-key),.9);
     box-shadow:0 0 0 5px rgba(var(--st-key),.16),0 0 14px rgba(var(--st-key),.6);
+  }
+  .story__stage[data-story-act="director"] .story__dots span.is-active::before{
+    width:calc(8px + var(--story-handoff) * 16px);height:calc(8px - var(--story-handoff) * 3px);
+    margin:calc(-4px + var(--story-handoff) * 1.5px) 0 0 -4px;border-radius:999px;
+    background:rgb(var(--handoff-key));box-shadow:0 0 14px rgba(var(--handoff-key),.64);
   }
 
   /* ---- «Пульс заказа» ----
@@ -387,4 +410,40 @@
   .story__pulse::before{display:none}
   .story__dots.is-hit .story__pulse::after{animation:none}
   .story__stage.is-cut .story__rig-sweep{animation:none}
+  .story__handoff-wave{display:none}
+}
+
+/* GSAP owns this one mobile-only product handoff.  It is intentionally scoped
+   to the data attributes added after the animation has initialised, so a
+   missing script still leaves the native responsive layout intact. */
+@media (max-width:768px){
+  #storyStage[data-journey-handoff]{
+    --journey-handoff:0;--journey-handoff-color:70,183,150;
+  }
+  #storyStage[data-journey-handoff] .story__handoff-wave{display:none}
+  #storyStage[data-journey-handoff] .story__rig::after{
+    content:"";position:absolute;inset:0;pointer-events:none;z-index:1;
+    opacity:var(--journey-handoff);
+    background:linear-gradient(180deg,rgba(255,248,239,0) 0%,rgba(255,241,229,.22) 34%,#fff8ef 100%);
+  }
+  #storyStage[data-journey-handoff][data-story-act="director"] .story__copy{
+    opacity:calc(1 - var(--journey-handoff));
+    transform:translate3d(0,calc(var(--journey-handoff) * -46px),0) scale(calc(1 - var(--journey-handoff) * .06));
+    transform-origin:50% 34%;filter:blur(calc(var(--journey-handoff) * 1.6px));
+  }
+  #storyStage[data-journey-handoff] .story__phone-col{
+    opacity:calc(1 - var(--journey-handoff) * .98)!important;
+    transform:translate3d(0,calc(var(--journey-handoff) * -62px),0) scale(calc(1 - var(--journey-handoff) * .1))!important;
+    transform-origin:50% 65%;filter:blur(calc(var(--journey-handoff) * 1.4px));
+  }
+  #storyStage[data-journey-handoff] .story__dots span:last-of-type{
+    width:calc(8px + var(--journey-handoff) * 14px)!important;
+    border-radius:999px;
+  }
+  .journey-handoff-layer{position:absolute;inset:0;z-index:6;pointer-events:none;overflow:hidden;mix-blend-mode:screen}
+  .journey-handoff-layer svg{display:block;width:100%;height:100%;overflow:visible}
+  .journey-handoff-path,.journey-handoff-glow{fill:none;stroke-linecap:round;stroke-linejoin:round}
+  .journey-handoff-path{stroke:url(#journeyHandoffGradient);stroke-width:3.2;filter:drop-shadow(0 0 8px rgba(255,154,89,.28))}
+  .journey-handoff-glow{stroke:rgba(255,247,236,.44);stroke-width:12;filter:blur(5px)}
+  .journey-handoff-pulse{fill:#fff8ef;stroke:#ff7b4b;stroke-width:2;filter:drop-shadow(0 0 7px rgba(255,117,61,.7))}
 }

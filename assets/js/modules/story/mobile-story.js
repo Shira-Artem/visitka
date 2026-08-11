@@ -27,7 +27,7 @@ import {
   RAIL_SETTLE_MS, MOBILE_TONE_LEAD, MOBILE_EXIT_START, MOBILE_PAGE_TONE
 } from './config.js';
 
-const STAGE_VARS = ['--mobile-phone-top', '--mobile-phone-width', '--scene-p', '--story-p', '--story-exit'];
+const STAGE_VARS = ['--mobile-phone-top', '--mobile-phone-width', '--scene-p', '--story-p', '--story-exit', '--story-handoff', '--handoff-key'];
 const SECTION_VARS = ['--st-base', '--st-key', '--st-tint'];
 const RAIL_VARS = ['--rail-progress', '--rail-energy', '--rail-dir', '--rail-span'];
 
@@ -42,6 +42,7 @@ export function setupMobileStory(core) {
   const sceneCount = STORY_ACTS.length;
   let activeSceneIndex = -1;
   let ticking = false;
+  let resizeFrame = 0;
   const mounted = [];
   let lastTone = '';
   let cutTimer = 0;
@@ -137,7 +138,8 @@ export function setupMobileStory(core) {
       heroBlockHeight() + MOBILE_HEADER_CLEARANCE + MOBILE_CAPTION_GAP
     ));
     const available = Math.max(240, vh - captionBand - MOBILE_RAIL_SPACE - 16);
-    const width = Math.round(Math.max(148, Math.min(260, available * PHONE_WIDTH_RATIO)));
+    const minPhoneWidth = vh < 620 ? 136 : 148;
+    const width = Math.round(Math.max(minPhoneWidth, Math.min(260, available * PHONE_WIDTH_RATIO)));
     const phoneHeight = width / PHONE_WIDTH_RATIO;
     const slack = Math.max(0, vh - captionBand - MOBILE_RAIL_SPACE - phoneHeight);
     const top = Math.round(captionBand + slack * 0.42);
@@ -288,6 +290,9 @@ export function setupMobileStory(core) {
     // автоплей стартует заново. applyState() чистит таймеры автоплея,
     // поэтому в hero его звать нельзя.
     if (act.id === 'hero' && window.YJ_HERO_AUTOPLAY) {
+      // Reopen the guest frame from a known screen after Safari restores a
+      // later scroll position or the visitor quickly scrolls back to the top.
+      window.YJ_HERO_AUTOPLAY.stop();
       window.YJ_HERO_AUTOPLAY.start();
     } else {
       if (window.YJ_HERO_AUTOPLAY) window.YJ_HERO_AUTOPLAY.stop();
@@ -323,17 +328,27 @@ export function setupMobileStory(core) {
   }
 
   function onMobileStoryResize() {
-    updateMobilePhoneGeometry();
-    onMobileStoryScroll();
+    if (resizeFrame) return;
+    resizeFrame = requestAnimationFrame(function () {
+      resizeFrame = 0;
+      updateMobilePhoneGeometry();
+      onMobileStoryScroll();
+    });
   }
 
-  storyTrack.style.setProperty('--story-track-h', (sceneCount * MOBILE_SCENE_VH) + 'svh');
+  const supportsDynamicViewport = window.CSS && CSS.supports('height', '100dvh');
+  const scrollSpan = sceneCount * MOBILE_SCENE_VH - 100;
+  storyTrack.style.setProperty(
+    '--story-track-h',
+    supportsDynamicViewport ? 'calc(' + scrollSpan + 'svh + 100dvh)' : (sceneCount * MOBILE_SCENE_VH) + 'svh'
+  );
   storyStage.setAttribute('data-mobile-story', 'true');
   mountCaptions();
   updateMobilePhoneGeometry();
   applyMobileStoryScene(0);
   window.addEventListener('scroll', onMobileStoryScroll, { passive: true });
   window.addEventListener('resize', onMobileStoryResize);
+  if (window.visualViewport) window.visualViewport.addEventListener('resize', onMobileStoryResize);
   tickMobileStory();
 
   return function cleanup() {
@@ -341,9 +356,11 @@ export function setupMobileStory(core) {
     window.clearTimeout(hitTimer);
     window.clearTimeout(railSettleTimer);
     if (railDecayFrame) cancelAnimationFrame(railDecayFrame);
+    if (resizeFrame) cancelAnimationFrame(resizeFrame);
     if (threadEl) threadEl.classList.remove('is-hit');
     window.removeEventListener('scroll', onMobileStoryScroll);
     window.removeEventListener('resize', onMobileStoryResize);
+    if (window.visualViewport) window.visualViewport.removeEventListener('resize', onMobileStoryResize);
     mounted.forEach(function (node) { node.remove(); });
     dotEls.forEach(function (dot) { dot.classList.remove('is-done'); });
     storyStage.classList.remove('is-cut');
