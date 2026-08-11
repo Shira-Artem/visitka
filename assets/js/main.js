@@ -16,9 +16,11 @@ import { initHeroAutoplay } from './modules/hero-autoplay.js';
 import { initHeroPhone } from './modules/hero-phone.js';
 import { initWays } from './modules/ways.js';
 import { initStory } from './modules/story/index.js';
+import { initCatJourney } from './modules/cat-journey/index.js';
 
 initChrome();
 initHeroAutoplay();
 initWays();
 initHeroPhone();
 initStory();
+initCatJourney();

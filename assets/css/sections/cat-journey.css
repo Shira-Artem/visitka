@@ -1,0 +1,97 @@
+/* ============================================================
+   sections/cat-journey.css — «Котик уже не ждёт» (блок3).
+   Подключается после final.css, до adaptive.css — порядок
+   sections/* трогать нельзя (см. шапку story.css).
+
+   Десктоп (≥981px) не меняется вообще: .final__panel--desktop —
+   это прежний .final__panel, final.css им и рулит. Здесь только
+   его скрытие на мобильном + вся раскладка .cat-journey.
+
+   Прогрессивное усиление, без второго источника состояния:
+   - по умолчанию (без JS / prefers-reduced-motion) — обычный
+     статичный стек: первый кадр кота, все три акта текстом друг
+     под другом, сразу QR и кнопки. Ничего не закреплено, скроллится
+     как обычный контент.
+   - assets/js/modules/cat-journey/index.js добавляет класс
+     .cat-journey--live только когда сам ScrollTrigger-пин реально
+     запущен (≤768px, без reduced-motion) — тогда сцена закрепляется,
+     и видимость акта переключает data-cat-act на .cat-journey__scene
+     (тот же приём, что data-order-phase в story.css).
+   QR/кнопки в конце — обычный [data-reveal] (base.css), тот же
+   fade-up, что и у остальных секций сайта, отдельной логики не надо.
+   ============================================================ */
+
+.cat-journey{display:none}
+
+@media (max-width:980px){
+  .final__panel--desktop{display:none}
+  .cat-journey{display:block;padding:64px 0 24px}
+
+  .cat-journey__intro{text-align:center;padding:0 24px 36px}
+  .cat-journey__intro h2{
+    font-family:var(--font-display);font-size:clamp(32px,9vw,46px);
+    text-transform:uppercase;line-height:1.05;color:var(--ink)
+  }
+  .cat-journey__intro .lead{margin-top:10px;color:var(--ink-2)}
+
+  /* ---- Сцена: по умолчанию обычный статичный блок ---- */
+  .cat-journey__scene{position:relative;padding:0 24px}
+
+  .cat-journey__visuals{
+    position:relative;aspect-ratio:4/5;width:min(100%,320px);margin:0 auto 28px;
+    border-radius:var(--r-lg);overflow:hidden;background:var(--fire-soft);
+  }
+  .cat-journey__cat{
+    position:absolute;inset:0;width:100%;height:100%;
+    object-fit:contain;object-position:center bottom;opacity:0;
+  }
+  .cat-journey__cat[data-cat-frame="1"]{opacity:1}
+  .cat-journey__route{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:0}
+  .cat-journey__route-path{stroke:var(--fire);stroke-width:3;stroke-linecap:round;fill:none}
+  .cat-journey__route-dot{fill:var(--fire);filter:drop-shadow(0 0 6px rgba(255,90,31,.7))}
+
+  .cat-journey__acts{display:flex;flex-direction:column;gap:16px;list-style:none;margin:0 0 32px;padding:0}
+  .cat-journey__act{
+    display:flex;flex-direction:column;gap:2px;padding:18px 20px;border-radius:var(--r-md);
+    background:var(--surface);border:1px solid var(--border);box-shadow:var(--sh-sm);
+  }
+  .cat-journey__act-num{font-family:var(--font-display);font-size:20px;color:var(--fire)}
+  .cat-journey__act h3{font-size:19px;line-height:1.2;margin:2px 0 4px;color:var(--ink)}
+  .cat-journey__act p{margin:0;color:var(--ink-2);font-size:14.5px}
+
+  .cat-journey__actions{display:flex;flex-direction:column;align-items:center;gap:20px;padding:0 24px;text-align:center}
+  .cat-journey__buttons{display:flex;flex-direction:column;gap:14px;width:100%;max-width:320px}
+  .cat-journey__status{
+    display:inline-flex;align-items:center;gap:10px;padding:12px 22px;border-radius:100px;
+    background:var(--lime-bg);border:1px solid rgba(91,191,23,.4);font-weight:800;color:#4a9c12;
+  }
+  .cat-journey__status .ck{
+    width:22px;height:22px;border-radius:50%;background:var(--lime);color:#fff;
+    display:grid;place-items:center;font-size:14px;
+  }
+
+  /* ============================================================
+     ЖИВОЙ РЕЖИМ — только когда JS реально запустил ScrollTrigger-пин
+     (≤768px, без prefers-reduced-motion). Класс ставит и снимает
+     assets/js/modules/cat-journey/index.js через gsap.matchMedia().
+     ============================================================ */
+  .cat-journey--live .cat-journey__scene{
+    height:100svh;box-sizing:border-box;
+    padding:calc(20px + env(safe-area-inset-top)) 24px calc(20px + env(safe-area-inset-bottom));
+    display:flex;flex-direction:column;justify-content:center;gap:24px;
+  }
+  .cat-journey--live .cat-journey__visuals{margin:0 auto;width:min(100%,280px);flex-shrink:0}
+  .cat-journey--live .cat-journey__route{opacity:1}
+
+  .cat-journey--live .cat-journey__acts{position:relative;min-height:150px;margin-bottom:0}
+  .cat-journey--live .cat-journey__act{
+    position:absolute;inset:0;opacity:0;transform:translateY(16px);
+    transition:opacity .35s var(--ease),transform .35s var(--ease);
+    pointer-events:none;background:transparent;border:0;box-shadow:none;padding:0 8px;text-align:center;
+  }
+  .cat-journey--live .cat-journey__scene[data-cat-act="1"] .cat-journey__act[data-act="1"],
+  .cat-journey--live .cat-journey__scene[data-cat-act="2"] .cat-journey__act[data-act="2"],
+  .cat-journey--live .cat-journey__scene[data-cat-act="3"] .cat-journey__act[data-act="3"]{
+    opacity:1;transform:translateY(0);pointer-events:auto;
+  }
+}
