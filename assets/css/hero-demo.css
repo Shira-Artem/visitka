@@ -1734,13 +1734,25 @@
 /* ---- Touch targets for the live demo: cqw scales down with the phone's own
    width, so on a 250-300px mobile phone these buttons shrink below a
    comfortable tap size even though they're fully interactive (add-to-cart,
-   checkout, cashier/cook actions). Floor them in px on coarse pointers only —
-   mouse users keep the original cqw-scaled sizing. ---- */
+   checkout, cashier/cook actions).
+
+   Но пиксельный минимум нельзя вешать на САМ элемент: это интерфейс ВНУТРИ
+   макета телефона, а его экран на 360x640 всего ~137px. Кнопка «+» в 40px
+   занимала там 29% ширины при дорожке грида в 12px и разрывала карточку
+   блюда на ~27px, а полосы по 44px съедали высоту мок-экрана. На десктопе
+   этого не видно: pointer:coarse там не срабатывает, поэтому баг жил только
+   на реальных телефонах.
+
+   Видимый размер оставляем пропорциональным макету, а площадь касания растим
+   невидимым ::after — и доступность на месте, и композиция не рвётся. ---- */
 @media (pointer:coarse){
-  #heroPhoneDisplay .yj-food-card>button{width:max(40px,8.4cqw);height:max(40px,8.4cqw)}
-  #heroPhoneDisplay .yj-cart-bar{min-height:max(44px,12cqw)}
-  #heroPhoneDisplay .yj-primary-action{min-height:max(44px,11.5cqw)}
-  #heroPhoneDisplay .yj-staff-action{min-height:max(44px,11cqw)}
+  #heroPhoneDisplay .yj-food-card>button::after{
+    content:"";position:absolute;left:50%;top:50%;
+    width:40px;height:40px;transform:translate(-50%,-50%);
+  }
+  #heroPhoneDisplay .yj-cart-bar{min-height:max(28px,12cqw)}
+  #heroPhoneDisplay .yj-primary-action{min-height:max(28px,11.5cqw)}
+  #heroPhoneDisplay .yj-staff-action{min-height:max(28px,11cqw)}
 }
 
 /* ---- Legibility pass for the narrow perspective display ---- */
@@ -2020,4 +2032,136 @@
   #heroPhoneDisplay .yj-guest-success.is-active .yj-success-check::after{
     animation:none;
   }
+}
+
+
+/* ============================================================
+   ЧИТАБЕЛЬНОСТЬ ЭКРАНА НА МОБИЛЬНОМ — пиксельный пол под пропорции.
+
+   Весь интерфейс внутри телефона свёрстан в cqw (доля ширины экрана
+   макета), поэтому он идеально пропорционален, но абсолютный размер
+   зависит от того, сколько высоты осталось телефону: на 360x640 корпус
+   157px и текст падает до 2.7-3.6px, на 430x932 корпус 255px. Один и тот
+   же макет читался по-разному и на маленьких экранах превращался в кашу.
+
+   max(Npx, Ncqw) оставляет исходную пропорцию там, где её хватает
+   (большие телефоны, десктоп), и не даёт тексту проваливаться ниже
+   читаемого на узких. Пол подобран по ступеням исходных размеров, из-за
+   чего иерархия макета сохраняется. Блок идёт последним в файле и
+   повторяет специфичность #heroPhoneDisplay исходных правил.
+   ============================================================ */
+@media (max-width:980px){
+  #heroPhoneDisplay .yj-order-status b{font-size:max(7px,2.25cqw)}
+  #heroPhoneDisplay .yj-director-metrics small{font-size:max(7px,2.3cqw)}
+  #heroPhoneDisplay .yj-director-update small{font-size:max(7px,2.3cqw)}
+  #heroPhoneDisplay .yj-methods small{font-size:max(7px,2.35cqw)}
+  #heroPhoneDisplay .yj-payment-row small{font-size:max(7px,2.35cqw)}
+  #heroPhoneDisplay .yj-food-copy small{font-size:max(7px,2.5cqw)}
+  #heroPhoneDisplay .yj-kitchen-label b{font-size:max(7px,2.5cqw)}
+  #heroPhoneDisplay .yj-venue-photo span{font-size:max(7px,2.55cqw)}
+  #heroPhoneDisplay .yj-venue-copy b, #heroPhoneDisplay .yj-venue-copy i{font-size:max(7px,2.55cqw)}
+  #heroPhoneDisplay .yj-cash-items>small{font-size:max(7px,2.55cqw)}
+  #heroPhoneDisplay .yj-food-copy b i{font-size:max(7.5px,2.6cqw)}
+  #heroPhoneDisplay .yj-staff-tabs span{font-size:max(7.5px,2.6cqw)}
+  #heroPhoneDisplay .yj-ready-toast small{font-size:max(7.5px,2.6cqw)}
+  #heroPhoneDisplay .yj-director-list b{font-size:max(7.5px,2.6cqw)}
+  #heroPhoneDisplay .yj-director-tabbar button{font-size:max(7.5px,2.65cqw)}
+  #heroPhoneDisplay .yj-demo-live{font-size:max(7.5px,2.7cqw)}
+  #heroPhoneDisplay .yj-menu-cats span{font-size:max(7.5px,2.7cqw)}
+  #heroPhoneDisplay .yj-status{font-size:max(7.5px,2.7cqw)}
+  #heroPhoneDisplay .yj-created{font-size:max(7.5px,2.7cqw)}
+  #heroPhoneDisplay .yj-kitchen-label{font-size:max(7.5px,2.7cqw)}
+  #heroPhoneDisplay .yj-revenue-card>span{font-size:max(7.5px,2.7cqw)}
+  #heroPhoneDisplay .yj-nearby-row b{font-size:max(7.5px,2.8cqw)}
+  #heroPhoneDisplay .yj-checkout-label{font-size:max(7.5px,2.8cqw)}
+  #heroPhoneDisplay .yj-checkout-order div{font-size:max(7.5px,2.8cqw)}
+  #heroPhoneDisplay .yj-success-meta{font-size:max(7.5px,2.8cqw)}
+  #heroPhoneDisplay .yj-staff-title small{font-size:max(7.5px,2.8cqw)}
+  #heroPhoneDisplay .yj-order-meta b{font-size:max(7.5px,2.8cqw)}
+  #heroPhoneDisplay .yj-order-total span{font-size:max(7.5px,2.8cqw)}
+  #heroPhoneDisplay .yj-progress-strip{font-size:max(7.5px,2.8cqw)}
+  #heroPhoneDisplay .yj-director-update strong{font-size:max(7.5px,2.8cqw)}
+  #heroPhoneDisplay .yj-kitchen-items small{font-size:max(7.5px,2.85cqw)}
+  #heroPhoneDisplay .yj-menu-head small{font-size:max(7.5px,2.9cqw)}
+  #heroPhoneDisplay .yj-client-brand small{font-size:max(7.5px,3cqw)}
+  #heroPhoneDisplay .yj-venue-copy>small{font-size:max(7.5px,3cqw)}
+  #heroPhoneDisplay .yj-nearby-row span{font-size:max(7.5px,3cqw)}
+  #heroPhoneDisplay .yj-payment-row b{font-size:max(7.5px,3cqw)}
+  #heroPhoneDisplay .yj-guest-success>small{font-size:max(7.5px,3cqw)}
+  #heroPhoneDisplay .yj-order-meta span{font-size:max(7.5px,3cqw)}
+  #heroPhoneDisplay .yj-revenue-card>small{font-size:max(7.5px,3cqw)}
+  #heroPhoneDisplay .yj-client-eyebrow{font-size:max(8px,3.1cqw)}
+  #heroPhoneDisplay .yj-cash-items div strong{font-size:max(8px,3.1cqw)}
+  #heroPhoneDisplay .yj-director-list div{font-size:max(8px,3.1cqw)}
+  #heroPhoneDisplay .yj-director-update>b{font-size:max(8px,3.1cqw)}
+  #heroPhoneDisplay .yj-cash-items div{font-size:max(8px,3.15cqw)}
+  #heroPhoneDisplay .yj-methods b{font-size:max(8px,3.2cqw)}
+  #heroPhoneDisplay .yj-guest-success>p{font-size:max(8px,3.2cqw)}
+  #heroPhoneDisplay .yj-staff-alert{font-size:max(8px,3.2cqw)}
+  #heroPhoneDisplay .yj-cart-bar{font-size:max(8px,3.3cqw)}
+  #heroPhoneDisplay .yj-staff-action{font-size:max(8px,3.3cqw)}
+  #heroPhoneDisplay .yj-ready-toast strong{font-size:max(8px,3.3cqw)}
+  #heroPhoneDisplay .yj-primary-action{font-size:max(8px,3.5cqw)}
+  #heroPhoneDisplay .yj-checkout-total{font-size:max(9px,3.6cqw)}
+  #heroPhoneDisplay .yj-food-copy strong{font-size:max(9px,3.7cqw)}
+  #heroPhoneDisplay .yj-kitchen-items div{font-size:max(9px,3.7cqw)}
+  #heroPhoneDisplay .yj-food-copy>b{font-size:max(9px,4cqw)}
+  #heroPhoneDisplay .yj-cart-bar strong{font-size:max(9px,4cqw)}
+  #heroPhoneDisplay .yj-success-meta strong{font-size:max(9px,4cqw)}
+  #heroPhoneDisplay .yj-director-update>span:first-child{font-size:max(9px,4cqw)}
+  #heroPhoneDisplay .yj-kitchen-items div b{font-size:max(9px,4.1cqw)}
+  #heroPhoneDisplay .yj-payment-row>span:first-child{font-size:max(9px,4.2cqw)}
+  #heroPhoneDisplay .yj-director-metrics strong{font-size:max(10.5px,4.3cqw)}
+  #heroPhoneDisplay .yj-ready-toast>span{font-size:max(10.5px,4.7cqw)}
+  #heroPhoneDisplay .yj-order-total strong{font-size:max(10.5px,5cqw)}
+  #heroPhoneDisplay .yj-venue-copy>strong{font-size:max(10.5px,5.2cqw)}
+  #heroPhoneDisplay .yj-order-head>strong{font-size:max(10.5px,5.2cqw)}
+  #heroPhoneDisplay .yj-client-brand strong{font-size:max(10.5px,5.3cqw)}
+  #heroPhoneDisplay .yj-checkout-head{font-size:max(10.5px,5.3cqw)}
+  #heroPhoneDisplay .yj-staff-title>strong{font-size:max(10.5px,5.3cqw)}
+  #heroPhoneDisplay .yj-checkout-total strong{font-size:max(12px,6cqw)}
+  #heroPhoneDisplay .yj-guest-success h3{font-size:max(14px,7.3cqw)}
+  #heroPhoneDisplay .yj-menu-head strong{font-size:max(14px,7.5cqw)}
+  #heroPhoneDisplay .yj-guest-scene h3{font-size:max(14px,8cqw)}
+  #heroPhoneDisplay .yj-revenue-card>strong{font-size:max(17px,9.5cqw)}
+}
+
+/* ---- Раскладочные заплатки под пиксельный пол выше ----
+   Текст стал крупнее, и два места, где ширины не хватало, начали резать
+   содержимое по живому. Оба — не про размер шрифта, а про то, что коробки
+   не умели сжиматься. ---- */
+
+/* Строка позиции чека: ellipsis не работает без min-width:0 (по умолчанию
+   min-width:auto = min-content), поэтому название блюда не сжималось и
+   выпихивало цену за правый край карточки. Ноль нужен на ОБОИХ уровнях:
+   сама строка — grid-элемент .yj-cash-items и без него не ужимается до
+   контейнера (125px против 112px), а span — flex-элемент внутри строки. */
+#heroPhoneDisplay .yj-cash-items div,
+#heroPhoneDisplay .yj-cash-items div>span{min-width:0}
+
+/* Вкладки кассы: 4 штуки с nowrap не помещаются в экран макета — последняя
+   обрезалась посреди слова («К выдач»). На узком макете показываем три:
+   роль полосы читается, а рваного края нет. Порог по ширине САМОГО макета,
+   а не вьюпорта, — размер телефона зависит от высоты экрана. */
+@container (max-width:200px){
+  #heroPhoneDisplay .yj-staff-tabs span:nth-child(n+4){display:none}
+}
+
+/* Очень узкий макет (экран телефона <132px — это 320x568 и прочие SE-класса,
+   где корпус уже упёрся в свой минимум и расти некуда): пиксельный пол выше
+   там физически не помещается вместе со всей плотностью интерфейса. Снимаем
+   нагрузку по ширине, убирая пояснительную мелочь, — остаются название,
+   цена и действие, то есть то, ради чего кадр и показывают. */
+@container (max-width:132px){
+  #heroPhoneDisplay .yj-food-copy small,
+  #heroPhoneDisplay .yj-nearby-row,
+  #heroPhoneDisplay .yj-venue-copy>span{display:none}
+
+  /* Длинные русские слова («Шашлычная», «Классическая») шире колонки в
+     55px даже на минимальном поле — без переноса внутри слова они просто
+     вылезали за карточку. Рвём слово: обрезанный край хуже переноса. */
+  #heroPhoneDisplay .yj-venue-copy>strong,
+  #heroPhoneDisplay .yj-food-copy strong,
+  #heroPhoneDisplay .yj-guest-scene h3,
+  #heroPhoneDisplay .yj-guest-success h3{overflow-wrap:anywhere}
 }

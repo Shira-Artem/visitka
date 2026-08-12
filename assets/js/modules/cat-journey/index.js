@@ -99,17 +99,41 @@ export function initCatJourney() {
       });
 
       const [w1, w2] = [ACTS[0].weight, ACTS[1].weight];
-      const crossfade = 0.06;
+      const crossfade = 0.09;
+
+      // Подпись акта считается напрямую из прогресса скролла, а не
+      // одноразовым forward-only .call() (как было) — тот жёстко писал
+      // конкретное значение и никогда не откатывал его назад, поэтому при
+      // скролле вверх текст карточки залипал на последнем выставленном
+      // акте, пока скролл не проезжал предыдущую границу целиком.
+      const syncAct = (progress) => {
+        const act = progress >= w1 + w2 ? 3 : progress >= w1 ? 2 : 1;
+        if (scene.getAttribute('data-cat-act') !== String(act)) {
+          scene.setAttribute('data-cat-act', String(act));
+        }
+      };
 
       const tl = gsap.timeline({
         defaults: { ease: 'none' },
+        // Читаем прогресс таймлайна, а не сырой прогресс скролла: scrub
+        // сглаживает первый по времени, и подпись должна ехать вместе с
+        // картинкой, а не опережать её на величину сглаживания.
+        onUpdate: () => syncAct(tl.progress()),
         scrollTrigger: {
           trigger: scene,
           start: 'top top',
           end: () => '+=' + Math.round(window.innerHeight * (TOTAL_VH / 100)),
-          scrub: 1,
+          scrub: 0.4,
           pin: true,
           invalidateOnRefresh: true,
+          // Отпустил скролл — сцена сама доезжает до ближайшего акта,
+          // а не оставляет в подвешенном полу-кроссфейде.
+          snap: {
+            snapTo: [0, w1, w1 + w2, 1],
+            duration: { min: 0.2, max: 0.5 },
+            delay: 0.1,
+            ease: 'power1.inOut',
+          },
         },
       });
 
@@ -135,7 +159,6 @@ export function initCatJourney() {
         .to(flash, { autoAlpha: 0, duration: crossfade }, w1 + crossfade * 0.4)
         .to(scene, { backgroundColor: MID_BG, duration: crossfade }, w1 - crossfade)
         .to(visuals, { boxShadow: '0 0 40px 6px rgba(255,154,61,.22)', duration: crossfade }, w1 - crossfade)
-        .call(() => scene.setAttribute('data-cat-act', '2'), null, w1)
 
         // Акт 2 → 3: та же смена, но приземление с перелётом и небольшим
         // довеском-покачиванием — мягкий вес того самого толстого
@@ -152,8 +175,7 @@ export function initCatJourney() {
           { autoAlpha: 0, y: 6, scale: 0.4 },
           { autoAlpha: 1, y: -10, scale: 1, duration: crossfade * 2, stagger: 0.05, ease: 'back.out(2.2)' },
           w1 + w2 - crossfade
-        )
-        .call(() => scene.setAttribute('data-cat-act', '3'), null, w1 + w2);
+        );
 
       return () => {
         idle.kill();
