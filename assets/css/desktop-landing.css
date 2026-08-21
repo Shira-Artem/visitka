@@ -380,16 +380,24 @@
 .desktop-site .dl-director-pulse strong, .desktop-site .dl-director-pulse b { display: block; }
 .desktop-site .dl-director-pulse strong { font-size: 11px; line-height: 1.2; }
 .desktop-site .dl-director-pulse b { margin-top: 5px; color: #4b9f27; font: 800 11px var(--dl-data); }
-.desktop-site .dl-sync { background: var(--dl-paper-2); }
-.desktop-site .dl-sync-capabilities { display: flex; flex-wrap: wrap; gap: 9px; margin: -38px 0 42px; }
-.desktop-site .dl-sync-capabilities span { padding: 9px 12px; border: 1px solid #e8d9ca; border-radius: 999px; background: rgba(255, 255, 255, .72); color: var(--dl-ink-2); font: 800 10px var(--dl-data); }
-.desktop-site .dl-sync-board { display: grid; grid-template-columns: 310px 1fr 310px; gap: 38px; align-items: center; padding: 50px; border-radius: 40px; background: #fff; }
+.desktop-site .dl-sync { padding: 64px 0 56px; background: var(--dl-paper-2); }
+.desktop-site .dl-sync .dl-section-head { gap: 64px; align-items: start; margin-bottom: 24px; }
+.desktop-site .dl-sync .dl-section-head h2 { max-width: 720px; margin-top: 14px; font-size: clamp(42px, 3.7vw, 58px); }
+.desktop-site .dl-sync .dl-section-head p { max-width: 390px; padding-top: 31px; font-size: 15px; line-height: 1.55; }
+.desktop-site .dl-sync-capabilities { display: flex; flex-wrap: wrap; gap: 9px; margin: 0 0 24px; }
+.desktop-site .dl-sync-capabilities span { display: inline-flex; align-items: center; gap: 8px; min-height: 34px; padding: 7px 13px; border: 1px solid #e8d9ca; border-radius: 999px; background: rgba(255, 255, 255, .78); color: var(--dl-ink-2); font: 800 10px var(--dl-data); }
+.desktop-site .dl-sync-capabilities svg { width: 16px; height: 16px; color: var(--dl-ink); }
+.desktop-site .dl-sync-board { display: grid; grid-template-columns: 270px minmax(360px, 1fr) 270px; gap: 22px; align-items: center; min-height: 568px; padding: 24px 34px; border: 1px solid #e8ddd2; border-radius: 30px; background: rgba(255, 255, 255, .9); box-shadow: 0 30px 70px -60px rgba(64, 36, 18, .55); }
+.desktop-site .dl-sync-board > .dl-device { width: 270px; height: 520px; padding: 9px; border-radius: 47px; }
+.desktop-site .dl-sync-board > .dl-device > .dl-screen { border-radius: 39px; }
 .desktop-site .dl-sync-arrow { text-align: center; }
-.desktop-site .dl-sync-arrow small { display: block; color: var(--dl-fire-deep); font: 800 9px var(--dl-data); letter-spacing: .11em; text-transform: uppercase; }
-.desktop-site .dl-sync-arrow h3 { margin: 15px 0; font: 800 30px/1.08 var(--dl-display); text-transform: uppercase; }
-.desktop-site .dl-sync-arrow p { margin: 0; color: var(--dl-ink-2); font-size: 13px; }
-.desktop-site .dl-sync-line { position: relative; height: 3px; margin: 32px 0; background: linear-gradient(90deg, var(--dl-fire), var(--dl-ember), var(--dl-ready)); }
+.desktop-site .dl-sync-arrow > small { display: block; color: var(--dl-fire-deep); font: 800 10px var(--dl-data); letter-spacing: .13em; text-transform: uppercase; }
+.desktop-site .dl-sync-arrow h3 { margin: 14px 0 17px; font: 800 clamp(24px, 2.2vw, 34px)/1.08 var(--dl-display); text-transform: uppercase; }
+.desktop-site .dl-sync-arrow p { max-width: 360px; margin: 0 auto; color: var(--dl-ink-2); font-size: 13px; line-height: 1.5; }
+.desktop-site .dl-sync-line { position: relative; height: 3px; margin: 26px 0 22px; background: linear-gradient(90deg, var(--dl-fire), var(--dl-ember), var(--dl-ready)); }
 .desktop-site .dl-sync-line::after { content: ""; position: absolute; right: -1px; top: -5px; border-left: 10px solid var(--dl-ready); border-block: 6px solid transparent; }
+.desktop-site .dl-sync-arrow > strong { display: inline-flex; flex-direction: column; gap: 4px; font-size: 13px; }
+.desktop-site .dl-sync-arrow > strong small { color: var(--dl-ink-3); font-size: 10px; font-weight: 700; }
 .desktop-site .dl-menu-edit { margin-top: 8px; padding: 10px; border-radius: 12px; background: #fff; }
 .desktop-site .dl-menu-edit-top { display: grid; grid-template-columns: 46px 1fr; gap: 8px; align-items: center; }
 .desktop-site .dl-menu-edit img { width: 46px; height: 46px; object-fit: cover; border-radius: 9px; }
