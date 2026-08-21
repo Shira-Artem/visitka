@@ -2,7 +2,7 @@
 
 ## Главный источник
 
-Production URL: [http://127.0.0.1:4181/index.html?v=20260821-9](http://127.0.0.1:4181/index.html?v=20260821-9)
+Production URL: [http://127.0.0.1:4181/index.html?v=20260821-10](http://127.0.0.1:4181/index.html?v=20260821-10)
 
 Эталон: `qa/approved-mockups/01-desktop-landing-approved.html` и `.png`.
 Композиция собирается по desktop-макету, а product screens переиспользуются из уже готовой версии.
@@ -22,6 +22,8 @@ Production URL: [http://127.0.0.1:4181/index.html?v=20260821-9](http://127.0.0.1
   «одно меню — любой формат заказа» с вариантами столик / самовывоз / доставка / просмотр меню.
 - Journey на desktop собран в один viewport: двухстрочный заголовок, QR-плашка 50 px,
   уменьшенные на 20% телефоны и единая линия заказа между ними.
+- Director section собран по новому референсу: один читаемый dashboard в тёмной сцене,
+  а вокруг него — карточки товаров, точек, сотрудников и завершённого заказа.
 
 ## Ключевые файлы
 
@@ -30,7 +32,7 @@ Production URL: [http://127.0.0.1:4181/index.html?v=20260821-9](http://127.0.0.1
 - `assets/js/desktop-product-screens.js` — reusable `<dl-product-screen>` templates.
 - `assets/js/desktop-landing.js` — role tabs, director tabs, menu/cart and ways interactions.
 - `assets/js/main.js` — legacy runtime gate and shared initialization.
-- `assets/img/generated/` — реальные блюда и product assets.
+- `assets/img/generated/` — реальные блюда и product assets для экранов и плавающих карточек.
 
 ## Технические инварианты
 
