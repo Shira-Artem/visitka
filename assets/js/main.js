@@ -16,16 +16,28 @@ import { initHeroAutoplay } from './modules/hero-autoplay.js';
 import { initHeroPhone } from './modules/hero-phone.js';
 import { initWays } from './modules/ways.js';
 import { initStory } from './modules/story/index.js';
-import { initMobileProductJourney } from './modules/mobile-product-journey.js';
 import { initCatJourney } from './modules/cat-journey/index.js';
 
 function bootLanding() {
+  // The approved desktop direction has its own natural-flow composition.
+  // Legacy Story/Ways remain the separate mobile implementation only.
+  if (document.querySelector('.desktop-site') && window.matchMedia('(min-width: 901px)').matches) return;
+
+  // Mobile browsers resize the viewport when the address bar/toolbar hides or
+  // shows *while the page is mid-scroll*. By default ScrollTrigger reacts to
+  // that as a real resize and re-measures every pinned scene (cat-journey on
+  // mobile; Story/Ways pin only on desktop, where this doesn't apply) right
+  // under the reader's finger, which snaps the pinned frame and reads as the
+  // section "grabbing" the scroll. This flag is GSAP's documented switch for
+  // exactly that: ignore resizes caused by mobile chrome show/hide, keep
+  // reacting to real orientation/width changes.
+  if (window.ScrollTrigger) window.ScrollTrigger.config({ ignoreMobileResize: true });
+
   initChrome();
   initHeroAutoplay();
   initWays();
   initHeroPhone();
   initStory();
-  initMobileProductJourney();
   initCatJourney();
 }
 

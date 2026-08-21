@@ -3,13 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="description" content="ЮртаНеЖди — заказывай еду заранее из любимых заведений. Забирай без очереди или выбирай доставку. Работает в Telegram и MAX." />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <meta name="description" content="ЮртаНеЖди — один Mini App в Telegram и MAX для гостя, кассира, кухни и директора. Весь путь заказа и управление заведением — в телефоне." />
   <meta name="theme-color" content="#fbfaf8" />
-  <title>ЮртаНеЖди — Не жди. Закажи.</title>
+  <title>ЮртаНеЖди — весь заказ в телефоне</title>
 
   <!-- Open Graph -->
-  <meta property="og:title" content="ЮртаНеЖди — Не жди. Закажи." />
-  <meta property="og:description" content="Заказывай еду заранее, забирай без очереди или выбирай доставку. В Telegram и MAX." />
+  <meta property="og:title" content="ЮртаНеЖди — весь заказ в телефоне" />
+  <meta property="og:description" content="Один Mini App для гостя, кассира, кухни и директора — в Telegram и MAX." />
   <meta property="og:type" content="website" />
 
   <!-- Шрифты -->
@@ -27,14 +30,212 @@
   <link rel="stylesheet" href="assets/css/layout.css" />
   <link rel="stylesheet" href="assets/css/components.css" />
   <link rel="stylesheet" href="assets/css/hero-demo.css" />
-  <link rel="stylesheet" href="assets/css/sections/story.css" />
+  <link rel="stylesheet" href="assets/css/sections/story.css?v=20260820-7" />
   <link rel="stylesheet" href="assets/css/sections/ways.css" />
   <link rel="stylesheet" href="assets/css/sections/final.css" />
   <link rel="stylesheet" href="assets/css/sections/cat-journey.css" />
   <link rel="stylesheet" href="assets/css/sections/adaptive.css" />
-  <link rel="stylesheet" href="assets/css/sections/story-mobile.css" />
+  <link rel="stylesheet" href="assets/css/sections/story-mobile.css?v=20260820-7" />
+  <link rel="stylesheet" href="assets/css/desktop-landing.css?v=20260821-4" />
 </head>
 <body id="top">
+
+  <div class="desktop-site" data-platform="telegram">
+    <a class="skip-link" href="#desktop-main">К основному содержанию</a>
+    <header class="dl-header">
+      <div class="dl-shell dl-header-row">
+        <a class="dl-brand" href="#desktop-main" aria-label="ЮртаНеЖди — на главную"><span class="dl-brand-mark" aria-hidden="true"></span>Юрта<b>НеЖди</b></a>
+        <nav class="dl-nav" aria-label="Навигация по desktop-странице">
+          <a href="#desktop-journey">Как работает</a>
+          <a href="#desktop-roles">Роли</a>
+          <a href="#desktop-director">Директору</a>
+          <a href="#desktop-manage">Меню</a>
+        </nav>
+        <a class="dl-btn dl-btn--fire" href="#desktop-demo">Получить демонстрацию</a>
+      </div>
+    </header>
+
+    <main id="desktop-main">
+      <section class="dl-hero" aria-labelledby="desktop-hero-title">
+        <div class="dl-shell dl-hero-grid">
+          <div class="dl-hero-copy">
+            <span class="dl-eyebrow">Мобильный продукт для Telegram и MAX</span>
+            <h1 id="desktop-hero-title">Заказ живёт<span>в телефоне.</span></h1>
+            <p class="dl-hero-lead">Гость, кассир, кухня и директор работают в одном Mini App. Никаких отдельных программ и ПК-кабинетов — весь путь заказа внутри привычного мессенджера.</p>
+            <div class="dl-hero-actions">
+              <a class="dl-btn dl-btn--fire" href="#desktop-demo">Подключить заведение</a>
+              <a class="dl-btn dl-btn--light" href="#desktop-journey">Увидеть весь путь</a>
+            </div>
+            <div class="dl-platform-switch" aria-label="Выбрать платформу">
+              <small>Посмотреть в</small>
+              <button class="dl-platform-btn is-active" type="button" data-dl-platform="telegram" aria-pressed="true">Telegram</button>
+              <button class="dl-platform-btn" type="button" data-dl-platform="max" aria-pressed="false">MAX</button>
+            </div>
+          </div>
+
+          <div class="dl-phone-field" aria-label="Мобильный продукт ЮртаНеЖди">
+            <div class="dl-hero-phone-main">
+              <div class="dl-device"><dl-product-screen class="hero-phone__display yj-demo dl-yj-screen" role-screen="menu"></dl-product-screen></div>
+            </div>
+
+            <div class="dl-hero-phone-side" aria-hidden="true">
+              <div class="dl-device">
+                <div class="dl-screen">
+                  <div class="dl-osbar"><span>19:02</span><span>● ●</span></div>
+                  <div class="dl-messenger"><span class="dl-back">‹</span><span class="dl-bot-avatar">ЮН</span><span class="dl-messenger-title"><b>ЮртаНеЖди</b><small>режим директора</small></span><span class="dl-platform-chip" data-dl-platform-name>Telegram</span></div>
+                  <div class="dl-miniapp-bar"><span>Закрыть</span><strong>Моя точка</strong><span>•••</span></div>
+                  <div class="dl-app dl-app--neutral">
+                    <div class="dl-screen-title"><div><small>Центр · сегодня</small><strong>Добрый вечер</strong></div><span class="dl-online">Онлайн</span></div>
+                    <div class="dl-revenue"><small>Выручка сегодня</small><strong>18 420 ₽</strong><div class="dl-bars"><i style="--h:28%"></i><i style="--h:42%"></i><i style="--h:35%"></i><i style="--h:57%"></i><i style="--h:64%"></i><i style="--h:76%"></i><i style="--h:92%"></i></div></div>
+                    <div class="dl-metrics" style="margin-top:8px"><div class="dl-metric"><small>Заказы</small><b>24</b></div><div class="dl-metric"><small>Чек</small><b>767 ₽</b></div><div class="dl-metric dl-metric--green"><small>Вовремя</small><b>96%</b></div></div>
+                    <div class="dl-branches"><div class="dl-branch"><small>Центр</small><b>12 340 ₽</b><span>16 заказов</span></div><div class="dl-branch"><small>Южный</small><b>6 080 ₽</b><span>8 заказов</span></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="dl-sync-note"><small>Заказ №120 · синхронизация</small><strong><span>Готов</span> — гость и касса уже уведомлены</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="dl-proof" aria-label="Ключевые преимущества">
+        <div class="dl-shell dl-proof-row">
+          <div class="dl-proof-intro"><small>Не новая программа</small><strong>Привычный мессенджер</strong></div>
+          <div class="dl-proof-item"><b>1 бот</b><span>для гостя и всей команды</span></div>
+          <div class="dl-proof-item"><b>0 ПК</b><span>для запуска и ежедневной работы</span></div>
+          <div class="dl-proof-item"><b>4 роли</b><span>каждой — свой мобильный экран</span></div>
+        </div>
+      </section>
+
+      <section class="dl-section dl-journey" id="desktop-journey" aria-labelledby="desktop-journey-title">
+        <div class="dl-shell">
+          <div class="dl-section-head">
+            <div><span class="dl-eyebrow">Один заказ · четыре телефона</span><h2 id="desktop-journey-title">Весь процесс помещается в карман</h2></div>
+            <p>Гость оформляет заказ, команда принимает и готовит, а директор видит результат. История читается обычным вертикальным скроллом.</p>
+          </div>
+          <div class="dl-qr-route-note" aria-label="Как открыть меню">
+            <span class="dl-qr-route-note__icon" aria-hidden="true"><svg viewBox="0 0 28 28" fill="none"><rect x="2" y="2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="2"/><rect x="18" y="2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="2"/><rect x="2" y="18" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="2"/><path d="M5 5h2v2H5zM21 5h2v2h-2zM5 21h2v2H5zM17 17h3v3h-3zM22 18h4v3h-4zM18 23h3v3h-3z" fill="currentColor"/></svg></span>
+            <span class="dl-qr-route-note__copy"><strong>Сканируете QR — сразу открывается меню</strong><small>Один бот ведёт гостя, кассу, кухню и директора по одному заказу</small></span>
+            <span class="dl-qr-route-note__flow" aria-hidden="true"><b>QR</b><i>→</i><b>Меню</b><i>→</i><b>Заказ</b></span>
+          </div>
+          <div class="dl-phone-line">
+            <article class="dl-phone-step">
+              <span class="dl-step-num">01</span>
+              <div class="dl-small-phone-wrap"><div class="dl-device"><dl-product-screen class="hero-phone__display yj-demo dl-yj-screen" role-screen="menu"></dl-product-screen></div></div>
+              <div class="dl-phone-caption"><strong>Гость</strong><span>Сканировал QR и открыл меню</span></div>
+            </article>
+            <article class="dl-phone-step">
+              <span class="dl-step-num">02</span>
+              <div class="dl-small-phone-wrap"><div class="dl-device"><dl-product-screen class="hero-phone__display yj-demo dl-yj-screen" role-screen="cash"></dl-product-screen></div></div>
+              <div class="dl-phone-caption"><strong>Кассир</strong><span>Принял одним нажатием</span></div>
+            </article>
+            <article class="dl-phone-step">
+              <span class="dl-step-num">03</span>
+              <div class="dl-small-phone-wrap"><div class="dl-device"><dl-product-screen class="hero-phone__display yj-demo dl-yj-screen" role-screen="kitchen"></dl-product-screen></div></div>
+              <div class="dl-phone-caption"><strong>Кухня</strong><span>Приготовила по очереди</span></div>
+            </article>
+            <article class="dl-phone-step">
+              <span class="dl-step-num">04</span>
+              <div class="dl-small-phone-wrap"><div class="dl-device"><dl-product-screen class="hero-phone__display yj-demo dl-yj-screen" role-screen="director"></dl-product-screen></div></div>
+              <div class="dl-phone-caption"><strong>Директор</strong><span>Увидел продажу сразу</span></div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="dl-section dl-theatre" id="desktop-roles" aria-labelledby="desktop-roles-title">
+        <div class="dl-shell">
+          <div class="dl-theatre-grid">
+            <div class="dl-role-nav">
+              <small>Живой просмотр</small>
+              <h3 id="desktop-roles-title">Один бот меняется под роль</h3>
+              <div class="dl-role-tabs" role="tablist" aria-label="Режимы Mini App">
+                <button class="dl-role-tab is-active" type="button" role="tab" data-dl-role="guest" aria-selected="true">Гость <span>01</span></button>
+                <button class="dl-role-tab" type="button" role="tab" data-dl-role="cash" aria-selected="false">Кассир <span>02</span></button>
+                <button class="dl-role-tab" type="button" role="tab" data-dl-role="kitchen" aria-selected="false">Кухня <span>03</span></button>
+                <button class="dl-role-tab" type="button" role="tab" data-dl-role="director" aria-selected="false">Директор <span>04</span></button>
+              </div>
+              <div class="dl-one-bot-note">
+                <span class="dl-one-bot-note__kicker">Один бот · один QR</span>
+                <strong>Сканируете — открывается меню</strong>
+                <small>Дальше бот сам показывает нужный режим</small>
+              </div>
+            </div>
+            <div class="dl-theatre-phone">
+              <div class="dl-phone-panel is-active" data-dl-panel="guest"><div class="dl-device"><dl-product-screen class="hero-phone__display yj-demo dl-yj-screen" role-screen="menu"></dl-product-screen></div></div>
+              <div class="dl-phone-panel" data-dl-panel="cash"><div class="dl-device"><dl-product-screen class="hero-phone__display yj-demo dl-yj-screen" role-screen="cash"></dl-product-screen></div></div>
+              <div class="dl-phone-panel" data-dl-panel="kitchen"><div class="dl-device"><dl-product-screen class="hero-phone__display yj-demo dl-yj-screen" role-screen="kitchen"></dl-product-screen></div></div>
+              <div class="dl-phone-panel" data-dl-panel="director"><div class="dl-device"><dl-product-screen class="hero-phone__display yj-demo dl-yj-screen" role-screen="director"></dl-product-screen></div></div>
+            </div>
+            <div class="dl-role-info">
+              <span class="dl-info-kicker">Не четыре приложения</span>
+              <h4>Один вход. Нужный режим.</h4>
+              <p>Роль сотрудника определяет, что он увидит после открытия бота. Лишние функции не мешают работе.</p>
+              <ul><li>Открывается прямо из чата</li><li>Не требует установки</li><li>Обновляется для всех сразу</li><li>Работает в Telegram и MAX</li></ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="dl-section dl-director" id="desktop-director" aria-labelledby="desktop-director-title">
+        <div class="dl-shell dl-director-grid">
+          <div class="dl-director-copy">
+            <span class="dl-eyebrow">Директору</span>
+            <h2 id="desktop-director-title">Всё управление заведением — в одном телефоне</h2>
+            <p>Директор видит результат и сразу действует: меняет меню, добавляет сотрудников, контролирует доставку и заказы, пополняет базу клиентов — без ноутбука и разрозненных кабинетов.</p>
+            <div class="dl-director-points">
+              <div class="dl-director-point"><span>01</span><strong>Товары и категории — добавить, скрыть или вернуть блюдо в меню</strong></div>
+              <div class="dl-director-point"><span>02</span><strong>Сотрудники и доступы — добавить человека и видеть, кто на смене</strong></div>
+              <div class="dl-director-point"><span>03</span><strong>Заказы и доставка — держать под контролем весь поток и статусы</strong></div>
+              <div class="dl-director-point"><span>04</span><strong>Клиенты и точки — пополнять базу и сравнивать результаты заведений</strong></div>
+            </div>
+            <div class="dl-director-proof" aria-label="Что доступно директору"><span>Товары</span><i>·</i><span>Сотрудники</span><i>·</i><span>Доставка</span><i>·</i><span>Заказы</span><i>·</i><span>Клиенты</span></div>
+          </div>
+          <div class="dl-director-phones">
+            <div class="dl-director-phone-a"><div class="dl-device"><dl-product-screen class="hero-phone__display yj-demo dl-yj-screen" role-screen="director"></dl-product-screen></div></div>
+            <div class="dl-director-phone-b" aria-hidden="true"><div class="dl-device"><div class="dl-screen"><div class="dl-osbar"><span>19:16</span><span>● ●</span></div><div class="dl-messenger"><span class="dl-back">‹</span><span class="dl-bot-avatar">ЮН</span><span class="dl-messenger-title"><b>ЮртаНеЖди</b><small>директор</small></span><span class="dl-platform-chip" data-dl-platform-name>Telegram</span></div><div class="dl-miniapp-bar"><span>Закрыть</span><strong>Точки сети</strong><span>•••</span></div><div class="dl-app dl-app--neutral"><div class="dl-screen-title"><div><small>Волгоград</small><strong>3 точки</strong></div><span class="dl-online">Все онлайн</span></div><div class="dl-order-card"><div class="dl-order-top"><b>Центр</b><span class="dl-status dl-status--ready">Открыто</span></div><small>16 заказов · 12 340 ₽</small></div><div class="dl-order-card"><div class="dl-order-top"><b>Южный</b><span class="dl-status dl-status--ready">Открыто</span></div><small>8 заказов · 6 080 ₽</small></div><div class="dl-order-card"><div class="dl-order-top"><b>Фуд-корт</b><span class="dl-status">Пауза</span></div><small>Подготовка к открытию</small></div></div></div></div></div>
+            <div class="dl-director-pulse"><small>Только что</small><strong>Заказ №120 завершён</strong><b>+580 ₽ к выручке</b></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="dl-section dl-sync" id="desktop-manage" aria-labelledby="desktop-manage-title">
+        <div class="dl-shell">
+          <div class="dl-section-head"><div><span class="dl-eyebrow">Управление из Mini App</span><h2 id="desktop-manage-title">Изменили один раз — увидели все</h2></div><p>Директор управляет товарами, категориями, сотрудниками, доставкой, заказами и клиентами из того же кабинета. Изменения меню гость видит сразу.</p></div>
+          <div class="dl-sync-capabilities" aria-label="Разделы управления директора"><span>Товары и категории</span><span>Сотрудники</span><span>Доставка</span><span>Заказы</span><span>Клиенты</span></div>
+          <div class="dl-sync-board">
+            <div class="dl-device"><div class="dl-screen"><div class="dl-osbar"><span>17:40</span><span>● ●</span></div><div class="dl-messenger"><span class="dl-back">‹</span><span class="dl-bot-avatar">ЮН</span><span class="dl-messenger-title"><b>ЮртаНеЖди</b><small>директор</small></span><span class="dl-platform-chip" data-dl-platform-name>Telegram</span></div><div class="dl-miniapp-bar"><span>Закрыть</span><strong>Управление меню</strong><span>•••</span></div><div class="dl-app dl-app--neutral"><div class="dl-screen-title"><div><small>Шашлычная №1</small><strong>Меню</strong></div><span class="dl-online">Синхронно</span></div><div class="dl-menu-edit"><div class="dl-menu-edit-top"><img src="assets/img/generated/dish-shawarma.png" alt="Шаурма" width="92" height="92" /><div><strong>Шаурма классическая</strong><small>500 ₽ · основное</small></div></div><div class="dl-edit-row"><span>Доступно для заказа</span><span class="dl-toggle"></span></div></div><div class="dl-menu-edit"><div class="dl-menu-edit-top"><img src="assets/img/generated/dish-plov-lamb.png" alt="Плов" width="92" height="92" /><div><strong>Плов с бараниной</strong><small>480 ₽ · осталось 4</small></div></div><div class="dl-edit-row"><span>Доступно для заказа</span><span class="dl-toggle"></span></div></div><div class="dl-menu-edit"><div class="dl-menu-edit-top"><img src="assets/img/generated/dish-samsa.png" alt="Самса" width="92" height="92" /><div><strong>Самса тандырная</strong><small>200 ₽ · нет в наличии</small></div></div><div class="dl-edit-row"><span>Скрыто в меню</span><span class="dl-toggle dl-toggle--off"></span></div></div><div class="dl-toast">Изменения опубликованы</div></div></div></div>
+            <div class="dl-sync-arrow"><small>Мгновенная синхронизация</small><h3>Один кабинет. Всё синхронно.</h3><p>Настройка остаётся в том же Mini App, где директор следит за бизнесом. Команда и гость получают актуальный статус без звонков.</p><div class="dl-sync-line"></div><strong>Результат у гостя</strong></div>
+            <div class="dl-device"><div class="dl-screen"><div class="dl-osbar"><span>17:40</span><span>● ●</span></div><div class="dl-messenger"><span class="dl-back">‹</span><span class="dl-bot-avatar">ЮН</span><span class="dl-messenger-title"><b>ЮртаНеЖди</b><small>гость</small></span><span class="dl-platform-chip" data-dl-platform-name>Telegram</span></div><div class="dl-miniapp-bar"><span>Закрыть</span><strong>Меню</strong><span>•••</span></div><div class="dl-app"><div class="dl-app-head"><div><small>Еда рядом</small><strong>Шашлычная №1</strong></div><span class="dl-avatar-letter">М</span></div><div class="dl-search">Найти блюдо</div><div class="dl-app-label">Основное</div><div class="dl-food-grid"><div class="dl-food"><img src="assets/img/generated/dish-shawarma.png" alt="Шаурма" width="120" height="120" /><strong>Шаурма</strong><b>500 ₽</b></div><div class="dl-food"><img src="assets/img/generated/dish-plov-lamb.png" alt="Плов" width="120" height="120" /><strong>Плов</strong><b>480 ₽</b></div><div class="dl-food"><img src="assets/img/generated/dish-lagman.png" alt="Лагман" width="120" height="120" /><strong>Лагман</strong><b>340 ₽</b></div><div class="dl-food"><img src="assets/img/generated/dish-black-tea.png" alt="Чёрный чай" width="120" height="120" /><strong>Чёрный чай</strong><b>120 ₽</b></div></div><div class="dl-cart"><span>Выбрано 1 блюдо</span><b>500 ₽</b></div></div></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="dl-section dl-ways" id="desktop-ways" aria-labelledby="desktop-ways-title">
+        <div class="dl-shell">
+          <div class="dl-section-head"><div><span class="dl-eyebrow">Способы получения</span><h2 id="desktop-ways-title">Разный сценарий. Один бот.</h2></div><p>Гость выбирает способ в телефоне, а команда получает готовый тип заказа без уточняющих звонков.</p></div>
+          <div class="dl-ways-grid">
+            <article class="dl-way" style="--way-c:var(--fire);--way-glow:rgba(255,90,31,.28)"><div class="dl-way-top"><span class="dl-way-num">01</span><span class="dl-way-tag">Без очереди</span></div><div class="dl-way-body"><h3>Самовывоз</h3><p>Заказ по пути и готовность к выбранному времени.</p><div class="dl-way-demo way-card__demo is-playing" aria-hidden="true"><div class="wd-pickup"><div class="wd-pickup__ticket"><small class="wd-pickup__meta">Предоплачено · полка A3</small><span><i></i>Заказ №118</span><span><i></i>Готовится к 19:20</span></div><div class="wd-pickup__stamp"><svg viewBox="0 0 56 56" fill="none"><circle pathLength="1" cx="28" cy="28" r="24" stroke="var(--way-c)" stroke-width="3"/><path pathLength="1" d="M17 29l7 7 15-16" stroke="var(--way-c)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><b>Готово</b></div></div></div></div></article>
+            <article class="dl-way" style="--way-c:var(--lime);--way-glow:rgba(91,191,23,.26)"><div class="dl-way-top"><span class="dl-way-num">02</span><span class="dl-way-tag">В заведении</span></div><div class="dl-way-body"><h3>К столику</h3><p>QR открывает Mini App и привязывает заказ к столику.</p><div class="dl-way-demo way-card__demo is-playing" aria-hidden="true"><span class="wd-route__legend"><i></i>Заказ забран · маршрут построен</span><div class="wd-route"><span class="wd-route__pin"><svg viewBox="0 0 24 24" fill="none"><path d="M4 9l1-5h14l1 5M4 9a2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0M5 9v10h14V9" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/></svg></span><span class="wd-route__pathwrap"><svg class="wd-route__path wd-route__path--desktop" viewBox="0 0 180 28" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M6,14 C54,2 126,26 174,14" style="stroke:var(--way-c)" stroke-width="2" fill="none" stroke-linecap="round"/></svg><span class="wd-route__courier" aria-hidden="true"></span></span><span class="wd-route__pin"><svg viewBox="0 0 24 24" fill="none"><path d="M4 11l8-7 8 7M6 10v10h12V10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div><div class="wd-route__eta"><i></i>Курьер в пути · <b>18 мин</b></div></div></div></article>
+            <article class="dl-way" style="--way-c:var(--ember);--way-glow:rgba(240,160,34,.28)"><div class="dl-way-top"><span class="dl-way-num">03</span><span class="dl-way-tag">Статус виден</span></div><div class="dl-way-body"><h3>Доставка</h3><p>Гость видит приготовление и передачу курьеру в чате.</p><div class="dl-way-demo way-card__demo is-playing" aria-hidden="true"><span class="wd-table__order"><i></i>Стол 12 · заказ принят</span><div class="wd-table"><span class="wd-table__qr"><svg viewBox="0 0 28 28" fill="none" aria-hidden="true"><rect x="1.5" y="1.5" width="9" height="9" rx="1.6" stroke="currentColor" stroke-width="2"/><rect x="17.5" y="1.5" width="9" height="9" rx="1.6" stroke="currentColor" stroke-width="2"/><rect x="1.5" y="17.5" width="9" height="9" rx="1.6" stroke="currentColor" stroke-width="2"/><rect x="4.6" y="4.6" width="2.8" height="2.8" fill="currentColor"/><rect x="20.6" y="4.6" width="2.8" height="2.8" fill="currentColor"/><rect x="4.6" y="20.6" width="2.8" height="2.8" fill="currentColor"/><rect x="17.5" y="17.5" width="3.6" height="3.6" fill="currentColor"/><rect x="23" y="17.5" width="3.6" height="3.6" fill="currentColor"/><rect x="17.5" y="23" width="3.6" height="3.6" fill="currentColor"/><rect x="23" y="23" width="3.6" height="3.6" fill="currentColor"/></svg><span class="wd-table__scan"></span></span><span class="wd-table__pathwrap"><svg class="wd-table__path" viewBox="0 0 120 20" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M4,10 C40,10 80,10 116,10" style="stroke:var(--way-c)" stroke-width="2" stroke-dasharray="1 3.4" fill="none" stroke-linecap="round"/></svg><span class="wd-table__signal" aria-hidden="true"></span></span><span class="wd-table__pin wd-table__pin--kitchen"><svg viewBox="0 0 24 24" fill="none"><path d="M4 13a8 8 0 0 1 16 0v1H4v-1Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M2 14h20M9 6l1.5-2M15 6l-1.5-2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span></div><div class="wd-table__plate"><svg viewBox="0 0 40 40" fill="none"><circle pathLength="1" cx="20" cy="20" r="15" style="stroke:var(--way-c)" stroke-width="2"/><circle cx="20" cy="20" r="8" style="stroke:var(--way-c)" stroke-width="1.4" opacity=".6"/></svg><b>Блюдо на столе</b></div></div></div></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="dl-cta" id="desktop-demo" aria-labelledby="desktop-demo-title">
+        <div class="dl-shell dl-cta-grid">
+          <div class="dl-cta-copy"><span class="dl-eyebrow">Подключение под ключ</span><h2 id="desktop-demo-title">Покажем Mini App прямо в вашем телефоне</h2><p>Откроете Telegram или MAX, пройдёте путь гостя и увидите режимы команды на реальном сценарии вашего заведения.</p></div>
+          <form class="dl-lead-form" data-dl-lead-form><h3>Получить демонстрацию</h3><p>Оставьте контакт — пришлём вход в тестовый Mini App.</p><label for="desktop-venue">Название заведения</label><input id="desktop-venue" name="venue" autocomplete="organization" placeholder="Например, King Food" /><label for="desktop-contact">Телефон или Telegram</label><input id="desktop-contact" name="contact" autocomplete="tel" placeholder="@username или +7 900 000-00-00" /><button class="dl-btn dl-btn--fire" type="submit">Открыть тестовый Mini App</button><div class="dl-form-status" data-dl-form-status aria-live="polite"></div></form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="dl-footer">
+      <div class="dl-shell"><div class="dl-footer-row"><div><a class="dl-brand" href="#desktop-main"><span class="dl-brand-mark" aria-hidden="true"></span>Юрта<b>НеЖди</b></a><p>Мобильный Mini App для гостя, кассира, кухни и директора — внутри Telegram и MAX.</p></div><nav class="dl-footer-links" aria-label="Навигация в подвале"><a href="#desktop-journey">Как работает</a><a href="#desktop-roles">Роли</a><a href="#desktop-director">Директору</a><a href="#desktop-demo">Демонстрация</a></nav></div><div class="dl-footer-copy"><span>© 2026 ЮртаНеЖди</span><span>Весь продукт — в телефоне</span></div></div>
+    </footer>
+  </div>
+
+  <div class="legacy-site">
 
   <!-- Фоновая атмосфера: fire-mesh aurora (декоративно) -->
   <div class="bg-aurora" aria-hidden="true">
@@ -96,21 +297,6 @@
     <div class="story__track" id="storyTrack">
       <div class="story__stage" id="storyStage">
 
-        <!-- Световой риг мобильной Story (≤768px). Постоянная геометрия света:
-             верхний луч → ключевой свет за телефоном → пол → виньетка → зерно.
-             Цвет и яркость непрерывно интерполируются скроллом (main.js пишет
-             --st-base/--st-key), поэтому атмосфера меняется без crossfade-слоёв.
-             На десктопе слой выключен (display:none), разметка не мешает grid. -->
-        <div class="story__rig" aria-hidden="true">
-          <span class="story__rig-beam"></span>
-          <span class="story__rig-key"></span>
-          <span class="story__rig-floor"></span>
-          <span class="story__rig-vignette"></span>
-          <span class="story__rig-grain"></span>
-          <span class="story__rig-sweep"></span>
-          <span class="story__handoff-wave"></span>
-        </div>
-
         <!-- Декоративные линии-потоки: от текста к телефону, с бегущими световыми импульсами -->
         <svg class="story__flowlines" viewBox="0 0 1200 800" preserveAspectRatio="none" aria-hidden="true">
           <defs>
@@ -167,6 +353,7 @@
               <span class="line"><span class="grad-text">Оплати.</span></span>
               <span class="line"><span class="grad-text">Забери.</span></span>
             </h1>
+            <p class="story__hero-lead">Один Mini App для заказа в заведениях рядом — от выбора блюда до готовности без очередей и лишних шагов.</p>
             <div class="story__actions">
               <a href="#final" class="btn btn--fire btn--lg"><span class="story__cta-desktop">Подключить заведение</span><span class="story__cta-mobile">Посмотреть в действии</span>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -185,6 +372,38 @@
             </svg></span>
             <span class="eyebrow story__kicker" id="storyHowKicker">Шаг 1 / 4</span>
             <h2 class="story__headline story__headline--sm" id="storyHowHeadline">Открыл Telegram / MAX</h2>
+
+            <!-- Блок 1, сцена 01 «Гость» (≤768px): статичный food-first фрагмент
+                 настоящего меню — те же данные и классы, что у живого телефона
+                 в hero-demo.js (MENU_ITEMS), но отдельная статичная разметка,
+                 не завязанная на JS-состояние демо. -->
+            <div class="story__scene" data-scene="how">
+              <p class="story__scene-kicker"><b>01</b>Гость</p>
+              <h2 class="story__scene-title">Листает меню, добавляет блюда</h2>
+              <div class="story__scene-ui hero-phone__display yj-demo" aria-hidden="true">
+                <div class="yj-menu-list">
+                  <div class="yj-food-card">
+                    <img src="assets/img/generated/dish-shawarma.png" alt="" width="120" height="120" loading="lazy" />
+                    <div class="yj-food-copy">
+                      <strong>Шаурма Классическая</strong>
+                      <small>Курица, овощи, фирменный соус</small>
+                      <b>500 <i>₽</i></b>
+                    </div>
+                    <button type="button" class="yj-food-add is-added" tabindex="-1"><span>+</span><span class="yj-food-qty">1</span></button>
+                  </div>
+                  <div class="yj-food-card">
+                    <img src="assets/img/generated/dish-plov-lamb.png" alt="" width="120" height="120" loading="lazy" />
+                    <div class="yj-food-copy">
+                      <strong>Плов с бараниной</strong>
+                      <small>Рис, баранина, морковь, зира</small>
+                      <b>480 <i>₽</i></b>
+                    </div>
+                    <button type="button" class="yj-food-add" tabindex="-1"><span>+</span></button>
+                  </div>
+                </div>
+                <div class="yj-cart-bar"><span>Корзина · 1 позиция</span><strong>500 ₽</strong></div>
+              </div>
+            </div>
           </div>
 
           <div class="story__act-panel" data-act="checkout">
@@ -194,6 +413,28 @@
             </svg></span>
             <h2 class="story__headline story__headline--sm">Оплата сохранённой картой</h2>
             <span class="story__chip">580 ₽ · Онлайн</span>
+
+            <!-- Блок 1, сцена 02 «Оплата»: checkout — главный объект композиции. -->
+            <div class="story__scene" data-scene="checkout">
+              <p class="story__scene-kicker"><b>02</b>Оплата</p>
+              <h2 class="story__scene-title">Оплачивает, не выходя из чата</h2>
+              <div class="story__scene-ui hero-phone__display yj-demo" aria-hidden="true">
+                <strong class="yj-checkout-head">Оформление заказа</strong>
+                <div class="yj-checkout-label">Способ получения</div>
+                <div class="yj-methods">
+                  <span class="is-active"><i>✓</i><b>Самовывоз</b><small>К 19:20</small></span>
+                  <span><i></i><b>К столику</b><small>В заведении</small></span>
+                </div>
+                <div class="yj-checkout-order">
+                  <div><span>Шаурма Классическая ×1</span><b>500 ₽</b></div>
+                  <div><span>Лимонад ×1</span><b>80 ₽</b></div>
+                </div>
+                <div class="yj-payment-row"><span>⚡</span><span><b>Онлайн-оплата</b><small>Сохранённым способом</small></span><i>✓</i></div>
+                <div class="yj-checkout-total"><span>Итого</span><strong>580 ₽</strong></div>
+                <button type="button" class="yj-primary-action" tabindex="-1">Оформить заказ</button>
+                <div class="story__scene-success"><i>✓</i>Оплачено · 580 ₽</div>
+              </div>
+            </div>
           </div>
 
           <div class="story__act-panel" data-act="cash">
@@ -206,6 +447,33 @@
               <span class="line"><span>у кассира</span></span>
             </h2>
             <p class="cash-story__mobile-note"><i>✓</i> Заказ №120 уже в работе</p>
+
+            <!-- Блок 1, сцена 03 «Заказ принят»: тикет + видимый тип заказа
+                 (самовывоз) + статус-степпер Новый → Принят → Готовится. -->
+            <div class="story__scene" data-scene="cash">
+              <p class="story__scene-kicker"><b>03</b>Заказ принят</p>
+              <h2 class="story__scene-title">Касса получает заказ автоматически</h2>
+              <div class="story__scene-ui hero-phone__display yj-demo" aria-hidden="true">
+                <div class="yj-order-card yj-order-card--new">
+                  <div class="yj-order-head"><strong>№ 120</strong><span class="yj-status yj-status--new">Новый</span></div>
+                  <small class="yj-created">Создан только что</small>
+                  <div class="yj-order-meta"><span>🏪 Самовывоз</span><b>⏰ К 19:20</b></div>
+                  <div class="yj-cash-items">
+                    <div><span>Шаурма Классическая <b>×1</b></span><strong>500 ₽</strong></div>
+                    <small>+ Фирменный соус</small>
+                    <div><span>Лимонад <b>×1</b></span><strong>80 ₽</strong></div>
+                  </div>
+                  <div class="yj-order-total"><span>Оплачено онлайн</span><strong>580 ₽</strong></div>
+                </div>
+                <div class="yj-order-status">
+                  <span class="is-done"><i>✓</i><b>Новый</b></span>
+                  <em></em>
+                  <span class="is-done"><i>✓</i><b>Принят</b></span>
+                  <em></em>
+                  <span><i>3</i><b>Готовится</b></span>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="story__act-panel" data-act="kitchen">
@@ -215,6 +483,27 @@
             </svg></span>
             <h2 class="story__headline story__headline--sm">Повар получает заказ</h2>
             <span class="story__chip" id="storyKitchenChip">Новый заказ</span>
+
+            <!-- Блок 1, сцена 04 «Кухня»: крупный тикет — главный (и почти
+                 единственный) визуальный объект экрана, без корпуса телефона. -->
+            <div class="story__scene" data-scene="kitchen">
+              <p class="story__scene-kicker"><b>04</b>Кухня</p>
+              <h2 class="story__scene-title">Тикет — главный объект на экране повара</h2>
+              <div class="story__scene-ui hero-phone__display yj-demo" aria-hidden="true">
+                <div class="yj-order-card yj-order-card--new">
+                  <div class="yj-order-head"><strong>№ 120</strong><span class="yj-status yj-status--new">Новый заказ</span></div>
+                  <small class="yj-created">Создан в 19:02</small>
+                  <div class="yj-kitchen-items">
+                    <div><span>Шаурма Классическая</span><b>×1</b></div>
+                    <small>+ Фирменный соус</small>
+                    <small>💬 Без лука</small>
+                    <div><span>Лимонад</span><b>×1</b></div>
+                  </div>
+                  <div class="yj-progress-strip yj-progress-strip--cook"><span>🔥 Готовится</span><b>04:12</b></div>
+                  <button type="button" class="yj-staff-action" tabindex="-1">Заказ готов</button>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="story__act-panel" data-act="director">
@@ -227,6 +516,36 @@
               <span class="line"><span>в моменте</span></span>
             </h2>
             <p class="story__subline">Выручка, заказы и команда — в реальном времени</p>
+
+            <!-- Блок 1, сцена 05 «Директор»: визуальная кульминация раздела —
+                 карточка выручки с графиком + метрики + две карточки-связки,
+                 показывающие, что аналитика — прямое следствие операций выше. -->
+            <div class="story__scene" data-scene="director">
+              <p class="story__scene-kicker"><b>05</b>Директор</p>
+              <h2 class="story__scene-title">Видит выручку и заказы в реальном времени</h2>
+              <div class="story__scene-ui hero-phone__display yj-demo" aria-hidden="true">
+                <div class="yj-revenue-card is-updated">
+                  <small>Выручка сегодня</small>
+                  <strong>19 000 ₽</strong>
+                  <svg class="yj-revenue-chart" viewBox="0 0 100 34" preserveAspectRatio="none" aria-hidden="true">
+                    <path class="yj-revenue-chart__area" d="M0,29 L14,25 L28,26 L42,19 L56,21 L70,11 L84,13 L100,4 L100,34 L0,34 Z"></path>
+                    <path class="yj-revenue-chart__line" pathLength="100" d="M0,29 L14,25 L28,26 L42,19 L56,21 L70,11 L84,13 L100,4"></path>
+                  </svg>
+                  <span><i>●</i> Смена открыта</span>
+                </div>
+                <div class="yj-director-metrics is-active">
+                  <span><i>🧾</i><strong>25</strong><small>Заказов</small></span>
+                  <span><i>💳</i><strong>760 ₽</strong><small>Средний чек</small></span>
+                  <span><i>🔥</i><strong>2</strong><small>Активных заказа</small></span>
+                </div>
+                <div class="yj-director-update is-visible">
+                  <span>✓</span><span><strong>Заказ оплачен</strong><small>Показатели обновлены</small></span><b>+580 ₽</b>
+                </div>
+                <div class="yj-director-update is-visible">
+                  <span>👨‍🍳</span><span><strong>Кухня приняла заказ</strong><small>Готовится к отдаче</small></span><b>№120</b>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -447,10 +766,6 @@
           </div>
         </div>
 
-        <!-- Мобильная Story: световая нить «заказ уходит из телефона в систему».
-             Соединяет низ телефона с маршрутной шкалой ниже. -->
-        <span class="story__thread" aria-hidden="true"><i></i></span>
-
         <div class="story__dots" id="storyDots" aria-hidden="true">
           <span data-dot="0" class="is-active"></span>
           <span data-dot="1"></span>
@@ -458,11 +773,6 @@
           <span data-dot="3"></span>
           <span data-dot="4"></span>
           <span data-dot="5"></span>
-          <!-- «Пульс заказа»: ядро едет по шкале за прогрессом скролла, шлейф
-               и яркость зависят от скорости, кольцо — одиночный импульс при
-               попадании в узел. Абсолютное позиционирование, поэтому элемент
-               не участвует во flex-раскладке узлов. Только ≤768px. -->
-          <i class="story__pulse" aria-hidden="true"></i>
         </div>
         </div>
 
@@ -692,7 +1002,7 @@
       </div>
 
       <!-- Мобильная cinematic-версия (≤980px) — «Котик уже не ждёт», блок3.
-           Разметку/логику см. plan_block3.md. Пин и таймлайн собирает
+           Историю решения см. docs/project-context/decisions.md. Пин и таймлайн собирает
            assets/js/modules/cat-journey/index.js (GSAP ScrollTrigger),
            здесь только структура + текст + запасные состояния для
            prefers-reduced-motion (класс .is-act-3 читает CSS сам). -->
@@ -816,16 +1126,20 @@
     <a href="#final" class="btn btn--fire btn--lg">🔥 Заказать сейчас</a>
   </div>
 
+  </div>
+
   <!-- hero-demo.js остаётся обычным скриптом: он выставляет глобальный
        window.YJ_HERO_DEMO, на который смотрит main.js. defer-скрипт и
        модуль выполняются в порядке следования в документе, поэтому
        к моменту старта main.js телефон уже готов. -->
+  <script src="assets/js/desktop-product-screens.js?v=20260821-4" defer></script>
+  <script src="assets/js/desktop-landing.js?v=20260821-4" defer></script>
   <script src="assets/js/vendor/gsap.min.js" defer></script>
   <script src="assets/js/vendor/ScrollTrigger.min.js" defer></script>
   <script src="assets/js/vendor/DrawSVGPlugin.min.js" defer></script>
   <script src="assets/js/vendor/MotionPathPlugin.min.js" defer></script>
   <script src="assets/js/hero-demo.js" defer></script>
 
-  <script src="assets/js/main.js" type="module"></script>
+  <script src="assets/js/main.js?v=20260820-7" type="module"></script>
 </body>
 </html>
