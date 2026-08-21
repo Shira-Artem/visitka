@@ -3,6 +3,15 @@
 Статический лендинг сервиса заказа еды и мобильного Mini App для заведений. Главная рабочая
 desktop-версия продаёт владельцу единый поток: **гость → заказ → касса → кухня → директор**.
 
+> **АКТУАЛЬНЫЙ DESKTOP PRODUCTION**
+>
+> Для деплоя и backend-интеграции использовать только `index.html` из корня проекта и
+> собирать его через `node build.mjs`. Текущий локальный вариант:
+> [http://127.0.0.1:4181/index.html?v=20260821-12](http://127.0.0.1:4181/index.html?v=20260821-12)
+>
+> `qa/approved-mockups/` — только immutable-референсы, `legacy-site` — мобильная/старая
+> разметка. На desktop выше 900 px рабочим является `.desktop-site`.
+
 ## С чего начать
 
 1. Прочитать [`docs/project-context/README.md`](docs/project-context/README.md).
@@ -19,7 +28,7 @@ desktop-версия продаёт владельцу единый поток: 
 python -m http.server 4181 --bind 127.0.0.1
 ```
 
-Открыть: <http://127.0.0.1:4181/index.html?v=20260821-4#desktop-director>
+Открыть: <http://127.0.0.1:4181/index.html?v=20260821-12#desktop-director>
 
 ## Стек и сборка
 

@@ -2,6 +2,10 @@
 
 ## Коротко
 
+> **Источник актуального desktop:** корневой `index.html` с `.desktop-site`.
+> После `git pull origin master` обязательно выполнить `node build.mjs` и публиковать
+> содержимое свежей `dist/`. `qa/approved-mockups/` не является deploy-источником.
+
 ```bash
 git pull origin master
 node build.mjs

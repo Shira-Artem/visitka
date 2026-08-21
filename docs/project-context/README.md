@@ -4,7 +4,11 @@
 какая версия сейчас главная и какие правила нельзя потерять.
 
 Дата обновления: 2026-08-21  
-Текущий локальный preview: [desktop v20260821-4](http://127.0.0.1:4181/index.html?v=20260821-4#desktop-director)
+Текущий локальный preview: [desktop v20260821-12](http://127.0.0.1:4181/index.html?v=20260821-12#desktop-director)
+
+> **Главный вариант для desktop и деплоя сейчас — корневой `index.html` + `.desktop-site`.**
+> Backend должен собирать и публиковать его через `node build.mjs`; approved mockups и
+> `.legacy-site` не являются актуальной desktop-версией.
 
 ## Куда идём
 
