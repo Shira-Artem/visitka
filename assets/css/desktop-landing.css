@@ -145,31 +145,37 @@
 .desktop-site .dl-phone-field::after { content: "MINI APP"; position: absolute; right: -5px; top: 56px; color: rgba(23, 19, 16, .055); font: 900 58px var(--dl-display); letter-spacing: .06em; writing-mode: vertical-rl; }
 .desktop-site .dl-hero-phone-main { position: absolute; left: 7%; top: 0; z-index: 3; }
 .desktop-site .dl-hero-phone-main .dl-device { width: 320px; height: 650px; padding: 11px; border-radius: 54px; }
-.desktop-site .dl-hero-phone-side { position: absolute; right: 2%; top: 70px; z-index: 2; transform: rotate(5deg); transform-origin: 50% 50%; }
-.desktop-site .dl-hero-phone-side .dl-device { transform: scale(.86); transform-origin: top center; }
-.desktop-site .dl-hero-phone-side .dl-hero-phone-label {
+.desktop-site .dl-hero-team-panel {
   position: absolute;
-  top: -46px;
-  left: 50%;
-  width: 222px;
-  transform: translateX(-50%) rotate(-5deg);
-  padding: 10px 13px;
-  border: 1px solid rgba(230, 222, 212, .95);
-  border-radius: 14px;
-  background: rgba(255, 255, 255, .93);
-  box-shadow: 0 20px 38px -28px rgba(63, 36, 18, .55);
-  text-align: center;
+  right: 2%;
+  top: 104px;
+  z-index: 2;
+  width: min(300px, 42%);
+  padding: 23px 21px 18px;
+  border: 1px solid rgba(255, 255, 255, .92);
+  border-radius: 27px;
+  background: rgba(255, 255, 255, .84);
+  box-shadow: 0 34px 70px -44px rgba(63, 36, 18, .62), 0 1px 0 rgba(255, 255, 255, .88) inset;
+  backdrop-filter: blur(10px);
 }
-.desktop-site .dl-hero-phone-side .dl-hero-phone-label b { display: block; color: var(--dl-ink); font: 800 10px/1.2 var(--dl-data); letter-spacing: .08em; text-transform: uppercase; }
-.desktop-site .dl-hero-phone-side .dl-hero-phone-label small { display: block; margin-top: 4px; color: var(--dl-ink-3); font-size: 10px; }
+.desktop-site .dl-hero-team-head small { display: block; color: var(--dl-fire-deep); font: 800 9px var(--dl-data); letter-spacing: .13em; text-transform: uppercase; }
+.desktop-site .dl-hero-team-head strong { display: block; margin-top: 13px; font: 800 clamp(24px, 2.2vw, 32px)/1.03 var(--dl-display); letter-spacing: -.055em; text-transform: uppercase; }
+.desktop-site .dl-hero-team-head em { color: var(--dl-fire); font-style: normal; }
+.desktop-site .dl-hero-team-head p { margin: 13px 0 19px; color: var(--dl-ink-2); font-size: 12px; line-height: 1.45; }
+.desktop-site .dl-hero-team-list { display: grid; gap: 7px; }
+.desktop-site .dl-hero-team-list > div { display: grid; grid-template-columns: 25px 1fr 20px; gap: 10px; align-items: center; padding: 9px 10px; border: 1px solid #eee5db; border-radius: 13px; background: rgba(255, 255, 255, .88); }
+.desktop-site .dl-hero-team-list > div > b { color: var(--dl-fire-deep); font: 800 9px var(--dl-data); }
+.desktop-site .dl-hero-team-list span { min-width: 0; }
+.desktop-site .dl-hero-team-list span strong { display: block; font-size: 11px; line-height: 1.15; }
+.desktop-site .dl-hero-team-list span small { display: block; margin-top: 2px; color: var(--dl-ink-3); font-size: 9px; }
+.desktop-site .dl-hero-team-list i { display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--dl-ready-soft); color: #3d9b17; font: 900 11px var(--dl-data); font-style: normal; }
+.desktop-site .dl-hero-team-footer { display: grid; grid-template-columns: 10px 1fr; gap: 7px 8px; align-items: center; margin-top: 16px; padding-top: 14px; border-top: 1px solid #eee5db; }
+.desktop-site .dl-hero-team-footer > span { color: var(--dl-ready); font-size: 12px; }
+.desktop-site .dl-hero-team-footer strong { font: 800 10px var(--dl-data); }
+.desktop-site .dl-hero-team-footer small { grid-column: 2; color: var(--dl-ink-3); font-size: 9px; }
 .desktop-site .dl-hero-phone-main .yj-menu-list { gap: 8px; }
 .desktop-site .dl-hero-phone-main .yj-food-card { min-height: 23cqw; }
 .desktop-site .dl-hero-phone-main .yj-menu-cats span { padding-inline: 2.7cqw; }
-.desktop-site .dl-hero-phone-side .yj-director-scroll { padding-bottom: 5.5cqw; }
-.desktop-site .dl-sync-note { position: absolute; right: 1%; bottom: 24px; z-index: 5; width: 270px; padding: 17px 18px; border: 1px solid var(--dl-line); border-radius: 19px; background: #fff; box-shadow: var(--dl-shadow); }
-.desktop-site .dl-sync-note small { display: block; color: var(--dl-ink-3); font: 700 9px var(--dl-data); letter-spacing: .1em; text-transform: uppercase; }
-.desktop-site .dl-sync-note strong { display: block; margin-top: 4px; font-size: 12px; }
-.desktop-site .dl-sync-note span { color: var(--dl-ready); }
 
 /* Shared phone and real product screens */
 .desktop-site .dl-device { position: relative; width: 310px; height: 630px; padding: 10px; border: 1px solid #bbb6b0; border-radius: 51px; background: linear-gradient(145deg, #fdfdfd, #cbc8c4); box-shadow: 0 42px 90px -42px rgba(43, 25, 15, .62); }
@@ -418,8 +424,7 @@
   .desktop-site .dl-hero-grid { gap: 72px; }
   .desktop-site .dl-hero { min-height: 900px; }
   .desktop-site .dl-hero-phone-main { left: 11%; }
-  .desktop-site .dl-hero-phone-side { right: 7%; }
-  .desktop-site .dl-sync-note { right: 6%; }
+  .desktop-site .dl-hero-team-panel { right: 1%; }
 }
 
 @media (max-width: 1240px) and (min-width: 901px) {
@@ -428,7 +433,7 @@
   .desktop-site .dl-hero-grid { gap: 22px; }
   .desktop-site .dl-hero h1 { font-size: clamp(48px, 5vw, 64px); }
   .desktop-site .dl-hero-phone-main { left: 2%; }
-  .desktop-site .dl-hero-phone-side { right: 0; }
+  .desktop-site .dl-hero-team-panel { right: 0; }
   .desktop-site .dl-phone-line { gap: 8px; }
   .desktop-site .dl-small-phone-wrap { transform: scale(.93); transform-origin: top center; margin-bottom: -34px; }
   .desktop-site .dl-theatre-grid { grid-template-columns: 220px minmax(310px, 1fr) 240px; gap: 26px; padding: 36px; }
@@ -441,7 +446,7 @@
   .desktop-site .dl-header .dl-nav { display: none; }
   .desktop-site .dl-hero { min-height: 780px; }
   .desktop-site .dl-hero-grid { grid-template-columns: .92fr 1.08fr; }
-  .desktop-site .dl-hero-phone-side, .desktop-site .dl-sync-note { display: none; }
+  .desktop-site .dl-hero-team-panel { display: none; }
   .desktop-site .dl-hero-phone-main { left: 50%; transform: translateX(-50%); }
   .desktop-site .dl-proof-intro, .desktop-site .dl-proof-item { padding: 24px; }
   .desktop-site .dl-phone-line { grid-template-columns: repeat(2, 1fr); row-gap: 70px; }
