@@ -2,7 +2,7 @@
 
 ## Главный источник
 
-Production URL: [http://127.0.0.1:4181/index.html?v=20260821-4#desktop-director](http://127.0.0.1:4181/index.html?v=20260821-4#desktop-director)
+Production URL: [http://127.0.0.1:4181/index.html?v=20260821-5](http://127.0.0.1:4181/index.html?v=20260821-5)
 
 Эталон: `qa/approved-mockups/01-desktop-landing-approved.html` и `.png`.
 Композиция собирается по desktop-макету, а product screens переиспользуются из уже готовой версии.
@@ -18,6 +18,8 @@ Production URL: [http://127.0.0.1:4181/index.html?v=20260821-4#desktop-director]
 - Sync section показывает действие директора слева и мгновенный результат у гостя справа.
 - Ways cards живут в обычном документном потоке; мини-демо анимируются постоянно, без forced pagination.
 - Desktop-only правила ограничены `.desktop-site`; mobile baseline не изменён.
+- Hero использует два согласованных product screen: меню гостя и реальный dashboard директора;
+  телефоны выровнены в одну композицию, с короткой подписью кабинета и синхронизацией заказа.
 
 ## Ключевые файлы
 
