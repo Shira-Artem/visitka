@@ -150,29 +150,26 @@
   right: 2%;
   top: 104px;
   z-index: 2;
-  width: min(300px, 42%);
-  padding: 23px 21px 18px;
-  border: 1px solid rgba(255, 255, 255, .92);
+  width: min(320px, 44%);
+  padding: 29px 22px 19px;
+  border: 1px solid rgba(230, 222, 212, .9);
   border-radius: 27px;
-  background: rgba(255, 255, 255, .84);
-  box-shadow: 0 34px 70px -44px rgba(63, 36, 18, .62), 0 1px 0 rgba(255, 255, 255, .88) inset;
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, .92);
+  box-shadow: 0 34px 70px -44px rgba(63, 36, 18, .62), 0 1px 0 rgba(255, 255, 255, .9) inset;
 }
-.desktop-site .dl-hero-team-head small { display: block; color: var(--dl-fire-deep); font: 800 9px var(--dl-data); letter-spacing: .13em; text-transform: uppercase; }
-.desktop-site .dl-hero-team-head strong { display: block; margin-top: 13px; font: 800 clamp(24px, 2.2vw, 32px)/1.03 var(--dl-display); letter-spacing: -.055em; text-transform: uppercase; }
-.desktop-site .dl-hero-team-head em { color: var(--dl-fire); font-style: normal; }
-.desktop-site .dl-hero-team-head p { margin: 13px 0 19px; color: var(--dl-ink-2); font-size: 12px; line-height: 1.45; }
-.desktop-site .dl-hero-team-list { display: grid; gap: 7px; }
-.desktop-site .dl-hero-team-list > div { display: grid; grid-template-columns: 25px 1fr 20px; gap: 10px; align-items: center; padding: 9px 10px; border: 1px solid #eee5db; border-radius: 13px; background: rgba(255, 255, 255, .88); }
-.desktop-site .dl-hero-team-list > div > b { color: var(--dl-fire-deep); font: 800 9px var(--dl-data); }
-.desktop-site .dl-hero-team-list span { min-width: 0; }
-.desktop-site .dl-hero-team-list span strong { display: block; font-size: 11px; line-height: 1.15; }
-.desktop-site .dl-hero-team-list span small { display: block; margin-top: 2px; color: var(--dl-ink-3); font-size: 9px; }
-.desktop-site .dl-hero-team-list i { display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--dl-ready-soft); color: #3d9b17; font: 900 11px var(--dl-data); font-style: normal; }
-.desktop-site .dl-hero-team-footer { display: grid; grid-template-columns: 10px 1fr; gap: 7px 8px; align-items: center; margin-top: 16px; padding-top: 14px; border-top: 1px solid #eee5db; }
-.desktop-site .dl-hero-team-footer > span { color: var(--dl-ready); font-size: 12px; }
-.desktop-site .dl-hero-team-footer strong { font: 800 10px var(--dl-data); }
-.desktop-site .dl-hero-team-footer small { grid-column: 2; color: var(--dl-ink-3); font-size: 9px; }
+.desktop-site .dl-hero-format-head span { display: block; color: var(--dl-fire-deep); font: 800 16px/1.1 var(--dl-display); letter-spacing: .02em; text-transform: uppercase; }
+.desktop-site .dl-hero-format-head strong { display: block; margin-top: 5px; font: 800 clamp(25px, 2.3vw, 34px)/1.02 var(--dl-display); letter-spacing: -.055em; text-transform: uppercase; }
+.desktop-site .dl-hero-format-list { display: grid; gap: 10px; margin-top: 25px; }
+.desktop-site .dl-hero-format-list > div { display: grid; grid-template-columns: 32px minmax(0, 1fr) 42px; gap: 9px; align-items: center; min-height: 68px; padding: 10px 11px; border: 1px solid #e8dfd6; border-radius: 16px; background: rgba(255, 255, 255, .96); }
+.desktop-site .dl-hero-format-list > div > b { color: var(--dl-fire-deep); font: 800 13px var(--dl-data); }
+.desktop-site .dl-hero-format-list span { min-width: 0; }
+.desktop-site .dl-hero-format-list span strong { display: block; font-size: 13px; line-height: 1.15; }
+.desktop-site .dl-hero-format-list span small { display: block; margin-top: 4px; color: var(--dl-ink-3); font-size: 10px; }
+.desktop-site .dl-hero-format-list i { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: #fff2e9; color: var(--dl-fire); font-style: normal; }
+.desktop-site .dl-hero-format-list svg { width: 23px; height: 23px; }
+.desktop-site .dl-hero-format-footer { display: flex; align-items: flex-start; gap: 12px; margin-top: 16px; padding: 17px 3px 0; border-top: 1px solid #e8dfd6; }
+.desktop-site .dl-hero-format-footer > span { width: 8px; height: 8px; flex: 0 0 8px; margin-top: 5px; border-radius: 50%; background: var(--dl-ready); }
+.desktop-site .dl-hero-format-footer p { margin: 0; color: var(--dl-ink-2); font-size: 12px; line-height: 1.35; }
 .desktop-site .dl-hero-phone-main .yj-menu-list { gap: 8px; }
 .desktop-site .dl-hero-phone-main .yj-food-card { min-height: 23cqw; }
 .desktop-site .dl-hero-phone-main .yj-menu-cats span { padding-inline: 2.7cqw; }
