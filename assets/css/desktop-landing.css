@@ -287,6 +287,29 @@
 .desktop-site .dl-phone-caption strong { display: block; font: 800 11px var(--dl-data); letter-spacing: .08em; text-transform: uppercase; }
 .desktop-site .dl-phone-caption span { display: block; margin-top: 5px; color: var(--dl-ink-3); font-size: 11px; }
 
+/* Journey is a single-screen explanation on desktop: compact header, thin QR
+   cue, then the four readable product screens on one horizontal path. */
+.desktop-site .dl-journey { padding: 56px 0 42px; }
+.desktop-site .dl-journey .dl-section-head { gap: 34px; margin-bottom: 18px; }
+.desktop-site .dl-journey .dl-section-head h2 { max-width: 900px; margin-top: 13px; font-size: clamp(34px, 3vw, 48px); }
+.desktop-site .dl-journey .dl-section-head p { max-width: 360px; font-size: 14px; line-height: 1.45; }
+.desktop-site .dl-journey .dl-qr-route-note { min-height: 50px; margin: 0 0 18px; padding: 7px 12px; border-radius: 15px; }
+.desktop-site .dl-journey .dl-qr-route-note__icon { width: 34px; height: 34px; flex-basis: 34px; border-radius: 10px; }
+.desktop-site .dl-journey .dl-qr-route-note__icon svg { width: 20px; height: 20px; }
+.desktop-site .dl-journey .dl-qr-route-note__copy strong { font-size: 11px; }
+.desktop-site .dl-journey .dl-qr-route-note__copy small { margin-top: 1px; font-size: 9px; }
+.desktop-site .dl-journey .dl-qr-route-note__flow { gap: 5px; font-size: 9px; }
+.desktop-site .dl-journey .dl-qr-route-note__flow b { padding: 5px 7px; }
+.desktop-site .dl-journey .dl-phone-line { gap: 14px; }
+.desktop-site .dl-journey .dl-phone-line::before { left: 7%; right: 7%; top: 189px; }
+.desktop-site .dl-journey .dl-phone-step:nth-child(even) { margin-top: 0; }
+.desktop-site .dl-journey .dl-small-phone-wrap { width: 200px; height: 392px; }
+.desktop-site .dl-journey .dl-small-phone-wrap .dl-device { transform: translateX(-50%) scale(.60); }
+.desktop-site .dl-journey .dl-step-num,
+.desktop-site .dl-journey .dl-phone-step:nth-child(even) .dl-step-num { top: 170px; }
+.desktop-site .dl-journey .dl-phone-caption { margin-top: 2px; }
+.desktop-site .dl-journey .dl-phone-caption span { margin-top: 3px; font-size: 9px; }
+
 /* Role theatre */
 .desktop-site .dl-theatre { background: var(--dl-paper-2); }
 .desktop-site .dl-theatre-grid { display: grid; grid-template-columns: 250px minmax(340px, 1fr) 270px; gap: 38px; align-items: center; padding: 46px; border-radius: 38px; background: #1b1917; color: #fff; overflow: hidden; }
