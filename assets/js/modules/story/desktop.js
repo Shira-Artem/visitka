@@ -5,67 +5,49 @@
    под-состояния актов, непрерывная глава «Касса» и ручной перехват,
    когда гость сам щёлкает по ролям в телефоне.
    ============================================================ */
-import { pickIndex } from '../../lib/motion.js';
-import { createPinnedScene } from '../../lib/scroll-scene.js';
 import { STORY_ACTS } from './config.js';
 
 export function setupDesktop(core) {
-  const lastSub = STORY_ACTS.map(function () { return 0; });
   let manualOverride = false;
-  let overrideActIndex = -1;
-  let lastActIndex = 0;
+  let activeIndex = 0;
 
   function onManualRole(e) {
     manualOverride = true;
-    overrideActIndex = lastActIndex;
     if (e && e.detail) core.applyAura(e.detail.role);
   }
 
-  const scene = createPinnedScene({
-    track: core.track,
-    acts: STORY_ACTS,
-    hysteresis: 0.12,
-    // Keep chapter boundaries exact so the cash-only receipt can never leak
-    // into selection or checkout while the user reverses the scroll.
-    exactFloorRange: [1, 4],
-    onTick: function (state) {
-      if (manualOverride) {
-        if (state.actIndex !== overrideActIndex) {
-          manualOverride = false;
-        } else {
-          return false; // пользователь исследует кабинет вручную — скролл не вмешивается
-        }
-      }
+  const panels = Array.from(core.stage.querySelectorAll('[data-act]'));
+  function activate(panel) {
+    const index = panels.indexOf(panel);
+    if (index < 0 || (manualOverride && index === activeIndex)) return;
+    manualOverride = false;
+    activeIndex = index;
+    panels.forEach((item) => item.classList.toggle('is-active', item === panel));
+    const act = STORY_ACTS[index];
+    core.setCashTimeline(act && act.id === 'cash' ? 1 : 0);
+    core.drive(index, act && act.id === 'cash' ? 1 : 0);
+  }
 
-      const act = state.act;
-      const localP = state.localP;
-      let subIndex = 0;
-      if (act.id === 'cash') {
-        subIndex = localP < 0.40 ? 0 : (localP < 0.75 ? 1 : 2);
-      } else if (act.states.length > 1) {
-        subIndex = pickIndex(localP * (act.states.length - 1), lastSub[state.actIndex], act.states.length, 0.12);
-      }
-
-      // The cashier chapter is continuous: CSS values are interpolated from
-      // scroll progress even between the three unchanged phone states.
-      core.setCashTimeline(act.id === 'cash' ? localP : 0);
-
-      if (state.isNewAct || subIndex !== lastSub[state.actIndex]) {
-        lastActIndex = state.actIndex;
-        lastSub[state.actIndex] = subIndex;
-        core.drive(state.actIndex, subIndex);
-      }
-    }
-  });
+  core.track.style.removeProperty('height');
+  core.stage.style.removeProperty('height');
+  let io = null;
+  if ('IntersectionObserver' in window) {
+    io = new IntersectionObserver((entries) => {
+      entries.filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)
+        .forEach((entry) => activate(entry.target));
+    }, { threshold: [0.35, 0.6], rootMargin: '-8% 0px -8% 0px' });
+    panels.forEach((panel) => io.observe(panel));
+  }
 
   window.addEventListener('yj:manual-role', onManualRole);
   // Keep the neutral initial phase explicit without resetting the phone's
   // existing hero state; tick() will replace it immediately on deep links.
   core.applyPanel(0);
-  scene.tick();
+  if (panels[0]) activate(panels[0]);
 
   return function cleanup() {
-    scene.destroy();
+    if (io) io.disconnect();
     window.removeEventListener('yj:manual-role', onManualRole);
   };
 }

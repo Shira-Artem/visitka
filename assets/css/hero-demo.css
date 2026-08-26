@@ -34,23 +34,23 @@
   isolation:isolate;
 }
 
-#heroPhoneDisplay *,
-#heroPhoneDisplay *::before,
-#heroPhoneDisplay *::after{box-sizing:border-box}
+.hero-phone__display.yj-demo *,
+.hero-phone__display.yj-demo *::before,
+.hero-phone__display.yj-demo *::after{box-sizing:border-box}
 
-#heroPhoneDisplay button{
+.hero-phone__display.yj-demo button{
   font:inherit;
   color:inherit;
   touch-action:manipulation;
   -webkit-tap-highlight-color:transparent;
 }
 
-#heroPhoneDisplay button:focus-visible{
+.hero-phone__display.yj-demo button:focus-visible{
   outline:max(1px,.8cqw) solid var(--demo-accent);
   outline-offset:1.1cqw;
 }
 
-#heroPhoneDisplay .hero-phone__statusbar{
+.hero-phone__display.yj-demo .hero-phone__statusbar{
   top:3.7cqw;
   left:7cqw;
   right:7cqw;
@@ -61,14 +61,14 @@
   z-index:80;
 }
 
-#heroPhoneDisplay .hero-phone__island{
+.hero-phone__display.yj-demo .hero-phone__island{
   top:3.75cqw;
   width:25cqw;
   height:8.3cqw;
   z-index:81;
 }
 
-#heroPhoneDisplay .yj-demo-screen{
+.hero-phone__display.yj-demo .yj-demo-screen{
   position:absolute;
   inset:0;
   z-index:1;
@@ -87,14 +87,14 @@
     transform 420ms var(--demo-ease-pop);
 }
 
-#heroPhoneDisplay .yj-demo-screen.is-active{
+.hero-phone__display.yj-demo .yj-demo-screen.is-active{
   z-index:2;
   opacity:1;
   transform:none;
   pointer-events:auto;
 }
 
-#heroPhoneDisplay .yj-demo-live{
+.hero-phone__display.yj-demo .yj-demo-live{
   position:absolute;
   right:5.5cqw;
   bottom:2.6cqw;
@@ -109,7 +109,7 @@
   letter-spacing:.12em;
 }
 
-#heroPhoneDisplay .yj-demo-live span{
+.hero-phone__display.yj-demo .yj-demo-live span{
   width:2cqw;
   height:2cqw;
   border-radius:50%;
@@ -120,7 +120,7 @@
 
 /* ---- Client Mini App ---- */
 
-#heroPhoneDisplay .yj-demo-client{
+.hero-phone__display.yj-demo .yj-demo-client{
   padding-right:5.4cqw;
   padding-left:5.4cqw;
   background:
@@ -128,7 +128,7 @@
     linear-gradient(180deg,#fffaf2 0%,#fff5e7 100%);
 }
 
-#heroPhoneDisplay .yj-client-topbar{
+.hero-phone__display.yj-demo .yj-client-topbar{
   display:flex;
   align-items:center;
   gap:2.8cqw;
@@ -137,7 +137,7 @@
   margin-bottom:4.2cqw;
 }
 
-#heroPhoneDisplay .yj-client-logo{
+.hero-phone__display.yj-demo .yj-client-logo{
   display:grid;
   place-items:center;
   width:10.5cqw;
@@ -149,7 +149,7 @@
   font-size:5.6cqw;
 }
 
-#heroPhoneDisplay .yj-client-brand{
+.hero-phone__display.yj-demo .yj-client-brand{
   display:grid;
   gap:.6cqw;
   min-width:0;
@@ -157,13 +157,13 @@
   line-height:1;
 }
 
-#heroPhoneDisplay .yj-client-brand small{
+.hero-phone__display.yj-demo .yj-client-brand small{
   color:var(--demo-muted);
   font-size:3cqw;
   font-weight:750;
 }
 
-#heroPhoneDisplay .yj-client-brand strong{
+.hero-phone__display.yj-demo .yj-client-brand strong{
   overflow:hidden;
   font-size:5.3cqw;
   font-weight:950;
@@ -172,7 +172,7 @@
   white-space:nowrap;
 }
 
-#heroPhoneDisplay .yj-client-bell{
+.hero-phone__display.yj-demo .yj-client-bell{
   display:grid;
   place-items:center;
   width:8.5cqw;
@@ -185,13 +185,13 @@
   font-weight:900;
 }
 
-#heroPhoneDisplay .yj-guest-stage{
+.hero-phone__display.yj-demo .yj-guest-stage{
   position:relative;
   flex:1;
   min-height:0;
 }
 
-#heroPhoneDisplay .yj-guest-scene{
+.hero-phone__display.yj-demo .yj-guest-scene{
   position:absolute;
   inset:0;
   display:flex;
@@ -205,18 +205,18 @@
     transform 380ms var(--demo-ease-pop);
 }
 
-#heroPhoneDisplay .yj-guest-scene.is-leaving{
+.hero-phone__display.yj-demo .yj-guest-scene.is-leaving{
   transform:translateX(-6cqw) scale(.98);
 }
 
-#heroPhoneDisplay .yj-guest-scene.is-active{
+.hero-phone__display.yj-demo .yj-guest-scene.is-active{
   z-index:2;
   opacity:1;
   transform:none;
   pointer-events:auto;
 }
 
-#heroPhoneDisplay .yj-client-eyebrow{
+.hero-phone__display.yj-demo .yj-client-eyebrow{
   margin-bottom:1.5cqw;
   color:var(--demo-accent-deep);
   font-size:3.1cqw;
@@ -225,7 +225,7 @@
   text-transform:uppercase;
 }
 
-#heroPhoneDisplay .yj-guest-scene h3{
+.hero-phone__display.yj-demo .yj-guest-scene h3{
   margin:0 0 4cqw;
   font-size:8cqw;
   line-height:.98;
@@ -233,7 +233,7 @@
   letter-spacing:-.06em;
 }
 
-#heroPhoneDisplay .yj-venue-card{
+.hero-phone__display.yj-demo .yj-venue-card{
   display:grid;
   grid-template-columns:31cqw minmax(0,1fr) 5cqw;
   gap:3.5cqw;
@@ -251,9 +251,9 @@
     box-shadow 180ms ease;
 }
 
-#heroPhoneDisplay .yj-venue-card:active{transform:scale(.975)}
+.hero-phone__display.yj-demo .yj-venue-card:active{transform:scale(.975)}
 
-#heroPhoneDisplay .yj-venue-photo{
+.hero-phone__display.yj-demo .yj-venue-photo{
   position:relative;
   display:block;
   height:31cqw;
@@ -262,13 +262,13 @@
   background:var(--demo-surface-2);
 }
 
-#heroPhoneDisplay .yj-venue-photo img{
+.hero-phone__display.yj-demo .yj-venue-photo img{
   width:100%;
   height:100%;
   object-fit:cover;
 }
 
-#heroPhoneDisplay .yj-venue-photo span{
+.hero-phone__display.yj-demo .yj-venue-photo span{
   position:absolute;
   left:2cqw;
   bottom:2cqw;
@@ -284,7 +284,7 @@
   backdrop-filter:blur(6px);
 }
 
-#heroPhoneDisplay .yj-venue-photo span::before{
+.hero-phone__display.yj-demo .yj-venue-photo span::before{
   content:"";
   width:1.6cqw;
   height:1.6cqw;
@@ -292,20 +292,20 @@
   background:var(--demo-green);
 }
 
-#heroPhoneDisplay .yj-venue-copy{
+.hero-phone__display.yj-demo .yj-venue-copy{
   display:grid;
   gap:1.1cqw;
   min-width:0;
 }
 
-#heroPhoneDisplay .yj-venue-copy>strong{
+.hero-phone__display.yj-demo .yj-venue-copy>strong{
   font-size:5.2cqw;
   line-height:1.08;
   font-weight:950;
   letter-spacing:-.035em;
 }
 
-#heroPhoneDisplay .yj-venue-copy>small{
+.hero-phone__display.yj-demo .yj-venue-copy>small{
   overflow:hidden;
   color:var(--demo-muted);
   font-size:3cqw;
@@ -314,15 +314,15 @@
   white-space:nowrap;
 }
 
-#heroPhoneDisplay .yj-venue-copy>span{
+.hero-phone__display.yj-demo .yj-venue-copy>span{
   display:flex;
   flex-wrap:wrap;
   gap:1.4cqw;
   margin-top:1.2cqw;
 }
 
-#heroPhoneDisplay .yj-venue-copy b,
-#heroPhoneDisplay .yj-venue-copy i{
+.hero-phone__display.yj-demo .yj-venue-copy b,
+.hero-phone__display.yj-demo .yj-venue-copy i{
   padding:1.2cqw 1.7cqw;
   border-radius:100px;
   font-size:2.55cqw;
@@ -330,23 +330,23 @@
   font-weight:850;
 }
 
-#heroPhoneDisplay .yj-venue-copy b{
+.hero-phone__display.yj-demo .yj-venue-copy b{
   background:var(--demo-green-soft);
   color:#27834f;
 }
 
-#heroPhoneDisplay .yj-venue-copy i{
+.hero-phone__display.yj-demo .yj-venue-copy i{
   background:var(--demo-surface-2);
   color:var(--demo-muted);
 }
 
-#heroPhoneDisplay .yj-venue-arrow{
+.hero-phone__display.yj-demo .yj-venue-arrow{
   color:var(--demo-accent);
   font-size:7cqw;
   font-weight:700;
 }
 
-#heroPhoneDisplay .yj-nearby-row{
+.hero-phone__display.yj-demo .yj-nearby-row{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:2.3cqw;
@@ -354,7 +354,7 @@
   opacity:.72;
 }
 
-#heroPhoneDisplay .yj-nearby-row span{
+.hero-phone__display.yj-demo .yj-nearby-row span{
   display:flex;
   align-items:center;
   gap:1.5cqw;
@@ -366,7 +366,7 @@
   font-size:3cqw;
 }
 
-#heroPhoneDisplay .yj-nearby-row b{
+.hero-phone__display.yj-demo .yj-nearby-row b{
   overflow:hidden;
   font-size:2.8cqw;
   text-overflow:ellipsis;
@@ -375,7 +375,7 @@
 
 /* Client: menu */
 
-#heroPhoneDisplay .yj-menu-head{
+.hero-phone__display.yj-demo .yj-menu-head{
   display:flex;
   align-items:end;
   justify-content:space-between;
@@ -383,25 +383,25 @@
   margin-bottom:3cqw;
 }
 
-#heroPhoneDisplay .yj-menu-head>span:first-child{
+.hero-phone__display.yj-demo .yj-menu-head>span:first-child{
   display:grid;
   gap:.5cqw;
 }
 
-#heroPhoneDisplay .yj-menu-head small{
+.hero-phone__display.yj-demo .yj-menu-head small{
   color:var(--demo-muted);
   font-size:2.9cqw;
   font-weight:750;
 }
 
-#heroPhoneDisplay .yj-menu-head strong{
+.hero-phone__display.yj-demo .yj-menu-head strong{
   font-size:7.5cqw;
   line-height:1;
   font-weight:950;
   letter-spacing:-.055em;
 }
 
-#heroPhoneDisplay .yj-open-chip{
+.hero-phone__display.yj-demo .yj-open-chip{
   display:flex;
   align-items:center;
   gap:1cqw;
@@ -413,7 +413,7 @@
   font-weight:900;
 }
 
-#heroPhoneDisplay .yj-open-chip::before{
+.hero-phone__display.yj-demo .yj-open-chip::before{
   content:"";
   width:1.5cqw;
   height:1.5cqw;
@@ -421,7 +421,7 @@
   background:var(--demo-green);
 }
 
-#heroPhoneDisplay .yj-menu-cats{
+.hero-phone__display.yj-demo .yj-menu-cats{
   display:flex;
   flex:0 0 auto;
   gap:1.6cqw;
@@ -432,9 +432,9 @@
   -ms-overflow-style:none;
 }
 
-#heroPhoneDisplay .yj-menu-cats::-webkit-scrollbar{display:none}
+.hero-phone__display.yj-demo .yj-menu-cats::-webkit-scrollbar{display:none}
 
-#heroPhoneDisplay .yj-menu-cats span{
+.hero-phone__display.yj-demo .yj-menu-cats span{
   flex:0 0 auto;
   padding:1.5cqw 2.5cqw;
   border:1px solid var(--demo-line);
@@ -448,9 +448,9 @@
   transition:background-color 180ms ease,color 180ms ease,border-color 180ms ease,transform 150ms var(--demo-ease-out);
 }
 
-#heroPhoneDisplay .yj-menu-cats span:active{transform:scale(.95)}
+.hero-phone__display.yj-demo .yj-menu-cats span:active{transform:scale(.95)}
 
-#heroPhoneDisplay .yj-menu-cats .is-active{
+.hero-phone__display.yj-demo .yj-menu-cats .is-active{
   border-color:var(--demo-text);
   background:var(--demo-text);
   color:#fff;
@@ -459,7 +459,7 @@
 /* Прокручиваемый список блюд: сам скроллится внутри мокапа телефона,
    шапка/категории/корзина остаются на местах. Смена категории — короткий
    crossfade содержимого списка. */
-#heroPhoneDisplay .yj-menu-list{
+.hero-phone__display.yj-demo .yj-menu-list{
   display:flex;
   flex-direction:column;
   flex:1;
@@ -475,11 +475,11 @@
   transition:opacity 140ms var(--demo-ease-out);
 }
 
-#heroPhoneDisplay .yj-menu-list::-webkit-scrollbar{display:none}
+.hero-phone__display.yj-demo .yj-menu-list::-webkit-scrollbar{display:none}
 
-#heroPhoneDisplay .yj-menu-list.is-swapping{opacity:0}
+.hero-phone__display.yj-demo .yj-menu-list.is-swapping{opacity:0}
 
-#heroPhoneDisplay .yj-food-card{
+.hero-phone__display.yj-demo .yj-food-card{
   position:relative;
   display:grid;
   flex:0 0 auto;
@@ -494,20 +494,20 @@
   box-shadow:0 3.5cqw 10cqw rgba(70,40,12,.075);
 }
 
-#heroPhoneDisplay .yj-food-card>img{
+.hero-phone__display.yj-demo .yj-food-card>img{
   width:19cqw;
   height:19cqw;
   border-radius:3.4cqw;
   object-fit:cover;
 }
 
-#heroPhoneDisplay .yj-food-copy{
+.hero-phone__display.yj-demo .yj-food-copy{
   display:grid;
   gap:.9cqw;
   min-width:0;
 }
 
-#heroPhoneDisplay .yj-food-copy strong{
+.hero-phone__display.yj-demo .yj-food-copy strong{
   display:-webkit-box;
   overflow:hidden;
   font-size:3.7cqw;
@@ -518,7 +518,7 @@
   -webkit-line-clamp:2;
 }
 
-#heroPhoneDisplay .yj-food-copy small{
+.hero-phone__display.yj-demo .yj-food-copy small{
   display:-webkit-box;
   overflow:hidden;
   color:var(--demo-muted);
@@ -529,19 +529,19 @@
   -webkit-line-clamp:2;
 }
 
-#heroPhoneDisplay .yj-food-copy>b{
+.hero-phone__display.yj-demo .yj-food-copy>b{
   margin-top:.4cqw;
   font-size:4cqw;
   font-weight:950;
 }
 
-#heroPhoneDisplay .yj-food-copy b i{
+.hero-phone__display.yj-demo .yj-food-copy b i{
   color:var(--demo-muted);
   font-size:2.6cqw;
   font-style:normal;
 }
 
-#heroPhoneDisplay .yj-food-card>button{
+.hero-phone__display.yj-demo .yj-food-card>button{
   position:relative;
   display:grid;
   place-items:center;
@@ -560,11 +560,11 @@
   transition:transform 150ms var(--demo-ease-out),background-color 180ms ease;
 }
 
-#heroPhoneDisplay .yj-food-card>button:active{transform:scale(.93)}
+.hero-phone__display.yj-demo .yj-food-card>button:active{transform:scale(.93)}
 
-#heroPhoneDisplay .yj-food-card>button.is-added{background:var(--demo-accent-deep)}
+.hero-phone__display.yj-demo .yj-food-card>button.is-added{background:var(--demo-accent-deep)}
 
-#heroPhoneDisplay .yj-food-qty{
+.hero-phone__display.yj-demo .yj-food-qty{
   position:absolute;
   top:-1.6cqw;
   right:-1.6cqw;
@@ -582,7 +582,7 @@
   line-height:1;
 }
 
-#heroPhoneDisplay .yj-food-emoji{
+.hero-phone__display.yj-demo .yj-food-emoji{
   display:grid;
   place-items:center;
   width:19cqw;
@@ -592,7 +592,7 @@
   font-size:7.4cqw;
 }
 
-#heroPhoneDisplay .yj-cart-bar{
+.hero-phone__display.yj-demo .yj-cart-bar{
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -613,18 +613,18 @@
   transition:transform 150ms var(--demo-ease-out);
 }
 
-#heroPhoneDisplay .yj-cart-bar:active{transform:scale(.98)}
+.hero-phone__display.yj-demo .yj-cart-bar:active{transform:scale(.98)}
 
-#heroPhoneDisplay .yj-cart-bar.is-pop{animation:yjPop 420ms var(--demo-ease-pop)}
+.hero-phone__display.yj-demo .yj-cart-bar.is-pop{animation:yjPop 420ms var(--demo-ease-pop)}
 
-#heroPhoneDisplay .yj-cart-bar strong{
+.hero-phone__display.yj-demo .yj-cart-bar strong{
   font-size:4cqw;
   font-weight:950;
 }
 
 /* Client: checkout */
 
-#heroPhoneDisplay .yj-checkout-head{
+.hero-phone__display.yj-demo .yj-checkout-head{
   display:flex;
   align-items:center;
   gap:2.7cqw;
@@ -634,14 +634,14 @@
   letter-spacing:-.04em;
 }
 
-#heroPhoneDisplay .yj-back{
+.hero-phone__display.yj-demo .yj-back{
   color:var(--demo-muted);
   font-size:8cqw;
   font-weight:500;
   line-height:1;
 }
 
-#heroPhoneDisplay .yj-checkout-label{
+.hero-phone__display.yj-demo .yj-checkout-label{
   margin-bottom:2cqw;
   color:var(--demo-muted);
   font-size:2.8cqw;
@@ -650,13 +650,13 @@
   text-transform:uppercase;
 }
 
-#heroPhoneDisplay .yj-methods{
+.hero-phone__display.yj-demo .yj-methods{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:2cqw;
 }
 
-#heroPhoneDisplay .yj-methods>span{
+.hero-phone__display.yj-demo .yj-methods>span{
   display:grid;
   grid-template-columns:5cqw 1fr;
   gap:.4cqw 1.7cqw;
@@ -666,12 +666,12 @@
   background:rgba(255,255,255,.72);
 }
 
-#heroPhoneDisplay .yj-methods>span.is-active{
+.hero-phone__display.yj-demo .yj-methods>span.is-active{
   border-color:rgba(240,122,34,.42);
   background:var(--demo-accent-soft);
 }
 
-#heroPhoneDisplay .yj-methods i{
+.hero-phone__display.yj-demo .yj-methods i{
   grid-row:1/3;
   display:grid;
   place-items:center;
@@ -684,23 +684,23 @@
   font-style:normal;
 }
 
-#heroPhoneDisplay .yj-methods .is-active i{
+.hero-phone__display.yj-demo .yj-methods .is-active i{
   border-color:var(--demo-accent);
   background:var(--demo-accent);
 }
 
-#heroPhoneDisplay .yj-methods b{
+.hero-phone__display.yj-demo .yj-methods b{
   font-size:3.2cqw;
   font-weight:900;
 }
 
-#heroPhoneDisplay .yj-methods small{
+.hero-phone__display.yj-demo .yj-methods small{
   color:var(--demo-muted);
   font-size:2.35cqw;
   font-weight:650;
 }
 
-#heroPhoneDisplay .yj-checkout-order{
+.hero-phone__display.yj-demo .yj-checkout-order{
   display:grid;
   gap:2cqw;
   margin-top:3cqw;
@@ -709,22 +709,22 @@
   background:rgba(255,255,255,.85);
 }
 
-#heroPhoneDisplay .yj-checkout-order div,
-#heroPhoneDisplay .yj-checkout-total{
+.hero-phone__display.yj-demo .yj-checkout-order div,
+.hero-phone__display.yj-demo .yj-checkout-total{
   display:flex;
   justify-content:space-between;
   gap:3cqw;
 }
 
-#heroPhoneDisplay .yj-checkout-order div{
+.hero-phone__display.yj-demo .yj-checkout-order div{
   color:var(--demo-muted);
   font-size:2.8cqw;
   font-weight:700;
 }
 
-#heroPhoneDisplay .yj-checkout-order b{color:var(--demo-text)}
+.hero-phone__display.yj-demo .yj-checkout-order b{color:var(--demo-text)}
 
-#heroPhoneDisplay .yj-payment-row{
+.hero-phone__display.yj-demo .yj-payment-row{
   display:grid;
   grid-template-columns:8cqw minmax(0,1fr) 5cqw;
   gap:2.3cqw;
@@ -736,7 +736,7 @@
   background:rgba(255,255,255,.76);
 }
 
-#heroPhoneDisplay .yj-payment-row>span:first-child{
+.hero-phone__display.yj-demo .yj-payment-row>span:first-child{
   display:grid;
   place-items:center;
   width:8cqw;
@@ -746,16 +746,16 @@
   font-size:4.2cqw;
 }
 
-#heroPhoneDisplay .yj-payment-row>span:nth-child(2){
+.hero-phone__display.yj-demo .yj-payment-row>span:nth-child(2){
   display:grid;
   gap:.5cqw;
 }
 
-#heroPhoneDisplay .yj-payment-row b{font-size:3cqw}
-#heroPhoneDisplay .yj-payment-row small{color:var(--demo-muted);font-size:2.35cqw}
-#heroPhoneDisplay .yj-payment-row i{color:var(--demo-green);font-size:4cqw;font-style:normal;font-weight:950}
+.hero-phone__display.yj-demo .yj-payment-row b{font-size:3cqw}
+.hero-phone__display.yj-demo .yj-payment-row small{color:var(--demo-muted);font-size:2.35cqw}
+.hero-phone__display.yj-demo .yj-payment-row i{color:var(--demo-green);font-size:4cqw;font-style:normal;font-weight:950}
 
-#heroPhoneDisplay .yj-checkout-total{
+.hero-phone__display.yj-demo .yj-checkout-total{
   align-items:baseline;
   margin-top:auto;
   padding:3cqw 1cqw 2cqw;
@@ -763,13 +763,13 @@
   font-weight:850;
 }
 
-#heroPhoneDisplay .yj-checkout-total strong{
+.hero-phone__display.yj-demo .yj-checkout-total strong{
   font-size:6cqw;
   font-weight:950;
   letter-spacing:-.05em;
 }
 
-#heroPhoneDisplay .yj-primary-action{
+.hero-phone__display.yj-demo .yj-primary-action{
   width:100%;
   min-height:11.5cqw;
   padding:2.4cqw 3cqw;
@@ -784,17 +784,17 @@
   transition:transform 150ms var(--demo-ease-out);
 }
 
-#heroPhoneDisplay .yj-primary-action:active{transform:scale(.975)}
+.hero-phone__display.yj-demo .yj-primary-action:active{transform:scale(.975)}
 
 /* Client: success */
 
-#heroPhoneDisplay .yj-guest-success{
+.hero-phone__display.yj-demo .yj-guest-success{
   align-items:center;
   justify-content:center;
   text-align:center;
 }
 
-#heroPhoneDisplay .yj-success-check{
+.hero-phone__display.yj-demo .yj-success-check{
   position:relative;
   display:grid;
   place-items:center;
@@ -806,8 +806,8 @@
   color:var(--demo-green);
 }
 
-#heroPhoneDisplay .yj-success-check::before,
-#heroPhoneDisplay .yj-success-check::after{
+.hero-phone__display.yj-demo .yj-success-check::before,
+.hero-phone__display.yj-demo .yj-success-check::after{
   content:"";
   position:absolute;
   inset:-3cqw;
@@ -816,15 +816,15 @@
   opacity:0;
 }
 
-#heroPhoneDisplay .yj-guest-success.is-active .yj-success-check::before{
+.hero-phone__display.yj-demo .yj-guest-success.is-active .yj-success-check::before{
   animation:yjSuccessRing 900ms var(--demo-ease-out) 120ms both;
 }
 
-#heroPhoneDisplay .yj-guest-success.is-active .yj-success-check::after{
+.hero-phone__display.yj-demo .yj-guest-success.is-active .yj-success-check::after{
   animation:yjSuccessRing 900ms var(--demo-ease-out) 280ms both;
 }
 
-#heroPhoneDisplay .yj-success-check span{
+.hero-phone__display.yj-demo .yj-success-check span{
   display:grid;
   place-items:center;
   width:12cqw;
@@ -837,7 +837,7 @@
   font-weight:950;
 }
 
-#heroPhoneDisplay .yj-guest-success>small{
+.hero-phone__display.yj-demo .yj-guest-success>small{
   color:var(--demo-green);
   font-size:3cqw;
   font-weight:950;
@@ -845,20 +845,20 @@
   text-transform:uppercase;
 }
 
-#heroPhoneDisplay .yj-guest-success h3{
+.hero-phone__display.yj-demo .yj-guest-success h3{
   margin:1.5cqw 0 2cqw;
   font-size:7.3cqw;
   line-height:1.04;
 }
 
-#heroPhoneDisplay .yj-guest-success>p{
+.hero-phone__display.yj-demo .yj-guest-success>p{
   margin:0;
   color:var(--demo-muted);
   font-size:3.2cqw;
   font-weight:700;
 }
 
-#heroPhoneDisplay .yj-order-status{
+.hero-phone__display.yj-demo .yj-order-status{
   display:grid;
   grid-template-columns:auto 1fr auto 1fr auto;
   align-items:start;
@@ -866,14 +866,14 @@
   margin-top:6cqw;
 }
 
-#heroPhoneDisplay .yj-order-status span{
+.hero-phone__display.yj-demo .yj-order-status span{
   display:grid;
   justify-items:center;
   gap:1.2cqw;
   width:18cqw;
 }
 
-#heroPhoneDisplay .yj-order-status i{
+.hero-phone__display.yj-demo .yj-order-status i{
   display:grid;
   place-items:center;
   width:7cqw;
@@ -887,29 +887,29 @@
   font-weight:900;
 }
 
-#heroPhoneDisplay .yj-order-status b{
+.hero-phone__display.yj-demo .yj-order-status b{
   color:var(--demo-muted);
   font-size:2.25cqw;
   font-weight:800;
 }
 
-#heroPhoneDisplay .yj-order-status .is-done i{
+.hero-phone__display.yj-demo .yj-order-status .is-done i{
   border-color:var(--demo-green);
   background:var(--demo-green);
   color:#fff;
 }
 
-#heroPhoneDisplay .yj-order-status .is-done b{color:var(--demo-text)}
+.hero-phone__display.yj-demo .yj-order-status .is-done b{color:var(--demo-text)}
 
-#heroPhoneDisplay .yj-order-status em{
+.hero-phone__display.yj-demo .yj-order-status em{
   height:1px;
   margin-top:3.5cqw;
   background:var(--demo-line);
 }
 
-#heroPhoneDisplay .yj-order-status .is-done+em{background:rgba(33,184,107,.42)}
+.hero-phone__display.yj-demo .yj-order-status .is-done+em{background:rgba(33,184,107,.42)}
 
-#heroPhoneDisplay .yj-success-meta{
+.hero-phone__display.yj-demo .yj-success-meta{
   display:flex;
   justify-content:space-between;
   align-items:center;
@@ -923,7 +923,7 @@
   font-weight:750;
 }
 
-#heroPhoneDisplay .yj-success-meta strong{
+.hero-phone__display.yj-demo .yj-success-meta strong{
   color:var(--demo-text);
   font-size:4cqw;
   font-weight:950;
@@ -931,14 +931,14 @@
 
 /* ---- Shared staff UI ---- */
 
-#heroPhoneDisplay .yj-demo-cashier,
-#heroPhoneDisplay .yj-demo-kitchen{
+.hero-phone__display.yj-demo .yj-demo-cashier,
+.hero-phone__display.yj-demo .yj-demo-kitchen{
   padding-right:0;
   padding-left:0;
   background:var(--demo-surface-2);
 }
 
-#heroPhoneDisplay .yj-staff-topbar{
+.hero-phone__display.yj-demo .yj-staff-topbar{
   display:flex;
   align-items:center;
   gap:2.7cqw;
@@ -949,7 +949,7 @@
   background:#fff7ec;
 }
 
-#heroPhoneDisplay .yj-staff-logo{
+.hero-phone__display.yj-demo .yj-staff-logo{
   display:grid;
   place-items:center;
   width:10.5cqw;
@@ -961,24 +961,24 @@
   font-size:5.2cqw;
 }
 
-#heroPhoneDisplay .yj-staff-logo--cook{background:linear-gradient(135deg,#d86c27,#ef9b4e)}
-#heroPhoneDisplay .yj-staff-logo--director{background:linear-gradient(135deg,#2e6e5b,#439477)}
+.hero-phone__display.yj-demo .yj-staff-logo--cook{background:linear-gradient(135deg,#d86c27,#ef9b4e)}
+.hero-phone__display.yj-demo .yj-staff-logo--director{background:linear-gradient(135deg,#2e6e5b,#439477)}
 
-#heroPhoneDisplay .yj-staff-title{
+.hero-phone__display.yj-demo .yj-staff-title{
   display:grid;
   gap:.5cqw;
   min-width:0;
   flex:1;
 }
 
-#heroPhoneDisplay .yj-staff-title>strong{
+.hero-phone__display.yj-demo .yj-staff-title>strong{
   font-size:5.3cqw;
   line-height:1;
   font-weight:950;
   letter-spacing:-.04em;
 }
 
-#heroPhoneDisplay .yj-staff-title small{
+.hero-phone__display.yj-demo .yj-staff-title small{
   overflow:hidden;
   color:var(--demo-muted);
   font-size:2.8cqw;
@@ -987,12 +987,12 @@
   white-space:nowrap;
 }
 
-#heroPhoneDisplay .yj-staff-title small b{
+.hero-phone__display.yj-demo .yj-staff-title small b{
   color:var(--demo-accent-deep);
   font-weight:900;
 }
 
-#heroPhoneDisplay .yj-staff-alert{
+.hero-phone__display.yj-demo .yj-staff-alert{
   display:grid;
   place-items:center;
   width:8.5cqw;
@@ -1007,12 +1007,12 @@
   transition:opacity 180ms ease, transform 180ms ease;
 }
 
-#heroPhoneDisplay .yj-staff-alert.is-clear{
+.hero-phone__display.yj-demo .yj-staff-alert.is-clear{
   opacity:0;
   transform:scale(.78);
 }
 
-#heroPhoneDisplay .yj-staff-tabs{
+.hero-phone__display.yj-demo .yj-staff-tabs{
   display:flex;
   gap:1.5cqw;
   flex:0 0 auto;
@@ -1022,7 +1022,7 @@
   background:#fff7ec;
 }
 
-#heroPhoneDisplay .yj-staff-tabs span{
+.hero-phone__display.yj-demo .yj-staff-tabs span{
   flex:0 0 auto;
   padding:1.6cqw 2.4cqw;
   border-radius:100px;
@@ -1033,20 +1033,20 @@
   white-space:nowrap;
 }
 
-#heroPhoneDisplay .yj-staff-tabs .is-active{
+.hero-phone__display.yj-demo .yj-staff-tabs .is-active{
   background:linear-gradient(135deg,#e07b39,#efa25e);
   color:#fff;
   box-shadow:0 1.8cqw 4cqw rgba(224,123,57,.2);
 }
 
-#heroPhoneDisplay .yj-staff-scroll{
+.hero-phone__display.yj-demo .yj-staff-scroll{
   flex:1;
   min-height:0;
   padding:3.2cqw 4.7cqw 7cqw;
   overflow:hidden;
 }
 
-#heroPhoneDisplay .yj-order-card{
+.hero-phone__display.yj-demo .yj-order-card{
   padding:3.8cqw;
   border:1px solid rgba(0,0,0,.04);
   border-radius:5cqw;
@@ -1057,36 +1057,36 @@
     transform 220ms var(--demo-ease-out);
 }
 
-#heroPhoneDisplay .yj-order-card--new{
+.hero-phone__display.yj-demo .yj-order-card--new{
   box-shadow:0 0 0 1.1cqw var(--demo-accent),0 2.5cqw 8cqw rgba(70,50,20,.11);
 }
 
-#heroPhoneDisplay .yj-order-card--accepted{
+.hero-phone__display.yj-demo .yj-order-card--accepted{
   box-shadow:0 0 0 1.1cqw var(--demo-amber),0 2.5cqw 8cqw rgba(70,50,20,.11);
 }
 
-#heroPhoneDisplay .yj-order-card--cooking{
+.hero-phone__display.yj-demo .yj-order-card--cooking{
   box-shadow:0 0 0 1.1cqw #e8890c,0 2.5cqw 8cqw rgba(70,50,20,.11);
 }
 
-#heroPhoneDisplay .yj-order-card--ready{
+.hero-phone__display.yj-demo .yj-order-card--ready{
   box-shadow:0 0 0 1.1cqw var(--demo-green),0 2.5cqw 8cqw rgba(70,50,20,.11);
 }
 
-#heroPhoneDisplay .yj-order-head{
+.hero-phone__display.yj-demo .yj-order-head{
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:2cqw;
 }
 
-#heroPhoneDisplay .yj-order-head>strong{
+.hero-phone__display.yj-demo .yj-order-head>strong{
   font-size:5.2cqw;
   font-weight:950;
   letter-spacing:-.04em;
 }
 
-#heroPhoneDisplay .yj-status{
+.hero-phone__display.yj-demo .yj-status{
   padding:1.3cqw 2.2cqw;
   border-radius:100px;
   font-size:2.7cqw;
@@ -1098,7 +1098,7 @@
     transform 180ms var(--demo-ease-out);
 }
 
-#heroPhoneDisplay .yj-status--new{
+.hero-phone__display.yj-demo .yj-status--new{
   background:linear-gradient(135deg,#e07b39,#efa25e);
   color:#fff;
   box-shadow:0 1.5cqw 4cqw rgba(224,123,57,.25);
@@ -1110,27 +1110,27 @@
   50%{transform:scale(1.06)}
 }
 
-#heroPhoneDisplay .yj-status--accepted{
+.hero-phone__display.yj-demo .yj-status--accepted{
   background:var(--demo-amber-soft);
   color:#9b6b00;
 }
 
-#heroPhoneDisplay .yj-status--cooking{
+.hero-phone__display.yj-demo .yj-status--cooking{
   background:rgba(232,137,12,.12);
   color:#b86b00;
 }
 
-#heroPhoneDisplay .yj-status--ready{
+.hero-phone__display.yj-demo .yj-status--ready{
   background:var(--demo-green-soft);
   color:#23834d;
 }
 
-#heroPhoneDisplay .yj-status.is-pop{
+.hero-phone__display.yj-demo .yj-status.is-pop{
   animation:yjPop 420ms var(--demo-ease-pop);
 }
 
-#heroPhoneDisplay .yj-order-card.is-pop,
-#heroPhoneDisplay .yj-revenue-card.is-pop{
+.hero-phone__display.yj-demo .yj-order-card.is-pop,
+.hero-phone__display.yj-demo .yj-revenue-card.is-pop{
   animation:yjCardPop 460ms var(--demo-ease-pop);
 }
 
@@ -1146,7 +1146,7 @@
   100%{transform:scale(1)}
 }
 
-#heroPhoneDisplay .yj-created{
+.hero-phone__display.yj-demo .yj-created{
   display:block;
   margin:1cqw 0 2.4cqw;
   color:var(--demo-muted);
@@ -1154,7 +1154,7 @@
   font-weight:650;
 }
 
-#heroPhoneDisplay .yj-order-meta{
+.hero-phone__display.yj-demo .yj-order-meta{
   display:flex;
   align-items:center;
   flex-wrap:wrap;
@@ -1162,13 +1162,13 @@
   margin-bottom:3cqw;
 }
 
-#heroPhoneDisplay .yj-order-meta span{
+.hero-phone__display.yj-demo .yj-order-meta span{
   color:var(--demo-muted);
   font-size:3cqw;
   font-weight:750;
 }
 
-#heroPhoneDisplay .yj-order-meta b{
+.hero-phone__display.yj-demo .yj-order-meta b{
   padding:1.3cqw 2cqw;
   border-radius:100px;
   background:var(--demo-accent-soft);
@@ -1177,7 +1177,7 @@
   font-weight:950;
 }
 
-#heroPhoneDisplay .yj-cash-items{
+.hero-phone__display.yj-demo .yj-cash-items{
   display:grid;
   gap:1.7cqw;
   padding:2.6cqw 0;
@@ -1185,7 +1185,7 @@
   border-bottom:1px solid var(--demo-line);
 }
 
-#heroPhoneDisplay .yj-cash-items div{
+.hero-phone__display.yj-demo .yj-cash-items div{
   display:flex;
   justify-content:space-between;
   gap:2cqw;
@@ -1193,17 +1193,17 @@
   font-weight:750;
 }
 
-#heroPhoneDisplay .yj-cash-items div>span{
+.hero-phone__display.yj-demo .yj-cash-items div>span{
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap;
 }
 
-#heroPhoneDisplay .yj-cash-items div b{color:var(--demo-accent);font-weight:950}
-#heroPhoneDisplay .yj-cash-items div strong{font-size:3.1cqw;white-space:nowrap}
-#heroPhoneDisplay .yj-cash-items>small{color:var(--demo-muted);font-size:2.55cqw;font-weight:650}
+.hero-phone__display.yj-demo .yj-cash-items div b{color:var(--demo-accent);font-weight:950}
+.hero-phone__display.yj-demo .yj-cash-items div strong{font-size:3.1cqw;white-space:nowrap}
+.hero-phone__display.yj-demo .yj-cash-items>small{color:var(--demo-muted);font-size:2.55cqw;font-weight:650}
 
-#heroPhoneDisplay .yj-order-total{
+.hero-phone__display.yj-demo .yj-order-total{
   display:flex;
   align-items:baseline;
   justify-content:space-between;
@@ -1211,10 +1211,10 @@
   padding:2.8cqw 0 .5cqw;
 }
 
-#heroPhoneDisplay .yj-order-total span{color:var(--demo-muted);font-size:2.8cqw;font-weight:750}
-#heroPhoneDisplay .yj-order-total strong{font-size:5cqw;font-weight:950}
+.hero-phone__display.yj-demo .yj-order-total span{color:var(--demo-muted);font-size:2.8cqw;font-weight:750}
+.hero-phone__display.yj-demo .yj-order-total strong{font-size:5cqw;font-weight:950}
 
-#heroPhoneDisplay .yj-staff-action{
+.hero-phone__display.yj-demo .yj-staff-action{
   width:100%;
   min-height:11cqw;
   margin-top:3cqw;
@@ -1233,10 +1233,10 @@
     background-color 180ms ease;
 }
 
-#heroPhoneDisplay .yj-staff-action:active{transform:scale(.975);filter:brightness(.96)}
-#heroPhoneDisplay .yj-staff-action.is-ready{background:var(--demo-green);box-shadow:0 2.5cqw 6cqw rgba(33,184,107,.22)}
+.hero-phone__display.yj-demo .yj-staff-action:active{transform:scale(.975);filter:brightness(.96)}
+.hero-phone__display.yj-demo .yj-staff-action.is-ready{background:var(--demo-green);box-shadow:0 2.5cqw 6cqw rgba(33,184,107,.22)}
 
-#heroPhoneDisplay .yj-progress-strip{
+.hero-phone__display.yj-demo .yj-progress-strip{
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -1252,9 +1252,9 @@
   font-weight:900;
 }
 
-#heroPhoneDisplay .yj-progress-strip[hidden]{display:none}
+.hero-phone__display.yj-demo .yj-progress-strip[hidden]{display:none}
 
-#heroPhoneDisplay .yj-progress-strip b{
+.hero-phone__display.yj-demo .yj-progress-strip b{
   min-width:15cqw;
   padding:.8cqw 1.7cqw;
   border-radius:100px;
@@ -1265,7 +1265,7 @@
 
 /* Kitchen */
 
-#heroPhoneDisplay .yj-kitchen-label{
+.hero-phone__display.yj-demo .yj-kitchen-label{
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -1277,7 +1277,7 @@
   text-transform:uppercase;
 }
 
-#heroPhoneDisplay .yj-kitchen-label b{
+.hero-phone__display.yj-demo .yj-kitchen-label b{
   padding:1.2cqw 2cqw;
   border-radius:100px;
   background:rgba(255,255,255,.72);
@@ -1287,7 +1287,7 @@
   text-transform:none;
 }
 
-#heroPhoneDisplay .yj-kitchen-items{
+.hero-phone__display.yj-demo .yj-kitchen-items{
   display:grid;
   gap:1.8cqw;
   margin-top:3cqw;
@@ -1296,7 +1296,7 @@
   border-bottom:1px solid var(--demo-line);
 }
 
-#heroPhoneDisplay .yj-kitchen-items div{
+.hero-phone__display.yj-demo .yj-kitchen-items div{
   display:flex;
   align-items:baseline;
   justify-content:space-between;
@@ -1305,31 +1305,31 @@
   font-weight:900;
 }
 
-#heroPhoneDisplay .yj-kitchen-items div span{
+.hero-phone__display.yj-demo .yj-kitchen-items div span{
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap;
 }
 
-#heroPhoneDisplay .yj-kitchen-items div b{
+.hero-phone__display.yj-demo .yj-kitchen-items div b{
   color:var(--demo-accent);
   font-size:4.1cqw;
   font-weight:950;
 }
 
-#heroPhoneDisplay .yj-kitchen-items small{
+.hero-phone__display.yj-demo .yj-kitchen-items small{
   padding-left:2cqw;
   color:var(--demo-muted);
   font-size:2.85cqw;
   font-weight:700;
 }
 
-#heroPhoneDisplay .yj-progress-strip--cook{
+.hero-phone__display.yj-demo .yj-progress-strip--cook{
   background:rgba(232,137,12,.12);
   color:#ae6700;
 }
 
-#heroPhoneDisplay .yj-ready-toast{
+.hero-phone__display.yj-demo .yj-ready-toast{
   display:grid;
   grid-template-columns:9cqw 1fr;
   gap:.3cqw 2cqw;
@@ -1347,12 +1347,12 @@
     transform 260ms var(--demo-ease-out);
 }
 
-#heroPhoneDisplay .yj-ready-toast.is-visible{
+.hero-phone__display.yj-demo .yj-ready-toast.is-visible{
   opacity:1;
   transform:none;
 }
 
-#heroPhoneDisplay .yj-ready-toast>span{
+.hero-phone__display.yj-demo .yj-ready-toast>span{
   grid-row:1/3;
   display:grid;
   place-items:center;
@@ -1365,18 +1365,18 @@
   font-weight:950;
 }
 
-#heroPhoneDisplay .yj-ready-toast strong{font-size:3.3cqw;font-weight:950}
-#heroPhoneDisplay .yj-ready-toast small{font-size:2.6cqw;font-weight:700}
+.hero-phone__display.yj-demo .yj-ready-toast strong{font-size:3.3cqw;font-weight:950}
+.hero-phone__display.yj-demo .yj-ready-toast small{font-size:2.6cqw;font-weight:700}
 
 /* Director */
 
-#heroPhoneDisplay .yj-demo-director{
+.hero-phone__display.yj-demo .yj-demo-director{
   padding-right:0;
   padding-left:0;
   background:#fff1de;
 }
 
-#heroPhoneDisplay .yj-director-avatar{
+.hero-phone__display.yj-demo .yj-director-avatar{
   display:grid;
   place-items:center;
   width:9cqw;
@@ -1389,14 +1389,14 @@
   font-weight:950;
 }
 
-#heroPhoneDisplay .yj-director-scroll{
+.hero-phone__display.yj-demo .yj-director-scroll{
   flex:1;
   min-height:0;
   padding:3.5cqw 4.7cqw 7cqw;
   overflow:hidden;
 }
 
-#heroPhoneDisplay .yj-revenue-card{
+.hero-phone__display.yj-demo .yj-revenue-card{
   position:relative;
   isolation:isolate;
   overflow:hidden;
@@ -1410,7 +1410,7 @@
     transform 240ms var(--demo-ease-out);
 }
 
-#heroPhoneDisplay .yj-revenue-card::after{
+.hero-phone__display.yj-demo .yj-revenue-card::after{
   content:"";
   position:absolute;
   top:-14cqw;
@@ -1421,7 +1421,7 @@
   background:rgba(255,255,255,.14);
 }
 
-#heroPhoneDisplay .yj-revenue-card::before{
+.hero-phone__display.yj-demo .yj-revenue-card::before{
   content:"";
   position:absolute;
   bottom:-16cqw;
@@ -1432,12 +1432,12 @@
   background:rgba(255,255,255,.08);
 }
 
-#heroPhoneDisplay .yj-revenue-card.is-updated{
+.hero-phone__display.yj-demo .yj-revenue-card.is-updated{
   box-shadow:0 0 0 1.8cqw rgba(33,184,107,.18),0 4cqw 12cqw rgba(224,123,57,.31);
   transform:translateY(-.6cqw);
 }
 
-#heroPhoneDisplay .yj-revenue-card>small{
+.hero-phone__display.yj-demo .yj-revenue-card>small{
   position:relative;
   z-index:1;
   display:block;
@@ -1447,7 +1447,7 @@
   opacity:.88;
 }
 
-#heroPhoneDisplay .yj-revenue-card>strong{
+.hero-phone__display.yj-demo .yj-revenue-card>strong{
   position:relative;
   z-index:1;
   display:block;
@@ -1458,7 +1458,7 @@
   font-variant-numeric:tabular-nums;
 }
 
-#heroPhoneDisplay .yj-revenue-card>span{
+.hero-phone__display.yj-demo .yj-revenue-card>span{
   position:relative;
   z-index:1;
   display:flex;
@@ -1470,7 +1470,7 @@
   opacity:.9;
 }
 
-#heroPhoneDisplay .yj-revenue-card>span i{
+.hero-phone__display.yj-demo .yj-revenue-card>span i{
   color:#a9f1c9;
   font-size:2cqw;
   font-style:normal;
@@ -1478,7 +1478,7 @@
 
 /* Мини-график выручки в карточке директора: линия "рисуется" при входе в акт
    через SVG pathLength + stroke-dashoffset — чистый CSS, без JS-таймеров. */
-#heroPhoneDisplay .yj-revenue-chart{
+.hero-phone__display.yj-demo .yj-revenue-chart{
   position:relative;
   z-index:1;
   display:block;
@@ -1488,14 +1488,14 @@
   overflow:visible;
 }
 
-#heroPhoneDisplay .yj-revenue-chart__area{
+.hero-phone__display.yj-demo .yj-revenue-chart__area{
   fill:rgba(255,255,255,.16);
   stroke:none;
   opacity:0;
   transition:opacity 500ms var(--demo-ease-out) 300ms;
 }
 
-#heroPhoneDisplay .yj-revenue-chart__line{
+.hero-phone__display.yj-demo .yj-revenue-chart__line{
   fill:none;
   stroke:#bdf3d6;
   stroke-width:2.6;
@@ -1507,19 +1507,19 @@
   transition:stroke-dashoffset 900ms var(--demo-ease-out) 150ms;
 }
 
-#heroPhoneDisplay .yj-demo-screen.is-active .yj-revenue-chart__line{stroke-dashoffset:0}
-#heroPhoneDisplay .yj-demo-screen.is-active .yj-revenue-chart__area{opacity:1}
+.hero-phone__display.yj-demo .yj-demo-screen.is-active .yj-revenue-chart__line{stroke-dashoffset:0}
+.hero-phone__display.yj-demo .yj-demo-screen.is-active .yj-revenue-chart__area{opacity:1}
 
 /* Вкладки директора: переключают содержимое .yj-director-panels ниже,
    тот же визуальный язык, что и .yj-staff-tabs. */
-#heroPhoneDisplay .yj-director-tabbar{
+.hero-phone__display.yj-demo .yj-director-tabbar{
   display:flex;
   gap:1.4cqw;
   margin-top:3.4cqw;
   overflow:hidden;
 }
 
-#heroPhoneDisplay .yj-director-tabbar button{
+.hero-phone__display.yj-demo .yj-director-tabbar button{
   flex:1 1 0;
   padding:1.9cqw 1cqw;
   border:1px solid rgba(0,0,0,.05);
@@ -1532,19 +1532,19 @@
   transition:background-color 180ms ease,color 180ms ease,box-shadow 180ms ease;
 }
 
-#heroPhoneDisplay .yj-director-tabbar button.is-active{
+.hero-phone__display.yj-demo .yj-director-tabbar button.is-active{
   background:linear-gradient(135deg,#2e6e5b,#439477);
   border-color:transparent;
   color:#fff;
   box-shadow:0 1.8cqw 4cqw rgba(46,110,91,.28);
 }
 
-#heroPhoneDisplay .yj-director-panels{margin-top:2.6cqw}
+.hero-phone__display.yj-demo .yj-director-panels{margin-top:2.6cqw}
 
-#heroPhoneDisplay .yj-director-list{display:none;flex-direction:column;gap:1.7cqw}
-#heroPhoneDisplay .yj-director-list.is-active{display:flex}
+.hero-phone__display.yj-demo .yj-director-list{display:none;flex-direction:column;gap:1.7cqw}
+.hero-phone__display.yj-demo .yj-director-list.is-active{display:flex}
 
-#heroPhoneDisplay .yj-director-list div{
+.hero-phone__display.yj-demo .yj-director-list div{
   position:relative;
   overflow:hidden;
   isolation:isolate;
@@ -1562,13 +1562,13 @@
   color:var(--demo-text);
 }
 
-#heroPhoneDisplay .yj-director-list div>*{position:relative;z-index:1}
+.hero-phone__display.yj-demo .yj-director-list div>*{position:relative;z-index:1}
 
 /* Товары/точки несут --pct (инлайн-стиль в разметке) — доля от максимума
    в списке рисуется полосой-подложкой, панель читается как реальная аналитика,
    а не просто список текста. */
-#heroPhoneDisplay .yj-director-list[data-director-panel="products"] div::before,
-#heroPhoneDisplay .yj-director-list[data-director-panel="venues"] div::before{
+.hero-phone__display.yj-demo .yj-director-list[data-director-panel="products"] div::before,
+.hero-phone__display.yj-demo .yj-director-list[data-director-panel="venues"] div::before{
   content:"";
   position:absolute;
   inset:0;
@@ -1578,7 +1578,7 @@
   border-right:1px solid rgba(46,110,91,.12);
 }
 
-#heroPhoneDisplay .yj-director-list b{
+.hero-phone__display.yj-demo .yj-director-list b{
   padding:.8cqw 2cqw;
   border-radius:100px;
   background:var(--demo-surface-2);
@@ -1588,20 +1588,20 @@
   white-space:nowrap;
 }
 
-#heroPhoneDisplay .yj-director-list b.is-on{
+.hero-phone__display.yj-demo .yj-director-list b.is-on{
   background:var(--demo-green-soft);
   color:#23834d;
 }
 
-#heroPhoneDisplay .yj-director-metrics{
+.hero-phone__display.yj-demo .yj-director-metrics{
   display:none;
   grid-template-columns:1fr 1fr;
   gap:2.4cqw;
 }
 
-#heroPhoneDisplay .yj-director-metrics.is-active{display:grid}
+.hero-phone__display.yj-demo .yj-director-metrics.is-active{display:grid}
 
-#heroPhoneDisplay .yj-director-metrics>span{
+.hero-phone__display.yj-demo .yj-director-metrics>span{
   display:grid;
   grid-template-columns:7cqw 1fr;
   gap:.6cqw 1.8cqw;
@@ -1613,26 +1613,26 @@
   box-shadow:0 1.7cqw 5cqw rgba(70,50,20,.065);
 }
 
-#heroPhoneDisplay .yj-director-metrics i{
+.hero-phone__display.yj-demo .yj-director-metrics i{
   grid-row:1/3;
   font-size:5cqw;
   font-style:normal;
 }
 
-#heroPhoneDisplay .yj-director-metrics strong{
+.hero-phone__display.yj-demo .yj-director-metrics strong{
   font-size:4.3cqw;
   line-height:1;
   font-weight:950;
   font-variant-numeric:tabular-nums;
 }
 
-#heroPhoneDisplay .yj-director-metrics small{
+.hero-phone__display.yj-demo .yj-director-metrics small{
   color:var(--demo-muted);
   font-size:2.3cqw;
   font-weight:700;
 }
 
-#heroPhoneDisplay .yj-director-update{
+.hero-phone__display.yj-demo .yj-director-update{
   display:grid;
   grid-template-columns:8cqw minmax(0,1fr) auto;
   gap:2cqw;
@@ -1650,12 +1650,12 @@
     transform 300ms var(--demo-ease-out);
 }
 
-#heroPhoneDisplay .yj-director-update.is-visible{
+.hero-phone__display.yj-demo .yj-director-update.is-visible{
   opacity:1;
   transform:none;
 }
 
-#heroPhoneDisplay .yj-director-update>span:first-child{
+.hero-phone__display.yj-demo .yj-director-update>span:first-child{
   display:grid;
   place-items:center;
   width:8cqw;
@@ -1667,15 +1667,15 @@
   font-weight:950;
 }
 
-#heroPhoneDisplay .yj-director-update>span:nth-child(2){
+.hero-phone__display.yj-demo .yj-director-update>span:nth-child(2){
   display:grid;
   gap:.3cqw;
   min-width:0;
 }
 
-#heroPhoneDisplay .yj-director-update strong{font-size:2.8cqw;font-weight:950}
-#heroPhoneDisplay .yj-director-update small{font-size:2.3cqw;font-weight:700}
-#heroPhoneDisplay .yj-director-update>b{font-size:3.1cqw;font-weight:950;white-space:nowrap}
+.hero-phone__display.yj-demo .yj-director-update strong{font-size:2.8cqw;font-weight:950}
+.hero-phone__display.yj-demo .yj-director-update small{font-size:2.3cqw;font-weight:700}
+.hero-phone__display.yj-demo .yj-director-update>b{font-size:3.1cqw;font-weight:950;white-space:nowrap}
 
 /* ---- Controls below the phone ---- */
 
@@ -1721,14 +1721,14 @@
 .hero-demo .hero-role-switch button:active{transform:scale(.96)}
 
 @media (hover:hover) and (pointer:fine){
-  #heroPhoneDisplay .yj-venue-card:hover{transform:translateY(-.8cqw);box-shadow:0 6cqw 15cqw rgba(70,40,12,.13)}
-  #heroPhoneDisplay .yj-food-card>button:hover,
-  #heroPhoneDisplay .yj-primary-action:hover,
-  #heroPhoneDisplay .yj-staff-action:hover{filter:brightness(1.03)}
+  .hero-phone__display.yj-demo .yj-venue-card:hover{transform:translateY(-.8cqw);box-shadow:0 6cqw 15cqw rgba(70,40,12,.13)}
+  .hero-phone__display.yj-demo .yj-food-card>button:hover,
+  .hero-phone__display.yj-demo .yj-primary-action:hover,
+  .hero-phone__display.yj-demo .yj-staff-action:hover{filter:brightness(1.03)}
   .hero-demo .hero-role-switch button:hover{color:#ed4a12}
   .hero-demo .hero-role-switch button.is-active:hover{color:#fff}
-  #heroPhoneDisplay .yj-menu-cats span:not(.is-active):hover{border-color:var(--demo-accent);color:var(--demo-accent-deep)}
-  #heroPhoneDisplay .yj-director-tabbar button:not(.is-active):hover{border-color:rgba(46,110,91,.4);color:#2e6e5b}
+  .hero-phone__display.yj-demo .yj-menu-cats span:not(.is-active):hover{border-color:var(--demo-accent);color:var(--demo-accent-deep)}
+  .hero-phone__display.yj-demo .yj-director-tabbar button:not(.is-active):hover{border-color:rgba(46,110,91,.4);color:#2e6e5b}
 }
 
 /* ---- Touch targets for the live demo: cqw scales down with the phone's own
@@ -1746,64 +1746,64 @@
    Видимый размер оставляем пропорциональным макету, а площадь касания растим
    невидимым ::after — и доступность на месте, и композиция не рвётся. ---- */
 @media (pointer:coarse){
-  #heroPhoneDisplay .yj-food-card>button::after{
+  .hero-phone__display.yj-demo .yj-food-card>button::after{
     content:"";position:absolute;left:50%;top:50%;
     width:40px;height:40px;transform:translate(-50%,-50%);
   }
-  #heroPhoneDisplay .yj-cart-bar{min-height:max(28px,12cqw)}
-  #heroPhoneDisplay .yj-primary-action{min-height:max(28px,11.5cqw)}
-  #heroPhoneDisplay .yj-staff-action{min-height:max(28px,11cqw)}
+  .hero-phone__display.yj-demo .yj-cart-bar{min-height:max(28px,12cqw)}
+  .hero-phone__display.yj-demo .yj-primary-action{min-height:max(28px,11.5cqw)}
+  .hero-phone__display.yj-demo .yj-staff-action{min-height:max(28px,11cqw)}
 }
 
 /* ---- Legibility pass for the narrow perspective display ---- */
 
-#heroPhoneDisplay .yj-client-brand small,
-#heroPhoneDisplay .yj-client-eyebrow,
-#heroPhoneDisplay .yj-menu-head small,
-#heroPhoneDisplay .yj-menu-cats span,
-#heroPhoneDisplay .yj-food-copy small,
-#heroPhoneDisplay .yj-checkout-label,
-#heroPhoneDisplay .yj-methods small,
-#heroPhoneDisplay .yj-created,
-#heroPhoneDisplay .yj-order-meta,
-#heroPhoneDisplay .yj-cash-items>small,
-#heroPhoneDisplay .yj-kitchen-items small,
-#heroPhoneDisplay .yj-order-total span,
-#heroPhoneDisplay .yj-staff-title small,
-#heroPhoneDisplay .yj-revenue-card>small,
-#heroPhoneDisplay .yj-revenue-card>span,
-#heroPhoneDisplay .yj-director-metrics small,
-#heroPhoneDisplay .yj-director-update small{
+.hero-phone__display.yj-demo .yj-client-brand small,
+.hero-phone__display.yj-demo .yj-client-eyebrow,
+.hero-phone__display.yj-demo .yj-menu-head small,
+.hero-phone__display.yj-demo .yj-menu-cats span,
+.hero-phone__display.yj-demo .yj-food-copy small,
+.hero-phone__display.yj-demo .yj-checkout-label,
+.hero-phone__display.yj-demo .yj-methods small,
+.hero-phone__display.yj-demo .yj-created,
+.hero-phone__display.yj-demo .yj-order-meta,
+.hero-phone__display.yj-demo .yj-cash-items>small,
+.hero-phone__display.yj-demo .yj-kitchen-items small,
+.hero-phone__display.yj-demo .yj-order-total span,
+.hero-phone__display.yj-demo .yj-staff-title small,
+.hero-phone__display.yj-demo .yj-revenue-card>small,
+.hero-phone__display.yj-demo .yj-revenue-card>span,
+.hero-phone__display.yj-demo .yj-director-metrics small,
+.hero-phone__display.yj-demo .yj-director-update small{
   font-size:max(7px,3.25cqw);
   line-height:1.2;
 }
 
-#heroPhoneDisplay .yj-venue-copy>small,
-#heroPhoneDisplay .yj-venue-photo span,
-#heroPhoneDisplay .yj-venue-copy b,
-#heroPhoneDisplay .yj-venue-copy i,
-#heroPhoneDisplay .yj-nearby-row b,
-#heroPhoneDisplay .yj-open-chip,
-#heroPhoneDisplay .yj-methods b,
-#heroPhoneDisplay .yj-status,
-#heroPhoneDisplay .yj-progress-strip,
-#heroPhoneDisplay .yj-director-update strong{
+.hero-phone__display.yj-demo .yj-venue-copy>small,
+.hero-phone__display.yj-demo .yj-venue-photo span,
+.hero-phone__display.yj-demo .yj-venue-copy b,
+.hero-phone__display.yj-demo .yj-venue-copy i,
+.hero-phone__display.yj-demo .yj-nearby-row b,
+.hero-phone__display.yj-demo .yj-open-chip,
+.hero-phone__display.yj-demo .yj-methods b,
+.hero-phone__display.yj-demo .yj-status,
+.hero-phone__display.yj-demo .yj-progress-strip,
+.hero-phone__display.yj-demo .yj-director-update strong{
   font-size:max(7px,3.35cqw);
 }
 
-#heroPhoneDisplay .yj-food-copy strong,
-#heroPhoneDisplay .yj-order-head strong,
-#heroPhoneDisplay .yj-cash-items div,
-#heroPhoneDisplay .yj-kitchen-items div,
-#heroPhoneDisplay .yj-ready-toast strong{
+.hero-phone__display.yj-demo .yj-food-copy strong,
+.hero-phone__display.yj-demo .yj-order-head strong,
+.hero-phone__display.yj-demo .yj-cash-items div,
+.hero-phone__display.yj-demo .yj-kitchen-items div,
+.hero-phone__display.yj-demo .yj-ready-toast strong{
   font-size:max(8px,4.15cqw);
 }
 
-#heroPhoneDisplay .yj-client-brand strong{
+.hero-phone__display.yj-demo .yj-client-brand strong{
   font-size:max(11px,5.5cqw);
 }
 
-#heroPhoneDisplay .yj-demo-live{
+.hero-phone__display.yj-demo .yj-demo-live{
   font-size:max(6px,2.7cqw);
 }
 
@@ -2010,26 +2010,26 @@
   100%{opacity:0;transform:scale(1.22)}
 }
 
-.hero-demo[data-instant] #heroPhoneDisplay *,
-.hero-demo[data-instant] #heroPhoneDisplay *::before,
-.hero-demo[data-instant] #heroPhoneDisplay *::after{
+.hero-demo[data-instant] .hero-phone__display.yj-demo *,
+.hero-demo[data-instant] .hero-phone__display.yj-demo *::before,
+.hero-demo[data-instant] .hero-phone__display.yj-demo *::after{
   animation-duration:1ms!important;
   transition-duration:1ms!important;
 }
 
 @media (prefers-reduced-motion:reduce){
-  #heroPhoneDisplay .yj-demo-screen,
-  #heroPhoneDisplay .yj-guest-scene,
-  #heroPhoneDisplay .yj-ready-toast,
-  #heroPhoneDisplay .yj-director-update,
-  #heroPhoneDisplay .yj-revenue-card{
+  .hero-phone__display.yj-demo .yj-demo-screen,
+  .hero-phone__display.yj-demo .yj-guest-scene,
+  .hero-phone__display.yj-demo .yj-ready-toast,
+  .hero-phone__display.yj-demo .yj-director-update,
+  .hero-phone__display.yj-demo .yj-revenue-card{
     transition:opacity 120ms ease;
   }
 
-  #heroPhoneDisplay .yj-demo-live span,
+  .hero-phone__display.yj-demo .yj-demo-live span,
   .hero-demo .hero-demo__caption::before,
-  #heroPhoneDisplay .yj-guest-success.is-active .yj-success-check::before,
-  #heroPhoneDisplay .yj-guest-success.is-active .yj-success-check::after{
+  .hero-phone__display.yj-demo .yj-guest-success.is-active .yj-success-check::before,
+  .hero-phone__display.yj-demo .yj-guest-success.is-active .yj-success-check::after{
     animation:none;
   }
 }
@@ -2048,82 +2048,82 @@
    (большие телефоны, десктоп), и не даёт тексту проваливаться ниже
    читаемого на узких. Пол подобран по ступеням исходных размеров, из-за
    чего иерархия макета сохраняется. Блок идёт последним в файле и
-   повторяет специфичность #heroPhoneDisplay исходных правил.
+   повторяет специфичность .hero-phone__display.yj-demo исходных правил.
    ============================================================ */
 @media (max-width:980px){
-  #heroPhoneDisplay .yj-order-status b{font-size:max(7px,2.25cqw)}
-  #heroPhoneDisplay .yj-director-metrics small{font-size:max(7px,2.3cqw)}
-  #heroPhoneDisplay .yj-director-update small{font-size:max(7px,2.3cqw)}
-  #heroPhoneDisplay .yj-methods small{font-size:max(7px,2.35cqw)}
-  #heroPhoneDisplay .yj-payment-row small{font-size:max(7px,2.35cqw)}
-  #heroPhoneDisplay .yj-food-copy small{font-size:max(7px,2.5cqw)}
-  #heroPhoneDisplay .yj-kitchen-label b{font-size:max(7px,2.5cqw)}
-  #heroPhoneDisplay .yj-venue-photo span{font-size:max(7px,2.55cqw)}
-  #heroPhoneDisplay .yj-venue-copy b, #heroPhoneDisplay .yj-venue-copy i{font-size:max(7px,2.55cqw)}
-  #heroPhoneDisplay .yj-cash-items>small{font-size:max(7px,2.55cqw)}
-  #heroPhoneDisplay .yj-food-copy b i{font-size:max(7.5px,2.6cqw)}
-  #heroPhoneDisplay .yj-staff-tabs span{font-size:max(7.5px,2.6cqw)}
-  #heroPhoneDisplay .yj-ready-toast small{font-size:max(7.5px,2.6cqw)}
-  #heroPhoneDisplay .yj-director-list b{font-size:max(7.5px,2.6cqw)}
-  #heroPhoneDisplay .yj-director-tabbar button{font-size:max(7.5px,2.65cqw)}
-  #heroPhoneDisplay .yj-demo-live{font-size:max(7.5px,2.7cqw)}
-  #heroPhoneDisplay .yj-menu-cats span{font-size:max(7.5px,2.7cqw)}
-  #heroPhoneDisplay .yj-status{font-size:max(7.5px,2.7cqw)}
-  #heroPhoneDisplay .yj-created{font-size:max(7.5px,2.7cqw)}
-  #heroPhoneDisplay .yj-kitchen-label{font-size:max(7.5px,2.7cqw)}
-  #heroPhoneDisplay .yj-revenue-card>span{font-size:max(7.5px,2.7cqw)}
-  #heroPhoneDisplay .yj-nearby-row b{font-size:max(7.5px,2.8cqw)}
-  #heroPhoneDisplay .yj-checkout-label{font-size:max(7.5px,2.8cqw)}
-  #heroPhoneDisplay .yj-checkout-order div{font-size:max(7.5px,2.8cqw)}
-  #heroPhoneDisplay .yj-success-meta{font-size:max(7.5px,2.8cqw)}
-  #heroPhoneDisplay .yj-staff-title small{font-size:max(7.5px,2.8cqw)}
-  #heroPhoneDisplay .yj-order-meta b{font-size:max(7.5px,2.8cqw)}
-  #heroPhoneDisplay .yj-order-total span{font-size:max(7.5px,2.8cqw)}
-  #heroPhoneDisplay .yj-progress-strip{font-size:max(7.5px,2.8cqw)}
-  #heroPhoneDisplay .yj-director-update strong{font-size:max(7.5px,2.8cqw)}
-  #heroPhoneDisplay .yj-kitchen-items small{font-size:max(7.5px,2.85cqw)}
-  #heroPhoneDisplay .yj-menu-head small{font-size:max(7.5px,2.9cqw)}
-  #heroPhoneDisplay .yj-client-brand small{font-size:max(7.5px,3cqw)}
-  #heroPhoneDisplay .yj-venue-copy>small{font-size:max(7.5px,3cqw)}
-  #heroPhoneDisplay .yj-nearby-row span{font-size:max(7.5px,3cqw)}
-  #heroPhoneDisplay .yj-payment-row b{font-size:max(7.5px,3cqw)}
-  #heroPhoneDisplay .yj-guest-success>small{font-size:max(7.5px,3cqw)}
-  #heroPhoneDisplay .yj-order-meta span{font-size:max(7.5px,3cqw)}
-  #heroPhoneDisplay .yj-revenue-card>small{font-size:max(7.5px,3cqw)}
-  #heroPhoneDisplay .yj-client-eyebrow{font-size:max(8px,3.1cqw)}
-  #heroPhoneDisplay .yj-cash-items div strong{font-size:max(8px,3.1cqw)}
-  #heroPhoneDisplay .yj-director-list div{font-size:max(8px,3.1cqw)}
-  #heroPhoneDisplay .yj-director-update>b{font-size:max(8px,3.1cqw)}
-  #heroPhoneDisplay .yj-cash-items div{font-size:max(8px,3.15cqw)}
-  #heroPhoneDisplay .yj-methods b{font-size:max(8px,3.2cqw)}
-  #heroPhoneDisplay .yj-guest-success>p{font-size:max(8px,3.2cqw)}
-  #heroPhoneDisplay .yj-staff-alert{font-size:max(8px,3.2cqw)}
-  #heroPhoneDisplay .yj-cart-bar{font-size:max(8px,3.3cqw)}
-  #heroPhoneDisplay .yj-staff-action{font-size:max(8px,3.3cqw)}
-  #heroPhoneDisplay .yj-ready-toast strong{font-size:max(8px,3.3cqw)}
-  #heroPhoneDisplay .yj-primary-action{font-size:max(8px,3.5cqw)}
-  #heroPhoneDisplay .yj-checkout-total{font-size:max(9px,3.6cqw)}
-  #heroPhoneDisplay .yj-food-copy strong{font-size:max(9px,3.7cqw)}
-  #heroPhoneDisplay .yj-kitchen-items div{font-size:max(9px,3.7cqw)}
-  #heroPhoneDisplay .yj-food-copy>b{font-size:max(9px,4cqw)}
-  #heroPhoneDisplay .yj-cart-bar strong{font-size:max(9px,4cqw)}
-  #heroPhoneDisplay .yj-success-meta strong{font-size:max(9px,4cqw)}
-  #heroPhoneDisplay .yj-director-update>span:first-child{font-size:max(9px,4cqw)}
-  #heroPhoneDisplay .yj-kitchen-items div b{font-size:max(9px,4.1cqw)}
-  #heroPhoneDisplay .yj-payment-row>span:first-child{font-size:max(9px,4.2cqw)}
-  #heroPhoneDisplay .yj-director-metrics strong{font-size:max(10.5px,4.3cqw)}
-  #heroPhoneDisplay .yj-ready-toast>span{font-size:max(10.5px,4.7cqw)}
-  #heroPhoneDisplay .yj-order-total strong{font-size:max(10.5px,5cqw)}
-  #heroPhoneDisplay .yj-venue-copy>strong{font-size:max(10.5px,5.2cqw)}
-  #heroPhoneDisplay .yj-order-head>strong{font-size:max(10.5px,5.2cqw)}
-  #heroPhoneDisplay .yj-client-brand strong{font-size:max(10.5px,5.3cqw)}
-  #heroPhoneDisplay .yj-checkout-head{font-size:max(10.5px,5.3cqw)}
-  #heroPhoneDisplay .yj-staff-title>strong{font-size:max(10.5px,5.3cqw)}
-  #heroPhoneDisplay .yj-checkout-total strong{font-size:max(12px,6cqw)}
-  #heroPhoneDisplay .yj-guest-success h3{font-size:max(14px,7.3cqw)}
-  #heroPhoneDisplay .yj-menu-head strong{font-size:max(14px,7.5cqw)}
-  #heroPhoneDisplay .yj-guest-scene h3{font-size:max(14px,8cqw)}
-  #heroPhoneDisplay .yj-revenue-card>strong{font-size:max(17px,9.5cqw)}
+  .hero-phone__display.yj-demo .yj-order-status b{font-size:max(7px,2.25cqw)}
+  .hero-phone__display.yj-demo .yj-director-metrics small{font-size:max(7px,2.3cqw)}
+  .hero-phone__display.yj-demo .yj-director-update small{font-size:max(7px,2.3cqw)}
+  .hero-phone__display.yj-demo .yj-methods small{font-size:max(7px,2.35cqw)}
+  .hero-phone__display.yj-demo .yj-payment-row small{font-size:max(7px,2.35cqw)}
+  .hero-phone__display.yj-demo .yj-food-copy small{font-size:max(7px,2.5cqw)}
+  .hero-phone__display.yj-demo .yj-kitchen-label b{font-size:max(7px,2.5cqw)}
+  .hero-phone__display.yj-demo .yj-venue-photo span{font-size:max(7px,2.55cqw)}
+  .hero-phone__display.yj-demo .yj-venue-copy b, .hero-phone__display.yj-demo .yj-venue-copy i{font-size:max(7px,2.55cqw)}
+  .hero-phone__display.yj-demo .yj-cash-items>small{font-size:max(7px,2.55cqw)}
+  .hero-phone__display.yj-demo .yj-food-copy b i{font-size:max(7.5px,2.6cqw)}
+  .hero-phone__display.yj-demo .yj-staff-tabs span{font-size:max(7.5px,2.6cqw)}
+  .hero-phone__display.yj-demo .yj-ready-toast small{font-size:max(7.5px,2.6cqw)}
+  .hero-phone__display.yj-demo .yj-director-list b{font-size:max(7.5px,2.6cqw)}
+  .hero-phone__display.yj-demo .yj-director-tabbar button{font-size:max(7.5px,2.65cqw)}
+  .hero-phone__display.yj-demo .yj-demo-live{font-size:max(7.5px,2.7cqw)}
+  .hero-phone__display.yj-demo .yj-menu-cats span{font-size:max(7.5px,2.7cqw)}
+  .hero-phone__display.yj-demo .yj-status{font-size:max(7.5px,2.7cqw)}
+  .hero-phone__display.yj-demo .yj-created{font-size:max(7.5px,2.7cqw)}
+  .hero-phone__display.yj-demo .yj-kitchen-label{font-size:max(7.5px,2.7cqw)}
+  .hero-phone__display.yj-demo .yj-revenue-card>span{font-size:max(7.5px,2.7cqw)}
+  .hero-phone__display.yj-demo .yj-nearby-row b{font-size:max(7.5px,2.8cqw)}
+  .hero-phone__display.yj-demo .yj-checkout-label{font-size:max(7.5px,2.8cqw)}
+  .hero-phone__display.yj-demo .yj-checkout-order div{font-size:max(7.5px,2.8cqw)}
+  .hero-phone__display.yj-demo .yj-success-meta{font-size:max(7.5px,2.8cqw)}
+  .hero-phone__display.yj-demo .yj-staff-title small{font-size:max(7.5px,2.8cqw)}
+  .hero-phone__display.yj-demo .yj-order-meta b{font-size:max(7.5px,2.8cqw)}
+  .hero-phone__display.yj-demo .yj-order-total span{font-size:max(7.5px,2.8cqw)}
+  .hero-phone__display.yj-demo .yj-progress-strip{font-size:max(7.5px,2.8cqw)}
+  .hero-phone__display.yj-demo .yj-director-update strong{font-size:max(7.5px,2.8cqw)}
+  .hero-phone__display.yj-demo .yj-kitchen-items small{font-size:max(7.5px,2.85cqw)}
+  .hero-phone__display.yj-demo .yj-menu-head small{font-size:max(7.5px,2.9cqw)}
+  .hero-phone__display.yj-demo .yj-client-brand small{font-size:max(7.5px,3cqw)}
+  .hero-phone__display.yj-demo .yj-venue-copy>small{font-size:max(7.5px,3cqw)}
+  .hero-phone__display.yj-demo .yj-nearby-row span{font-size:max(7.5px,3cqw)}
+  .hero-phone__display.yj-demo .yj-payment-row b{font-size:max(7.5px,3cqw)}
+  .hero-phone__display.yj-demo .yj-guest-success>small{font-size:max(7.5px,3cqw)}
+  .hero-phone__display.yj-demo .yj-order-meta span{font-size:max(7.5px,3cqw)}
+  .hero-phone__display.yj-demo .yj-revenue-card>small{font-size:max(7.5px,3cqw)}
+  .hero-phone__display.yj-demo .yj-client-eyebrow{font-size:max(8px,3.1cqw)}
+  .hero-phone__display.yj-demo .yj-cash-items div strong{font-size:max(8px,3.1cqw)}
+  .hero-phone__display.yj-demo .yj-director-list div{font-size:max(8px,3.1cqw)}
+  .hero-phone__display.yj-demo .yj-director-update>b{font-size:max(8px,3.1cqw)}
+  .hero-phone__display.yj-demo .yj-cash-items div{font-size:max(8px,3.15cqw)}
+  .hero-phone__display.yj-demo .yj-methods b{font-size:max(8px,3.2cqw)}
+  .hero-phone__display.yj-demo .yj-guest-success>p{font-size:max(8px,3.2cqw)}
+  .hero-phone__display.yj-demo .yj-staff-alert{font-size:max(8px,3.2cqw)}
+  .hero-phone__display.yj-demo .yj-cart-bar{font-size:max(8px,3.3cqw)}
+  .hero-phone__display.yj-demo .yj-staff-action{font-size:max(8px,3.3cqw)}
+  .hero-phone__display.yj-demo .yj-ready-toast strong{font-size:max(8px,3.3cqw)}
+  .hero-phone__display.yj-demo .yj-primary-action{font-size:max(8px,3.5cqw)}
+  .hero-phone__display.yj-demo .yj-checkout-total{font-size:max(9px,3.6cqw)}
+  .hero-phone__display.yj-demo .yj-food-copy strong{font-size:max(9px,3.7cqw)}
+  .hero-phone__display.yj-demo .yj-kitchen-items div{font-size:max(9px,3.7cqw)}
+  .hero-phone__display.yj-demo .yj-food-copy>b{font-size:max(9px,4cqw)}
+  .hero-phone__display.yj-demo .yj-cart-bar strong{font-size:max(9px,4cqw)}
+  .hero-phone__display.yj-demo .yj-success-meta strong{font-size:max(9px,4cqw)}
+  .hero-phone__display.yj-demo .yj-director-update>span:first-child{font-size:max(9px,4cqw)}
+  .hero-phone__display.yj-demo .yj-kitchen-items div b{font-size:max(9px,4.1cqw)}
+  .hero-phone__display.yj-demo .yj-payment-row>span:first-child{font-size:max(9px,4.2cqw)}
+  .hero-phone__display.yj-demo .yj-director-metrics strong{font-size:max(10.5px,4.3cqw)}
+  .hero-phone__display.yj-demo .yj-ready-toast>span{font-size:max(10.5px,4.7cqw)}
+  .hero-phone__display.yj-demo .yj-order-total strong{font-size:max(10.5px,5cqw)}
+  .hero-phone__display.yj-demo .yj-venue-copy>strong{font-size:max(10.5px,5.2cqw)}
+  .hero-phone__display.yj-demo .yj-order-head>strong{font-size:max(10.5px,5.2cqw)}
+  .hero-phone__display.yj-demo .yj-client-brand strong{font-size:max(10.5px,5.3cqw)}
+  .hero-phone__display.yj-demo .yj-checkout-head{font-size:max(10.5px,5.3cqw)}
+  .hero-phone__display.yj-demo .yj-staff-title>strong{font-size:max(10.5px,5.3cqw)}
+  .hero-phone__display.yj-demo .yj-checkout-total strong{font-size:max(12px,6cqw)}
+  .hero-phone__display.yj-demo .yj-guest-success h3{font-size:max(14px,7.3cqw)}
+  .hero-phone__display.yj-demo .yj-menu-head strong{font-size:max(14px,7.5cqw)}
+  .hero-phone__display.yj-demo .yj-guest-scene h3{font-size:max(14px,8cqw)}
+  .hero-phone__display.yj-demo .yj-revenue-card>strong{font-size:max(17px,9.5cqw)}
 }
 
 /* ---- Раскладочные заплатки под пиксельный пол выше ----
@@ -2136,15 +2136,15 @@
    выпихивало цену за правый край карточки. Ноль нужен на ОБОИХ уровнях:
    сама строка — grid-элемент .yj-cash-items и без него не ужимается до
    контейнера (125px против 112px), а span — flex-элемент внутри строки. */
-#heroPhoneDisplay .yj-cash-items div,
-#heroPhoneDisplay .yj-cash-items div>span{min-width:0}
+.hero-phone__display.yj-demo .yj-cash-items div,
+.hero-phone__display.yj-demo .yj-cash-items div>span{min-width:0}
 
 /* Вкладки кассы: 4 штуки с nowrap не помещаются в экран макета — последняя
    обрезалась посреди слова («К выдач»). На узком макете показываем три:
    роль полосы читается, а рваного края нет. Порог по ширине САМОГО макета,
    а не вьюпорта, — размер телефона зависит от высоты экрана. */
 @container (max-width:200px){
-  #heroPhoneDisplay .yj-staff-tabs span:nth-child(n+4){display:none}
+  .hero-phone__display.yj-demo .yj-staff-tabs span:nth-child(n+4){display:none}
 }
 
 /* Очень узкий макет (экран телефона <132px — это 320x568 и прочие SE-класса,
@@ -2153,15 +2153,15 @@
    нагрузку по ширине, убирая пояснительную мелочь, — остаются название,
    цена и действие, то есть то, ради чего кадр и показывают. */
 @container (max-width:132px){
-  #heroPhoneDisplay .yj-food-copy small,
-  #heroPhoneDisplay .yj-nearby-row,
-  #heroPhoneDisplay .yj-venue-copy>span{display:none}
+  .hero-phone__display.yj-demo .yj-food-copy small,
+  .hero-phone__display.yj-demo .yj-nearby-row,
+  .hero-phone__display.yj-demo .yj-venue-copy>span{display:none}
 
   /* Длинные русские слова («Шашлычная», «Классическая») шире колонки в
      55px даже на минимальном поле — без переноса внутри слова они просто
      вылезали за карточку. Рвём слово: обрезанный край хуже переноса. */
-  #heroPhoneDisplay .yj-venue-copy>strong,
-  #heroPhoneDisplay .yj-food-copy strong,
-  #heroPhoneDisplay .yj-guest-scene h3,
-  #heroPhoneDisplay .yj-guest-success h3{overflow-wrap:anywhere}
+  .hero-phone__display.yj-demo .yj-venue-copy>strong,
+  .hero-phone__display.yj-demo .yj-food-copy strong,
+  .hero-phone__display.yj-demo .yj-guest-scene h3,
+  .hero-phone__display.yj-demo .yj-guest-success h3{overflow-wrap:anywhere}
 }

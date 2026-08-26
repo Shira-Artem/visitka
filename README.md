@@ -1,16 +1,16 @@
 # ЮртаНеЖди — Visitka
 
-Статический лендинг сервиса заказа еды и мобильного Mini App для заведений. Главная рабочая
-desktop-версия продаёт владельцу единый поток: **гость → заказ → касса → кухня → директор**.
+Адаптивный лендинг сервиса заказа еды и мобильного Mini App для заведений. Desktop продаёт
+владельцу единый поток **гость → заказ → касса → кухня → директор**, а mobile ведёт гостя
+по отдельному сценарию заказа с телефона.
 
-> **АКТУАЛЬНЫЙ DESKTOP PRODUCTION**
+> **АКТУАЛЬНЫЕ PRODUCTION-ВЕРСИИ**
 >
-> Для деплоя и backend-интеграции использовать только `index.html` из корня проекта и
-> собирать его через `node build.mjs`. Текущий локальный вариант:
-> [http://127.0.0.1:4181/index.html?v=20260821-12](http://127.0.0.1:4181/index.html?v=20260821-12)
+> Единая точка входа — `index.html` из корня проекта. На экранах шире 900 px работает
+> официальная desktop-композиция `.desktop-site`, на экранах до 900 px — официальная
+> mobile-композиция `.mobile-v2`.
 >
-> `qa/approved-mockups/` — только immutable-референсы, `legacy-site` — мобильная/старая
-> разметка. На desktop выше 900 px рабочим является `.desktop-site`.
+> `qa/approved-mockups/` содержит immutable-референсы обеих утверждённых композиций.
 
 ## С чего начать
 
@@ -25,16 +25,18 @@ desktop-версия продаёт владельцу единый поток: 
 Из корня проекта:
 
 ```bash
-python -m http.server 4181 --bind 127.0.0.1
+python -m http.server 4173 --bind 127.0.0.1
 ```
 
-Открыть: <http://127.0.0.1:4181/index.html?v=20260821-12#desktop-director>
+Открыть: <http://127.0.0.1:4173/index.html?v=20260826-14>
 
 ## Стек и сборка
 
 - HTML + CSS + Vanilla JS без runtime-фреймворка.
 - `assets/js/desktop-product-screens.js` — готовые product screens.
 - `assets/js/desktop-landing.js` — desktop interactions.
+- `assets/css/mobile-v2.css` и `assets/js/mobile-v2.js` — официальная mobile-композиция.
+- `npm run build` — проверочная production-сборка приложения.
 - `node build.mjs` — production build в `dist/` с content hashes.
 - Деплой описан в [`DEPLOY.md`](DEPLOY.md); публикуется содержимое `dist/`, а не корень.
 
@@ -42,8 +44,8 @@ python -m http.server 4181 --bind 127.0.0.1
 
 - Desktop и mobile имеют отдельные композиции.
 - `qa/approved-mockups/` — immutable reference material.
-- Мобильный baseline не менять в рамках desktop-задачи.
 - Для desktop сохранять естественный скролл и телефон как главный визуальный герой.
+- Для mobile сохранять отдельный ритм, крупные touch-targets и mobile-first композицию.
 - Новые промежуточные результаты фиксировать в `docs/project-context/` и отдельным локальным коммитом.
 
 ## Структура документации

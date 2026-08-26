@@ -8,6 +8,7 @@
   <meta http-equiv="Expires" content="0" />
   <meta name="description" content="ЮртаНеЖди — один Mini App в Telegram и MAX для гостя, кассира, кухни и директора. Весь путь заказа и управление заведением — в телефоне." />
   <meta name="theme-color" content="#f3eee7" />
+  <link rel="icon" href="data:," />
   <title>ЮртаНеЖди — весь заказ в телефоне</title>
 
   <!-- Open Graph -->
@@ -30,13 +31,9 @@
   <link rel="stylesheet" href="assets/css/layout.css" />
   <link rel="stylesheet" href="assets/css/components.css" />
   <link rel="stylesheet" href="assets/css/hero-demo.css" />
-  <link rel="stylesheet" href="assets/css/sections/story.css?v=20260820-7" />
   <link rel="stylesheet" href="assets/css/sections/ways.css" />
-  <link rel="stylesheet" href="assets/css/sections/final.css" />
-  <link rel="stylesheet" href="assets/css/sections/cat-journey.css" />
-  <link rel="stylesheet" href="assets/css/sections/adaptive.css" />
-  <link rel="stylesheet" href="assets/css/sections/story-mobile.css?v=20260820-7" />
   <link rel="stylesheet" href="assets/css/desktop-landing.css?v=20260821-12" />
+  <link rel="stylesheet" href="assets/css/mobile-v2.css?v=20260826-14" />
 </head>
 <body id="top">
 
@@ -269,7 +266,336 @@
     </footer>
   </div>
 
-  <div class="legacy-site">
+  <div class="mobile-v2" data-platform="telegram">
+    <a class="mv2-skip" href="#mobile-main">К основному содержанию</a>
+
+    <header class="mv2-header">
+      <a class="mv2-brand" href="#mobile-main" aria-label="ЮртаНеЖди — на главную">
+        <svg class="mv2-brand__flame" viewBox="0 0 32 38" aria-hidden="true"><path d="M17 0c2 7-1 10 1 14 1 2 3 2 4 0 2-3 1-7 0-9 7 6 10 13 8 21-2 8-8 12-15 12C6 38 0 32 0 23 0 16 4 11 9 6c-1 6 1 9 4 9 4 0 6-6 4-15Z" fill="currentColor"/></svg>
+        <span>Юрта<b>НеЖди</b></span>
+      </a>
+      <button class="mv2-menu" type="button" data-mv2-open-menu aria-label="Открыть меню"><span></span><span></span><span></span></button>
+    </header>
+
+    <main id="mobile-main">
+      <section class="mv2-hero" aria-labelledby="mobile-hero-title">
+        <span class="mv2-eyebrow">Один заказ · четыре роли</span>
+        <h1 id="mobile-hero-title">Заказ живёт<br><em>в телефоне.</em></h1>
+        <p>От гостя до директора — один Mini App внутри <span data-mv2-platform-copy>Telegram</span>.</p>
+        <button class="mv2-primary" type="button" data-mv2-open-demo>Подключить заведение <span aria-hidden="true">→</span></button>
+        <div class="mv2-platform" role="group" aria-label="Выбрать мессенджер">
+          <button class="is-active" type="button" data-mv2-platform="telegram" aria-pressed="true"><span aria-hidden="true">➤</span> Telegram</button>
+          <button type="button" data-mv2-platform="max" aria-pressed="false"><span aria-hidden="true">✦</span> MAX</button>
+        </div>
+
+        <div class="mv2-hero-product" aria-label="Один заказ объединяет гостя, кассу, кухню и директора">
+          <div class="mv2-role-rail mv2-role-rail--left">
+            <article class="mv2-role-card mv2-role-card--guest">
+              <div class="mv2-role-card__icon"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="6" r="3"/><path d="M4.5 17c.5-4 2.3-6 5.5-6s5 2 5.5 6"/></svg></div>
+              <h2>Гость</h2><p>Сканирует QR, выбирает и оплачивает заказ.</p>
+            </article>
+            <article class="mv2-role-card mv2-role-card--cash">
+              <div class="mv2-role-card__icon"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 3h10v14l-2-1.5-2 1.5-2-1.5L7 17l-2-1.5V3Z"/><path d="M8 7h4M8 10h4"/></svg></div>
+              <h2>Касса</h2><p>Принимает оплату, печатает чек, видит заказ.</p>
+            </article>
+          </div>
+
+          <div class="mv2-hero-phone" data-mv2-screen="menu" aria-label="Главный экран меню гостя"></div>
+
+          <div class="mv2-role-rail mv2-role-rail--right">
+            <article class="mv2-role-card mv2-role-card--kitchen">
+              <div class="mv2-role-card__icon"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 8a5 5 0 0 1 10 0v1H5V8Z"/><path d="M4 9h12M7 13h6M8 9v7M12 9v7"/></svg></div>
+              <h2>Кухня</h2><p>Получает заказы сразу и готовит вовремя.</p>
+            </article>
+            <article class="mv2-role-card mv2-role-card--director">
+              <div class="mv2-role-card__icon"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 16V9M10 16V4M16 16v-6M2 16h16"/></svg></div>
+              <h2>Директор</h2><p>Следит за продажами и аналитикой с телефона.</p>
+            </article>
+          </div>
+
+          <div class="mv2-hero-security">
+            <div class="mv2-hero-security__copy">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 20 5v6c0 5.2-3.4 9-8 11-4.6-2-8-5.8-8-11V5l8-3Z"/><path d="m8.6 12 2.1 2.1 4.7-5"/></svg>
+              <span>Без установки · Без лишних приложений<br>Работает внутри <span data-mv2-platform-copy>Telegram</span></span>
+            </div>
+            <strong><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8.5 10V7.5a3.5 3.5 0 0 1 7 0V10M12 14v3"/></svg>Надёжно</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="mv2-route-band" data-mv2-reveal aria-label="Состояние заказа №120">
+        <header><span><i></i> Live</span><b>Заказ №120</b><small>один статус для всех</small></header>
+        <div class="mv2-route-band__track" aria-hidden="true"><span></span><i></i><span></span><i></i><span></span><i></i><span></span></div>
+        <ol><li><b>Гость</b><small>оплатил</small></li><li><b>Касса</b><small>приняла</small></li><li class="is-active"><b>Кухня</b><small>готовит</small></li><li><b>Директор</b><small>видит</small></li></ol>
+      </section>
+
+      <section class="mv2-section mv2-journey" id="mobile-journey" aria-labelledby="mobile-journey-title">
+        <div class="mv2-heading" data-mv2-reveal>
+          <span class="mv2-eyebrow">Как это работает</span>
+          <h2 id="mobile-journey-title">Один заказ.<br><em>Весь путь.</em></h2>
+          <p>Один заказ проходит через все роли — каждый видит свой этап без лишних действий.</p>
+        </div>
+        <div class="mv2-order-route" aria-label="Путь заказа №120: гость, касса, кухня, директор">
+          <article class="mv2-order-role mv2-order-role--guest" data-mv2-reveal style="--mv2-reveal-delay: 0ms">
+            <span class="mv2-order-role__num">01</span>
+            <span class="mv2-order-role__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="3.5"/><path d="M4.5 20c.6-4.1 3-6.2 7.5-6.2s6.9 2.1 7.5 6.2"/></svg></span>
+            <h3>Гость</h3><p>Оформляет заказ</p>
+          </article>
+          <article class="mv2-order-role mv2-order-role--cash" data-mv2-reveal style="--mv2-reveal-delay: 45ms">
+            <span class="mv2-order-role__num">02</span>
+            <span class="mv2-order-role__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2.5"/><path d="M7.5 8h9M8 12h2M14 12h2M8 16h2M14 16h2"/></svg></span>
+            <h3>Касса</h3><p>Принимает и подтверждает</p>
+          </article>
+          <article class="mv2-order-role mv2-order-role--kitchen" data-mv2-reveal style="--mv2-reveal-delay: 135ms">
+            <span class="mv2-order-role__num">03</span>
+            <span class="mv2-order-role__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 10.5a7 7 0 0 1 14 0v1H5v-1Z"/><path d="M3.5 12h17M8 16h8M9 12v5M15 12v5M7 7.5 8.5 5M17 7.5 15.5 5"/></svg></span>
+            <h3>Кухня</h3><p>Готовит заказ</p>
+          </article>
+          <article class="mv2-order-role mv2-order-role--director" data-mv2-reveal style="--mv2-reveal-delay: 180ms">
+            <span class="mv2-order-role__num">04</span>
+            <span class="mv2-order-role__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/><path d="m5 7 4-3 4 3 5-4"/></svg></span>
+            <h3>Директор</h3><p>Видит итог и выручку</p>
+          </article>
+          <span class="mv2-order-connector mv2-order-connector--guest" aria-hidden="true"><i></i></span>
+          <span class="mv2-order-connector mv2-order-connector--cash" aria-hidden="true"><i></i></span>
+          <span class="mv2-order-connector mv2-order-connector--kitchen" aria-hidden="true"><i></i></span>
+        </div>
+        <div class="mv2-order-live" data-mv2-reveal style="--mv2-reveal-delay: 230ms" aria-label="Заказ №120, статус LIVE">
+          <span aria-hidden="true"></span><b>Заказ №120</b><i aria-hidden="true">•</i><strong>LIVE</strong><small>Все этапы синхронизированы</small>
+        </div>
+      </section>
+
+      <section class="mv2-section mv2-director" id="mobile-director" aria-labelledby="mobile-director-title">
+        <div class="mv2-director-bridge" aria-label="Заказ №120 передан директору">
+          <i aria-hidden="true"></i>
+          <span><b>Заказ №120</b><small data-mv2-director-bridge-copy>дошёл до директора</small></span>
+        </div>
+        <div class="mv2-director-kicker"><span class="mv2-eyebrow mv2-eyebrow--dark">Директору</span><span class="mv2-director-live-chip"><i aria-hidden="true"></i>Данные LIVE</span></div>
+        <h2 id="mobile-director-title"><em>В кармане.</em></h2>
+        <p>Команда завершила заказ — ключевые показатели обновились сразу.</p>
+        <div class="mv2-director-showcase">
+          <div class="mv2-director-phone" data-mv2-screen="director"></div>
+          <button class="mv2-live-note" type="button" data-mv2-director-replay aria-label="Повторить обновление заказа №120" aria-live="polite" aria-atomic="true"><span>LIVE · только что</span><b>Заказ №120 завершён</b><strong>+580 ₽</strong></button>
+        </div>
+        <ul class="mv2-feature-list">
+          <li><i>✓</i><span><b>Метрики live</b> после действий команды</span></li>
+          <li><i>✓</i><span><b>Все точки</b> в одном обзоре</span></li>
+        </ul>
+      </section>
+
+      <section class="mv2-section mv2-menu-feature" id="mobile-menu" aria-labelledby="mobile-menu-title">
+        <div class="mv2-heading">
+          <span class="mv2-eyebrow">Управление меню</span>
+          <h2 id="mobile-menu-title">Кончилась?<br><em>Убрали в один тап.</em></h2>
+          <p>Кассир или директор выключает позицию — меню гостя обновляется сразу.</p>
+        </div>
+        <div class="mv2-menu-scene is-hidden" data-mv2-availability>
+          <div class="mv2-menu-control">
+            <div class="mv2-menu-control__bar">
+              <span class="mv2-menu-control__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 8.5h14v10H5zM8 8.5V6.8A2.8 2.8 0 0 1 10.8 4h2.4A2.8 2.8 0 0 1 16 6.8v1.7M9 12h6"/></svg></span>
+              <span><small>Директор / касса</small><b>Управление товарами</b></span>
+              <span class="mv2-menu-control__live"><i aria-hidden="true"></i>LIVE</span>
+            </div>
+            <div class="mv2-menu-product">
+              <img src="assets/img/generated/dish-shawarma.png" alt="Шаурма классическая" width="160" height="160">
+              <div class="mv2-menu-product__copy">
+                <span><b>Шаурма классическая</b><strong>500 ₽</strong></span>
+                <small class="mv2-menu-state" id="mv2-menu-state"><svg class="mv2-menu-state__online" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg><svg class="mv2-menu-state__hidden" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 12s3-5 8.5-5 8.5 5 8.5 5-3 5-8.5 5-8.5-5-8.5-5Z"/><path d="m5 4 14 16M14.2 14.2A3.1 3.1 0 0 1 9.8 9.8"/></svg><span data-mv2-availability-label>Скрыта из меню</span></small>
+              </div>
+              <button class="mv2-switch" type="button" aria-label="Вернуть шаурму в меню гостя" aria-describedby="mv2-menu-state" aria-pressed="false" data-mv2-menu-switch><span><i></i></span></button>
+            </div>
+            <div class="mv2-menu-publish" role="status" aria-live="polite" aria-atomic="true">
+              <span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 4.7 2.9 8.1 7 10 4.1-1.9 7-5.3 7-10V6l-7-3Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg></span>
+              <span><b data-mv2-availability-status>Позиция выключена</b><small data-mv2-availability-status-detail>Изменение опубликовано мгновенно</small></span>
+            </div>
+          </div>
+
+          <div class="mv2-menu-flow" role="list" aria-label="Как позиция исчезает из меню">
+            <div role="listitem"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 20v-1.5a4 4 0 0 1 8 0V20M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/></svg></span><b>Кассир / директор</b><small>Выключает позицию</small></div>
+            <i aria-hidden="true"></i>
+            <div role="listitem"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m13 2-7 11h6l-1 9 7-12h-6l1-8Z"/></svg></span><b>Система</b><small>Обновляет меню</small></div>
+            <i aria-hidden="true"></i>
+            <div role="listitem"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 20v-1.5a4 4 0 0 1 8 0V20M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/><path d="m3 4 18 16"/></svg></span><b>Гость</b><small>Больше не видит</small></div>
+          </div>
+
+          <div class="mv2-guest-compare" aria-label="Меню гостя до и после отключения позиции">
+            <article class="mv2-guest-menu mv2-guest-menu--before">
+              <header><span>Меню гостя</span><b>до</b></header>
+              <div class="mv2-guest-product"><img src="assets/img/generated/dish-shawarma.png" alt="" width="96" height="96"><span><b>Шаурма</b><small>500 ₽</small></span><i aria-hidden="true">+</i></div>
+              <div class="mv2-guest-skeleton"><i></i><span></span></div>
+            </article>
+            <span class="mv2-compare-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></span>
+            <article class="mv2-guest-menu mv2-guest-menu--after">
+              <header><span>Меню гостя</span><b>после</b></header>
+              <div class="mv2-guest-after">
+                <div class="mv2-guest-product mv2-guest-after__product"><img src="assets/img/generated/dish-shawarma.png" alt="" width="96" height="96"><span><b>Шаурма</b><small>500 ₽</small></span><i aria-hidden="true">+</i></div>
+                <div class="mv2-guest-after__empty"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.7 2.9 8.1 7 10 4.1-1.9 7-5.3 7-10V6l-7-3Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg><span><b>Позиции нет</b><small>Меню уже обновлено</small></span></div>
+              </div>
+              <div class="mv2-guest-skeleton"><i></i><span></span></div>
+            </article>
+          </div>
+
+          <div class="mv2-menu-result">
+            <span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 4.7 2.9 8.1 7 10 4.1-1.9 7-5.3 7-10V6l-7-3Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg></span>
+            <span><strong data-mv2-availability-note>Позиция скрыта во всех точках</strong><small data-mv2-availability-result-detail>Гость больше не видит товар</small></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="mv2-section mv2-ways" id="mobile-ways" aria-labelledby="mobile-ways-title">
+        <div class="mv2-heading">
+          <span class="mv2-eyebrow">Способы получения</span>
+          <h2 id="mobile-ways-title">Выбирай,<br><em>как удобно.</em></h2>
+          <p>Самовывоз, доставка или к столику — гостю удобно, а команда получает один понятный заказ.</p>
+        </div>
+        <div class="mv2-way-story" data-mv2-way-story>
+          <div class="mv2-way-preview">
+            <div class="mv2-way-card" data-way="pickup" data-mv2-way-card>
+              <article class="mv2-way-panel is-active" data-mv2-way-panel="pickup">
+                <div class="mv2-way-panel__top"><span class="mv2-way-panel__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 9h14l-1 10H6L5 9Z"/><path d="M8 9V7a4 4 0 0 1 8 0v2"/></svg></span><span class="mv2-way-panel__tag">Без очереди</span><strong>01</strong></div>
+                <h3>Самовывоз</h3><p>Заберите заказ точно ко времени.</p>
+                <div class="mv2-pickup-board">
+                  <header><span><small>Заказ</small><b>№118</b></span><span class="mv2-way-status"><i aria-hidden="true"></i>Готово</span></header>
+                  <div class="mv2-pickup-progress" aria-label="Заказ готовится и готов к выдаче"><span class="is-done"><i aria-hidden="true">✓</i><small>Заказ</small></span><b aria-hidden="true"></b><span class="is-done"><i aria-hidden="true">✓</i><small>Готовится</small></span><b aria-hidden="true"></b><span class="is-ready"><i aria-hidden="true">✓</i><small>Готово</small></span></div>
+                  <footer><span><small>Забрать</small><b>К 19:20</b></span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg><b>Точно ко времени</b></span></footer>
+                </div>
+              </article>
+
+              <article class="mv2-way-panel" data-mv2-way-panel="delivery" hidden>
+                <div class="mv2-way-panel__top"><span class="mv2-way-panel__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 7h11v10H3zM14 11h4l3 3v3h-7z"/><circle cx="7" cy="19" r="1.5"/><circle cx="18" cy="19" r="1.5"/></svg></span><span class="mv2-way-panel__tag">Статус в реальном времени</span><strong>02</strong></div>
+                <h3>Доставка</h3><p>Гость видит путь заказа без звонков.</p>
+                <div class="mv2-delivery-board">
+                  <header><span><i aria-hidden="true"></i>Курьер забрал заказ</span><b>LIVE</b></header>
+                  <div class="mv2-delivery-route" aria-label="Маршрут заказа от заведения к гостю"><span class="mv2-route-place"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h14v10H4zM7 9V6h8v3"/></svg><small>Заведение</small></span><svg class="mv2-route-line" viewBox="0 0 190 72" preserveAspectRatio="none" aria-hidden="true"><path d="M5 45C36 9 68 64 103 31s55 8 82-18"/></svg><span class="mv2-route-courier" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="8" cy="17" r="2"/><circle cx="18" cy="17" r="2"/><path d="M6 17 9 9h5l3 8M9 12h7M4 8h5"/></svg></span><span class="mv2-route-home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 11 8-7 8 7M6 10v10h12V10"/></svg><small>Гость</small></span></div>
+                  <footer><span><small>До гостя</small><b>18 минут</b></span><span>Статус обновляется автоматически</span></footer>
+                </div>
+              </article>
+
+              <article class="mv2-way-panel" data-mv2-way-panel="table" hidden>
+                <div class="mv2-way-panel__top"><span class="mv2-way-panel__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 10h14M7 10v8M17 10v8M4 18h16M8 6h8v4"/></svg></span><span class="mv2-way-panel__tag">QR на столе</span><strong>03</strong></div>
+                <h3>К столику</h3><p>Кухня сразу получает номер стола.</p>
+                <div class="mv2-table-board">
+                  <header><span>Стол №7</span><span class="mv2-way-status"><i aria-hidden="true"></i>Заказ принят</span></header>
+                  <div class="mv2-table-route" aria-label="QR-код передаёт заказ на кухню"><span class="mv2-table-qr"><svg viewBox="0 0 36 36" aria-hidden="true"><path d="M2 2h12v12H2zM22 2h12v12H22zM2 22h12v12H2zM6 6h4v4H6zM26 6h4v4h-4zM6 26h4v4H6zM19 18h5v5h-5zM27 18h7v5h-7zM19 27h5v7h-5zM28 27h6v7h-6z"/></svg><small>QR</small></span><i aria-hidden="true"><span></span></i><span class="mv2-table-order" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4h10v16H7zM10 8h4M10 12h4"/></svg><small>Заказ</small></span><i aria-hidden="true"><span></span></i><span class="mv2-table-kitchen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 14h14M7 14a5 5 0 0 1 10 0M4 18h16M12 6V4"/></svg><small>Кухня</small></span></div>
+                  <footer><span><i aria-hidden="true"></i><b>Блюдо уже готовят</b></span><small>Номер стола уже в заказе</small></footer>
+                </div>
+              </article>
+            </div>
+          </div>
+          <ol class="mv2-way-steps" aria-label="Сценарии получения заказа">
+            <li class="is-active" aria-current="step" data-mv2-way-trigger="pickup"><b>01</b><span><strong>Самовывоз</strong><small>Готово ко времени, без очереди.</small></span><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></i></li>
+            <li data-mv2-way-trigger="delivery"><b>02</b><span><strong>Доставка</strong><small>Гость видит путь курьера и статус.</small></span><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></i></li>
+            <li data-mv2-way-trigger="table"><b>03</b><span><strong>К столику</strong><small>QR, номер стола и кухня в одной цепочке.</small></span><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></i></li>
+          </ol>
+        </div>
+
+        <div class="mv2-ways-result"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h5v5H4zM15 5h5v5h-5zM9 7.5h6M12 7.5V16M7 19h10"/></svg></span><span><b>Для гостя три варианта.</b><small>Для команды — одна система.</small></span></div>
+      </section>
+
+      <section class="mv2-final mv2-scan" id="mobile-demo" aria-labelledby="mobile-final-title" data-mv2-final data-mv2-scan>
+        <span class="mv2-scan-step" aria-label="Первый шаг"><b>1</b><span>Шаг 1</span></span>
+
+        <div class="mv2-scan-stage">
+          <img class="mv2-scan-cat" src="assets/img/cat-story/cat-hungry.webp" alt="Фирменный котик наводит телефон на QR-код" width="800" height="953">
+
+          <button class="mv2-scan-qr" type="button" data-mv2-scan-trigger aria-label="Повторить сканирование QR-кода">
+            <span class="mv2-scan-qr__code" aria-hidden="true">
+              <svg viewBox="0 0 100 100" shape-rendering="crispEdges"><rect width="100" height="100" fill="#fff"/><g fill="#171310"><path d="M8 8h24v24H8zM14 14v12h12V14z"/><path d="M17 17h6v6h-6z"/><path d="M68 8h24v24H68zM74 14v12h12V14z"/><path d="M77 17h6v6h-6z"/><path d="M8 68h24v24H8zM14 74v12h12V74z"/><path d="M17 77h6v6h-6z"/><path d="M40 8h6v6h-6zM52 8h6v12h-6zM40 20h12v6H40zM60 14h8v6h-8zM40 32h6v6h-6zM52 26h6v6h-6zM64 32h6v6h-6zM76 40h6v6h-6zM88 44h4v6h-4zM40 44h6v6h-6zM50 40h6v6h-6zM60 44h12v6H60zM8 40h12v6H8zM24 40h8v12h-8zM8 52h6v6H8zM18 52h6v6h-6zM32 52h6v6h-6zM44 52h6v6h-6zM56 52h6v12h-6zM68 52h6v6h-6zM80 52h12v6H80zM40 62h6v6h-6zM50 62h6v6h-6zM68 62h6v12h-6zM82 62h6v6h-6zM40 74h6v6h-6zM50 74h12v6H50zM40 84h6v8h-6zM54 84h6v8h-6zM66 84h6v6h-6zM78 78h6v6h-6zM86 84h6v8h-6zM78 88h6v4h-6z"/></g></svg>
+            </span>
+            <span class="mv2-scan-qr__beam" aria-hidden="true"></span>
+          </button>
+
+          <span class="mv2-scan-status mv2-scan-status--read" role="status">
+            <i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m7 12.5 3.1 3.1L17.5 8"/></svg></i>
+            <span><b>QR считан</b><small>Отлично!</small></span>
+          </span>
+          <span class="mv2-scan-status mv2-scan-status--menu" role="status">
+            <i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m7 12.5 3.1 3.1L17.5 8"/></svg></i>
+            <span><b>Меню найдено</b><small>Загружаем…</small><em aria-hidden="true"><u></u></em></span>
+          </span>
+        </div>
+
+        <div class="mv2-scan-copy">
+          <h2 id="mobile-final-title">Сканируем меню<br>за пару секунд.</h2>
+          <p>Просто отсканируйте QR-код — и меню откроется само. Быстрый старт без лишних шагов.</p>
+        </div>
+
+        <p class="mv2-scan-live" data-mv2-scan-live aria-live="polite">QR считан. Меню найдено.</p>
+        <button class="mv2-scan-next" type="button" data-mv2-scan-next aria-label="Перейти к следующему этапу">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6.5 9 5.5 5.5L17.5 9"/></svg>
+        </button>
+      </section>
+
+      <section class="mv2-messenger mv2-launch" id="mobile-platforms" aria-labelledby="mobile-platforms-title">
+        <span class="mv2-eyebrow">Всё под ключ</span>
+        <h2 id="mobile-platforms-title">Запускаем под ключ —<br><em>быстро</em> и без забот.</h2>
+        <p>От вас — только меню и желание стартовать. Подключим, заполним, оформим и подготовим всё для запуска.</p>
+
+        <ul class="mv2-launch-proof" aria-label="Что включено в запуск">
+          <li><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 4h12v16H6zM9 8h6M9 12h6M9 16h3"/></svg></span><b>От вас —<br>только меню</b></li>
+          <li><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8h4l1.5-2h5L16 8h4v11H4z"/><circle cx="12" cy="13" r="3"/></svg></span><b>Фото<br>подготовим</b></li>
+          <li><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 8h12v12H6zM4 8V5h16v3M12 5v15M8 12h8"/></svg></span><b>Логотип<br>в подарок</b></li>
+          <li><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m13 3-8 10h6l-1 8 9-12h-6z"/></svg></span><b>Быстрый<br>старт</b></li>
+        </ul>
+
+        <div class="mv2-launch-flow" data-mv2-reveal>
+          <ol class="mv2-launch-steps" aria-label="Как проходит запуск">
+            <li><b>1</b><article><span aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="3"/><path d="m10 9 5 3-5 3z"/></svg></span><strong>Показываем демо</strong><p>Коротко проводим по сценарию и отвечаем на вопросы.</p></article></li>
+            <li><b>2</b><article><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 4h12v16H6zM9 8h6M9 12h6M9 16h3"/></svg></span><strong>Заполняем меню</strong><p>Переносим позиции, цены, категории и модификаторы.</p></article></li>
+            <li><b>3</b><article><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m13 3-8 10h6l-1 8 9-12h-6z"/></svg></span><strong>Запускаем быстро</strong><p>Оформляем, готовим материалы и запускаем команду.</p></article></li>
+          </ol>
+          <div class="mv2-launch-phone" aria-label="Переписка о подготовке меню">
+            <div class="mv2-launch-phone__notch"></div>
+            <div class="mv2-launch-phone__screen">
+              <header><span aria-hidden="true">←</span><b>Юрта НеЖди</b><small><i></i>онлайн</small></header>
+              <p class="mv2-launch-message">Привет! Поможем заполнить меню и запустить мини-приложение. Это займёт всего 1–2 дня.<time>10:29</time></p>
+              <p class="mv2-launch-message mv2-launch-message--reply">Отлично! У меня есть файл с меню.<time>10:30</time></p>
+              <p class="mv2-launch-message">Приняли! Подготовим фото, добавим позиции, настроим приём заказов. Вы скоро в деле.<time>10:31</time></p>
+              <footer><span>Подготовка меню</span><b>80%</b><i><em></em></i><small>Запуск через 1 день</small></footer>
+            </div>
+          </div>
+        </div>
+
+        <aside class="mv2-launch-bonus" data-mv2-reveal aria-label="Бонусы для запуска">
+          <header><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 8h12v12H6zM4 8V5h16v3M12 5v15M8 12h8"/></svg></span><b>Бонусы для вас</b></header>
+          <div>
+            <article><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8h4l1.5-2h5L16 8h4v11H4z"/><circle cx="12" cy="13" r="3"/></svg></span><b>Генерируем фото<br>для меню</b></article>
+            <article><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 8h12v12H6zM4 8V5h16v3M12 5v15M8 12h8"/></svg></span><b>Логотип в подарок<br>по запросу</b></article>
+            <article><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m13 3-8 10h6l-1 8 9-12h-6z"/></svg></span><b>Всё делаем<br>быстро</b></article>
+          </div>
+          <p>Фото, логотип и оформление подготовим сами. Обычно запуск занимает 1–2 дня.</p>
+        </aside>
+
+        <div class="mv2-launch-cta" data-mv2-reveal>
+          <span>Готовы стартовать?</span>
+          <button class="mv2-primary" type="button" data-mv2-open-demo>Подключить заведение <span aria-hidden="true">→</span></button>
+          <p><i aria-hidden="true"></i> От вас нужно <b>только меню и желание.</b></p>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="mv2-footer">
+      <div class="mv2-footer__top">
+        <a class="mv2-brand" href="#mobile-main"><svg class="mv2-brand__flame" viewBox="0 0 32 38" aria-hidden="true"><path d="M17 0c2 7-1 10 1 14 1 2 3 2 4 0 2-3 1-7 0-9 7 6 10 13 8 21-2 8-8 12-15 12C6 38 0 32 0 23 0 16 4 11 9 6c-1 6 1 9 4 9 4 0 6-6 4-15Z" fill="currentColor"/></svg><span>Юрта <b>НеЖди</b></span></a>
+        <span class="mv2-footer__spark" aria-hidden="true"></span>
+      </div>
+      <p>Mini App для гостя, кассы, кухни и директора — внутри привычного чата.</p>
+      <div class="mv2-footer__channels" aria-label="Доступно в Telegram и MAX"><span class="mv2-footer__channel mv2-footer__channel--tg"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 4 3 11l7 2.2L18 7l-6.2 7.7V20l3.5-3.4 3.7 2.7L21 4Z"/></svg>Telegram</span><span class="mv2-footer__channel mv2-footer__channel--max"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m12 7 3 5-3 5-3-5 3-5Z"/></svg>MAX</span></div>
+      <div class="mv2-footer__bottom"><span>© 2026</span><b>Весь продукт — в телефоне</b></div>
+    </footer>
+
+    <div class="mv2-sheet" data-mv2-sheet hidden>
+      <button class="mv2-sheet__backdrop" type="button" data-mv2-close-sheet aria-label="Закрыть"></button>
+      <section class="mv2-sheet__panel" role="dialog" aria-modal="true" aria-labelledby="mv2-sheet-title">
+        <div class="mv2-sheet__handle"></div>
+        <header><h2 id="mv2-sheet-title" data-mv2-sheet-title>Навигация</h2><p data-mv2-sheet-description>Вся страница — один мобильный сценарий</p></header>
+        <div class="mv2-sheet__content" data-mv2-sheet-content></div>
+      </section>
+    </div>
+  </div>
+
+  <template id="legacy-site-backup">
 
   <!-- Фоновая атмосфера: fire-mesh aurora (декоративно) -->
   <div class="bg-aurora" aria-hidden="true">
@@ -1160,20 +1486,11 @@
     <a href="#final" class="btn btn--fire btn--lg">🔥 Заказать сейчас</a>
   </div>
 
-  </div>
+  </template>
 
-  <!-- hero-demo.js остаётся обычным скриптом: он выставляет глобальный
-       window.YJ_HERO_DEMO, на который смотрит main.js. defer-скрипт и
-       модуль выполняются в порядке следования в документе, поэтому
-       к моменту старта main.js телефон уже готов. -->
+  <!-- Desktop and mobile keep separate, small controllers. -->
   <script src="assets/js/desktop-product-screens.js?v=20260821-4" defer></script>
   <script src="assets/js/desktop-landing.js?v=20260821-4" defer></script>
-  <script src="assets/js/vendor/gsap.min.js" defer></script>
-  <script src="assets/js/vendor/ScrollTrigger.min.js" defer></script>
-  <script src="assets/js/vendor/DrawSVGPlugin.min.js" defer></script>
-  <script src="assets/js/vendor/MotionPathPlugin.min.js" defer></script>
-  <script src="assets/js/hero-demo.js" defer></script>
-
-  <script src="assets/js/main.js?v=20260820-7" type="module"></script>
+  <script src="assets/js/mobile-v2.js?v=20260826-14" defer></script>
 </body>
 </html>

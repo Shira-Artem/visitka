@@ -38,6 +38,7 @@ export function createPinnedScene(options) {
   const exactFloorRange = options.exactFloorRange || null;
   const unit = options.unit || 'svh';
   const onTick = options.onTick;
+  const snapToActs = options.snapToActs === true;
 
   const totalVh = acts.reduce(function (sum, act) { return sum + act.vh; }, 0);
   const bounds = (function () {
@@ -102,7 +103,37 @@ export function createPinnedScene(options) {
     requestAnimationFrame(tick);
   }
 
+  function getScrollTarget(index) {
+    const rect = track.getBoundingClientRect();
+    const scrollable = Math.max(0, rect.height - window.innerHeight);
+    return Math.max(0, window.scrollY + rect.top + bounds[index].start * scrollable);
+  }
+
+  let snapLocked = false;
+  let snapTimer = 0;
+  function onWheel(event) {
+    if (!snapToActs || Math.abs(event.deltaY) < 2) return;
+
+    const rect = track.getBoundingClientRect();
+    const insidePinnedTrack = rect.top <= 1 && rect.bottom >= window.innerHeight - 1;
+    if (!insidePinnedTrack) return;
+
+    const direction = event.deltaY > 0 ? 1 : -1;
+    const targetIndex = lastActIndex + direction;
+    // Preserve normal page scrolling at the scene edges so the reader can
+    // enter and leave the section naturally.
+    if (targetIndex < 0 || targetIndex >= acts.length) return;
+
+    event.preventDefault();
+    if (snapLocked) return;
+    snapLocked = true;
+    window.scrollTo({ top: getScrollTarget(targetIndex), behavior: 'smooth' });
+    window.clearTimeout(snapTimer);
+    snapTimer = window.setTimeout(function () { snapLocked = false; }, 760);
+  }
+
   window.addEventListener('scroll', onScroll, { passive: true });
+  if (snapToActs) window.addEventListener('wheel', onWheel, { passive: false });
 
   return {
     totalVh: totalVh,
@@ -110,6 +141,8 @@ export function createPinnedScene(options) {
     tick: tick,
     destroy: function () {
       window.removeEventListener('scroll', onScroll);
+      if (snapToActs) window.removeEventListener('wheel', onWheel);
+      window.clearTimeout(snapTimer);
       track.style.removeProperty('height');
     }
   };

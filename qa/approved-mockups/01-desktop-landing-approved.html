@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ЮртаНеЖди — Desktop / Mobile Product</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&family=Manrope:wght@500;600;700;800&family=Unbounded:wght@700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+  <style>
+    :root{
+      --paper:#fbfaf8;
+      --paper-2:#f3eee7;
+      --surface:#fff;
+      --ink:#171310;
+      --ink-2:#575048;
+      --ink-3:#91867c;
+      --line:#e6ded4;
+      --fire:#ff5a1f;
+      --fire-deep:#e6430b;
+      --ember:#ff9b52;
+      --ready:#5abd1b;
+      --ready-soft:#ecf9e4;
+      --tg:#238be6;
+      --max:#7647ef;
+      --display:"Unbounded",sans-serif;
+      --body:"Manrope",sans-serif;
+      --data:"Inter",sans-serif;
+      --shadow:0 36px 90px -45px rgba(63,36,18,.5);
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;background:var(--paper)}
+    body{margin:0;overflow-x:hidden;background:var(--paper);color:var(--ink);font:500 16px/1.55 var(--body)}
+    a{color:inherit;text-decoration:none}
+    button,input{font:inherit}
+    button{cursor:pointer}
+    img{display:block;max-width:100%}
+    .shell{width:min(1240px,calc(100% - 80px));margin:0 auto}
+    .section{padding:126px 0}
+    .eyebrow{display:inline-flex;align-items:center;gap:10px;color:var(--fire-deep);font:800 11px/1 var(--data);letter-spacing:.14em;text-transform:uppercase}
+    .eyebrow::before{content:"";width:28px;height:2px;border-radius:3px;background:var(--fire)}
+    .section-head{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:80px;align-items:end;margin-bottom:68px}
+    .section-head h2{max-width:800px;margin:17px 0 0;font:800 clamp(42px,4.7vw,70px)/1.02 var(--display);letter-spacing:-.05em;text-transform:uppercase}
+    .section-head p{margin:0;color:var(--ink-2);font-size:18px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;min-height:58px;padding:0 26px;border:1px solid transparent;border-radius:18px;font-weight:800;transition:transform .2s ease,box-shadow .2s ease}
+    .btn:hover{transform:translateY(-2px)}
+    .btn--fire{background:linear-gradient(135deg,var(--fire),var(--fire-deep));color:#fff;box-shadow:0 18px 38px -22px rgba(230,67,11,.85)}
+    .btn--light{border-color:var(--line);background:#fff}
+    .btn:focus-visible,.role-tab:focus-visible,.platform-btn:focus-visible,input:focus-visible{outline:3px solid rgba(255,90,31,.28);outline-offset:3px}
+
+    .header{height:82px;border-bottom:1px solid rgba(230,222,212,.82);background:rgba(251,250,248,.96)}
+    .header-row{height:100%;display:flex;align-items:center;gap:28px}
+    .brand{display:flex;align-items:center;gap:10px;font-size:21px;font-weight:800;letter-spacing:-.04em}
+    .brand b{color:var(--fire-deep)}
+    .brand-mark{position:relative;width:29px;height:29px;border-radius:45% 55% 52% 48%;background:linear-gradient(155deg,var(--ember),var(--fire-deep));transform:rotate(45deg)}
+    .brand-mark::after{content:"";position:absolute;inset:8px;border-radius:50%;background:var(--paper);opacity:.82}
+    .nav{display:flex;gap:30px;margin-left:auto;color:var(--ink-2);font-size:14px;font-weight:700}
+    .nav a{padding:8px 0;border-bottom:2px solid transparent}
+    .nav a:hover{border-color:var(--fire)}
+    .header .btn{min-height:46px;padding:0 20px;border-radius:14px;font-size:14px}
+
+    .hero{position:relative;min-height:920px;padding:84px 0 78px;display:flex;align-items:center;background:
+      radial-gradient(circle at 80% 20%,rgba(255,123,62,.22),transparent 27%),
+      radial-gradient(circle at 64% 80%,rgba(35,139,230,.10),transparent 23%),
+      linear-gradient(180deg,#fffdfa,var(--paper))}
+    .hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent)}
+    .hero-grid{display:grid;grid-template-columns:.88fr 1.12fr;gap:64px;align-items:center}
+    .hero-copy{position:relative;z-index:4}
+    .hero h1{margin:24px 0 26px;font:900 clamp(54px,5.4vw,82px)/.98 var(--display);letter-spacing:-.06em;text-transform:uppercase}
+    .hero h1 span{display:block;color:var(--fire-deep)}
+    .hero-lead{max-width:600px;margin:0;color:var(--ink-2);font-size:20px}
+    .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px}
+    .platform-switch{display:flex;align-items:center;gap:8px;margin-top:42px}
+    .platform-switch small{margin-right:4px;color:var(--ink-3);font:700 10px var(--data);letter-spacing:.1em;text-transform:uppercase}
+    .platform-btn{min-height:38px;padding:0 13px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink-2);font:700 11px var(--data)}
+    .platform-btn.is-active{border-color:transparent;background:var(--tg);color:#fff}
+    body[data-platform="max"] .platform-btn.is-active{background:var(--max)}
+
+    .phone-field{position:relative;height:720px}
+    .phone-field::before{content:"";position:absolute;inset:40px 18px 28px 38px;border-radius:50% 50% 46% 54%;background:linear-gradient(150deg,#ffcfb5,#fff0df 53%,#dcefff);transform:rotate(-7deg)}
+    .phone-field::after{content:"MINI APP";position:absolute;right:-12px;top:70px;color:rgba(23,19,16,.055);font:900 62px var(--display);letter-spacing:.06em;writing-mode:vertical-rl}
+    .hero-phone-main{position:absolute;left:64px;top:0;z-index:3}
+    .hero-phone-side{position:absolute;right:16px;top:116px;z-index:2;transform:rotate(5deg)}
+    .hero-phone-side .device{transform:scale(.82);transform-origin:top right}
+    .sync-note{position:absolute;right:15px;bottom:40px;z-index:5;width:270px;padding:17px 18px;border:1px solid var(--line);border-radius:19px;background:#fff;box-shadow:var(--shadow)}
+    .sync-note small{display:block;color:var(--ink-3);font:700 9px var(--data);letter-spacing:.1em;text-transform:uppercase}
+    .sync-note strong{display:block;margin-top:4px;font-size:12px}
+    .sync-note span{color:var(--ready)}
+
+    .device{position:relative;width:320px;height:650px;padding:10px;border:1px solid #bbb6b0;border-radius:52px;background:linear-gradient(145deg,#fdfdfd,#cbc8c4);box-shadow:0 42px 90px -42px rgba(43,25,15,.62)}
+    .device::before{content:"";position:absolute;left:-3px;top:120px;width:3px;height:74px;border-radius:3px 0 0 3px;background:#a8a39e}
+    .device::after{content:"";position:absolute;right:-3px;top:145px;width:3px;height:92px;border-radius:0 3px 3px 0;background:#a8a39e}
+    .device__screen{position:relative;height:100%;overflow:hidden;border-radius:43px;background:#f8f7f5}
+    .device__screen::before{content:"";position:absolute;left:50%;top:9px;z-index:8;width:86px;height:24px;transform:translateX(-50%);border-radius:18px;background:#171310}
+    .osbar{height:41px;display:flex;align-items:center;justify-content:space-between;padding:0 17px 0;color:#222;font:700 9px var(--data)}
+    .osbar span:last-child{letter-spacing:2px}
+    .messenger-bar{height:50px;display:flex;align-items:center;gap:10px;padding:0 13px;background:#fff;border-top:1px solid #eee;border-bottom:1px solid #e9e9e9}
+    .messenger-back{color:#7d7d7d;font-size:17px}
+    .bot-avatar{width:31px;height:31px;display:grid;place-items:center;border-radius:50%;background:linear-gradient(145deg,#ff8e48,var(--fire-deep));color:#fff;font:800 10px var(--data)}
+    .messenger-title{min-width:0;flex:1}
+    .messenger-title b{display:block;font-size:11px;line-height:1.1}
+    .messenger-title small{display:block;color:#999;font-size:8px}
+    .platform-chip{padding:5px 7px;border-radius:7px;background:#e8f4ff;color:var(--tg);font:800 7px var(--data);letter-spacing:.05em;text-transform:uppercase}
+    body[data-platform="max"] .platform-chip{background:#eee8ff;color:var(--max)}
+    .miniapp-bar{height:40px;display:flex;align-items:center;justify-content:space-between;padding:0 13px;background:#fff;border-bottom:1px solid #ece8e3;color:#777;font-size:9px}
+    .miniapp-bar strong{color:#24211e;font-size:10px}
+    .app-screen{position:relative;height:calc(100% - 131px);padding:14px;background:#fff7ed;overflow:hidden}
+    .app-screen--neutral{background:#f4f4f3}
+    .app-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:13px}
+    .app-head small{display:block;color:#9a8d81;font-size:7px;text-transform:uppercase;letter-spacing:.08em}
+    .app-head strong{display:block;margin-top:2px;font-size:13px}
+    .avatar-letter{width:30px;height:30px;display:grid;place-items:center;border-radius:10px;background:var(--ink);color:#fff;font:800 9px var(--data)}
+    .search{height:34px;display:flex;align-items:center;padding:0 11px;border:1px solid rgba(82,59,42,.08);border-radius:11px;background:#fff;color:#9e9185;font-size:9px}
+    .venue{display:grid;grid-template-columns:62px 1fr;gap:10px;margin-top:10px;padding:8px;border-radius:14px;background:#fff;box-shadow:0 10px 24px -20px rgba(50,27,11,.5)}
+    .venue img{width:62px;height:68px;object-fit:cover;border-radius:9px}
+    .venue b{display:block;margin-top:2px;font-size:10px;line-height:1.22}
+    .venue small{display:block;margin-top:4px;color:#94877b;font-size:7px}
+    .venue em{display:inline-block;margin-top:5px;padding:3px 5px;border-radius:5px;background:var(--ready-soft);color:#3c9419;font-size:6px;font-style:normal;font-weight:800}
+    .app-label{margin:13px 0 8px;color:#948579;font:800 7px var(--data);letter-spacing:.1em;text-transform:uppercase}
+    .food-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .food{padding:7px;border:1px solid rgba(80,55,37,.06);border-radius:12px;background:#fff}
+    .food img{width:100%;height:66px;object-fit:cover;border-radius:8px}
+    .food strong{display:block;margin-top:6px;font-size:8px;line-height:1.2}
+    .food b{display:block;margin-top:3px;color:var(--fire-deep);font:800 9px var(--data)}
+    .cart-bar{position:absolute;left:14px;right:14px;bottom:14px;height:42px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;border-radius:13px;background:var(--fire);color:#fff;font-size:9px;font-weight:800}
+
+    .screen-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+    .screen-title div small{display:block;color:#8e8882;font-size:7px}
+    .screen-title div strong{display:block;font-size:14px}
+    .online{display:flex;align-items:center;gap:5px;color:#3e961c;font:800 7px var(--data);text-transform:uppercase}
+    .online::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ready)}
+    .metric-row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+    .phone-metric{padding:10px 8px;border-radius:11px;background:#fff}
+    .phone-metric small{display:block;color:#918b84;font-size:6px;text-transform:uppercase}
+    .phone-metric b{display:block;margin-top:4px;font:800 12px var(--data)}
+    .phone-metric--fire{background:#fff0e8}
+    .phone-metric--green{background:var(--ready-soft)}
+    .order-card{margin-top:8px;padding:12px;border:1px solid #e5e0db;border-radius:14px;background:#fff}
+    .order-card__top{display:flex;align-items:center;justify-content:space-between}
+    .order-card__top b{font:800 12px var(--data)}
+    .status{padding:4px 6px;border-radius:6px;background:#fff0e8;color:var(--fire-deep);font:800 6px var(--data);letter-spacing:.05em;text-transform:uppercase}
+    .status--ready{background:var(--ready-soft);color:#3d931c}
+    .order-card small{display:block;margin-top:4px;color:#918a84;font-size:7px}
+    .order-items{margin-top:9px;padding-top:8px;border-top:1px solid #eee9e5}
+    .order-items div{display:flex;justify-content:space-between;margin-top:5px;font-size:8px}
+    .order-items b{font:800 8px var(--data)}
+    .order-action{height:35px;margin-top:10px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:var(--ink);color:#fff;font-size:8px;font-weight:800}
+    .order-action--green{background:var(--ready)}
+    .queue-item{margin-top:8px;padding:10px;border-radius:12px;background:#fff}
+    .queue-item__top{display:flex;justify-content:space-between;font-size:8px}
+    .queue-item__top b{font:800 9px var(--data)}
+    .queue-item strong{display:block;margin-top:7px;font-size:9px}
+    .queue-item small{display:block;margin-top:3px;color:#8f8983;font-size:7px}
+    .timer{display:flex;justify-content:space-between;margin-top:8px;padding:7px;border-radius:8px;background:#fff0e8;color:var(--fire-deep);font:800 7px var(--data)}
+    .revenue-phone{padding:13px;border-radius:14px;background:#1d1a18;color:#fff}
+    .revenue-phone small{color:#aaa19a;font-size:7px}
+    .revenue-phone strong{display:block;margin-top:4px;font:800 20px var(--data)}
+    .mini-bars{height:74px;display:flex;align-items:flex-end;gap:5px;margin-top:11px}
+    .mini-bars i{flex:1;height:var(--h);border-radius:4px 4px 2px 2px;background:linear-gradient(180deg,var(--ember),var(--fire-deep))}
+    .branch-row{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px}
+    .branch{padding:10px;border-radius:11px;background:#fff}
+    .branch small{display:block;color:#938b84;font-size:6px}
+    .branch b{display:block;margin-top:4px;font:800 10px var(--data)}
+    .branch span{display:block;margin-top:2px;color:#3e931e;font-size:6px;font-weight:800}
+    .phone-caption{margin-top:18px;text-align:center}
+    .phone-caption strong{display:block;font:800 11px var(--data);letter-spacing:.08em;text-transform:uppercase}
+    .phone-caption span{display:block;margin-top:5px;color:var(--ink-3);font-size:11px}
+
+    .proof{background:var(--ink);color:#fff}
+    .proof-row{display:grid;grid-template-columns:1.25fr repeat(3,1fr)}
+    .proof-intro,.proof-item{min-height:145px;padding:34px;border-right:1px solid rgba(255,255,255,.11);display:flex;flex-direction:column;justify-content:center}
+    .proof-intro small{color:#a9a19a;font:700 9px var(--data);letter-spacing:.12em;text-transform:uppercase}
+    .proof-intro strong{margin-top:7px;font:800 16px var(--display);text-transform:uppercase}
+    .proof-item b{color:var(--ember);font:800 27px var(--display)}
+    .proof-item span{margin-top:5px;color:#c5beb8;font-size:11px}
+
+    .journey{background:#fff}
+    .phone-line{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:22px;align-items:start}
+    .phone-line::before{content:"";position:absolute;left:7%;right:7%;top:246px;height:3px;border-radius:4px;background:linear-gradient(90deg,var(--tg),var(--fire),var(--ready),var(--ember));opacity:.55}
+    .phone-step{position:relative;z-index:2}
+    .phone-step:nth-child(even){margin-top:58px}
+    .phone-step .device{width:254px;height:520px;margin:0 auto;padding:8px;border-radius:43px}
+    .phone-step .device__screen{border-radius:35px}
+    .phone-step .device__screen::before{width:70px;height:19px;top:7px}
+    .phone-step .osbar{height:33px}
+    .phone-step .messenger-bar{height:41px;padding:0 10px}
+    .phone-step .bot-avatar{width:25px;height:25px;font-size:8px}
+    .phone-step .messenger-title b{font-size:9px}
+    .phone-step .miniapp-bar{height:33px}
+    .phone-step .app-screen{height:calc(100% - 107px);padding:11px}
+    .phone-step .cart-bar{left:11px;right:11px;bottom:11px;height:36px}
+    .step-num{position:absolute;left:50%;top:227px;z-index:5;width:38px;height:38px;display:grid;place-items:center;transform:translateX(-50%);border:7px solid #fff;border-radius:50%;background:var(--ink);color:#fff;font:800 8px var(--data)}
+    .phone-step:nth-child(even) .step-num{top:285px}
+
+    .theatre{background:var(--paper-2)}
+    .theatre-grid{display:grid;grid-template-columns:270px 1fr 280px;gap:46px;align-items:center;padding:50px;border-radius:38px;background:#1b1917;color:#fff;overflow:hidden}
+    .role-nav small{color:#8e8882;font:700 9px var(--data);letter-spacing:.11em;text-transform:uppercase}
+    .role-nav h3{margin:14px 0 24px;font:800 29px/1.08 var(--display);text-transform:uppercase}
+    .role-tabs{display:grid;gap:8px}
+    .role-tab{display:flex;align-items:center;justify-content:space-between;min-height:52px;padding:0 15px;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:#252220;color:#aaa39d;text-align:left;font-size:12px;font-weight:700}
+    .role-tab span{color:#746e68;font:700 9px var(--data)}
+    .role-tab.is-active{border-color:#fff;background:#fff;color:var(--ink)}
+    .role-tab.is-active span{color:var(--fire)}
+    .theatre-phone{position:relative;min-height:700px;display:grid;place-items:center}
+    .theatre-phone::before{content:"";position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(255,90,31,.24),transparent 67%)}
+    .phone-panel{display:none;position:relative;z-index:2}
+    .phone-panel.is-active{display:block}
+    .role-info{align-self:center}
+    .role-info .info-kicker{color:var(--ember);font:800 9px var(--data);letter-spacing:.11em;text-transform:uppercase}
+    .role-info h4{margin:12px 0 12px;font:800 23px/1.13 var(--display);text-transform:uppercase}
+    .role-info p{margin:0;color:#aaa39d;font-size:13px}
+    .role-info ul{list-style:none;margin:26px 0 0;padding:0}
+    .role-info li{position:relative;margin-top:13px;padding-left:20px;color:#d6d0ca;font-size:11px}
+    .role-info li::before{content:"";position:absolute;left:0;top:6px;width:8px;height:8px;border-radius:50%;background:var(--ready)}
+
+    .director{background:#fff}
+    .director-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:86px;align-items:center}
+    .director-copy h2{margin:18px 0 23px;font:800 clamp(44px,4.5vw,67px)/1.02 var(--display);letter-spacing:-.05em;text-transform:uppercase}
+    .director-copy p{max-width:520px;margin:0;color:var(--ink-2);font-size:18px}
+    .director-points{display:grid;gap:12px;margin-top:32px}
+    .director-point{display:grid;grid-template-columns:34px 1fr;gap:13px;align-items:center}
+    .director-point span{width:34px;height:34px;display:grid;place-items:center;border-radius:11px;background:#fff0e8;color:var(--fire-deep);font:800 9px var(--data)}
+    .director-point strong{font-size:13px}
+    .director-phones{position:relative;min-height:720px}
+    .director-phones::before{content:"";position:absolute;inset:70px 0 30px 50px;border-radius:38px;background:linear-gradient(145deg,#1b1917,#2a2521)}
+    .director-phone-a{position:absolute;left:20px;top:0;z-index:2}
+    .director-phone-b{position:absolute;right:0;bottom:0;z-index:3;transform:scale(.82);transform-origin:bottom right}
+    .director-pulse{position:absolute;right:24px;top:68px;z-index:4;width:210px;padding:14px 15px;border-radius:16px;background:#fff;color:var(--ink);box-shadow:var(--shadow)}
+    .director-pulse small{display:block;color:var(--ink-3);font-size:7px;text-transform:uppercase}
+    .director-pulse strong{display:block;margin-top:3px;font-size:10px}
+    .director-pulse b{color:var(--ready);font:800 10px var(--data)}
+
+    .sync{background:var(--paper-2)}
+    .sync-board{display:grid;grid-template-columns:330px 1fr 330px;gap:45px;align-items:center;padding:58px;border-radius:40px;background:#fff}
+    .sync-arrow{text-align:center}
+    .sync-arrow small{display:block;color:var(--fire-deep);font:800 9px var(--data);letter-spacing:.11em;text-transform:uppercase}
+    .sync-arrow h3{margin:15px 0;font:800 34px/1.08 var(--display);text-transform:uppercase}
+    .sync-arrow p{margin:0;color:var(--ink-2);font-size:13px}
+    .sync-arrow__line{position:relative;height:3px;margin:34px 0;background:linear-gradient(90deg,var(--fire),var(--ember),var(--ready))}
+    .sync-arrow__line::after{content:"";position:absolute;right:-1px;top:-5px;border-left:10px solid var(--ready);border-top:6px solid transparent;border-bottom:6px solid transparent}
+    .menu-edit{margin-top:8px;padding:11px;border-radius:12px;background:#fff}
+    .menu-edit__top{display:grid;grid-template-columns:48px 1fr;gap:9px;align-items:center}
+    .menu-edit img{width:48px;height:48px;object-fit:cover;border-radius:9px}
+    .menu-edit strong{display:block;font-size:9px}
+    .menu-edit small{display:block;color:#918b85;font-size:7px}
+    .edit-row{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:9px;border-top:1px solid #eee8e2;font-size:8px}
+    .toggle{width:38px;height:22px;padding:3px;border-radius:14px;background:var(--ready)}
+    .toggle::after{content:"";display:block;width:16px;height:16px;margin-left:16px;border-radius:50%;background:#fff}
+    .toast{margin-top:8px;padding:9px;border-radius:10px;background:var(--ready-soft);color:#378d18;font-size:8px;font-weight:800}
+
+    .ways{background:#fff}
+    .ways-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .way{padding:30px;border:1px solid var(--line);border-radius:28px;background:var(--paper);min-height:280px;display:flex;flex-direction:column}
+    .way-top{display:flex;align-items:center;justify-content:space-between}
+    .way-num{color:var(--fire-deep);font:800 11px var(--display)}
+    .way-tag{padding:6px 9px;border-radius:8px;background:#fff0e8;color:var(--fire-deep);font:800 8px var(--data);letter-spacing:.06em;text-transform:uppercase}
+    .way h3{margin:auto 0 10px;font:800 25px var(--display);text-transform:uppercase}
+    .way p{margin:0;color:var(--ink-2);font-size:13px}
+    .way-status{margin-top:24px;padding:12px;border-radius:13px;background:#fff;box-shadow:0 14px 30px -26px rgba(40,24,14,.5)}
+    .way-status small{display:block;color:var(--ink-3);font-size:7px;text-transform:uppercase}
+    .way-status strong{display:block;margin-top:3px;font-size:10px}
+
+    .cta{padding:118px 0 100px;background:linear-gradient(135deg,var(--fire),var(--fire-deep));color:#fff}
+    .cta-grid{display:grid;grid-template-columns:1fr .85fr;gap:80px;align-items:center}
+    .cta h2{margin:18px 0 22px;font:800 clamp(44px,4.8vw,68px)/1.02 var(--display);letter-spacing:-.05em;text-transform:uppercase}
+    .cta p{max-width:600px;margin:0;color:#ffe2d2;font-size:18px}
+    .cta .eyebrow{color:#fff}
+    .cta .eyebrow::before{background:#fff}
+    .lead-form{padding:28px;border-radius:28px;background:#fff;color:var(--ink);box-shadow:0 35px 70px -42px rgba(70,20,4,.68)}
+    .lead-form h3{margin:0;font:800 17px var(--display);text-transform:uppercase}
+    .lead-form p{margin:7px 0 20px;color:var(--ink-3);font-size:12px}
+    .lead-form label{display:block;margin-top:12px;color:var(--ink-2);font:800 9px var(--data);letter-spacing:.07em;text-transform:uppercase}
+    .lead-form input{width:100%;height:49px;margin-top:7px;padding:0 13px;border:1px solid var(--line);border-radius:13px;background:var(--paper);color:var(--ink)}
+    .lead-form .btn{width:100%;margin-top:17px;border:0}
+    .form-status{min-height:18px;margin-top:10px;color:#3d8e20;font-size:10px;font-weight:800}
+
+    .footer{padding:52px 0;background:#151311;color:#aaa29b}
+    .footer-row{display:flex;justify-content:space-between;gap:40px}
+    .footer .brand{color:#fff}
+    .footer p{max-width:450px;margin:12px 0 0;font-size:12px}
+    .footer-links{display:flex;gap:26px;font-size:12px;font-weight:700}
+    .footer-copy{display:flex;justify-content:space-between;margin-top:38px;padding-top:22px;border-top:1px solid rgba(255,255,255,.1);font:700 9px var(--data);letter-spacing:.08em;text-transform:uppercase}
+
+    @media (max-width:1120px){
+      .shell{width:min(100% - 48px,960px)}
+      .nav{display:none}
+      .hero-grid,.director-grid,.cta-grid{grid-template-columns:1fr}
+      .hero{padding-top:62px}
+      .phone-field{width:min(700px,100%);margin:20px auto 0}
+      .section-head{grid-template-columns:1fr;gap:20px}
+      .phone-line{grid-template-columns:repeat(2,1fr);row-gap:70px}
+      .phone-line::before{display:none}
+      .phone-step:nth-child(even){margin-top:0}
+      .step-num,.phone-step:nth-child(even) .step-num{top:227px}
+      .theatre-grid{grid-template-columns:220px 1fr}
+      .role-info{grid-column:1/-1;padding:0 16px 20px}
+      .director-phones{width:min(680px,100%);margin:0 auto}
+      .sync-board{grid-template-columns:1fr}
+      .sync-board>.device{margin:0 auto}
+      .sync-arrow__line{transform:rotate(90deg);width:90px;margin:50px auto}
+    }
+
+    @media (max-width:720px){
+      .shell{width:calc(100% - 30px)}
+      .section{padding:84px 0}
+      .header{height:72px}
+      .header .btn{display:none}
+      .hero{min-height:auto;padding:60px 0}
+      .hero h1{font-size:42px}
+      .hero-lead{font-size:17px}
+      .phone-field{height:660px}
+      .hero-phone-main{left:50%;transform:translateX(-50%) scale(.92);transform-origin:top center}
+      .hero-phone-side,.sync-note{display:none}
+      .proof-row,.phone-line,.ways-grid{grid-template-columns:1fr}
+      .proof-intro,.proof-item{min-height:100px;border-right:0;border-bottom:1px solid rgba(255,255,255,.1)}
+      .phone-step{margin-top:0!important}
+      .theatre-grid{grid-template-columns:1fr;padding:28px 18px}
+      .theatre-phone{order:3}
+      .role-info{order:2}
+      .role-tabs{grid-template-columns:1fr 1fr}
+      .director-phones{min-height:670px}
+      .director-phone-a{left:50%;transform:translateX(-50%) scale(.9);transform-origin:top center}
+      .director-phone-b,.director-pulse{display:none}
+      .sync-board{padding:28px 16px}
+      .section-head h2,.director-copy h2,.cta h2{font-size:38px}
+      .footer-row,.footer-copy{flex-direction:column}
+      .footer-links{flex-wrap:wrap}
+    }
+  </style>
+</head>
+<body data-platform="telegram">
+  <header class="header">
+    <div class="shell header-row">
+      <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true"></span>Юрта<b>НеЖди</b></a>
+      <nav class="nav" aria-label="Навигация">
+        <a href="#journey">Как работает</a>
+        <a href="#roles">Роли</a>
+        <a href="#director">Директору</a>
+        <a href="#manage">Меню</a>
+      </nav>
+      <a class="btn btn--fire" href="#demo">Получить демонстрацию</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="shell hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">Мобильный продукт для Telegram и MAX</span>
+          <h1>Заказ живёт<span>в телефоне.</span></h1>
+          <p class="hero-lead">Гость, кассир, кухня и директор работают в одном Mini App. Никаких отдельных программ и ПК-кабинетов — весь путь заказа внутри привычного мессенджера.</p>
+          <div class="hero-actions">
+            <a class="btn btn--fire" href="#demo">Подключить заведение</a>
+            <a class="btn btn--light" href="#journey">Увидеть весь путь</a>
+          </div>
+          <div class="platform-switch" aria-label="Показать платформу">
+            <small>Посмотреть в</small>
+            <button class="platform-btn is-active" type="button" data-platform-value="telegram">Telegram</button>
+            <button class="platform-btn" type="button" data-platform-value="max">MAX</button>
+          </div>
+        </div>
+
+        <div class="phone-field" aria-label="Мобильный продукт ЮртаНеЖди">
+          <div class="hero-phone-main">
+            <div class="device">
+              <div class="device__screen">
+                <div class="osbar"><span>19:02</span><span>● ●</span></div>
+                <div class="messenger-bar"><span class="messenger-back">‹</span><span class="bot-avatar">ЮН</span><span class="messenger-title"><b>ЮртаНеЖди</b><small>бот · Mini App</small></span><span class="platform-chip platform-name">Telegram</span></div>
+                <div class="miniapp-bar"><span>Закрыть</span><strong>Меню заведения</strong><span>•••</span></div>
+                <div class="app-screen">
+                  <div class="app-head"><div><small>Еда рядом</small><strong>Шашлычная №1</strong></div><span class="avatar-letter">М</span></div>
+                  <div class="search">Найти блюдо</div>
+                  <div class="venue"><img src="../assets/img/generated/venue-shawarma-counter.png" alt="Интерьер заведения" /><div><b>Мангал · Волгоград</b><small>Самовывоз к 19:20</small><em>Открыто · 15 минут</em></div></div>
+                  <div class="app-label">Популярное</div>
+                  <div class="food-grid"><div class="food"><img src="../assets/img/generated/dish-shawarma.png" alt="Шаурма" /><strong>Шаурма классическая</strong><b>500 ₽</b></div><div class="food"><img src="../assets/img/generated/dish-plov-lamb.png" alt="Плов" /><strong>Плов с бараниной</strong><b>480 ₽</b></div></div>
+                  <div class="cart-bar"><span>Корзина · 2 позиции</span><b>980 ₽</b></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="hero-phone-side">
+            <div class="device">
+              <div class="device__screen">
+                <div class="osbar"><span>19:02</span><span>● ●</span></div>
+                <div class="messenger-bar"><span class="messenger-back">‹</span><span class="bot-avatar">ЮН</span><span class="messenger-title"><b>ЮртаНеЖди</b><small>режим директора</small></span><span class="platform-chip platform-name">Telegram</span></div>
+                <div class="miniapp-bar"><span>Закрыть</span><strong>Моя точка</strong><span>•••</span></div>
+                <div class="app-screen app-screen--neutral">
+                  <div class="screen-title"><div><small>Центр · сегодня</small><strong>Добрый вечер</strong></div><span class="online">Онлайн</span></div>
+                  <div class="revenue-phone"><small>Выручка сегодня</small><strong>18 420 ₽</strong><div class="mini-bars"><i style="--h:28%"></i><i style="--h:42%"></i><i style="--h:35%"></i><i style="--h:57%"></i><i style="--h:64%"></i><i style="--h:76%"></i><i style="--h:92%"></i></div></div>
+                  <div class="metric-row" style="margin-top:8px"><div class="phone-metric"><small>Заказы</small><b>24</b></div><div class="phone-metric"><small>Чек</small><b>767 ₽</b></div><div class="phone-metric phone-metric--green"><small>Вовремя</small><b>96%</b></div></div>
+                  <div class="branch-row"><div class="branch"><small>Центр</small><b>12 340 ₽</b><span>16 заказов</span></div><div class="branch"><small>Южный</small><b>6 080 ₽</b><span>8 заказов</span></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="sync-note"><small>Заказ №120 · синхронизация</small><strong><span>Готов</span> — гость и касса уже уведомлены</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="proof" aria-label="Ключевые преимущества">
+      <div class="shell proof-row">
+        <div class="proof-intro"><small>Не новая программа</small><strong>Привычный мессенджер</strong></div>
+        <div class="proof-item"><b>1 бот</b><span>для гостя и всей команды</span></div>
+        <div class="proof-item"><b>0 ПК</b><span>для запуска и ежедневной работы</span></div>
+        <div class="proof-item"><b>4 роли</b><span>каждой — свой мобильный экран</span></div>
+      </div>
+    </section>
+
+    <section class="section journey" id="journey">
+      <div class="shell">
+        <div class="section-head">
+          <div><span class="eyebrow">Один заказ · четыре телефона</span><h2>Весь процесс помещается в карман</h2></div>
+          <p>Страница ничего не перелистывает за пользователя. Вся история видна сразу и читается обычным вертикальным скроллом.</p>
+        </div>
+        <div class="phone-line">
+          <article class="phone-step">
+            <span class="step-num">01</span>
+            <div class="device"><div class="device__screen"><div class="osbar"><span>18:58</span><span>● ●</span></div><div class="messenger-bar"><span class="messenger-back">‹</span><span class="bot-avatar">ЮН</span><span class="messenger-title"><b>ЮртаНеЖди</b><small>гость</small></span><span class="platform-chip platform-name">Telegram</span></div><div class="miniapp-bar"><span>Закрыть</span><strong>Оформление</strong><span>•••</span></div><div class="app-screen"><div class="screen-title"><div><small>Ваш заказ</small><strong>Самовывоз</strong></div><span class="status">К 19:20</span></div><div class="order-card"><div class="order-card__top"><b>Заказ</b><span>580 ₽</span></div><div class="order-items"><div><span>Шаурма классическая ×1</span><b>500 ₽</b></div><div><span>Лимонад ×1</span><b>80 ₽</b></div></div><div class="order-action">Оплатить 580 ₽</div></div><div class="toast">Карта сохранена в мессенджере</div></div></div></div>
+            <div class="phone-caption"><strong>Гость</strong><span>Заказал и оплатил</span></div>
+          </article>
+          <article class="phone-step">
+            <span class="step-num">02</span>
+            <div class="device"><div class="device__screen"><div class="osbar"><span>19:02</span><span>● ●</span></div><div class="messenger-bar"><span class="messenger-back">‹</span><span class="bot-avatar">ЮН</span><span class="messenger-title"><b>ЮртаНеЖди</b><small>касса</small></span><span class="platform-chip platform-name">Telegram</span></div><div class="miniapp-bar"><span>Закрыть</span><strong>Новые заказы</strong><span>•••</span></div><div class="app-screen app-screen--neutral"><div class="screen-title"><div><small>Смена · Центр</small><strong>Заказы</strong></div><span class="online">Онлайн</span></div><div class="metric-row"><div class="phone-metric phone-metric--fire"><small>Новые</small><b>1</b></div><div class="phone-metric"><small>В работе</small><b>3</b></div><div class="phone-metric phone-metric--green"><small>Готово</small><b>8</b></div></div><div class="order-card"><div class="order-card__top"><b>№120</b><span class="status">Новый</span></div><small>Мария · самовывоз к 19:20</small><div class="order-items"><div><span>Шаурма + лимонад</span><b>580 ₽</b></div></div><div class="order-action">Принять заказ</div></div></div></div></div>
+            <div class="phone-caption"><strong>Кассир</strong><span>Принял одним нажатием</span></div>
+          </article>
+          <article class="phone-step">
+            <span class="step-num">03</span>
+            <div class="device"><div class="device__screen"><div class="osbar"><span>19:04</span><span>● ●</span></div><div class="messenger-bar"><span class="messenger-back">‹</span><span class="bot-avatar">ЮН</span><span class="messenger-title"><b>ЮртаНеЖди</b><small>кухня</small></span><span class="platform-chip platform-name">Telegram</span></div><div class="miniapp-bar"><span>Закрыть</span><strong>Очередь кухни</strong><span>•••</span></div><div class="app-screen app-screen--neutral"><div class="screen-title"><div><small>3 заказа</small><strong>Готовим сейчас</strong></div><span class="online">Онлайн</span></div><div class="queue-item"><div class="queue-item__top"><b>№120</b><span>19:02</span></div><strong>Шаурма классическая ×1</strong><small>Без лука · фирменный соус</small><strong>Лимонад ×1</strong><div class="timer"><span>Готовится</span><b>04:12</b></div><div class="order-action order-action--green">Заказ готов</div></div><div class="queue-item"><div class="queue-item__top"><b>№118</b><span>18:49</span></div><strong>Плов с бараниной ×2</strong></div></div></div></div>
+            <div class="phone-caption"><strong>Кухня</strong><span>Приготовила по очереди</span></div>
+          </article>
+          <article class="phone-step">
+            <span class="step-num">04</span>
+            <div class="device"><div class="device__screen"><div class="osbar"><span>19:16</span><span>● ●</span></div><div class="messenger-bar"><span class="messenger-back">‹</span><span class="bot-avatar">ЮН</span><span class="messenger-title"><b>ЮртаНеЖди</b><small>директор</small></span><span class="platform-chip platform-name">Telegram</span></div><div class="miniapp-bar"><span>Закрыть</span><strong>Моя точка</strong><span>•••</span></div><div class="app-screen app-screen--neutral"><div class="screen-title"><div><small>Сегодня · Центр</small><strong>Результат</strong></div><span class="online">Live</span></div><div class="revenue-phone"><small>Выручка</small><strong>18 420 ₽</strong><div class="mini-bars"><i style="--h:28%"></i><i style="--h:42%"></i><i style="--h:35%"></i><i style="--h:57%"></i><i style="--h:64%"></i><i style="--h:76%"></i></div></div><div class="metric-row" style="margin-top:8px"><div class="phone-metric"><small>Заказы</small><b>24</b></div><div class="phone-metric"><small>Чек</small><b>767 ₽</b></div><div class="phone-metric phone-metric--green"><small>Вовремя</small><b>96%</b></div></div><div class="toast">№120 завершён · +580 ₽</div></div></div></div>
+            <div class="phone-caption"><strong>Директор</strong><span>Увидел продажу сразу</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section theatre" id="roles">
+      <div class="shell">
+        <div class="theatre-grid">
+          <div class="role-nav">
+            <small>Живой просмотр</small>
+            <h3>Один бот меняется под роль</h3>
+            <div class="role-tabs" role="tablist" aria-label="Режимы Mini App">
+              <button class="role-tab is-active" type="button" role="tab" data-role="guest" aria-selected="true">Гость <span>01</span></button>
+              <button class="role-tab" type="button" role="tab" data-role="cash">Кассир <span>02</span></button>
+              <button class="role-tab" type="button" role="tab" data-role="kitchen">Кухня <span>03</span></button>
+              <button class="role-tab" type="button" role="tab" data-role="director">Директор <span>04</span></button>
+            </div>
+          </div>
+          <div class="theatre-phone">
+            <div class="phone-panel is-active" data-panel="guest">
+              <div class="device"><div class="device__screen"><div class="osbar"><span>19:02</span><span>● ●</span></div><div class="messenger-bar"><span class="messenger-back">‹</span><span class="bot-avatar">ЮН</span><span class="messenger-title"><b>ЮртаНеЖди</b><small>гость</small></span><span class="platform-chip platform-name">Telegram</span></div><div class="miniapp-bar"><span>Закрыть</span><strong>Меню</strong><span>•••</span></div><div class="app-screen"><div class="app-head"><div><small>Еда рядом</small><strong>Шашлычная №1</strong></div><span class="avatar-letter">М</span></div><div class="search">Найти блюдо</div><div class="venue"><img src="../assets/img/generated/venue-shawarma-counter.png" alt="Заведение" /><div><b>Мангал · Волгоград</b><small>Самовывоз к 19:20</small><em>Открыто</em></div></div><div class="app-label">Популярное</div><div class="food-grid"><div class="food"><img src="../assets/img/generated/dish-shawarma.png" alt="Шаурма" /><strong>Шаурма</strong><b>500 ₽</b></div><div class="food"><img src="../assets/img/generated/dish-plov-lamb.png" alt="Плов" /><strong>Плов</strong><b>480 ₽</b></div></div><div class="cart-bar"><span>Корзина</span><b>980 ₽</b></div></div></div></div>
+            </div>
+            <div class="phone-panel" data-panel="cash">
+              <div class="device"><div class="device__screen"><div class="osbar"><span>19:02</span><span>● ●</span></div><div class="messenger-bar"><span class="messenger-back">‹</span><span class="bot-avatar">ЮН</span><span class="messenger-title"><b>ЮртаНеЖди</b><small>касса</small></span><span class="platform-chip platform-name">Telegram</span></div><div class="miniapp-bar"><span>Закрыть</span><strong>Заказы</strong><span>•••</span></div><div class="app-screen app-screen--neutral"><div class="screen-title"><div><small>Смена · Центр</small><strong>Новые заказы</strong></div><span class="online">Онлайн</span></div><div class="metric-row"><div class="phone-metric phone-metric--fire"><small>Новые</small><b>1</b></div><div class="phone-metric"><small>В работе</small><b>3</b></div><div class="phone-metric phone-metric--green"><small>Готово</small><b>8</b></div></div><div class="order-card"><div class="order-card__top"><b>№120</b><span class="status">Новый</span></div><small>Мария · самовывоз к 19:20</small><div class="order-items"><div><span>Шаурма ×1</span><b>500 ₽</b></div><div><span>Лимонад ×1</span><b>80 ₽</b></div></div><div class="order-action">Принять и отправить на кухню</div></div><div class="order-card"><div class="order-card__top"><b>№119</b><span class="status status--ready">Готов</span></div><small>Илья · к столику</small></div></div></div></div>
+            </div>
+            <div class="phone-panel" data-panel="kitchen">
+              <div class="device"><div class="device__screen"><div class="osbar"><span>19:04</span><span>● ●</span></div><div class="messenger-bar"><span class="messenger-back">‹</span><span class="bot-avatar">ЮН</span><span class="messenger-title"><b>ЮртаНеЖди</b><small>кухня</small></span><span class="platform-chip platform-name">Telegram</span></div><div class="miniapp-bar"><span>Закрыть</span><strong>Очередь кухни</strong><span>•••</span></div><div class="app-screen app-screen--neutral"><div class="screen-title"><div><small>3 заказа</small><strong>Готовим</strong></div><span class="online">Онлайн</span></div><div class="queue-item"><div class="queue-item__top"><b>№120</b><span>19:02</span></div><strong>Шаурма классическая ×1</strong><small>Без лука · фирменный соус</small><strong>Лимонад ×1</strong><div class="timer"><span>Готовится</span><b>04:12</b></div><div class="order-action order-action--green">Заказ готов</div></div><div class="queue-item"><div class="queue-item__top"><b>№118</b><span>18:49</span></div><strong>Плов с бараниной ×2</strong><small>Обычная подача</small></div></div></div></div>
+            </div>
+            <div class="phone-panel" data-panel="director">
+              <div class="device"><div class="device__screen"><div class="osbar"><span>19:16</span><span>● ●</span></div><div class="messenger-bar"><span class="messenger-back">‹</span><span class="bot-avatar">ЮН</span><span class="messenger-title"><b>ЮртаНеЖди</b><small>директор</small></span><span class="platform-chip platform-name">Telegram</span></div><div class="miniapp-bar"><span>Закрыть</span><strong>Моя точка</strong><span>•••</span></div><div class="app-screen app-screen--neutral"><div class="screen-title"><div><small>Сегодня · Центр</small><strong>Обзор</strong></div><span class="online">Live</span></div><div class="revenue-phone"><small>Выручка сегодня</small><strong>18 420 ₽</strong><div class="mini-bars"><i style="--h:28%"></i><i style="--h:42%"></i><i style="--h:35%"></i><i style="--h:57%"></i><i style="--h:64%"></i><i style="--h:76%"></i><i style="--h:92%"></i></div></div><div class="metric-row" style="margin-top:8px"><div class="phone-metric"><small>Заказы</small><b>24</b></div><div class="phone-metric"><small>Чек</small><b>767 ₽</b></div><div class="phone-metric phone-metric--green"><small>Вовремя</small><b>96%</b></div></div><div class="branch-row"><div class="branch"><small>Центр</small><b>12 340 ₽</b><span>16 заказов</span></div><div class="branch"><small>Южный</small><b>6 080 ₽</b><span>8 заказов</span></div></div></div></div></div>
+            </div>
+          </div>
+          <div class="role-info">
+            <span class="info-kicker">Не четыре приложения</span>
+            <h4>Один вход. Нужный режим.</h4>
+            <p>Роль сотрудника определяет, что он увидит после открытия бота. Лишние функции не мешают работе.</p>
+            <ul><li>Открывается прямо из чата</li><li>Не требует установки</li><li>Обновляется для всех сразу</li><li>Работает в Telegram и MAX</li></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section director" id="director">
+      <div class="shell director-grid">
+        <div class="director-copy">
+          <span class="eyebrow">Директору</span>
+          <h2>Бизнес тоже всегда под рукой</h2>
+          <p>Выручка, заказы, средний чек и точки сети — в мобильном режиме директора. Проверить смену можно из любого места, без ноутбука.</p>
+          <div class="director-points"><div class="director-point"><span>01</span><strong>Показатели обновляются после каждого заказа</strong></div><div class="director-point"><span>02</span><strong>Все точки сети видны в одном мобильном экране</strong></div><div class="director-point"><span>03</span><strong>Меню и доступность блюд меняются с телефона</strong></div></div>
+        </div>
+        <div class="director-phones">
+          <div class="director-phone-a"><div class="device"><div class="device__screen"><div class="osbar"><span>19:16</span><span>● ●</span></div><div class="messenger-bar"><span class="messenger-back">‹</span><span class="bot-avatar">ЮН</span><span class="messenger-title"><b>ЮртаНеЖди</b><small>директор</small></span><span class="platform-chip platform-name">Telegram</span></div><div class="miniapp-bar"><span>Закрыть</span><strong>Аналитика</strong><span>•••</span></div><div class="app-screen app-screen--neutral"><div class="screen-title"><div><small>Все точки · сегодня</small><strong>18 420 ₽</strong></div><span class="online">Live</span></div><div class="revenue-phone"><small>Выручка по часам</small><div class="mini-bars" style="height:120px"><i style="--h:28%"></i><i style="--h:42%"></i><i style="--h:35%"></i><i style="--h:57%"></i><i style="--h:64%"></i><i style="--h:76%"></i><i style="--h:92%"></i></div></div><div class="metric-row" style="margin-top:8px"><div class="phone-metric"><small>Заказы</small><b>24</b></div><div class="phone-metric"><small>Чек</small><b>767 ₽</b></div><div class="phone-metric phone-metric--green"><small>Вовремя</small><b>96%</b></div></div><div class="branch-row"><div class="branch"><small>Центр</small><b>12 340 ₽</b><span>+12%</span></div><div class="branch"><small>Южный</small><b>6 080 ₽</b><span>+8%</span></div></div></div></div></div></div>
+          <div class="director-phone-b"><div class="device"><div class="device__screen"><div class="osbar"><span>19:16</span><span>● ●</span></div><div class="messenger-bar"><span class="messenger-back">‹</span><span class="bot-avatar">ЮН</span><span class="messenger-title"><b>ЮртаНеЖди</b><small>директор</small></span><span class="platform-chip platform-name">Telegram</span></div><div class="miniapp-bar"><span>Закрыть</span><strong>Точки сети</strong><span>•••</span></div><div class="app-screen app-screen--neutral"><div class="screen-title"><div><small>Волгоград</small><strong>3 точки</strong></div><span class="online">Все онлайн</span></div><div class="order-card"><div class="order-card__top"><b>Центр</b><span class="status status--ready">Открыто</span></div><small>16 заказов · 12 340 ₽</small></div><div class="order-card"><div class="order-card__top"><b>Южный</b><span class="status status--ready">Открыто</span></div><small>8 заказов · 6 080 ₽</small></div><div class="order-card"><div class="order-card__top"><b>Фуд-корт</b><span class="status">Пауза</span></div><small>Подготовка к открытию</small></div></div></div></div></div></div>
+          <div class="director-pulse"><small>Только что</small><strong>Заказ №120 завершён</strong><b>+580 ₽ к выручке</b></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section sync" id="manage">
+      <div class="shell">
+        <div class="section-head"><div><span class="eyebrow">Меню с телефона</span><h2>Изменили один раз — увидели все</h2></div><p>Директор скрывает закончившееся блюдо в своём режиме. У гостя оно исчезает сразу, без разработчика и переустановки.</p></div>
+        <div class="sync-board">
+          <div class="device"><div class="device__screen"><div class="osbar"><span>17:40</span><span>● ●</span></div><div class="messenger-bar"><span class="messenger-back">‹</span><span class="bot-avatar">ЮН</span><span class="messenger-title"><b>ЮртаНеЖди</b><small>директор</small></span><span class="platform-chip platform-name">Telegram</span></div><div class="miniapp-bar"><span>Закрыть</span><strong>Управление меню</strong><span>•••</span></div><div class="app-screen app-screen--neutral"><div class="screen-title"><div><small>Шашлычная №1</small><strong>Меню</strong></div><span class="online">Синхронно</span></div><div class="menu-edit"><div class="menu-edit__top"><img src="../assets/img/generated/dish-shawarma.png" alt="Шаурма" /><div><strong>Шаурма классическая</strong><small>500 ₽ · основное</small></div></div><div class="edit-row"><span>Доступно для заказа</span><span class="toggle"></span></div></div><div class="menu-edit"><div class="menu-edit__top"><img src="../assets/img/generated/dish-plov-lamb.png" alt="Плов" /><div><strong>Плов с бараниной</strong><small>480 ₽ · осталось 4</small></div></div><div class="edit-row"><span>Доступно для заказа</span><span class="toggle"></span></div></div><div class="menu-edit"><div class="menu-edit__top"><img src="../assets/img/generated/dish-samsa.png" alt="Самса" /><div><strong>Самса тандырная</strong><small>200 ₽ · нет в наличии</small></div></div><div class="edit-row"><span>Скрыто в меню</span><span class="toggle" style="background:#d8d2cc"><span></span></span></div></div><div class="toast">Изменения опубликованы</div></div></div></div>
+          <div class="sync-arrow"><small>Мгновенная синхронизация</small><h3>Без звонков и ручных правок</h3><p>Настройка остаётся в том же Mini App, где директор следит за бизнесом.</p><div class="sync-arrow__line"></div><strong>Результат у гостя</strong></div>
+          <div class="device"><div class="device__screen"><div class="osbar"><span>17:40</span><span>● ●</span></div><div class="messenger-bar"><span class="messenger-back">‹</span><span class="bot-avatar">ЮН</span><span class="messenger-title"><b>ЮртаНеЖди</b><small>гость</small></span><span class="platform-chip platform-name">Telegram</span></div><div class="miniapp-bar"><span>Закрыть</span><strong>Меню</strong><span>•••</span></div><div class="app-screen"><div class="app-head"><div><small>Еда рядом</small><strong>Шашлычная №1</strong></div><span class="avatar-letter">М</span></div><div class="search">Найти блюдо</div><div class="app-label">Основное</div><div class="food-grid"><div class="food"><img src="../assets/img/generated/dish-shawarma.png" alt="Шаурма" /><strong>Шаурма</strong><b>500 ₽</b></div><div class="food"><img src="../assets/img/generated/dish-plov-lamb.png" alt="Плов" /><strong>Плов</strong><b>480 ₽</b></div><div class="food"><img src="../assets/img/generated/dish-lagman.png" alt="Лагман" /><strong>Лагман</strong><b>340 ₽</b></div><div class="food"><img src="../assets/img/generated/dish-black-tea.png" alt="Чай" /><strong>Чёрный чай</strong><b>120 ₽</b></div></div><div class="cart-bar"><span>Выбрано 1 блюдо</span><b>500 ₽</b></div></div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section ways">
+      <div class="shell">
+        <div class="section-head"><div><span class="eyebrow">Способы получения</span><h2>Разный сценарий. Один бот.</h2></div><p>Гость выбирает способ в телефоне, а команда получает готовый тип заказа без уточняющих звонков.</p></div>
+        <div class="ways-grid">
+          <article class="way"><div class="way-top"><span class="way-num">01</span><span class="way-tag">Без очереди</span></div><div><h3>Самовывоз</h3><p>Заказ по пути и готовность к выбранному времени.</p><div class="way-status"><small>Сообщение в боте</small><strong>Заказ №120 готов к выдаче</strong></div></div></article>
+          <article class="way"><div class="way-top"><span class="way-num">02</span><span class="way-tag">В заведении</span></div><div><h3>К столику</h3><p>QR открывает Mini App и привязывает заказ к столику.</p><div class="way-status"><small>Стол 8</small><strong>Официант уже несёт заказ</strong></div></div></article>
+          <article class="way"><div class="way-top"><span class="way-num">03</span><span class="way-tag">Статус виден</span></div><div><h3>Доставка</h3><p>Гость видит приготовление и передачу курьеру в чате.</p><div class="way-status"><small>Статус заказа</small><strong>Передан курьеру · 18 минут</strong></div></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" id="demo">
+      <div class="shell cta-grid">
+        <div><span class="eyebrow">Подключение под ключ</span><h2>Покажем Mini App прямо в вашем телефоне</h2><p>Откроете Telegram или MAX, пройдёте путь гостя и увидите режимы команды на реальном сценарии вашего заведения.</p></div>
+        <form class="lead-form" id="leadForm"><h3>Получить демонстрацию</h3><p>Оставьте контакт — пришлём вход в тестовый Mini App.</p><label for="venue">Название заведения</label><input id="venue" name="venue" placeholder="Например, King Food" /><label for="contact">Телефон или Telegram</label><input id="contact" name="contact" placeholder="@username или +7 900 000-00-00" /><button class="btn btn--fire" type="submit">Открыть тестовый Mini App</button><div class="form-status" id="formStatus" aria-live="polite"></div></form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="shell"><div class="footer-row"><div><a class="brand" href="#top"><span class="brand-mark" aria-hidden="true"></span>Юрта<b>НеЖди</b></a><p>Мобильный Mini App для гостя, кассира, кухни и директора — внутри Telegram и MAX.</p></div><nav class="footer-links"><a href="#journey">Как работает</a><a href="#roles">Роли</a><a href="#director">Директору</a><a href="#demo">Демонстрация</a></nav></div><div class="footer-copy"><span>© 2026 ЮртаНеЖди</span><span>Весь продукт — в телефоне</span></div></div>
+  </footer>
+
+  <script>
+    const roleTabs = [...document.querySelectorAll('.role-tab')];
+    const rolePanels = [...document.querySelectorAll('.phone-panel')];
+    roleTabs.forEach((tab) => tab.addEventListener('click', () => {
+      const role = tab.dataset.role;
+      roleTabs.forEach((item) => {
+        const active = item === tab;
+        item.classList.toggle('is-active', active);
+        item.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+      rolePanels.forEach((panel) => panel.classList.toggle('is-active', panel.dataset.panel === role));
+    }));
+
+    const platformButtons = [...document.querySelectorAll('.platform-btn')];
+    const platformNames = [...document.querySelectorAll('.platform-name')];
+    platformButtons.forEach((button) => button.addEventListener('click', () => {
+      const platform = button.dataset.platformValue;
+      document.body.dataset.platform = platform;
+      platformButtons.forEach((item) => item.classList.toggle('is-active', item === button));
+      platformNames.forEach((item) => { item.textContent = platform === 'max' ? 'MAX' : 'Telegram'; });
+    }));
+
+    document.getElementById('leadForm').addEventListener('submit', (event) => {
+      event.preventDefault();
+      document.getElementById('formStatus').textContent = 'Готово — в рабочей версии здесь появится ссылка на тестовый Mini App.';
+    });
+  </script>
+</body>
+</html>

@@ -4,3 +4,10 @@
 
 # Результат `node build.mjs` — собирается из исходников, в git не хранится.
 dist/
+
+# Генерируемая обёртка для публикации через Sites.
+node_modules/
+public/assets/
+app/site-html.ts
+.next/
+.wrangler/

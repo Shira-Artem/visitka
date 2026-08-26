@@ -11,7 +11,7 @@
 
    Механика прогресса общая с Story и живёт в lib/scroll-scene.js.
    ============================================================ */
-import { bp, prefersReduced } from '../lib/breakpoints.js';
+import { bp } from '../lib/breakpoints.js';
 import { createPinnedScene } from '../lib/scroll-scene.js';
 import { createLayoutSwitch } from '../lib/layout-switch.js';
 
@@ -123,6 +123,8 @@ export function initWays() {
       track: waysTrack,
       acts: WAYS_ACTS,
       hysteresis: 0.1,
+      // Keep the three pickup methods as simple, intentional flips.
+      snapToActs: true,
       // Внутри средних актов граница держится точной, иначе rawAct вида 3.6
       // (61.5% полосы «table») округляется в 4 (outro), и карточка сцены
       // переключается на середине своей полосы, а не в конце.
@@ -141,6 +143,7 @@ export function initWays() {
   }
 
   function setupFlow() {
+    const desktopFlow = bp.is('desktop');
     waysTrack.style.removeProperty('height');
     wayCards.forEach(function (card) {
       card.classList.remove('is-active', 'is-receded');
@@ -157,14 +160,20 @@ export function initWays() {
       io = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
           if (!entry.isIntersecting) return;
-          entry.target.classList.add('is-active');
-          playWayDemo(entry.target);
+          entry.target.classList.add('in-view');
+          if (!desktopFlow) {
+            entry.target.classList.add('is-active');
+            playWayDemo(entry.target);
+          }
           io.unobserve(entry.target);
         });
       }, { threshold: 0.35, rootMargin: '0px 0px -8% 0px' });
       wayCards.forEach(function (card) { io.observe(card); });
     } else {
-      wayCards.forEach(function (card) { card.classList.add('is-active'); playWayDemo(card); });
+      wayCards.forEach(function (card) {
+        card.classList.add('in-view');
+        if (!desktopFlow) { card.classList.add('is-active'); playWayDemo(card); }
+      });
     }
 
     return function cleanup() {
@@ -172,34 +181,10 @@ export function initWays() {
     };
   }
 
-  // The <=620px GSAP showcase is staged by mobile-product-journey.js. This
-  // module deliberately stays passive there so only one scroll controller can
-  // own the cards. If GSAP/plugins fail, fall back to the readable flow.
-  function setupMobilePassive() {
-    waysTrack.style.removeProperty('height');
-    waysStage.classList.remove('is-outro');
-    waysStage.removeAttribute('data-way-mood');
-    wayCards.forEach(function (card) {
-      card.classList.remove('is-active', 'is-receded', 'is-flow-active');
-      stopWayDemo(card);
-    });
-    // The showcase marks the stage synchronously during boot. A missing mark
-    // means the enhancement could not start, so reveal the semantic card list.
-    let fallback = null;
-    const fallbackTimer = window.setTimeout(function () {
-      if (!waysStage.hasAttribute('data-ways-showcase')) fallback = setupFlow();
-    }, 0);
-    return function cleanup() {
-      window.clearTimeout(fallbackTimer);
-      if (fallback) fallback();
-    };
-  }
-
   return createLayoutSwitch(
     function () {
-      if (window.matchMedia('(max-width: 620px)').matches && !prefersReduced()) return 'mobile-passive';
-      return (!bp.is('desktop') || prefersReduced()) ? 'flow' : 'pinned';
+    return 'flow';
     },
-    { pinned: setupPinned, flow: setupFlow, 'mobile-passive': setupMobilePassive }
+    { pinned: setupPinned, flow: setupFlow }
   );
 }

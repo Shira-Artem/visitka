@@ -78,6 +78,19 @@
   opacity:.5;z-index:1;
 }
 
+/* Desktop reading mode: cards live in the page instead of inside a pinned
+   wheel-controlled scene. This keeps the section calm and scannable. */
+@media (min-width:981px){
+  .ways__track{height:auto!important}
+  .ways__stage{position:relative;top:auto;height:auto;min-height:100svh;overflow:visible;padding:clamp(96px,11vh,140px) 0 120px;justify-content:flex-start}
+  .ways__inner{max-width:var(--maxw);margin:0 auto}
+  .ways__grid{gap:clamp(18px,2.2vw,30px);align-items:stretch}
+  .way-card{min-height:390px;transform:none!important;opacity:1!important}
+  .way-card.is-active,.way-card.is-receded{transform:none!important;opacity:1!important}
+  .way-card__demo{display:none}
+  .way-card__desc{opacity:1!important}
+}
+
 /* Призрачная нумерация — та же идея, что .story__act-panel::before у шагов
    сценария выше: держит ритм «шаг за шагом» и подсвечена цветом карточки.
    На активной карточке слегка «загорается» и приподнимается — тихий акцент,
