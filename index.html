@@ -33,7 +33,7 @@
   <link rel="stylesheet" href="assets/css/hero-demo.css" />
   <link rel="stylesheet" href="assets/css/sections/ways.css" />
   <link rel="stylesheet" href="assets/css/desktop-landing.css?v=20260821-12" />
-  <link rel="stylesheet" href="assets/css/mobile-v2.css?v=20260826-14" />
+  <link rel="stylesheet" href="assets/css/mobile-v2.css?v=20260826-15" />
 </head>
 <body id="top">
 
@@ -526,7 +526,7 @@
         </button>
       </section>
 
-      <section class="mv2-messenger mv2-launch" id="mobile-platforms" aria-labelledby="mobile-platforms-title">
+      <section class="mv2-messenger mv2-launch" id="mobile-platforms" aria-labelledby="mobile-platforms-title" data-mv2-launch>
         <span class="mv2-eyebrow">Всё под ключ</span>
         <h2 id="mobile-platforms-title">Запускаем под ключ —<br><em>быстро</em> и без забот.</h2>
         <p>От вас — только меню и желание стартовать. Подключим, заполним, оформим и подготовим всё для запуска.</p>
@@ -538,11 +538,11 @@
           <li><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m13 3-8 10h6l-1 8 9-12h-6z"/></svg></span><b>Быстрый<br>старт</b></li>
         </ul>
 
-        <div class="mv2-launch-flow" data-mv2-reveal>
+        <div class="mv2-launch-flow" data-mv2-launch-flow>
           <ol class="mv2-launch-steps" aria-label="Как проходит запуск">
-            <li><b>1</b><article><span aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="3"/><path d="m10 9 5 3-5 3z"/></svg></span><strong>Показываем демо</strong><p>Коротко проводим по сценарию и отвечаем на вопросы.</p></article></li>
-            <li><b>2</b><article><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 4h12v16H6zM9 8h6M9 12h6M9 16h3"/></svg></span><strong>Заполняем меню</strong><p>Переносим позиции, цены, категории и модификаторы.</p></article></li>
-            <li><b>3</b><article><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m13 3-8 10h6l-1 8 9-12h-6z"/></svg></span><strong>Запускаем быстро</strong><p>Оформляем, готовим материалы и запускаем команду.</p></article></li>
+            <li data-mv2-launch-step><b>1</b><article><span aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="3"/><path d="m10 9 5 3-5 3z"/></svg></span><strong>Показываем демо</strong><p>Коротко проводим по сценарию и отвечаем на вопросы.</p></article></li>
+            <li data-mv2-launch-step><b>2</b><article><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 4h12v16H6zM9 8h6M9 12h6M9 16h3"/></svg></span><strong>Заполняем меню</strong><p>Переносим позиции, цены, категории и модификаторы.</p></article></li>
+            <li data-mv2-launch-step><b>3</b><article><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m13 3-8 10h6l-1 8 9-12h-6z"/></svg></span><strong>Запускаем быстро</strong><p>Оформляем, готовим материалы и запускаем команду.</p></article></li>
           </ol>
           <div class="mv2-launch-phone" aria-label="Переписка о подготовке меню">
             <div class="mv2-launch-phone__notch"></div>
@@ -556,7 +556,7 @@
           </div>
         </div>
 
-        <aside class="mv2-launch-bonus" data-mv2-reveal aria-label="Бонусы для запуска">
+        <aside class="mv2-launch-bonus" data-mv2-launch-bonus aria-label="Бонусы для запуска">
           <header><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 8h12v12H6zM4 8V5h16v3M12 5v15M8 12h8"/></svg></span><b>Бонусы для вас</b></header>
           <div>
             <article><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8h4l1.5-2h5L16 8h4v11H4z"/><circle cx="12" cy="13" r="3"/></svg></span><b>Генерируем фото<br>для меню</b></article>
@@ -575,7 +575,7 @@
 
     </main>
 
-    <footer class="mv2-footer">
+    <footer class="mv2-footer" data-mv2-reveal>
       <div class="mv2-footer__top">
         <a class="mv2-brand" href="#mobile-main"><svg class="mv2-brand__flame" viewBox="0 0 32 38" aria-hidden="true"><path d="M17 0c2 7-1 10 1 14 1 2 3 2 4 0 2-3 1-7 0-9 7 6 10 13 8 21-2 8-8 12-15 12C6 38 0 32 0 23 0 16 4 11 9 6c-1 6 1 9 4 9 4 0 6-6 4-15Z" fill="currentColor"/></svg><span>Юрта <b>НеЖди</b></span></a>
         <span class="mv2-footer__spark" aria-hidden="true"></span>
@@ -1491,6 +1491,6 @@
   <!-- Desktop and mobile keep separate, small controllers. -->
   <script src="assets/js/desktop-product-screens.js?v=20260821-4" defer></script>
   <script src="assets/js/desktop-landing.js?v=20260821-4" defer></script>
-  <script src="assets/js/mobile-v2.js?v=20260826-14" defer></script>
+  <script src="assets/js/mobile-v2.js?v=20260826-15" defer></script>
 </body>
 </html>

@@ -380,6 +380,114 @@
     revealItems.forEach((item) => revealObserver.observe(item));
   }
 
+  function setupLaunchMotion() {
+    const section = root.querySelector('[data-mv2-launch]');
+    const flow = section?.querySelector('[data-mv2-launch-flow]');
+    const steps = [...(section?.querySelectorAll('[data-mv2-launch-step]') || [])];
+    const proofCards = [...(section?.querySelectorAll('.mv2-launch-proof > li') || [])];
+    const bonus = section?.querySelector('[data-mv2-launch-bonus]');
+    const bonusCards = [...(bonus?.querySelectorAll('article') || [])];
+    if (!section || !flow || !bonus || steps.length !== 3 || proofCards.length !== 4 || bonusCards.length !== 3) return;
+
+    const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const setStepState = (activeIndex, progress) => {
+      steps.forEach((step, index) => {
+        step.classList.toggle('is-active', index === activeIndex);
+        step.classList.toggle('is-passed', index < activeIndex);
+      });
+      section.style.setProperty('--mv2-launch-progress', progress.toFixed(3));
+    };
+
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+      section.classList.add('mv2-launch-motion-static', 'is-intro-visible');
+      bonus.classList.add('is-bonus-visible');
+      setStepState(2, 1);
+      return;
+    }
+
+    section.classList.add('mv2-launch-motion-ready');
+
+    const introObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        section.classList.add('is-intro-visible');
+        observer.unobserve(section);
+      });
+    }, { threshold: .08, rootMargin: '0px 0px -12% 0px' });
+    introObserver.observe(section);
+
+    const bonusObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        bonus.classList.add('is-bonus-visible');
+        observer.unobserve(bonus);
+      });
+    }, { threshold: .18, rootMargin: '0px 0px -8% 0px' });
+    bonusObserver.observe(bonus);
+
+    let motionFrame = 0;
+    const syncLaunchStory = () => {
+      motionFrame = 0;
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      const sectionBox = section.getBoundingClientRect();
+      const firstBox = steps[0].getBoundingClientRect();
+      const lastBox = steps[steps.length - 1].getBoundingClientRect();
+      const target = viewportHeight * .58;
+      const firstCenter = firstBox.top + firstBox.height / 2;
+      const lastCenter = lastBox.top + lastBox.height / 2;
+      const journeySpan = Math.max(1, lastCenter - firstCenter);
+      const progress = Math.min(1, Math.max(0, (target - firstCenter) / journeySpan));
+      const storyEntered = firstCenter <= viewportHeight * .82;
+      const activeIndex = storyEntered
+        ? Math.min(steps.length - 1, Math.max(0, Math.round(progress * (steps.length - 1))))
+        : -1;
+      const travel = Math.min(1, Math.max(0, (viewportHeight - sectionBox.top) / (viewportHeight + sectionBox.height)));
+      const parallax = (travel - .5) * 20;
+
+      section.classList.toggle('is-launch-story-entered', storyEntered);
+      setStepState(activeIndex, progress);
+      section.style.setProperty('--mv2-launch-phone-y', `${parallax.toFixed(2)}px`);
+      section.style.setProperty('--mv2-launch-bg-y', `${(-parallax * .52).toFixed(2)}px`);
+      section.style.setProperty('--mv2-launch-lines-y', `${(parallax * .36).toFixed(2)}px`);
+    };
+
+    const requestLaunchSync = () => {
+      if (motionFrame) return;
+      motionFrame = requestAnimationFrame(syncLaunchStory);
+    };
+    window.addEventListener('scroll', requestLaunchSync, { passive: true });
+    window.addEventListener('resize', requestLaunchSync, { passive: true });
+    syncLaunchStory();
+
+    const tactileCards = [...proofCards, ...bonusCards, ...steps.map((step) => step.querySelector('article'))].filter(Boolean);
+    const updateCardMotion = (card, event) => {
+      if (event.pointerType === 'touch' && !card.classList.contains('is-pressed')) return;
+      const box = card.getBoundingClientRect();
+      const x = Math.min(1, Math.max(-1, ((event.clientX - box.left) / box.width - .5) * 2));
+      const y = Math.min(1, Math.max(-1, ((event.clientY - box.top) / box.height - .5) * 2));
+      card.style.setProperty('--mv2-card-x', `${(x * 1.8).toFixed(2)}px`);
+      card.style.setProperty('--mv2-card-y', `${(y * 1.2).toFixed(2)}px`);
+      card.style.setProperty('--mv2-card-r', `${(x * .28).toFixed(2)}deg`);
+    };
+    const resetCardMotion = (card) => {
+      card.classList.remove('is-pressed');
+      card.style.setProperty('--mv2-card-x', '0px');
+      card.style.setProperty('--mv2-card-y', '0px');
+      card.style.setProperty('--mv2-card-r', '0deg');
+    };
+
+    tactileCards.forEach((card) => {
+      card.addEventListener('pointerdown', (event) => {
+        card.classList.add('is-pressed');
+        updateCardMotion(card, event);
+      });
+      card.addEventListener('pointermove', (event) => updateCardMotion(card, event));
+      card.addEventListener('pointerleave', () => resetCardMotion(card));
+      card.addEventListener('pointercancel', () => resetCardMotion(card));
+      card.addEventListener('pointerup', () => resetCardMotion(card));
+    });
+  }
+
   function setupFinalCtaMotion() {
     const finalCta = root.querySelector('[data-mv2-final]');
     if (!finalCta) return;
@@ -533,6 +641,7 @@
   setPlatform(platform);
   setupWayScrollStory();
   setupJourneyMotion();
+  setupLaunchMotion();
   setupFinalCtaMotion();
   setupScanInteraction();
   setupDirectorDemo();
