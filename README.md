@@ -1,60 +1,42 @@
 # ЮртаНеЖди — Visitka
 
-Адаптивный лендинг сервиса заказа еды и мобильного Mini App для заведений. Desktop продаёт
-владельцу единый поток **гость → заказ → касса → кухня → директор**, а mobile ведёт гостя
-по отдельному сценарию заказа с телефона.
+Единая рабочая версия лендинга. Источник истины — ветка `master` и корневой
+`index.html`.
 
-> **АКТУАЛЬНЫЕ PRODUCTION-ВЕРСИИ**
->
-> Единая точка входа — `index.html` из корня проекта. На экранах шире 900 px работает
-> официальная desktop-композиция `.desktop-site`, на экранах до 900 px — официальная
-> mobile-композиция `.mobile-v2`.
->
-> `qa/approved-mockups/` содержит immutable-референсы обеих утверждённых композиций.
+## Архитектура
 
-## С чего начать
+- `index.html` — одна точка входа; внутри находятся отдельные desktop- и mobile-композиции.
+- `assets/css/` — production-стили.
+- `assets/js/` — production-логика без runtime-фреймворка.
+- `assets/img/` — изображения, которые использует сайт.
+- `build.mjs` — единственная production-сборка; результат создаётся в `dist/`.
+- `qa/approved-mockups/` — immutable-эталоны. Это не deploy-источник.
+- `AGENTS.md` — обязательные правила перед frontend/UI-изменениями.
 
-1. Прочитать [`docs/project-context/README.md`](docs/project-context/README.md).
-2. Затем открыть [`product.md`](docs/project-context/product.md), [`desktop.md`](docs/project-context/desktop.md)
-   и [`qa.md`](docs/project-context/qa.md) внутри этой папки.
-3. Перед frontend-изменениями прочитать корневой [`AGENTS.md`](AGENTS.md) и
-   [`qa/approved-mockups/README.md`](qa/approved-mockups/README.md).
+В проекте нет второй рабочей версии, альтернативного фреймворка или отдельной
+development-ветки. Desktop и mobile визуально различаются, но собираются из одной
+актуальной версии `master`.
 
-## Локальный запуск
+## Сборка и локальная проверка
 
 Из корня проекта:
 
 ```bash
-python -m http.server 4173 --bind 127.0.0.1
+node build.mjs
+python -m http.server 4173 --bind 0.0.0.0 --directory dist
 ```
 
-Открыть: <http://127.0.0.1:4173/index.html?v=20260826-14>
+Открыть на этом компьютере: <http://127.0.0.1:4173/>
 
-## Стек и сборка
+На iPhone открыть IP компьютера в той же локальной сети, например:
+<http://192.168.0.6:4173/>.
 
-- HTML + CSS + Vanilla JS без runtime-фреймворка.
-- `assets/js/desktop-product-screens.js` — готовые product screens.
-- `assets/js/desktop-landing.js` — desktop interactions.
-- `assets/css/mobile-v2.css` и `assets/js/mobile-v2.js` — официальная mobile-композиция.
-- `npm run build` — проверочная production-сборка приложения.
-- `node build.mjs` — production build в `dist/` с content hashes.
-- Деплой описан в [`DEPLOY.md`](DEPLOY.md); публикуется содержимое `dist/`, а не корень.
+Раздавать нужно только содержимое `dist/`, а не корень репозитория.
 
-## Важные правила
+## Правила работы
 
-- Desktop и mobile имеют отдельные композиции.
-- `qa/approved-mockups/` — immutable reference material.
-- Для desktop сохранять естественный скролл и телефон как главный визуальный герой.
-- Для mobile сохранять отдельный ритм, крупные touch-targets и mobile-first композицию.
-- Новые промежуточные результаты фиксировать в `docs/project-context/` и отдельным локальным коммитом.
-
-## Структура документации
-
-```text
-docs/project-context/
-├── README.md       # единая точка входа и continuation checklist
-├── product.md      # продукт, аудитория и продающие аргументы
-├── desktop.md      # текущая desktop-реализация и решения
-├── qa.md           # последняя QA-проверка и артефакты
-└── decisions.md    # короткий журнал ключевых решений
-```
+1. Перед изменениями проверить `git status` и актуальность `master`.
+2. Перед UI-работой прочитать `AGENTS.md` и `qa/approved-mockups/README.md`.
+3. Не менять файлы внутри `qa/approved-mockups/`.
+4. После изменений выполнить `node build.mjs`.
+5. Коммитить и пушить готовую версию только в `master`.
