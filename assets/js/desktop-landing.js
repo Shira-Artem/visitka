@@ -164,6 +164,40 @@ function initDesktopLanding() {
     });
   });
 
+  const heroStage = root.querySelector('[data-dl-hero] .dl-phone-field');
+  const finePointer = window.matchMedia('(pointer: fine)');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  if (heroStage && finePointer.matches && !reducedMotion.matches) {
+    let heroFrame = 0;
+
+    const resetHeroDepth = () => {
+      heroStage.style.setProperty('--dl-hero-phone-x', '0px');
+      heroStage.style.setProperty('--dl-hero-phone-y', '0px');
+      heroStage.style.setProperty('--dl-hero-panel-x', '0px');
+      heroStage.style.setProperty('--dl-hero-panel-y', '0px');
+      heroStage.style.setProperty('--dl-hero-live-x', '0px');
+      heroStage.style.setProperty('--dl-hero-live-y', '0px');
+    };
+
+    heroStage.addEventListener('pointermove', (event) => {
+      if (heroFrame) window.cancelAnimationFrame(heroFrame);
+      heroFrame = window.requestAnimationFrame(() => {
+        const bounds = heroStage.getBoundingClientRect();
+        const x = ((event.clientX - bounds.left) / bounds.width - .5) * 2;
+        const y = ((event.clientY - bounds.top) / bounds.height - .5) * 2;
+        heroStage.style.setProperty('--dl-hero-phone-x', `${x * 8}px`);
+        heroStage.style.setProperty('--dl-hero-phone-y', `${y * 6}px`);
+        heroStage.style.setProperty('--dl-hero-panel-x', `${x * -6}px`);
+        heroStage.style.setProperty('--dl-hero-panel-y', `${y * -4}px`);
+        heroStage.style.setProperty('--dl-hero-live-x', `${x * 3}px`);
+        heroStage.style.setProperty('--dl-hero-live-y', `${y * 2}px`);
+      });
+    });
+
+    heroStage.addEventListener('pointerleave', resetHeroDepth);
+  }
+
   const form = root.querySelector('[data-dl-lead-form]');
   const formStatus = root.querySelector('[data-dl-form-status]');
   form?.addEventListener('submit', (event) => {

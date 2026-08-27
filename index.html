@@ -32,7 +32,7 @@
   <link rel="stylesheet" href="assets/css/components.css" />
   <link rel="stylesheet" href="assets/css/hero-demo.css" />
   <link rel="stylesheet" href="assets/css/sections/ways.css" />
-  <link rel="stylesheet" href="assets/css/desktop-landing.css?v=20260821-12" />
+  <link rel="stylesheet" href="assets/css/desktop-landing.css?v=20260826-hero3" />
   <link rel="stylesheet" href="assets/css/mobile-v2.css?v=20260827-cat-story1" />
 </head>
 <body id="top">
@@ -53,7 +53,7 @@
     </header>
 
     <main id="desktop-main">
-      <section class="dl-hero" aria-labelledby="desktop-hero-title">
+      <section class="dl-hero" aria-labelledby="desktop-hero-title" data-dl-hero>
         <div class="dl-shell dl-hero-grid">
           <div class="dl-hero-copy">
             <span class="dl-eyebrow">Мобильный продукт для Telegram и MAX</span>
@@ -71,6 +71,12 @@
           </div>
 
           <div class="dl-phone-field" aria-label="Мобильный продукт ЮртаНеЖди">
+            <div class="dl-hero-live" aria-label="Mini App работает в реальном времени">
+              <span aria-hidden="true"></span>
+              <small>Mini App · live</small>
+              <strong>Меню открыто</strong>
+            </div>
+
             <div class="dl-hero-phone-main">
               <div class="dl-device"><dl-product-screen class="hero-phone__display yj-demo dl-yj-screen" role-screen="menu"></dl-product-screen></div>
             </div>
@@ -85,6 +91,12 @@
               </div>
               <div class="dl-hero-format-footer"><span aria-hidden="true"></span><p>После заказа касса и кухня<br>получают его автоматически</p></div>
             </aside>
+
+            <div class="dl-hero-sync" aria-label="Заказ автоматически поступает в кассу и на кухню">
+              <span><i aria-hidden="true"></i>Заказ принят</span>
+              <b>Касса</b>
+              <b>Кухня</b>
+            </div>
 
           </div>
         </div>
@@ -1528,7 +1540,7 @@
 
   <!-- Desktop and mobile keep separate, small controllers. -->
   <script src="assets/js/desktop-product-screens.js?v=20260821-4" defer></script>
-  <script src="assets/js/desktop-landing.js?v=20260821-4" defer></script>
+  <script src="assets/js/desktop-landing.js?v=20260826-hero1" defer></script>
   <script src="assets/js/mobile-v2.js?v=20260827-cat-story1" defer></script>
 </body>
 </html>
