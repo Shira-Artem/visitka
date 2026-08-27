@@ -509,39 +509,161 @@
 
   function setupScanInteraction() {
     const scanSection = root.querySelector('[data-mv2-scan]');
+    const sticky = scanSection?.querySelector('[data-mv2-scan-sticky]');
     const scanTrigger = scanSection?.querySelector('[data-mv2-scan-trigger]');
     const scanLive = scanSection?.querySelector('[data-mv2-scan-live]');
     const nextTrigger = scanSection?.querySelector('[data-mv2-scan-next]');
-    if (!scanSection || !scanTrigger) return;
+    const qrState = scanSection?.querySelector('[data-mv2-scan-state="qr"]');
+    const fullState = scanSection?.querySelector('[data-mv2-scan-state="full"]');
+    const menuTitle = scanSection?.querySelector('[data-mv2-scan-menu-title]');
+    const menuDetail = scanSection?.querySelector('[data-mv2-scan-menu-detail]');
+    if (!scanSection || !sticky || !scanTrigger) return;
 
     const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const announcementTimers = [];
-    const clearAnnouncements = () => {
-      while (announcementTimers.length) clearTimeout(announcementTimers.pop());
+    const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+    const smoothstep = (start, end, value) => {
+      const progress = clamp((value - start) / Math.max(.0001, end - start));
+      return progress * progress * (3 - 2 * progress);
+    };
+    const phases = ['scanning', 'qr', 'menu', 'order', 'kitchen'];
+    const announcements = {
+      scanning: 'Сканируем QR-код…',
+      qr: 'QR считан.',
+      menu: 'QR считан. Меню загружено.',
+      order: 'Меню загружено. Заказ оформлен.',
+      kitchen: 'Меню загружено. Заказ оформлен. Кухня уже готовит.'
+    };
+    let currentPhase = '';
+    let motionFrame = 0;
+    const replayTimers = [];
+
+    const renderMenuCopy = (phase) => {
+      const menuReady = phases.indexOf(phase) >= phases.indexOf('menu');
+      if (menuTitle) menuTitle.textContent = menuReady ? 'Меню загружено' : 'Меню найдено';
+      if (menuDetail) menuDetail.textContent = menuReady ? 'Готово ✓' : 'Загружаем…';
+    };
+
+    const setPhase = (phase) => {
+      if (phase === currentPhase) return;
+      currentPhase = phase;
+      scanSection.dataset.mv2ScanPhase = phase;
+      if (scanLive) scanLive.textContent = announcements[phase];
+
+      renderMenuCopy(phase);
+    };
+
+    const setVariable = (name, value) => scanSection.style.setProperty(name, value);
+
+    const syncScanStory = () => {
+      motionFrame = 0;
+      const rect = scanSection.getBoundingClientRect();
+      const travel = Math.max(1, scanSection.offsetHeight - sticky.offsetHeight);
+      const progress = clamp(-rect.top / travel);
+      const scanOut = smoothstep(.33, .59, progress);
+      const fullIn = smoothstep(.41, .7, progress);
+      const handoff = smoothstep(.91, 1, progress);
+      const trailProgress = smoothstep(.33, .67, progress);
+      const trail = Math.sin(Math.PI * trailProgress);
+      const qrOut = smoothstep(.35, .57, progress);
+      const beam = smoothstep(0, .2, progress);
+      const fullOpacity = fullIn * (1 - handoff * .12);
+
+      setVariable('--mv2-scan-out', scanOut.toFixed(4));
+      setVariable('--mv2-first-copy-opacity', (1 - smoothstep(.33, .51, progress)).toFixed(4));
+      setVariable('--mv2-full-in', fullIn.toFixed(4));
+      setVariable('--mv2-full-opacity', fullOpacity.toFixed(4));
+      setVariable('--mv2-full-copy-in', smoothstep(.65, .79, progress).toFixed(4));
+      setVariable('--mv2-full-y', `${((1 - fullIn) * 30 - handoff * 14).toFixed(2)}px`);
+      setVariable('--mv2-trail', trail.toFixed(4));
+      setVariable('--mv2-trail-x', `${(4 + trailProgress * 90).toFixed(2)}%`);
+      setVariable('--mv2-read-in', smoothstep(.05, .13, progress).toFixed(4));
+      setVariable('--mv2-menu-in', smoothstep(.135, .235, progress).toFixed(4));
+      setVariable('--mv2-menu-load', smoothstep(.175, .305, progress).toFixed(4));
+      setVariable('--mv2-card-one', smoothstep(.5, .6, progress).toFixed(4));
+      setVariable('--mv2-card-two', smoothstep(.565, .67, progress).toFixed(4));
+      setVariable('--mv2-card-three', smoothstep(.63, .74, progress).toFixed(4));
+      setVariable('--mv2-qr-opacity', (1 - qrOut).toFixed(4));
+      setVariable('--mv2-qr-scale', (1 - qrOut * .43).toFixed(4));
+      setVariable('--mv2-qr-x', `${(qrOut * -7).toFixed(2)}px`);
+      setVariable('--mv2-qr-y', `${(qrOut * 7).toFixed(2)}px`);
+      setVariable('--mv2-beam-y', `${(beam * 110).toFixed(2)}px`);
+      setVariable('--mv2-scan-blur', `${(scanOut * 2.4).toFixed(2)}px`);
+      setVariable('--mv2-full-blur', `${((1 - fullIn) * 3).toFixed(2)}px`);
+      setVariable('--mv2-qr-flare', trail.toFixed(4));
+      setVariable('--mv2-particle-y', `${(progress * -14).toFixed(2)}px`);
+      setVariable('--mv2-next-opacity', smoothstep(.79, .9, progress).toFixed(4));
+
+      const phase = progress < .055
+        ? 'scanning'
+        : progress < .18
+          ? 'qr'
+          : progress < .4
+            ? 'menu'
+            : progress < .66
+              ? 'order'
+              : 'kitchen';
+      setPhase(phase);
+
+      const qrHidden = scanOut > .72;
+      const fullHidden = fullIn < .16;
+      qrState?.setAttribute('aria-hidden', String(qrHidden));
+      fullState?.setAttribute('aria-hidden', String(fullHidden));
+      scanTrigger.tabIndex = qrHidden ? -1 : 0;
+    };
+
+    const requestScanSync = () => {
+      if (motionFrame) return;
+      motionFrame = requestAnimationFrame(syncScanStory);
     };
 
     const replayScan = () => {
-      clearAnnouncements();
+      while (replayTimers.length) clearTimeout(replayTimers.pop());
       if (scanLive) scanLive.textContent = 'Сканируем QR-код…';
+      if (menuTitle) menuTitle.textContent = 'Меню найдено';
+      if (menuDetail) menuDetail.textContent = 'Загружаем…';
+      scanSection.classList.remove('is-scanning');
+      void scanSection.offsetWidth;
+      scanSection.classList.add('is-scanning');
 
-      if (!reduceMotion) {
-        scanSection.classList.remove('is-scanning');
-        void scanSection.offsetWidth;
-        scanSection.classList.add('is-scanning');
-      }
-
-      announcementTimers.push(setTimeout(() => {
+      replayTimers.push(window.setTimeout(() => {
         if (scanLive) scanLive.textContent = 'QR считан.';
-      }, reduceMotion ? 0 : 560));
-      announcementTimers.push(setTimeout(() => {
-        if (scanLive) scanLive.textContent = 'QR считан. Меню найдено. Загружаем меню.';
-      }, reduceMotion ? 0 : 1080));
+      }, 420));
+      replayTimers.push(window.setTimeout(() => {
+        if (menuTitle) menuTitle.textContent = 'Меню загружено';
+        if (menuDetail) menuDetail.textContent = 'Готово ✓';
+        if (scanLive) scanLive.textContent = 'QR считан. Меню загружено.';
+      }, 860));
+      replayTimers.push(window.setTimeout(() => {
+        scanSection.classList.remove('is-scanning');
+        renderMenuCopy(currentPhase);
+        if (scanLive) scanLive.textContent = announcements[currentPhase] || announcements.qr;
+      }, 1540));
     };
 
     scanTrigger.addEventListener('click', replayScan);
     nextTrigger?.addEventListener('click', () => {
       root.querySelector('#mobile-platforms')?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
     });
+
+    if (reduceMotion) {
+      setVariable('--mv2-full-in', '1');
+      setVariable('--mv2-full-opacity', '1');
+      setVariable('--mv2-full-copy-in', '1');
+      setVariable('--mv2-card-one', '1');
+      setVariable('--mv2-card-two', '1');
+      setVariable('--mv2-card-three', '1');
+      setVariable('--mv2-next-opacity', '1');
+      qrState?.setAttribute('aria-hidden', 'true');
+      fullState?.setAttribute('aria-hidden', 'false');
+      setPhase('kitchen');
+      return;
+    }
+
+    scanSection.dataset.mv2ScanReady = 'true';
+    window.addEventListener('scroll', requestScanSync, { passive: true });
+    window.addEventListener('resize', requestScanSync, { passive: true });
+    window.visualViewport?.addEventListener('resize', requestScanSync, { passive: true });
+    requestScanSync();
   }
 
   function setupDirectorDemo() {
