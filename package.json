@@ -1,0 +1,12 @@
+{
+  "name": "yurta-ne-zhdi-landing",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "dependencies": {
+    "lucide": "^1.34.0",
+    "morphicons": "^1.7.0"
+  }
+}

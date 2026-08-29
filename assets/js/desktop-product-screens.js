@@ -6,7 +6,7 @@ const productScreens = {
     <div class="hero-phone__island" aria-hidden="true"></div>
     <section class="yj-demo-screen yj-demo-client is-active" aria-label="Клиентское меню">
       <header class="yj-client-topbar">
-        <span class="yj-client-logo" aria-hidden="true">🔥</span>
+        <span class="yj-client-logo" aria-hidden="true"><img src="LOGO.png" alt="" width="1254" height="1254" decoding="async"></span>
         <span class="yj-client-brand"><small>Еда рядом с вами</small><strong>ЮртаНеЖди</strong></span>
         <span class="yj-client-bell" aria-hidden="true">⌁</span>
       </header>
@@ -32,7 +32,7 @@ const productScreens = {
     <div class="hero-phone__island" aria-hidden="true"></div>
     <section class="yj-demo-screen yj-demo-client is-active" aria-label="Экран гостя">
       <header class="yj-client-topbar">
-        <span class="yj-client-logo" aria-hidden="true">🔥</span>
+        <span class="yj-client-logo" aria-hidden="true"><img src="LOGO.png" alt="" width="1254" height="1254" decoding="async"></span>
         <span class="yj-client-brand"><small>Еда рядом с вами</small><strong>ЮртаНеЖди</strong></span>
         <span class="yj-client-bell" aria-hidden="true">⌁</span>
       </header>

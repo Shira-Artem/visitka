@@ -1,6 +1,7 @@
 .idea/
 .agents/
 .claude/skills/
+node_modules/
 
 # Результат `node build.mjs` — собирается из исходников, в git не хранится.
 dist/

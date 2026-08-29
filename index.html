@@ -8,18 +8,20 @@
   <meta http-equiv="Expires" content="0" />
   <meta name="description" content="ЮртаНеЖди — один Mini App в Telegram и MAX для гостя, кассира, кухни и директора. Весь путь заказа и управление заведением — в телефоне." />
   <meta name="theme-color" content="#f3eee7" />
-  <link rel="icon" href="data:," />
+  <link rel="icon" type="image/png" href="LOGO.png" />
+  <link rel="apple-touch-icon" href="LOGO.png" />
   <title>ЮртаНеЖди — весь заказ в телефоне</title>
 
   <!-- Open Graph -->
   <meta property="og:title" content="ЮртаНеЖди — весь заказ в телефоне" />
   <meta property="og:description" content="Один Mini App для гостя, кассира, кухни и директора — в Telegram и MAX." />
   <meta property="og:type" content="website" />
+  <meta property="og:image" content="LOGO.png" />
 
   <!-- Шрифты -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&family=Unbounded:wght@700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&family=Onest:wght@100..900&family=Unbounded:wght@700;800;900&display=swap" rel="stylesheet" />
 
   <!-- Стили (модульно: токены → база → раскладка → компоненты → секции).
        Версий ?v= здесь больше нет: инвалидацию кэша делает build.mjs,
@@ -32,8 +34,8 @@
   <link rel="stylesheet" href="assets/css/components.css" />
   <link rel="stylesheet" href="assets/css/hero-demo.css" />
   <link rel="stylesheet" href="assets/css/sections/ways.css" />
-  <link rel="stylesheet" href="assets/css/desktop-landing.css?v=20260826-hero3" />
-  <link rel="stylesheet" href="assets/css/mobile-v2.css?v=20260827-cat-story1" />
+  <link rel="stylesheet" href="assets/css/desktop-landing.css?v=20260829-ways-scene-motion2" />
+  <link rel="stylesheet" href="assets/css/mobile-v2.css?v=20260829-dark-brand-header2" />
 </head>
 <body id="top">
 
@@ -41,12 +43,10 @@
     <a class="skip-link" href="#desktop-main">К основному содержанию</a>
     <header class="dl-header">
       <div class="dl-shell dl-header-row">
-        <a class="dl-brand" href="#desktop-main" aria-label="ЮртаНеЖди — на главную"><span class="dl-brand-mark" aria-hidden="true"></span>Юрта<b>НеЖди</b></a>
+        <a class="dl-brand" href="#desktop-main" aria-label="ЮртаНеЖди — на главную"><img class="dl-brand-logo" src="LOGO.png" alt="" width="1254" height="1254" decoding="async" />Юрта<b>НеЖди</b></a>
         <nav class="dl-nav" aria-label="Навигация по desktop-странице">
           <a href="#desktop-journey">Как работает</a>
-          <a href="#desktop-roles">Роли</a>
           <a href="#desktop-director">Директору</a>
-          <a href="#desktop-manage">Меню</a>
         </nav>
         <a class="dl-btn dl-btn--fire" href="#desktop-demo">Получить демонстрацию</a>
       </div>
@@ -84,18 +84,18 @@
             <aside class="dl-hero-team-panel" aria-label="Одно меню — любой формат заказа">
               <div class="dl-hero-format-head"><span>Одно меню —</span><strong>любой формат<br>заказа</strong></div>
               <div class="dl-hero-format-list">
-                <div><b>01</b><span><strong>К столику</strong><small>заказ прямо из зала</small></span><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 5h2l1.5 10h9l2-7H8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="19" r="1.5" fill="currentColor"/><circle cx="17" cy="19" r="1.5" fill="currentColor"/></svg></i></div>
-                <div><b>02</b><span><strong>Самовывоз</strong><small>заберу сам</small></span><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 9h14l-1 10H6L5 9Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8 9V7a4 4 0 0 1 8 0v2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></i></div>
-                <div><b>03</b><span><strong>Доставка</strong><small>привезём по адресу</small></span><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M3 7h11v10H3zM14 11h4l3 3v3h-7z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="7" cy="19" r="1.5" fill="currentColor"/><circle cx="18" cy="19" r="1.5" fill="currentColor"/></svg></i></div>
-                <div><b>04</b><span><strong>Просто меню</strong><small>посмотреть блюда и цены</small></span><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H11v16H6.5A2.5 2.5 0 0 0 4 21V5.5ZM20 5.5A2.5 2.5 0 0 0 17.5 3H13v16h4.5A2.5 2.5 0 0 1 20 21V5.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></i></div>
+                <div data-dl-format-morph="table"><b>01</b><span><strong>К столику</strong><small>заказ прямо из зала</small></span><i aria-hidden="true"><svg class="dl-morph-fallback" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg><morph-icon size="24" stroke-width="2.2" spring="snappy" reduced-motion="user"></morph-icon></i></div>
+                <div data-dl-format-morph="pickup"><b>02</b><span><strong>Самовывоз</strong><small>заберу сам</small></span><i aria-hidden="true"><svg class="dl-morph-fallback" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 10a4 4 0 0 1-8 0"/><path d="M3.103 6.034h17.794"/><path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z"/></svg><morph-icon size="24" stroke-width="2.2" spring="snappy" reduced-motion="user"></morph-icon></i></div>
+                <div data-dl-format-morph="delivery"><b>03</b><span><strong>Доставка</strong><small>привезём по адресу</small></span><i aria-hidden="true"><svg class="dl-morph-fallback" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg><morph-icon size="24" stroke-width="2.2" spring="snappy" reduced-motion="user"></morph-icon></i></div>
+                <div data-dl-format-morph="menu"><b>04</b><span><strong>Просто меню</strong><small>посмотреть блюда и цены</small></span><i aria-hidden="true"><svg class="dl-morph-fallback" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v16"/><path d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z"/></svg><morph-icon size="24" stroke-width="2.2" spring="snappy" reduced-motion="user"></morph-icon></i></div>
               </div>
               <div class="dl-hero-format-footer"><span aria-hidden="true"></span><p>После заказа касса и кухня<br>получают его автоматически</p></div>
             </aside>
 
             <div class="dl-hero-sync" aria-label="Заказ автоматически поступает в кассу и на кухню">
-              <span><i aria-hidden="true"></i>Заказ принят</span>
-              <b>Касса</b>
-              <b>Кухня</b>
+              <span data-dl-sync-morph="accepted"><i class="dl-hero-sync-icon" aria-hidden="true"><svg class="dl-morph-fallback" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg><morph-icon size="22" stroke-width="2.2" spring="smooth" reduced-motion="user"></morph-icon></i><em>Заказ принят</em></span>
+              <b data-dl-sync-morph="cash"><i class="dl-hero-sync-icon" aria-hidden="true"><svg class="dl-morph-fallback" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 16H8"/><path d="M14 8H8"/><path d="M16 12H8"/><path d="M4 3a1 1 0 0 1 1-1 1.3 1.3 0 0 1 .7.2l.933.6a1.3 1.3 0 0 0 1.4 0l.934-.6a1.3 1.3 0 0 1 1.4 0l.933.6a1.3 1.3 0 0 0 1.4 0l.933-.6a1.3 1.3 0 0 1 1.4 0l.934.6a1.3 1.3 0 0 0 1.4 0l.933-.6A1.3 1.3 0 0 1 19 2a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1 1.3 1.3 0 0 1-.7-.2l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.934.6a1.3 1.3 0 0 1-1.4 0l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-1.4 0l-.934-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-.7.2 1 1 0 0 1-1-1z"/></svg><morph-icon size="22" stroke-width="2.2" spring="smooth" reduced-motion="user"></morph-icon></i><em>Касса</em></b>
+              <b data-dl-sync-morph="kitchen"><i class="dl-hero-sync-icon" aria-hidden="true"><svg class="dl-morph-fallback" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21a1 1 0 0 0 1-1v-5.35c0-.457.316-.844.727-1.041a4 4 0 0 0-2.134-7.589 5 5 0 0 0-9.186 0 4 4 0 0 0-2.134 7.588c.411.198.727.585.727 1.041V20a1 1 0 0 0 1 1Z"/><path d="M6 17h12"/></svg><morph-icon size="22" stroke-width="2.2" spring="smooth" reduced-motion="user"></morph-icon></i><em>Кухня</em></b>
             </div>
 
           </div>
@@ -112,71 +112,64 @@
       </section>
 
       <section class="dl-section dl-journey" id="desktop-journey" aria-labelledby="desktop-journey-title">
-        <div class="dl-shell">
-          <div class="dl-section-head">
-            <div><span class="dl-eyebrow">Один заказ · четыре телефона</span><h2 id="desktop-journey-title">Весь путь заказа —<br />в одном экране</h2></div>
-            <p>Гость оформляет заказ, команда принимает и готовит, а директор сразу видит результат.</p>
+        <div class="dl-shell dl-journey-shell">
+          <div class="dl-section-head dl-journey-head">
+            <div>
+              <span class="dl-eyebrow">Один заказ · четыре телефона</span>
+              <h2 id="desktop-journey-title">Весь путь заказа —<br />в <span>одном</span> экране</h2>
+            </div>
+            <div class="dl-journey-intro">
+              <p>Гость оформляет заказ, команда принимает и готовит, а директор сразу видит результат.</p>
+              <div class="dl-journey-benefits" aria-label="Преимущества единого процесса">
+                <span><i aria-hidden="true"><svg class="dl-journey-icon-fallback" viewBox="0 0 24 24" fill="none"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8Z"/></svg><morph-icon data-dl-journey-icon="speed" size="18" stroke-width="2.2" reduced-motion="user"></morph-icon></i>Быстро</span>
+                <span><i aria-hidden="true"><svg class="dl-journey-icon-fallback" viewBox="0 0 24 24" fill="none"><path d="M5 3v18l4-4 3 4 2-1-3-4h7L5 3Z"/><path d="M15 5h4M17 3v4"/></svg><morph-icon data-dl-journey-icon="simple" size="18" stroke-width="2.2" reduced-motion="user"></morph-icon></i>Без путаницы</span>
+                <span><i aria-hidden="true"><svg class="dl-journey-icon-fallback" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6Z"/><circle cx="12" cy="12" r="2.5"/></svg><morph-icon data-dl-journey-icon="clear" size="18" stroke-width="2.2" reduced-motion="user"></morph-icon></i>Прозрачно</span>
+              </div>
+            </div>
           </div>
-          <div class="dl-qr-route-note" aria-label="Как открыть меню">
-            <span class="dl-qr-route-note__icon" aria-hidden="true"><svg viewBox="0 0 28 28" fill="none"><rect x="2" y="2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="2"/><rect x="18" y="2" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="2"/><rect x="2" y="18" width="8" height="8" rx="1.4" stroke="currentColor" stroke-width="2"/><path d="M5 5h2v2H5zM21 5h2v2h-2zM5 21h2v2H5zM17 17h3v3h-3zM22 18h4v3h-4zM18 23h3v3h-3z" fill="currentColor"/></svg></span>
-            <span class="dl-qr-route-note__copy"><strong>Сканируете QR — сразу открывается меню</strong><small>Один бот ведёт гостя, кассу, кухню и директора по одному заказу</small></span>
-            <span class="dl-qr-route-note__flow" aria-hidden="true"><b>QR</b><i>→</i><b>Меню</b><i>→</i><b>Заказ</b></span>
+          <div class="dl-journey-system" aria-label="Все этапы заказа синхронизированы">
+            <span class="dl-journey-system__icon" aria-hidden="true"><svg class="dl-journey-icon-fallback" viewBox="0 0 24 24" fill="none"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><path d="M8 6h8M7.5 7.5 11 16M16.5 7.5 13 16"/></svg><morph-icon data-dl-journey-icon="system" size="25" stroke-width="2.2" reduced-motion="user"></morph-icon></span>
+            <span><strong>Один заказ — единое управление</strong><small>Все статусы и данные синхронизируются в реальном времени</small></span>
+            <b aria-hidden="true">Гость <i>→</i> Касса <i>→</i> Кухня <i>→</i> Директор</b>
           </div>
-          <div class="dl-phone-line">
+          <div class="dl-phone-line" data-dl-order-route>
             <article class="dl-phone-step">
-              <span class="dl-step-num">01</span>
+              <div class="dl-phone-step-head">
+                <span class="dl-step-num">01</span>
+                <span class="dl-phone-caption"><strong>Гость</strong><small>Делает заказ в мини-приложении</small></span>
+                <i class="dl-role-icon" aria-hidden="true"><svg class="dl-journey-icon-fallback" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="7" r="3.5"/><path d="M4.5 20c.6-4.1 3-6.2 7.5-6.2s6.9 2.1 7.5 6.2"/></svg><morph-icon data-dl-journey-icon="guest" size="25" stroke-width="2.2" reduced-motion="user"></morph-icon></i>
+              </div>
               <div class="dl-small-phone-wrap"><div class="dl-device"><dl-product-screen class="hero-phone__display yj-demo dl-yj-screen" role-screen="menu"></dl-product-screen></div></div>
-              <div class="dl-phone-caption"><strong>Гость</strong><span>Сканировал QR и открыл меню</span></div>
             </article>
             <article class="dl-phone-step">
-              <span class="dl-step-num">02</span>
+              <div class="dl-phone-step-head">
+                <span class="dl-step-num">02</span>
+                <span class="dl-phone-caption"><strong>Кассир</strong><small>Подтверждает и принимает заказ</small></span>
+                <i class="dl-role-icon" aria-hidden="true"><svg class="dl-journey-icon-fallback" viewBox="0 0 24 24" fill="none"><path d="M6 3h12v18H6zM9 7h6M9 11h6M9 15h3"/><path d="M4 3h2M18 3h2"/></svg><morph-icon data-dl-journey-icon="cash" size="25" stroke-width="2.2" reduced-motion="user"></morph-icon></i>
+              </div>
               <div class="dl-small-phone-wrap"><div class="dl-device"><dl-product-screen class="hero-phone__display yj-demo dl-yj-screen" role-screen="cash"></dl-product-screen></div></div>
-              <div class="dl-phone-caption"><strong>Кассир</strong><span>Принял одним нажатием</span></div>
             </article>
             <article class="dl-phone-step">
-              <span class="dl-step-num">03</span>
+              <div class="dl-phone-step-head">
+                <span class="dl-step-num">03</span>
+                <span class="dl-phone-caption"><strong>Кухня</strong><small>Готовит заказ и обновляет статус</small></span>
+                <i class="dl-role-icon" aria-hidden="true"><svg class="dl-journey-icon-fallback" viewBox="0 0 24 24" fill="none"><path d="M5 13h14v7H5zM4 13c0-3 2-5 5-5a4 4 0 0 1 7 0c2.5.2 4 2.1 4 5"/><path d="M9 5V3M13 5V2M17 6V4"/></svg><morph-icon data-dl-journey-icon="kitchen" size="25" stroke-width="2.2" reduced-motion="user"></morph-icon></i>
+              </div>
               <div class="dl-small-phone-wrap"><div class="dl-device"><dl-product-screen class="hero-phone__display yj-demo dl-yj-screen" role-screen="kitchen"></dl-product-screen></div></div>
-              <div class="dl-phone-caption"><strong>Кухня</strong><span>Приготовила по очереди</span></div>
             </article>
             <article class="dl-phone-step">
-              <span class="dl-step-num">04</span>
+              <div class="dl-phone-step-head">
+                <span class="dl-step-num">04</span>
+                <span class="dl-phone-caption"><strong>Директор</strong><small>Видит статистику и результат</small></span>
+                <i class="dl-role-icon" aria-hidden="true"><svg class="dl-journey-icon-fallback" viewBox="0 0 24 24" fill="none"><path d="M5 20V10M12 20V5M19 20V2"/><path d="M3 20h18"/></svg><morph-icon data-dl-journey-icon="director" size="25" stroke-width="2.2" reduced-motion="user"></morph-icon></i>
+              </div>
               <div class="dl-small-phone-wrap"><div class="dl-device"><dl-product-screen class="hero-phone__display yj-demo dl-yj-screen" role-screen="director"></dl-product-screen></div></div>
-              <div class="dl-phone-caption"><strong>Директор</strong><span>Увидел продажу сразу</span></div>
             </article>
+            <span class="dl-journey-packet" aria-hidden="true"><span>№120</span></span>
           </div>
-        </div>
-      </section>
-
-      <section class="dl-section dl-theatre" id="desktop-roles" aria-labelledby="desktop-roles-title">
-        <div class="dl-shell">
-          <div class="dl-theatre-grid">
-            <div class="dl-role-nav">
-              <small>Живой просмотр</small>
-              <h3 id="desktop-roles-title">Один бот меняется под роль</h3>
-              <div class="dl-role-tabs" role="tablist" aria-label="Режимы Mini App">
-                <button class="dl-role-tab is-active" type="button" role="tab" data-dl-role="guest" aria-selected="true">Гость <span>01</span></button>
-                <button class="dl-role-tab" type="button" role="tab" data-dl-role="cash" aria-selected="false">Кассир <span>02</span></button>
-                <button class="dl-role-tab" type="button" role="tab" data-dl-role="kitchen" aria-selected="false">Кухня <span>03</span></button>
-                <button class="dl-role-tab" type="button" role="tab" data-dl-role="director" aria-selected="false">Директор <span>04</span></button>
-              </div>
-              <div class="dl-one-bot-note">
-                <span class="dl-one-bot-note__kicker">Один бот · один QR</span>
-                <strong>Сканируете — открывается меню</strong>
-                <small>Дальше бот сам показывает нужный режим</small>
-              </div>
-            </div>
-            <div class="dl-theatre-phone">
-              <div class="dl-phone-panel is-active" data-dl-panel="guest"><div class="dl-device"><dl-product-screen class="hero-phone__display yj-demo dl-yj-screen" role-screen="menu"></dl-product-screen></div></div>
-              <div class="dl-phone-panel" data-dl-panel="cash"><div class="dl-device"><dl-product-screen class="hero-phone__display yj-demo dl-yj-screen" role-screen="cash"></dl-product-screen></div></div>
-              <div class="dl-phone-panel" data-dl-panel="kitchen"><div class="dl-device"><dl-product-screen class="hero-phone__display yj-demo dl-yj-screen" role-screen="kitchen"></dl-product-screen></div></div>
-              <div class="dl-phone-panel" data-dl-panel="director"><div class="dl-device"><dl-product-screen class="hero-phone__display yj-demo dl-yj-screen" role-screen="director"></dl-product-screen></div></div>
-            </div>
-            <div class="dl-role-info">
-              <span class="dl-info-kicker">Не четыре приложения</span>
-              <h4>Один вход. Нужный режим.</h4>
-              <p>Роль сотрудника определяет, что он увидит после открытия бота. Лишние функции не мешают работе.</p>
-              <ul><li>Открывается прямо из чата</li><li>Не требует установки</li><li>Обновляется для всех сразу</li><li>Работает в Telegram и MAX</li></ul>
-            </div>
+          <div class="dl-journey-summary">
+            <span aria-hidden="true"><svg class="dl-journey-icon-fallback" viewBox="0 0 24 24" fill="none"><path d="m12 3 1.4 5.6L19 10l-5.6 1.4L12 17l-1.4-5.6L5 10l5.6-1.4L12 3Z"/><path d="m19 16 .7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7L19 16Z"/></svg><morph-icon data-dl-journey-icon="result" size="24" stroke-width="2.2" reduced-motion="user"></morph-icon></span>
+            <p><strong>Единый процесс — максимальный контроль</strong><small>Каждый видит свою задачу, а директор — общую картину в реальном времени</small></p>
           </div>
         </div>
       </section>
@@ -185,7 +178,7 @@
         <div class="dl-shell dl-director-grid">
           <div class="dl-director-copy">
             <span class="dl-eyebrow">Директору</span>
-            <h2 id="desktop-director-title">Всё управление<br />заведением —<br />в одном телефоне</h2>
+            <h2 id="desktop-director-title"><span>Всё управление</span><span>заведением —</span><span>в одном телефоне</span></h2>
             <p>Директор видит ключевые показатели и управляет всем заведением с одного экрана: меню, сотрудники, заказы, доставка и точки продаж — без ноутбука и сложных систем.</p>
             <div class="dl-director-points">
               <div class="dl-director-point">
@@ -215,7 +208,6 @@
               <div class="dl-director-product"><img src="assets/img/generated/dish-plov-lamb.png" alt="Плов с бараниной" width="36" height="36"><span><b>Плов с бараниной</b><small>480 ₽</small></span></div>
               <div class="dl-director-product"><img src="assets/img/generated/dish-black-tea.png" alt="Чёрный чай" width="36" height="36"><span><b>Чёрный чай</b><small>120 ₽</small></span></div>
               <div class="dl-director-product"><img src="assets/img/generated/dish-lagman.png" alt="Лагман" width="36" height="36"><span><b>Лагман</b><small>340 ₽</small></span></div>
-              <a href="#desktop-manage">Смотреть все <span aria-hidden="true">›</span></a>
             </article>
             <article class="dl-director-float dl-director-float--points">
               <strong>Точки</strong>
@@ -223,34 +215,14 @@
               <div class="dl-director-location"><b>Южный</b><span>Открыто <i></i></span></div>
               <div class="dl-director-location"><b>Северный</b><span>Открыто <i></i></span></div>
               <div class="dl-director-location"><b>Фуд-корт</b><span>Открыто <i></i></span></div>
-              <a href="#desktop-manage">Все точки <span aria-hidden="true">›</span></a>
             </article>
             <article class="dl-director-float dl-director-float--staff">
               <strong>Сотрудники</strong>
               <div class="dl-director-staff"><i>АС</i><span><b>Анна Смирнова</b><small>Администратор</small></span></div>
               <div class="dl-director-staff"><i>ПИ</i><span><b>Павел Иванов</b><small>Повар</small></span></div>
               <div class="dl-director-staff"><i>МК</i><span><b>Мария Кузнецова</b><small>Кассир</small></span></div>
-              <a href="#desktop-manage">Смотреть всех <span aria-hidden="true">›</span></a>
             </article>
             <div class="dl-director-pulse"><span aria-hidden="true">✓</span><div><strong>Заказ №120 завершён</strong><b>+580 ₽ к выручке</b></div></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="dl-section dl-sync" id="desktop-manage" aria-labelledby="desktop-manage-title">
-        <div class="dl-shell">
-          <div class="dl-section-head"><div><span class="dl-eyebrow">Управление из Mini App</span><h2 id="desktop-manage-title">Изменили один раз — увидели все</h2></div><p>Директор управляет товарами, категориями, сотрудниками, доставкой, заказами и клиентами из того же кабинета. Изменения меню гость видит сразу.</p></div>
-          <div class="dl-sync-capabilities" aria-label="Разделы управления директора">
-            <span><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="m4 7.5 8 4.5 8-4.5M12 12v9" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>Товары и категории</span>
-            <span><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="9" cy="8" r="3" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0M16 5.5a2.5 2.5 0 1 1 0 5M15.5 14.5a4.5 4.5 0 0 1 5 4.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>Сотрудники</span>
-            <span><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h3l4 4v2h-7z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="7" cy="18" r="2" stroke="currentColor" stroke-width="1.7"/><circle cx="18" cy="18" r="2" stroke="currentColor" stroke-width="1.7"/></svg>Доставка</span>
-            <span><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 4h12v16H6zM9 8h6M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Заказы</span>
-            <span><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="9" cy="8" r="3" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0M17 8v5M14.5 10.5h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>Клиенты</span>
-          </div>
-          <div class="dl-sync-board">
-            <div class="dl-device"><div class="dl-screen"><div class="dl-osbar"><span>17:40</span><span>● ●</span></div><div class="dl-messenger"><span class="dl-back">‹</span><span class="dl-bot-avatar">ЮН</span><span class="dl-messenger-title"><b>ЮртаНеЖди</b><small>директор</small></span><span class="dl-platform-chip" data-dl-platform-name>Telegram</span></div><div class="dl-miniapp-bar"><span>Закрыть</span><strong>Управление меню</strong><span>•••</span></div><div class="dl-app dl-app--neutral"><div class="dl-screen-title"><div><small>Шашлычная №1</small><strong>Меню</strong></div><span class="dl-online">Синхронно</span></div><div class="dl-menu-edit"><div class="dl-menu-edit-top"><img src="assets/img/generated/dish-shawarma.png" alt="Шаурма" width="92" height="92" /><div><strong>Шаурма классическая</strong><small>500 ₽ · основное</small></div></div><div class="dl-edit-row"><span>Доступно для заказа</span><span class="dl-toggle"></span></div></div><div class="dl-menu-edit"><div class="dl-menu-edit-top"><img src="assets/img/generated/dish-plov-lamb.png" alt="Плов" width="92" height="92" /><div><strong>Плов с бараниной</strong><small>480 ₽ · осталось 4</small></div></div><div class="dl-edit-row"><span>Доступно для заказа</span><span class="dl-toggle"></span></div></div><div class="dl-menu-edit"><div class="dl-menu-edit-top"><img src="assets/img/generated/dish-samsa.png" alt="Самса" width="92" height="92" /><div><strong>Самса тандырная</strong><small>200 ₽ · нет в наличии</small></div></div><div class="dl-edit-row"><span>Скрыто в меню</span><span class="dl-toggle dl-toggle--off"></span></div></div><div class="dl-toast">Изменения опубликованы</div></div></div></div>
-            <div class="dl-sync-arrow"><small>Мгновенная синхронизация</small><h3>Один кабинет.<br />Всё синхронно.</h3><p>Директор меняет меню один раз — гость сразу видит актуальные блюда и цены.</p><div class="dl-sync-line"></div><strong>Результат у гостя <small>Меню обновлено сразу</small></strong></div>
-            <div class="dl-device"><div class="dl-screen"><div class="dl-osbar"><span>17:40</span><span>● ●</span></div><div class="dl-messenger"><span class="dl-back">‹</span><span class="dl-bot-avatar">ЮН</span><span class="dl-messenger-title"><b>ЮртаНеЖди</b><small>гость</small></span><span class="dl-platform-chip" data-dl-platform-name>Telegram</span></div><div class="dl-miniapp-bar"><span>Закрыть</span><strong>Меню</strong><span>•••</span></div><div class="dl-app"><div class="dl-app-head"><div><small>Еда рядом</small><strong>Шашлычная №1</strong></div><span class="dl-avatar-letter">М</span></div><div class="dl-search">Найти блюдо</div><div class="dl-app-label">Основное</div><div class="dl-food-grid"><div class="dl-food"><img src="assets/img/generated/dish-shawarma.png" alt="Шаурма" width="120" height="120" /><strong>Шаурма</strong><b>500 ₽</b></div><div class="dl-food"><img src="assets/img/generated/dish-plov-lamb.png" alt="Плов" width="120" height="120" /><strong>Плов</strong><b>480 ₽</b></div><div class="dl-food"><img src="assets/img/generated/dish-lagman.png" alt="Лагман" width="120" height="120" /><strong>Лагман</strong><b>340 ₽</b></div><div class="dl-food"><img src="assets/img/generated/dish-black-tea.png" alt="Чёрный чай" width="120" height="120" /><strong>Чёрный чай</strong><b>120 ₽</b></div></div><div class="dl-cart"><span>Выбрано 1 блюдо</span><b>500 ₽</b></div></div></div></div>
           </div>
         </div>
       </section>
@@ -258,7 +230,8 @@
       <section class="dl-section dl-ways" id="desktop-ways" aria-labelledby="desktop-ways-title">
         <div class="dl-shell">
           <div class="dl-section-head"><div><span class="dl-eyebrow">Способы получения</span><h2 id="desktop-ways-title">Разный сценарий. Один бот.</h2></div><p>Гость выбирает способ в телефоне, а команда получает готовый тип заказа без уточняющих звонков.</p></div>
-          <div class="dl-ways-grid">
+          <div class="dl-ways-grid" data-dl-ways>
+            <svg class="dl-ways-route" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true"><path class="dl-ways-route__base" d="M18 66 C150 22 276 110 400 66 S654 22 800 66 S1045 110 1182 54" pathLength="1"/><path class="dl-ways-route__draw" d="M18 66 C150 22 276 110 400 66 S654 22 800 66 S1045 110 1182 54" pathLength="1"/><circle cx="400" cy="66" r="6"/><circle cx="800" cy="66" r="6"/></svg>
             <article class="dl-way" style="--way-c:var(--fire);--way-glow:rgba(255,90,31,.28)"><div class="dl-way-top"><span class="dl-way-num">01</span><span class="dl-way-tag">Без очереди</span></div><div class="dl-way-body"><h3>Самовывоз</h3><p>Заказ по пути и готовность к выбранному времени.</p><div class="dl-way-demo way-card__demo is-playing" aria-hidden="true"><div class="wd-pickup"><div class="wd-pickup__ticket"><small class="wd-pickup__meta">Предоплачено · полка A3</small><span><i></i>Заказ №118</span><span><i></i>Готовится к 19:20</span></div><div class="wd-pickup__stamp"><svg viewBox="0 0 56 56" fill="none"><circle pathLength="1" cx="28" cy="28" r="24" stroke="var(--way-c)" stroke-width="3"/><path pathLength="1" d="M17 29l7 7 15-16" stroke="var(--way-c)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><b>Готово</b></div></div></div></div></article>
             <article class="dl-way" style="--way-c:var(--lime);--way-glow:rgba(91,191,23,.26)"><div class="dl-way-top"><span class="dl-way-num">02</span><span class="dl-way-tag">В заведении</span></div><div class="dl-way-body"><h3>К столику</h3><p>QR открывает Mini App и привязывает заказ к столику.</p><div class="dl-way-demo way-card__demo is-playing" aria-hidden="true"><span class="wd-route__legend"><i></i>Заказ забран · маршрут построен</span><div class="wd-route"><span class="wd-route__pin"><svg viewBox="0 0 24 24" fill="none"><path d="M4 9l1-5h14l1 5M4 9a2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0M5 9v10h14V9" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/></svg></span><span class="wd-route__pathwrap"><svg class="wd-route__path wd-route__path--desktop" viewBox="0 0 180 28" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M6,14 C54,2 126,26 174,14" style="stroke:var(--way-c)" stroke-width="2" fill="none" stroke-linecap="round"/></svg><span class="wd-route__courier" aria-hidden="true"></span></span><span class="wd-route__pin"><svg viewBox="0 0 24 24" fill="none"><path d="M4 11l8-7 8 7M6 10v10h12V10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div><div class="wd-route__eta"><i></i>Курьер в пути · <b>18 мин</b></div></div></div></article>
             <article class="dl-way" style="--way-c:var(--ember);--way-glow:rgba(240,160,34,.28)"><div class="dl-way-top"><span class="dl-way-num">03</span><span class="dl-way-tag">Статус виден</span></div><div class="dl-way-body"><h3>Доставка</h3><p>Гость видит приготовление и передачу курьеру в чате.</p><div class="dl-way-demo way-card__demo is-playing" aria-hidden="true"><span class="wd-table__order"><i></i>Стол 12 · заказ принят</span><div class="wd-table"><span class="wd-table__qr"><svg viewBox="0 0 28 28" fill="none" aria-hidden="true"><rect x="1.5" y="1.5" width="9" height="9" rx="1.6" stroke="currentColor" stroke-width="2"/><rect x="17.5" y="1.5" width="9" height="9" rx="1.6" stroke="currentColor" stroke-width="2"/><rect x="1.5" y="17.5" width="9" height="9" rx="1.6" stroke="currentColor" stroke-width="2"/><rect x="4.6" y="4.6" width="2.8" height="2.8" fill="currentColor"/><rect x="20.6" y="4.6" width="2.8" height="2.8" fill="currentColor"/><rect x="4.6" y="20.6" width="2.8" height="2.8" fill="currentColor"/><rect x="17.5" y="17.5" width="3.6" height="3.6" fill="currentColor"/><rect x="23" y="17.5" width="3.6" height="3.6" fill="currentColor"/><rect x="17.5" y="23" width="3.6" height="3.6" fill="currentColor"/><rect x="23" y="23" width="3.6" height="3.6" fill="currentColor"/></svg><span class="wd-table__scan"></span></span><span class="wd-table__pathwrap"><svg class="wd-table__path" viewBox="0 0 120 20" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M4,10 C40,10 80,10 116,10" style="stroke:var(--way-c)" stroke-width="2" stroke-dasharray="1 3.4" fill="none" stroke-linecap="round"/></svg><span class="wd-table__signal" aria-hidden="true"></span></span><span class="wd-table__pin wd-table__pin--kitchen"><svg viewBox="0 0 24 24" fill="none"><path d="M4 13a8 8 0 0 1 16 0v1H4v-1Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M2 14h20M9 6l1.5-2M15 6l-1.5-2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span></div><div class="wd-table__plate"><svg viewBox="0 0 40 40" fill="none"><circle pathLength="1" cx="20" cy="20" r="15" style="stroke:var(--way-c)" stroke-width="2"/><circle cx="20" cy="20" r="8" style="stroke:var(--way-c)" stroke-width="1.4" opacity=".6"/></svg><b>Блюдо на столе</b></div></div></div></article>
@@ -266,16 +239,48 @@
         </div>
       </section>
 
-      <section class="dl-cta" id="desktop-demo" aria-labelledby="desktop-demo-title">
-        <div class="dl-shell dl-cta-grid">
-          <div class="dl-cta-copy"><span class="dl-eyebrow">Подключение под ключ</span><h2 id="desktop-demo-title">Покажем Mini App прямо в вашем телефоне</h2><p>Откроете Telegram или MAX, пройдёте путь гостя и увидите режимы команды на реальном сценарии вашего заведения.</p></div>
-          <form class="dl-lead-form" data-dl-lead-form><h3>Получить демонстрацию</h3><p>Оставьте контакт — пришлём вход в тестовый Mini App.</p><label for="desktop-venue">Название заведения</label><input id="desktop-venue" name="venue" autocomplete="organization" placeholder="Например, King Food" /><label for="desktop-contact">Телефон или Telegram</label><input id="desktop-contact" name="contact" autocomplete="tel" placeholder="@username или +7 900 000-00-00" /><button class="dl-btn dl-btn--fire" type="submit">Открыть тестовый Mini App</button><div class="dl-form-status" data-dl-form-status aria-live="polite"></div></form>
+      <section class="dl-cta" id="desktop-demo" aria-labelledby="desktop-demo-title" data-dl-final-cta>
+        <div class="dl-shell dl-cta-stage">
+          <div class="dl-cta-copy">
+            <span class="dl-cta-kicker"><i aria-hidden="true"></i>Ваш ресторан <b>— на шаг впереди</b></span>
+            <h2 id="desktop-demo-title">Запустим <em>Mini App</em><br />без лишней<br />головной боли</h2>
+            <p>Готовая система под ключ — от меню до запуска.<br />Вы получаете результат, мы берём на себя всё остальное.</p>
+          </div>
+
+          <div class="dl-cta-orbit" aria-hidden="true">
+            <span class="dl-cta-spark dl-cta-spark--one"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 1.8 2 8.2 8.2 2-8.2 2-2 8.2-2-8.2-8.2-2 8.2-2 2-8.2Z" fill="currentColor"/></svg></span>
+            <span class="dl-cta-spark dl-cta-spark--two"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 1.8 2 8.2 8.2 2-8.2 2-2 8.2-2-8.2-8.2-2 8.2-2 2-8.2Z" fill="currentColor"/></svg></span>
+            <svg class="dl-cta-flight" viewBox="0 0 210 330" fill="none"><path d="M190 10C77 43 87 157 159 197c51 29 37 93-30 121" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 5" stroke-linecap="round"/></svg>
+            <span class="dl-cta-rocket"><svg viewBox="0 0 64 64" fill="none"><path d="M38 7c7 3 12 10 13 17-3 13-13 23-28 28-7-1-13-6-17-13 5-15 15-25 28-28Z" fill="currentColor"/><path d="m20 40-8 10 12-3M35 52l-2 12 10-8M30 27a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z" stroke="#fff7ef" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 47c-5 0-8-3-8-8 5 0 8 3 8 8Z" fill="#ff8c36"/></svg></span>
+          </div>
+
+          <div class="dl-lead-form">
+            <span class="dl-lead-form__eyebrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m13 2-9 12h7l-1 8 10-12h-7l1-8Z" fill="currentColor"/></svg>Покажем демо уже сегодня</span>
+            <h3>Получить демонстрацию</h3>
+            <p>Свяжитесь напрямую — пришлём доступ к тестовому Mini App</p>
+            <a class="dl-lead-form__input dl-lead-form__contact" href="tel:+79195475006" aria-label="Позвонить по номеру +7 919 547 5006"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h3l2 5-2.5 1.5a14.4 14.4 0 0 0 5 5L16 12l5 2v3c0 1.1-.9 2-2 2C11.3 19 5 12.7 5 5c0-1.1.9-2 2-2Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span><small>Телефон</small><strong>+7 919 547 5006</strong></span><svg class="dl-contact-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a class="dl-cta-submit dl-cta-submit--telegram" href="https://t.me/Ep5006" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 4 3 11l7 2.2L18 7l-6.2 7.7V20l3.5-3.4 3.7 2.7L21 4Z" fill="currentColor"/></svg><span class="dl-cta-submit__label"><b>Написать в Telegram</b><small>@Ep5006</small></span><svg class="dl-cta-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a class="dl-cta-submit dl-cta-submit--phone" href="tel:+79195475006"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h3l2 5-2.5 1.5a14.4 14.4 0 0 0 5 5L16 12l5 2v3c0 1.1-.9 2-2 2C11.3 19 5 12.7 5 5c0-1.1.9-2 2-2Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span class="dl-cta-submit__label"><b>Позвонить</b></span><svg class="dl-cta-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <div class="dl-lead-form__proof"><span class="dl-proof-avatars" aria-hidden="true"><i>А</i><i>М</i><i>К</i><i>Р</i></span><span>Уже подключились более <b>280</b> заведений</span></div>
+          </div>
+
+          <aside class="dl-cta-note dl-cta-note--support"><span class="dl-cta-note__float"><span class="dl-cta-note__surface"><span class="dl-cta-note__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 13v-1a8 8 0 0 1 16 0v1M4 13v4a2 2 0 0 0 2 2h2v-6H4Zm16 0v4a2 2 0 0 1-2 2h-2v-6h4Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><b>Поддержка<br />24/7</b></span></span></aside>
+          <aside class="dl-cta-note dl-cta-note--photo"><span class="dl-cta-note__float"><span class="dl-cta-note__surface"><span class="dl-cta-note__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m8 6 1-2h6l1 2M12 10a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><b>Фото блюд<br />в подарок</b></span></span></aside>
+          <aside class="dl-cta-note dl-cta-note--logo"><span class="dl-cta-note__float"><span class="dl-cta-note__surface"><span class="dl-cta-note__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 3 8 4v6l-8 8-8-8V7l8-4Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="16" cy="8" r="1.1" fill="currentColor"/></svg></span><b>Логотип<br />бесплатно</b></span></span></aside>
         </div>
+
+        <div class="dl-shell dl-cta-benefits" aria-label="Что входит в запуск">
+          <article><div class="dl-cta-benefit-card"><i><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="m8 6 1-2h6l1 2M12 10a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></i><span><b>Фото блюд</b><small>Профессиональные снимки<br />ваших блюд</small></span></div></article>
+          <article><div class="dl-cta-benefit-card"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 8 4v6l-8 8-8-8V7l8-4Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="16" cy="8" r="1.1" fill="currentColor"/></svg></i><span><b>Логотип</b><small>Стильный логотип<br />для вашего бренда</small></span></div></article>
+          <article data-dl-launch-card><div class="dl-cta-benefit-card dl-cta-benefit-card--launch"><i class="dl-cta-launch-pad"><svg class="dl-cta-launch-icon dl-cta-launch-icon--rest" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><title>Запуск</title><path d="M12 15 9 12a22 22 0 0 1 2-3.95A12.87 12.87 0 0 1 22 2c0 2.72-.78 7.5-6.05 11A22.35 22.35 0 0 1 12 15Z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09Z"/><circle cx="16" cy="8" r="1.65" fill="currentColor" stroke="none"/></svg></i><span><b>Запуск</b><small>Готовое решение<br />за 1–3 дня</small></span></div></article>
+          <article><div class="dl-cta-benefit-card"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13v-1a8 8 0 0 1 16 0v1M4 13v4a2 2 0 0 0 2 2h2v-6H4Zm16 0v4a2 2 0 0 1-2 2h-2v-6h4Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></i><span><b>Сопровождение</b><small>Поддержка и развитие<br />вашего Mini App</small></span></div></article>
+        </div>
+        <span class="dl-cta-flight-rocket" data-dl-flight-rocket aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15 9 12a22 22 0 0 1 2-3.95A12.87 12.87 0 0 1 22 2c0 2.72-.78 7.5-6.05 11A22.35 22.35 0 0 1 12 15Z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09Z"/><circle cx="16" cy="8" r="1.65" fill="currentColor" stroke="none"/></svg></span>
       </section>
     </main>
 
     <footer class="dl-footer">
-      <div class="dl-shell"><div class="dl-footer-row"><div><a class="dl-brand" href="#desktop-main"><span class="dl-brand-mark" aria-hidden="true"></span>Юрта<b>НеЖди</b></a><p>Мобильный Mini App для гостя, кассира, кухни и директора — внутри Telegram и MAX.</p></div><nav class="dl-footer-links" aria-label="Навигация в подвале"><a href="#desktop-journey">Как работает</a><a href="#desktop-roles">Роли</a><a href="#desktop-director">Директору</a><a href="#desktop-demo">Демонстрация</a></nav></div><div class="dl-footer-copy"><span>© 2026 ЮртаНеЖди</span><span>Весь продукт — в телефоне</span></div></div>
+      <div class="dl-shell"><div class="dl-footer-row"><div><a class="dl-brand" href="#desktop-main"><img class="dl-brand-logo" src="LOGO.png" alt="" width="1254" height="1254" loading="lazy" decoding="async" />Юрта<b>НеЖди</b></a><p>Мобильный Mini App для гостя, кассира, кухни и директора — внутри Telegram и MAX.</p></div><nav class="dl-footer-links" aria-label="Навигация в подвале"><a href="#desktop-journey">Как работает</a><a href="#desktop-director">Директору</a><a href="#desktop-demo">Демонстрация</a></nav></div><div class="dl-footer-copy"><span>© 2026 ЮртаНеЖди</span><span>Весь продукт — в телефоне</span></div></div>
     </footer>
   </div>
 
@@ -284,7 +289,7 @@
 
     <header class="mv2-header">
       <a class="mv2-brand" href="#mobile-main" aria-label="ЮртаНеЖди — на главную">
-        <svg class="mv2-brand__flame" viewBox="0 0 32 38" aria-hidden="true"><path d="M17 0c2 7-1 10 1 14 1 2 3 2 4 0 2-3 1-7 0-9 7 6 10 13 8 21-2 8-8 12-15 12C6 38 0 32 0 23 0 16 4 11 9 6c-1 6 1 9 4 9 4 0 6-6 4-15Z" fill="currentColor"/></svg>
+        <img class="mv2-brand__logo" src="LOGO.png" alt="" width="1254" height="1254" decoding="async" />
         <span>Юрта<b>НеЖди</b></span>
       </a>
       <button class="mv2-menu" type="button" data-mv2-open-menu aria-label="Открыть меню"><span></span><span></span><span></span></button>
@@ -597,7 +602,7 @@
           <div class="mv2-launch-phone" aria-label="Переписка о подготовке меню">
             <div class="mv2-launch-phone__notch"></div>
             <div class="mv2-launch-phone__screen">
-              <header><span aria-hidden="true">←</span><b>Юрта НеЖди</b><small><i></i>онлайн</small></header>
+              <header><span class="mv2-launch-chat-back" aria-hidden="true">←</span><img class="mv2-launch-chat-logo" src="LOGO.png" alt="" width="1254" height="1254" loading="lazy" decoding="async" /><b>Юрта НеЖди</b><small><i></i>онлайн</small></header>
               <p class="mv2-launch-message">Привет! Поможем заполнить меню и запустить мини-приложение. Это займёт всего 1–2 дня.<time>10:29</time></p>
               <p class="mv2-launch-message mv2-launch-message--reply">Отлично! У меня есть файл с меню.<time>10:30</time></p>
               <p class="mv2-launch-message">Приняли! Подготовим фото, добавим позиции, настроим приём заказов. Вы скоро в деле.<time>10:31</time></p>
@@ -627,7 +632,7 @@
 
     <footer class="mv2-footer" data-mv2-reveal>
       <div class="mv2-footer__top">
-        <a class="mv2-brand" href="#mobile-main"><svg class="mv2-brand__flame" viewBox="0 0 32 38" aria-hidden="true"><path d="M17 0c2 7-1 10 1 14 1 2 3 2 4 0 2-3 1-7 0-9 7 6 10 13 8 21-2 8-8 12-15 12C6 38 0 32 0 23 0 16 4 11 9 6c-1 6 1 9 4 9 4 0 6-6 4-15Z" fill="currentColor"/></svg><span>Юрта <b>НеЖди</b></span></a>
+        <a class="mv2-brand" href="#mobile-main" aria-label="ЮртаНеЖди — на главную"><img class="mv2-brand__logo" src="LOGO.png" alt="" width="1254" height="1254" loading="lazy" decoding="async" /><span>Юрта <b>НеЖди</b></span></a>
         <span class="mv2-footer__spark" aria-hidden="true"></span>
       </div>
       <p>Mini App для гостя, кассы, кухни и директора — внутри привычного чата.</p>
@@ -647,8 +652,9 @@
 
 
   <!-- Desktop and mobile keep separate, small controllers. -->
-  <script src="assets/js/desktop-product-screens.js?v=20260821-4" defer></script>
-  <script src="assets/js/desktop-landing.js?v=20260826-hero1" defer></script>
+  <script src="assets/js/desktop-product-screens.js?v=20260829-brand-logo1" defer></script>
+  <script src="assets/js/desktop-landing.js?v=20260829-ways-premium1" defer></script>
+  <script src="assets/js/desktop-morphicons.js?v=20260828-3" type="module"></script>
   <script src="assets/js/mobile-v2.js?v=20260827-cat-story1" defer></script>
 </body>
 </html>

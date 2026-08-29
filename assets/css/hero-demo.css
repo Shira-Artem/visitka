@@ -144,9 +144,16 @@
   height:10.5cqw;
   flex:0 0 auto;
   border-radius:3.4cqw;
-  background:linear-gradient(145deg,#ff8d35,#ec5b13);
-  box-shadow:0 3cqw 7cqw rgba(232,92,16,.22);
-  font-size:5.6cqw;
+  overflow:hidden;
+  background:linear-gradient(145deg,#fffaf4,#fff0e4);
+  box-shadow:0 3cqw 7cqw rgba(232,92,16,.15),inset 0 0 0 .3cqw rgba(241,101,28,.1);
+}
+
+.hero-phone__display.yj-demo .yj-client-logo img{
+  width:88%;
+  height:88%;
+  object-fit:contain;
+  filter:drop-shadow(0 1.2cqw 1.6cqw rgba(221,56,4,.16));
 }
 
 .hero-phone__display.yj-demo .yj-client-brand{
